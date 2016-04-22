@@ -1,5 +1,5 @@
 {
-  "name": "angular2-quickstart",
+  "name": "Papel",
   "version": "1.0.0",
   "scripts": {
     "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
@@ -12,17 +12,19 @@
   "license": "ISC",
   "dependencies": {
     "angular2": "2.0.0-beta.9",
-    "systemjs": "0.19.24",
+    "bootstrap": "^3.3.6",
     "es6-promise": "^3.0.2",
-    "es6-shim": "^0.35.0",
+    "es6-shim": "0.35.0",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
+    "snackbarjs": "^1.1.0",
+    "systemjs": "0.19.24",
     "zone.js": "0.5.15"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
     "lite-server": "^2.1.0",
     "typescript": "^1.8.7",
-    "typings":"^0.7.5"
+    "typings": "^0.7.5"
   }
 }
