@@ -29,7 +29,9 @@ export class SwellRTService implements OnInit {
       reject();
     });
 
-    this.user = this.resume(true);
+    this.user = new Promise<User>(function(resolve, reject){
+      reject();
+    });
   }
 
   bindListeners() {
@@ -81,8 +83,11 @@ export class SwellRTService implements OnInit {
   }
 
   resume(_loginIfError: boolean) {
+
     let adaptSessionToUser = (session: any) => { return this.adaptSessionToUser(session) };
-    let resumedUser = new Promise<User>(function(resolve, reject) {
+    let login = (name: string, password: string) => { return this.login(name, password) };
+
+    this.user = new Promise<User>(function(resolve, reject) {
 
         SwellRT.resumeSession(
           function(session) {
@@ -92,30 +97,17 @@ export class SwellRTService implements OnInit {
             resolve(user);
           },
           function(error) {
-            reject(error);
-          });
+            if (_loginIfError) {
+              login(DEFAULT_USERNAME, DEFAULT_PASSWORD)
+               .then(user => resolve(user))
+               .catch(error => reject(error));
+            } else {
+              reject(error);
+            }
 
+          });
     });
 
-    if (_loginIfError) {
-
-       this.user = new Promise<User>(function(resolve, reject) {
-         resumedUser.then(user => {
-           console.log("Resuming session... ");
-           resolve(user);
-         })
-         .catch(error => {
-           console.log("Login with anonymous user...");
-           this.login(DEFAULT_USERNAME, DEFAULT_PASSWORD)
-            .then(user => resolve(user))
-            .catch(error => reject(error));
-         });
-
-       });
-
-    } else {
-      this.user = resumedUser;
-    }
 
     return this.user;
   }
@@ -236,8 +228,6 @@ export class SwellRTService implements OnInit {
   editor(parentElementId) {
     return SwellRT.editor(parentElementId);
   }
-
-
 
 
 }

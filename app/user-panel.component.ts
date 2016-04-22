@@ -89,8 +89,7 @@ import { Router } from 'angular2/router';
           Loading...
         </div>
       </div>
-    `,
-    providers : [SwellRTService]
+    `
   })
 
 
@@ -98,7 +97,7 @@ import { Router } from 'angular2/router';
 export class UserPanelComponent implements OnInit {
 
   // The logged in user
-  loggedInUser : Promise<User>;
+  loggedInUser : User;
   // panelState = "collapsed | loginForm | registerForm"
   panelState : string;
   // Form fields
@@ -112,6 +111,13 @@ export class UserPanelComponent implements OnInit {
         this.panelState = "collapsed";
     }
 
+  ngOnInit() {
+    this._swellrt.getUser().then(user => {
+        this.loggedInUser = user;
+    });
+  }
+
+
   clearForms() {
     this.nameInput = null;
     this.passwordInput = null;
@@ -120,20 +126,18 @@ export class UserPanelComponent implements OnInit {
 
   login() {
     this.panelState = "collapsed";
-    this.loggedInUser = this._swellrt.login(this.nameInput, this.passwordInput);
-    this.loggedInUser.then(
+    this._swellrt.login(this.nameInput, this.passwordInput).then(
       user => {
+        this.loggedInUser = user;
         this.clearForms();
       }
     );
   }
 
   logout() {
-    this.loggedInUser = this._swellrt.logout(true);
-  }
-
-  ngOnInit() {
-     this.loggedInUser = this._swellrt.getUser();
+    this._swellrt.logout(true).then(user =>
+      { this.loggedInUser = undefined; }
+    );
   }
 
   showLoginForm() {

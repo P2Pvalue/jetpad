@@ -61,8 +61,7 @@ import { SwellRTService } from './service/swellrt.service';
     </div>
     `,
 
-    directives:[UserPanelComponent],
-    providers : [SwellRTService]
+    directives:[UserPanelComponent]
   })
 
 
@@ -82,7 +81,9 @@ export class LandingComponent {
   openDocument(_id: string) {
     this.wasError = false;
     let link = ['EditDocument', { id: _id }];
-    this._router.navigate(link);
+   this._router.navigate(link);
+
+
   }
 
 }

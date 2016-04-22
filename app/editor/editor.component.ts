@@ -106,14 +106,7 @@ import { CObject } from '../data/cobject';
                     <div class="media-body">
                       <h5 class="media-heading">Anonymous #1</h5>
                       <span>
-
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="media">
-                    <div class="media-left media-middle">
-                      <a href="#">
+ngAfterViewInit
                         <img class="media-object" height="40" src="images/anonymous.png" alt="">
                       </a>
                     </div>
@@ -196,7 +189,7 @@ import { CObject } from '../data/cobject';
                 </div>
 
 
-                <div id="editor-container" class="panel-body" style="min-height: 600px;">
+                <div  id="editor-container" class="panel-body" style="min-height: 600px;">
                 </div>
 
               </div>
@@ -207,8 +200,7 @@ import { CObject } from '../data/cobject';
 
     `,
 
-    directives:[UserPanelComponent],
-    providers: [SwellRTService]
+    directives:[UserPanelComponent]
   })
 
 
@@ -229,16 +221,12 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
 
-    if (!this.editor) {
-      this.editor = this._swellrt.editor("editor-container");
-    } else {
-      this.editor.cleanUp();
-    }
+    this.editor = this._swellrt.editor("editor-container");
 
     this._swellrt.getUser().then(user => {
 
-      this._swellrt.open(this._routeParams.get('id')).then(
-        cObject => {
+      let id = this._routeParams.get("id");
+      this._swellrt.open(id).then(cObject => {
 
           // Initialize the doc
           if (!cObject.root.get("doc")) {
@@ -255,16 +243,17 @@ export class EditorComponent implements OnInit {
           this.editor.edit(cObject.root.get("doc"));
 
         })
-        .catch( error => {
+        .catch(error => {
           this.wasError = true;
           this.msgError = "Document doesn't exist or you don't have permission to open ("+error+")";
         });
 
-    })
-    .catch( error => {
-      this.wasError = true;
-      this.msgError = "There is any session open.";
-    });
+      }).catch( error => {
+        this.wasError = true;
+        this.msgError = "There is any session open.";
+      });
   }
+
+
 
 }

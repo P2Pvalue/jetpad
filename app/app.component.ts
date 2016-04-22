@@ -55,7 +55,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._swellrt.bindListeners();    
+    this._swellrt.bindListeners();
+    this._swellrt.resume(true);
   }
 
 }
