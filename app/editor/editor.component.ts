@@ -106,7 +106,6 @@ import { CObject } from '../data/cobject';
                     <div class="media-body">
                       <h5 class="media-heading">Anonymous #1</h5>
                       <span>
-ngAfterViewInit
                         <img class="media-object" height="40" src="images/anonymous.png" alt="">
                       </a>
                     </div>
