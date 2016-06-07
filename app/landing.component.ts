@@ -31,19 +31,19 @@ import { SwellRTService } from './service/swellrt.service';
         </div>
 
         <div class="panel panel-default">
-          <div class="panel-body">
-            <a (click)="openDocument(documentId.value)"><h3>Open a Document</h3></a>
+          <form class="panel-body" (ngSubmit)="openDocument(documentId);">
+            <a (click)="openDocument(documentId)"><h3>Open a Document</h3></a>
             <p>
               Do you have a shared document ID? Use it to open the document again...
             </p>
 
             <div class="form-group label-floating">
               <label class="control-label" for="documentIdInput">Document ID here</label>
-              <input #documentId class="form-control" id="documentIdInput" type="text">
+              <input [(ngModel)]="documentId" class="form-control" id="documentIdInput" type="text">
             </div>
 
-            <a (click)="openDocument(documentId.value)" class="btn btn-primary pull-right">Open</a>
-          </div>
+            <button class="btn btn-primary pull-right">Open</button>
+          </form>
         </div>
 
         <div class="panel panel-default">
