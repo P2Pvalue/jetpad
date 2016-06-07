@@ -44,7 +44,7 @@ import { Router } from 'angular2/router';
           </div>
 
 
-          <div style="margin-top:4em" *ngIf="panelState == 'loginForm'">
+          <div style="margin-top:4em" *ngIf="panelState == 'loginForm'" (ngSubmit)="login()">
 
             <div class="form-group label-floating">
               <label class="control-label" for="loginNameInput">Name</label>
@@ -55,12 +55,12 @@ import { Router } from 'angular2/router';
               <input class="form-control" id="loginPasswordInput" type="password" [(ngModel)]="passwordInput">
             </div>
 
-            <a href="javascript:void(0)" class="btn btn-default" (click)="cancelForm()">Cancel</a>
-            <a href="javascript:void(0)" class="btn btn-primary" (click)="login()">Login</a>
+            <a class="btn btn-default" (click)="cancelForm()">Cancel</a>
+            <button class="btn btn-primary">Login</button>
           </div>
 
 
-          <div style="margin-top:4em" *ngIf="panelState == 'registerForm'">
+          <form style="margin-top:4em" *ngIf="panelState == 'registerForm'" (ngSubmit)="create()">
 
             <div class="form-group label-floating">
               <label class="control-label" for="registerNameInput">Name</label>
@@ -75,9 +75,9 @@ import { Router } from 'angular2/router';
               <input class="form-control" id="registerRepasswordInput" type="password" [(ngModel)]="repasswordInput">
             </div>
 
-            <a href="javascript:void(0)" class="btn btn-default" (click)="cancelForm()">Cancel</a>
-            <a href="javascript:void(0)" class="btn btn-primary" (click)="create()">Create</a>
-          </div>
+            <a class="btn btn-default" (click)="cancelForm()">Cancel</a>
+            <button class="btn btn-primary">Create</button>
+          </form>
 
 
         </div><!-- panel-body -->
@@ -132,6 +132,12 @@ export class UserPanelComponent implements OnInit {
         this.clearForms();
       }
     );
+  }
+
+  create() {
+    this._swellrt.createUser(this.nameInput, this.passwordInput).then(() => {
+      this._swellrt.login(this.nameInput, this.passwordInput);
+    })
   }
 
   logout() {

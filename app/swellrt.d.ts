@@ -12,6 +12,8 @@ interface SwellRT {
 
   editor(parentElementId: string);
 
+  createUser(parameters: {id: string, password: string, email?: string, locale?: string, avatarData?: string}, onComplete: Function): Promise<any>;
+
 
   events: any;
 }

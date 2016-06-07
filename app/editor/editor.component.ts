@@ -124,8 +124,7 @@ export class EditorComponent implements OnInit {
   }
 
   addImage (file) {
-
       this.editor.addWidget('img', 'http://lorempixel.com/600/600/');
-    
+
   }
 }

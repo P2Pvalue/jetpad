@@ -8,6 +8,7 @@ const DEFAULT_AVATAR_URL = 'images/user.jpeg';
 const DEFAULT_USERNAME = '_anonymous_';
 const DEFAULT_PASSWORD = '';
 const DEFAULT_SNACK_TIMEOUT = 3000;
+const SWELLRT_SERVER = 'http://demo.swellrt.org/';
 
 @Injectable()
 export class SwellRTService implements OnInit {
@@ -117,7 +118,7 @@ export class SwellRTService implements OnInit {
     let adaptSessionToUser = (session: any) => { return this.adaptSessionToUser(session) };
     this.user = new Promise<User>(function(resolve, reject) {
 
-      SwellRT.startSession("http://localhost:9898", _name, _password,
+      SwellRT.startSession(SWELLRT_SERVER, _name, _password,
 
         function(session) {
           let user:User = adaptSessionToUser(session);
@@ -136,6 +137,18 @@ export class SwellRTService implements OnInit {
     return this.user;
   }
 
+  createUser(id: string, password: string): Promise<any> {
+    this.user = new Promise<User>(function(resolve, reject) {
+      SwellRT.createUser({ id, password }, function(res) {
+        if (res.error) {
+          reject(res.error);
+        } else if (res.data) {
+          resolve(res.data);
+        }
+      });
+    });
+    return this.user;
+  }
 
   logout(_loginAsAnonymous: boolean) {
     this.session = undefined;
