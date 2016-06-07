@@ -8,7 +8,7 @@ const DEFAULT_AVATAR_URL = 'images/user.jpeg';
 const DEFAULT_USERNAME = '_anonymous_';
 const DEFAULT_PASSWORD = '';
 const DEFAULT_SNACK_TIMEOUT = 3000;
-const SWELLRT_SERVER = 'http://demo.swellrt.org/';
+const SWELLRT_SERVER = 'http://demo.swellrt.org';
 
 @Injectable()
 export class SwellRTService implements OnInit {
