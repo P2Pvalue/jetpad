@@ -50,7 +50,7 @@ import { SwellRTService } from './service/swellrt.service';
           <div class="panel-body">
             <a><h3>Sign up</h3></a>
             <p>
-              Take advantage of being a registered user of Papel.
+              Take advantage of being a registered user of SwellRT Editor.
               Manage all the documents you collaborate with on the cloud.
             </p>
           </div>

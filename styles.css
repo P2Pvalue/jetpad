@@ -28,3 +28,7 @@ a {
 #editor-container > div {
   min-height: 600px
 }
+
+.btn:not(.btn-raised).btn-success, .input-group-btn .btn:not(.btn-raised).btn-success {
+  color: #00a897;
+}

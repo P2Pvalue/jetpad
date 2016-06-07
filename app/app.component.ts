@@ -15,7 +15,7 @@ import { SwellRTService } from './service/swellrt.service';
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">Papel Editor</a>
+            <a class="navbar-brand" href="#">SwellRT Editor</a>
           </div>
         </div>
       </nav>
