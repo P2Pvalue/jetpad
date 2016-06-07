@@ -1,5 +1,4 @@
-import { Component } from 'angular2/core';
-import { OnInit } from 'angular2/core';
+import { Component, OnInit } from 'angular2/core';
 import { UserPanelComponent } from '../user-panel.component';
 import { RouteParams } from 'angular2/router';
 import { SwellRTService } from '../service/swellrt.service';
@@ -8,169 +7,9 @@ import { CObject } from '../data/cobject';
 
 @Component({
     selector: 'editor',
-    template: `
-
-        <div class="row">
-
-          <!-- Left bar -->
-          <div class="col-md-3">
-
-            <user-panel></user-panel>
-
-            <!--
-            <div class="panel panel-default">
-
-              <div class="panel-heading">
-
-                <div id="editor-sidebar" class="btn-toolbar">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default">
-                      <span class="material-icons">toc</span>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                      <span class="material-icons">people</span>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                      <span class="material-icons">chat</span>
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="panel-body">
-
-                <!-- Outline -->
-                <!--
-
-                <div id="editor-outline">
-                  <ul>
-                  <li><h4>Introduction</h4></li>
-                  <h4>Abstract</h4>
-                  <h4>Definitions</h4>
-                  <h4>Definitive Solution</h4>
-                  </ul>
-                </div>
-
-
-                <!-- Participants -->
-                <!--
-                <div id="editor-participants">
-
-                  <div class="media">
-                    <div class="media-left media-middle">
-                      <a href="#">
-                        <img class="media-object" height="40" src="images/user.jpeg" alt="">
-                      </a>
-                    </div>
-                    <div class="media-body">
-                      <h5 class="media-heading">Andrés Reyero</h5>
-                      <span>
-
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="media">
-                    <div class="media-left media-middle">
-                      <a href="#">
-                        <img class="media-object" height="40" src="images/user.jpeg" alt="">
-                      </a>
-                    </div>
-                    <div class="media-body">
-                      <h5 class="media-heading">Juana de Arco</h5>
-                      <span>
-
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="media">
-                    <div class="media-left media-middle">
-                      <a href="#">
-                        <img class="media-object" height="40" src="images/user.jpeg" alt="">
-                      </a>
-                    </div>
-                    <div class="media-body">
-                      <h5 class="media-heading">Luis Tosar</h5>
-                      <span>
-
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="media">
-                    <div class="media-left media-middle">
-                      <a href="#">
-                        <img class="media-object" height="40" src="images/anonymous.png" alt="">
-                      </a>
-                    </div>
-                    <div class="media-body">
-                      <h5 class="media-heading">Anonymous #1</h5>
-                      <span>
-                        <img class="media-object" height="40" src="images/anonymous.png" alt="">
-                      </a>
-                    </div>
-                    <div class="media-body">
-                      <h5 class="media-heading">Anonymous #2</h5>
-                      <span>
-
-                      </span>
-                    </div>
-                  </div>
-
-
-                </div>
-
-              </div>
-
-            </div>--><!-- panel -->
-
-
-
-          </div><!-- Left bar -->
-
-          <!-- Main area -->
-          <div class="col-md-9">
-
-            <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
-              <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
-              <strong>{{msgError}}</strong>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <h4>{{title}}</h4>
-              </div>
-            </div>
-
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <div id="editor-toolbar" class="btn-toolbar">
-                    <div *ngFor="#formatGroup of formats" class="btn-group">
-                        <button *ngFor="#format of formatGroup" type="button" class="btn btn-default">
-                          <span class="material-icons">format_{{format}}</span>
-                        </button>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div id="editor-container" class="panel-body">
-                </div>
-
-              </div>
-
-          </div>
-
-        </div>
-
-    `,
-
-    directives:[UserPanelComponent]
+    templateUrl: 'app/editor/editor.component.html',
+    directives: [UserPanelComponent]
   })
-
-
 
 export class EditorComponent implements OnInit {
 
@@ -182,14 +21,36 @@ export class EditorComponent implements OnInit {
 
   formats: Array<Array<string>> = [
     ['bold', 'italic', 'underline'],
-    ['size', 'color_text', 'color_fill'],
+    //['size', 'color_text', 'color_fill'],
     ['align_left', 'align_center', 'align_right']
   ];
 
+  annotationMap = {
+    'bold': 'style/fontWeight=bold',
+    'italic': 'style/fontStyle=italic',
+    'underline': 'style/textDecoration=underline',
+    'align_left': 'paragraph/textAlign=left',
+    'align_center': 'paragraph/textAlign=center',
+    'align_right': 'paragraph/textAlign=right',
+  };
+
+  buttons: Map<string, boolean> = new Map<string, boolean>();
 
   constructor(private _swellrt: SwellRTService,
     private _routeParams: RouteParams) {
+      this.disableAllButtons();
+  }
 
+  get editorElem() {
+    return (<HTMLElement>document.querySelector('#editor-container > div'));
+  }
+
+  disableAllButtons() {
+    for (let formatGroup of this.formats) {
+      for (let format of formatGroup) {
+        this.buttons[format] = false;
+      }
+    }
   }
 
   ngOnInit() {
@@ -201,29 +62,50 @@ export class EditorComponent implements OnInit {
       let id = this._routeParams.get("id");
       this._swellrt.open(id).then(cObject => {
 
-          // Initialize the doc
-          if (!cObject.root.get("doc")) {
-              cObject.root.put("doc", cObject.createText(""));
+        // Initialize the doc
+        if (!cObject.root.get("doc")) {
+          cObject.root.put("doc", cObject.createText(""));
+        }
+
+        // Initialize the doc's title
+        if (!cObject.root.get("doc-title")) {
+          cObject.root.put("doc-title", cObject.createString("New document"));
+        }
+
+        // Open the doc in the editor
+        this.title = cObject.root.get("doc-title").getValue();
+        this.editor.edit(cObject.root.get("doc"));
+
+        this.editor.onSelectionChanged((annotations) => {
+          for (let formatGroup of this.formats) {
+            for (let format of formatGroup) {
+              let [key, val] = this.annotationMap[format].split('=');
+              this.buttons[format] = (annotations[key] === val);
+            }
           }
-
-          // Initialize the doc's title
-          if (!cObject.root.get("doc-title")) {
-            cObject.root.put("doc-title", cObject.createString("New document"));
-          }
-
-          // Open the doc in the editor
-          this.title = cObject.root.get("doc-title").getValue();
-          this.editor.edit(cObject.root.get("doc"));
-
-        })
-        .catch(error => {
-          this.wasError = true;
-          this.msgError = "Document doesn't exist or you don't have permission to open ("+error+")";
         });
 
-      }).catch( error => {
+        this.editorElem.addEventListener('blur', () => this.disableAllButtons())
+
+      })
+      .catch(error => {
         this.wasError = true;
-        this.msgError = "There is any session open.";
+        this.msgError = "Document doesn't exist or you don't have permission to open ("+error+")";
       });
+
+    }).catch( error => {
+      this.wasError = true;
+      this.msgError = "There is any session open.";
+    });
+
+  }
+  annotate (format) {
+    let [key, val] = this.annotationMap[format].split('=');
+    this.buttons[format] = !this.buttons[format];
+    if (!this.buttons[format]) {
+      val = null;
+    }
+    this.editor.setAnnotation(key, val);
+    this.editorElem.focus();
   }
 }
