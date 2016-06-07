@@ -85,6 +85,19 @@ export class EditorComponent implements OnInit {
           }
         });
 
+        this.editor.registerWidget('img', {
+          onInit: function(parentElement, state) {
+            //$scope.project.attachments[state].file.getUrl().then(url => {
+              parentElement.innerHTML='<img src="'+state+'">';
+            //});
+          },
+          onChangeState: function(parentElement, before, state) {
+            //$scope.project.attachments[state].file.getUrl().then(url => {
+              parentElement.innerHTML='<img src="'+state+'">';
+            //});
+          }
+        });
+
         this.editorElem.addEventListener('blur', () => this.disableAllButtons())
 
       })
@@ -99,6 +112,7 @@ export class EditorComponent implements OnInit {
     });
 
   }
+
   annotate (format) {
     let [key, val] = this.annotationMap[format].split('=');
     this.buttons[format] = !this.buttons[format];
@@ -107,5 +121,11 @@ export class EditorComponent implements OnInit {
     }
     this.editor.setAnnotation(key, val);
     this.editorElem.focus();
+  }
+
+  addImage (file) {
+
+      this.editor.addWidget('img', 'http://lorempixel.com/600/600/');
+    
   }
 }
