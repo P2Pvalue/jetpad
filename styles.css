@@ -1,4 +1,7 @@
 
+a {
+  cursor: pointer;
+}
 
 #editor-toolbar .btn {
   padding-left: 8px;

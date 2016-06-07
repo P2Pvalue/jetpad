@@ -23,7 +23,7 @@ import { SwellRTService } from './service/swellrt.service';
 
         <div class="panel panel-default">
           <div class="panel-body">
-            <a href="javascript:void(0)" (click)="createDocument()"><h3>Create a new Document</h3></a>
+            <a (click)="createDocument()"><h3>Create a new Document</h3></a>
             <p>
               Write a document. Share and edit it with others.
             </p>
@@ -32,7 +32,7 @@ import { SwellRTService } from './service/swellrt.service';
 
         <div class="panel panel-default">
           <div class="panel-body">
-            <a href="javascript:void(0)" (click)="openDocument(documentId.value)"><h3>Open a Document</h3></a>
+            <a (click)="openDocument(documentId.value)"><h3>Open a Document</h3></a>
             <p>
               Do you have a shared document ID? Use it to open the document again...
             </p>
@@ -42,13 +42,13 @@ import { SwellRTService } from './service/swellrt.service';
               <input #documentId class="form-control" id="documentIdInput" type="text">
             </div>
 
-            <a href="javascript:void(0)" (click)="openDocument(documentId.value)" class="btn btn-primary pull-right">Open</a>
+            <a (click)="openDocument(documentId.value)" class="btn btn-primary pull-right">Open</a>
           </div>
         </div>
 
         <div class="panel panel-default">
           <div class="panel-body">
-            <a href="javascript:void(0)"><h3>Sign up</h3></a>
+            <a><h3>Sign up</h3></a>
             <p>
               Take advantage of being a registered user of Papel.
               Manage all the documents you collaborate with on the cloud.
@@ -75,15 +75,19 @@ export class LandingComponent {
    }
 
   createDocument() {
-    this.wasError = false;
+    let randomId = btoa(Math.random().toString(36)).replace(/=/g, '');
+    this.openDocument(randomId);
   }
 
   openDocument(_id: string) {
+    if (!_id) {
+      this.msgError = 'Write a name for the pad.';
+      this.wasError = true;
+      return;
+    }
     this.wasError = false;
     let link = ['EditDocument', { id: _id }];
-   this._router.navigate(link);
-
-
+    this._router.navigate(link);
   }
 
 }
