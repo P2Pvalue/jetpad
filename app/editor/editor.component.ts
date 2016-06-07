@@ -17,6 +17,7 @@ import { CObject } from '../data/cobject';
 
             <user-panel></user-panel>
 
+            <!--
             <div class="panel panel-default">
 
               <div class="panel-heading">
@@ -40,6 +41,7 @@ import { CObject } from '../data/cobject';
               <div class="panel-body">
 
                 <!-- Outline -->
+                <!--
 
                 <div id="editor-outline">
                   <ul>
@@ -119,11 +121,10 @@ import { CObject } from '../data/cobject';
 
 
                 </div>
-                -->
 
               </div>
 
-            </div><!-- panel -->
+            </div>--><!-- panel -->
 
 
 
@@ -145,50 +146,17 @@ import { CObject } from '../data/cobject';
 
               <div class="panel panel-default">
                 <div class="panel-heading">
-
                   <div id="editor-toolbar" class="btn-toolbar">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default">
-                          <span class="material-icons">format_bold</span>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                          <span class="material-icons">format_italic</span>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                          <span class="material-icons">format_underlined</span>
+                    <div *ngFor="#formatGroup of formats" class="btn-group">
+                        <button *ngFor="#format of formatGroup" type="button" class="btn btn-default">
+                          <span class="material-icons">format_{{format}}</span>
                         </button>
                     </div>
-
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default">
-                        <span class="material-icons">format_size</span>
-                      </button>
-                      <button type="button" class="btn btn-default">
-                        <span class="material-icons">format_color_text</span>
-                      </button>
-                      <button type="button" class="btn btn-default">
-                        <span class="material-icons">format_color_fill</span>
-                      </button>
-                    </div>
-
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default">
-                        <span class="material-icons">format_align_left</span>
-                      </button>
-                      <button type="button" class="btn btn-default">
-                        <span class="material-icons">format_align_center</span>
-                      </button>
-                      <button type="button" class="btn btn-default">
-                        <span class="material-icons">format_align_right</span>
-                      </button>
-                    </div>
-
-                </div>
-
+                  </div>
                 </div>
 
 
-                <div  id="editor-container" class="panel-body" style="min-height: 600px;">
+                <div id="editor-container" class="panel-body">
                 </div>
 
               </div>
@@ -211,6 +179,12 @@ export class EditorComponent implements OnInit {
 
   wasError: boolean = false;
   msgError: string;
+
+  formats: Array<Array<string>> = [
+    ['bold', 'italic', 'underline'],
+    ['size', 'color_text', 'color_fill'],
+    ['align_left', 'align_center', 'align_right']
+  ];
 
 
   constructor(private _swellrt: SwellRTService,
@@ -252,7 +226,4 @@ export class EditorComponent implements OnInit {
         this.msgError = "There is any session open.";
       });
   }
-
-
-
 }

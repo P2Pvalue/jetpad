@@ -24,3 +24,7 @@ a {
 #editor-sidebar .btn-group {
   margin: 0px;
 }
+
+#editor-container > div {
+  min-height: 600px
+}
