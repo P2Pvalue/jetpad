@@ -142,7 +142,7 @@ export class SwellRTService implements OnInit {
   }
 
   createUser(id: string, password: string): Promise<any> {
-    this.user = new Promise<User>(function(resolve, reject) {
+    this.user = new Promise<any>(function(resolve, reject) {
       SwellRT.createUser({ id, password }, function(res) {
         if (res.error) {
           reject(res.error);

@@ -19,18 +19,24 @@ export class EditorComponent implements OnInit {
   msgError: string;
 
   formats: Array<Array<string>> = [
-    ['bold', 'italic', 'underline'],
+    ['bold', 'italic', 'underline', 'strikethrough'],
     //['size', 'color_text', 'color_fill'],
-    ['align_left', 'align_center', 'align_right']
+    ['align_left', 'align_center', 'align_right'],
+    ['list_bulleted', 'list_numbered']
   ];
+
+  annotations: Array<any>;
 
   annotationMap = {
     'bold': 'style/fontWeight=bold',
     'italic': 'style/fontStyle=italic',
     'underline': 'style/textDecoration=underline',
+    'strikethrough': 'style/textDecoration=line-through',
     'align_left': 'paragraph/textAlign=left',
     'align_center': 'paragraph/textAlign=center',
     'align_right': 'paragraph/textAlign=right',
+    'list_bulleted': 'paragraph/listStyleType=unordered',
+    'list_numbered': 'paragraph/listStyleType=decimal'
   };
 
   buttons: Map<string, boolean> = new Map<string, boolean>();
@@ -50,6 +56,15 @@ export class EditorComponent implements OnInit {
 
   set title(value) {
     this._title && this._title.setValue(value);
+  }
+
+  updateAllButtons() {
+    for (let formatGroup of this.formats) {
+      for (let format of formatGroup) {
+        let [key, val] = this.annotationMap[format].split('=');
+        this.buttons[format] = this.annotations && (this.annotations[key] === val);
+      }
+    }
   }
 
   disableAllButtons() {
@@ -94,14 +109,11 @@ export class EditorComponent implements OnInit {
         this.editor.edit(cObject.root.get("doc"));
 
         this.editor.onSelectionChanged((annotations) => {
-          for (let formatGroup of this.formats) {
-            for (let format of formatGroup) {
-              let [key, val] = this.annotationMap[format].split('=');
-              this.buttons[format] = (annotations[key] === val);
-            }
-          }
+          this.annotations = annotations;
+          this.updateAllButtons();
         });
 
+        this.editorElem.addEventListener('focus', () => this.updateAllButtons());
         this.editorElem.addEventListener('blur', () => this.disableAllButtons())
 
       })
@@ -119,10 +131,12 @@ export class EditorComponent implements OnInit {
 
   annotate (format) {
     let [key, val] = this.annotationMap[format].split('=');
-    this.buttons[format] = !this.buttons[format];
-    if (!this.buttons[format]) {
+    let currentVal = this.annotations[key];
+    if (currentVal === val) {
       val = null;
     }
+
+    this.annotations[key] = val;
     this.editor.setAnnotation(key, val);
     this.editorElem.focus();
   }
