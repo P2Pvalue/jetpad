@@ -1,11 +1,10 @@
-import { Component, OnInit } from 'angular2/core';
+import { Component, OnInit } from '@angular/core';
 import { UserPanelComponent } from '../user-panel.component';
-import { RouteParams } from 'angular2/router';
+import { RouteParams } from '@angular/router-deprecated';
 import { SwellRTService } from '../service/swellrt.service';
-import { CObject } from '../data/cobject';
 
 @Component({
-    selector: 'editor',
+    selector: 'app-editor',
     templateUrl: 'app/editor/editor.component.html',
     directives: [UserPanelComponent]
   })
@@ -20,7 +19,7 @@ export class EditorComponent implements OnInit {
 
   formats: Array<Array<string>> = [
     ['bold', 'italic', 'underline', 'strikethrough'],
-    //['size', 'color_text', 'color_fill'],
+    // ['size', 'color_text', 'color_fill'],
     ['align_left', 'align_center', 'align_right'],
     ['list_bulleted', 'list_numbered']
   ];
@@ -55,7 +54,9 @@ export class EditorComponent implements OnInit {
   }
 
   set title(value) {
-    this._title && this._title.setValue(value);
+    if (this._title) {
+      this._title.setValue(value);
+    }
   }
 
   updateAllButtons() {
@@ -77,36 +78,36 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
 
-    this.editor = this._swellrt.editor("editor-container");
+    this.editor = this._swellrt.editor('editor-container');
     this.editor.registerWidget('img-link', {
       onInit: function(parentElement, state) {
-        parentElement.innerHTML='<img src="'+state+'">';
+        parentElement.innerHTML = `<img src="${state}">`;
       },
       onChangeState: function(parentElement, before, state) {
-        parentElement.innerHTML='<img src="'+state+'">';
+        parentElement.innerHTML = `<img src="${state}">`;
       }
     });
 
     this._swellrt.getUser().then(user => {
 
-      let id = this._routeParams.get("id");
+      let id = this._routeParams.get('id');
       this._swellrt.open(id).then(cObject => {
 
         cObject.addParticipant(this._swellrt.domain);
 
         // Initialize the doc
-        if (!cObject.root.get("doc")) {
-          cObject.root.put("doc", cObject.createText(""));
+        if (!cObject.root.get('doc')) {
+          cObject.root.put('doc', cObject.createText(''));
         }
 
         // Initialize the doc's title
-        if (!cObject.root.get("doc-title")) {
-          cObject.root.put("doc-title", cObject.createString("New document"));
+        if (!cObject.root.get('doc-title')) {
+          cObject.root.put('doc-title', cObject.createString('New document'));
         }
 
         // Open the doc in the editor
-        this._title = cObject.root.get("doc-title");
-        this.editor.edit(cObject.root.get("doc"));
+        this._title = cObject.root.get('doc-title');
+        this.editor.edit(cObject.root.get('doc'));
 
         this.editor.onSelectionChanged((annotations) => {
           this.annotations = annotations;
@@ -114,17 +115,17 @@ export class EditorComponent implements OnInit {
         });
 
         this.editorElem.addEventListener('focus', () => this.updateAllButtons());
-        this.editorElem.addEventListener('blur', () => this.disableAllButtons())
+        this.editorElem.addEventListener('blur', () => this.disableAllButtons());
 
       })
       .catch(error => {
         this.wasError = true;
-        this.msgError = "Document doesn't exist or you don't have permission to open ("+error+")";
+        this.msgError = `Document doesn't exist or you don't have permission to open (${ error })`;
       });
 
     }).catch( error => {
       this.wasError = true;
-      this.msgError = "There is any session open.";
+      this.msgError = 'There is any session open.';
     });
 
   }
