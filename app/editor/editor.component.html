@@ -3,7 +3,7 @@
   <!-- Left bar -->
   <div class="col-md-3">
 
-    <user-panel></user-panel>
+    <app-user-panel></app-user-panel>
 
     <!--
     <div class="panel panel-default">
@@ -128,24 +128,20 @@
 
     <div class="panel panel-default">
       <div class="panel-body">
-        <h4>{{title}}</h4>
+        <input id="document-title" [(ngModel)]="title">
       </div>
-    </div>
-
-    <div class="panel panel-default">
       <div class="panel-heading">
         <div id="editor-toolbar" class="btn-toolbar">
-          <div *ngFor="#formatGroup of formats" class="btn-group">
-            <button *ngFor="#format of formatGroup" type="button"
+          <div *ngFor="let formatGroup of formats" class="btn-group">
+            <button *ngFor="let format of formatGroup" type="button"
             (click)="annotate(format)"
             class="btn btn-{{buttons[format] ? 'success' : 'default'}}">
               <span class="material-icons">format_{{format}}</span>
             </button>
           </div>
           <div class="btn-group">
-            <button type="button" (click)="imgUpl.click()" class="btn btn-default">
+            <button type="button" (click)="addImage()" class="btn btn-default">
               <span class="material-icons">image</span>
-              <input type="file" (change)="addImage($event.target.files[0])" style="display:none" #imgUpl>
             </button>
           </div>
         </div>
