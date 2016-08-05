@@ -249,8 +249,8 @@ export class SwellRTService implements OnInit {
     return this.object;
   }
 
-  editor(parentElementId) {
-    return SwellRT.editor(parentElementId);
+  editor(parentElementId, widgets, annotations) {
+    return SwellRT.editor(parentElementId, widgets, annotations);
   }
 
 

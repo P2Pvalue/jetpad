@@ -78,15 +78,24 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
 
-    this.editor = this._swellrt.editor('editor-container');
-    this.editor.registerWidget('img-link', {
-      onInit: function(parentElement, state) {
-        parentElement.innerHTML = `<img src="${state}">`;
-      },
-      onChangeState: function(parentElement, before, state) {
-        parentElement.innerHTML = `<img src="${state}">`;
+    let widgets = {
+
+      'img-link' : {
+
+        onInit: function(parentElement, state) {
+          parentElement.innerHTML = `<img src="${state}">`;
+        },
+
+        onChangeState: function(parentElement, before, state) {
+          parentElement.innerHTML = `<img src="${state}">`;
+        }
       }
-    });
+
+    };
+
+    let annotations =  {};
+
+    this.editor = this._swellrt.editor('editor-container', widgets, annotations);
 
     this._swellrt.getUser().then(user => {
 
