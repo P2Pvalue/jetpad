@@ -10,22 +10,25 @@ Install *node.js* and *npm* package manager in order to download the dependencie
 git clone git://github.com/p2pvalue/swellrt-pad
 cd swellrt-pad
 npm install
-npm start
+npm run server
 ```
+
+## Build
+
+If you want to build the project, do:
+
+```
+git clone git://github.com/p2pvalue/swellrt-pad
+cd swellrt-pad
+npm install
+npm run build
+```
+
+## SwellRT Server
+
 By default, it is going to be connected to the SwellRT demo server.
 
 If you want to install your own SwellRT server, please visit the [SwellRt Readme](https://github.com/p2pvalue/swellrt). By now, the URL is hardcoded in several places of the app, i.e. in `index.html`.
-
-*Any issue after updating Angular2 dependencies or another libraries?*
-
-After updating Angular2 libraries or other dependencies you should run following commands to get the app running:
-
-```
-rm -R node_modules
-rm -R typings
-npm install
-npm start
-```
 
 ## Copyright and License
 
