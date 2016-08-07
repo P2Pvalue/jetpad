@@ -3,7 +3,10 @@
  */
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { AppState } from './app.service';
+import { LandingComponent } from './landing';
+import { UserSpaceComponent } from './user-space';
+import { EditorComponent } from './editor';
+import { SwellRTService } from './services';
 
 /*
  * App Component
@@ -13,63 +16,34 @@ import { AppState } from './app.service';
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    './app.style.css'
+    './app.style.scss'
   ],
   template: `
-    <nav>
-      <span>
-        <a [routerLink]=" ['./'] ">
-          Index
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./home'] ">
-          Home
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./detail'] ">
-          Detail
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./about'] ">
-          About
-        </a>
-      </span>
-    </nav>
+    <div class="container">
 
-    <main>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" [routerLink]=" ['./'] ">SwellRT Editor</a>
+          </div>
+        </div>
+      </nav>
+
       <router-outlet></router-outlet>
-    </main>
 
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-    <footer>
-      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-      </div>
-    </footer>
+      <div id="snackbar-container"></div>
+    </div>
   `
 })
+
 export class App {
-  angularclassLogo = 'assets/img/angularclass-avatar.png';
-  name = 'Angular 2 Webpack Starter';
-  url = 'https://twitter.com/AngularClass';
-
-  constructor(
-    public appState: AppState) {
-
+  
+  constructor(private swellrt: SwellRTService) {
   }
 
   ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+    this.swellrt.bindListeners();
+    this.swellrt.resume(true);
   }
 
 }

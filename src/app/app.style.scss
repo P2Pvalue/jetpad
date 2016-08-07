@@ -1,0 +1,46 @@
+// @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// @todo: user bootstrap-sass
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap-material-design/dist/css/bootstrap-material-design.css";
+@import "~bootstrap-material-design/dist/css/ripples.css";
+@import "~snackbarjs/dist/snackbar.css";
+@import "~snackbarjs/themes-css/material.css";
+
+a {
+    cursor: pointer;
+}
+
+#editor-toolbar .btn {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#editor-toolbar .btn-group {
+    margin: 0px;
+}
+
+#editor-sidebar .btn {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#editor-sidebar .btn-group {
+    margin: 0px;
+}
+
+#editor-container > div {
+    min-height: 600px
+}
+
+#document-title {
+    border: none;
+    font-size: 2em;
+}
+
+.btn:not(.btn-raised).btn-success, .input-group-btn .btn:not(.btn-raised).btn-success {
+    color: #00a897;
+}

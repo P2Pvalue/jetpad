@@ -17,14 +17,27 @@
   <!-- base url -->
   <base href="<%= webpackConfig.metadata.baseUrl %>">
 
+  <!-- Material Design fonts -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
 
 <body>
 
-  <app>
-    Loading...
+  <app id="loadIndicator" class="container">
+
+    <div class="row" style="margin-top: 6em;">
+      <div class="col-md-12 text-center">
+        <img src="assets/img/loading_icon.gif" height="200">
+        <h4>Loading Papel Editor...</h4>
+      </div>
+    </div>
+
   </app>
+
+  <!-- SwellRT -->
+  <script src="http://demo.swellrt.org/swellrt.js"></script>
 
   <!-- Google Analytics: change UA-71073175-1 to be your site's ID -->
   <script>
@@ -41,7 +54,6 @@
   <!-- Webpack Dev Server reload -->
   <script src="/webpack-dev-server.js"></script>
   <% } %>
-
 
 </body>
 </html>

@@ -9,18 +9,24 @@ Install *node.js* and *npm* package manager in order to download the dependencie
 ```
 git clone git://github.com/p2pvalue/swellrt-pad
 cd swellrt-pad
-npm install
-npm run server
+npm i -g typings esformatter
+npm i
 ```
+
+## Run
+
+You can run it in dev mode with:
+
+```
+npm start
+```
+
 
 ## Build
 
 If you want to build the project, do:
 
 ```
-git clone git://github.com/p2pvalue/swellrt-pad
-cd swellrt-pad
-npm install
 npm run build
 ```
 

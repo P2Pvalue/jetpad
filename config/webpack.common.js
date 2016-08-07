@@ -13,6 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin'); 
 
 /*
  * Webpack Constants
@@ -22,6 +23,9 @@ const METADATA = {
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
+
+const autoprefixer = require('autoprefixer');
+
 
 /*
  * Webpack configuration
@@ -116,8 +120,7 @@ module.exports = {
           // these packages have problems with their sourcemaps
           helpers.root('node_modules/rxjs'),
           helpers.root('node_modules/@angular'),
-          helpers.root('node_modules/@ngrx'),
-          helpers.root('node_modules/@angular2-material'),
+          helpers.root('node_modules/@ngrx')
         ]
       }
 
@@ -160,9 +163,11 @@ module.exports = {
        *
        */
       {
-        test: /\.css$/,
-        loaders: ['to-string-loader', 'css-loader']
+        test: /\.(sass|scss)$/,
+        loaders: ['css-to-string-loader', 'css-loader?sourceMap', 'resolve-url', 'sass-loader?sourceMap']
       },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url?limit=10000&minetype=application/font-woff" },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file" },
 
       /* Raw loader support for *.html
        * Returns file content as string
@@ -268,7 +273,15 @@ module.exports = {
       headTags: require('./head-config.common')
     }),
 
+    new ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery'
+    }),
+
   ],
+
+  postcss: [autoprefixer],
 
   /*
    * Include polyfills or mocks for various node stuff
