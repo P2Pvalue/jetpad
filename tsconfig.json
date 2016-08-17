@@ -1,17 +1,27 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "system",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "sourceMap": true,
+    "noEmitHelpers": true,
     "removeComments": false,
     "noImplicitAny": false
   },
   "exclude": [
     "node_modules",
-    "typings/main",
-    "typings/main.d.ts"
-  ]
+    "dist",
+    "typings/globals/angular-protractor/index.d.ts"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "forkChecker": true,
+    "useWebpackText": true
+  },
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "atom": {
+    "rewriteTsconfig": false
+  }
 }
