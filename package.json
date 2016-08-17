@@ -7,9 +7,9 @@
     "webpack",
     "typescript"
   ],
-  "author": "Patrick Stapleton <patrick@angularclass.com>",
-  "homepage": "https://github.com/angularclass/angular2-webpack-starter",
-  "license": "MIT",
+  "author": "Pablo Ojanguren and David Llop",
+  "homepage": "https://github.com/P2Pvalue/swellrt-pad",
+  "license": "Affero GPL v3",
   "scripts": {
     "postinstall": "typings install",
     "rimraf": "rimraf",
@@ -139,10 +139,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/angularclass/angular2-webpack-starter.git"
+    "url": "https://github.com/P2Pvalue/swellrt-pad.git"
   },
   "bugs": {
-    "url": "https://github.com/angularclass/angular2-webpack-starter/issues"
+    "url": "https://github.com/P2Pvalue/swellrt-pad/issues"
   },
   "engines": {
     "node": ">= 4.2.1",
