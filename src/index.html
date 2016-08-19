@@ -4,18 +4,15 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title><%= webpackConfig.metadata.title %></title>
-
   <meta name="description" content="<%= webpackConfig.metadata.title %>">
+
+  <base href="<%= webpackConfig.metadata.baseUrl %>">
+  <title><%= webpackConfig.metadata.title %></title>
 
   <% if (webpackConfig.htmlElements.headTags) { %>
   <!-- Configured Head Tags  -->
   <%= webpackConfig.htmlElements.headTags %>
   <% } %>
-
-  <!-- base url -->
-  <base href="<%= webpackConfig.metadata.baseUrl %>">
 
   <!-- Material Design fonts -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">

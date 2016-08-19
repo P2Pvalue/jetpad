@@ -16,7 +16,7 @@ export class SwellRTService implements OnInit {
   server: string = SWELLRT_SERVER;
 
   state: string;
-  kastSnack: any;
+  lastSnack: any;
 
   listener: Function;
 

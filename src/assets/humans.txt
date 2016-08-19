@@ -3,13 +3,9 @@
 
 # TEAM
 
-  <name> -- <role> -- <twitter>
-
-# THANKS
-
-  <name>
-  PatrickJS -- @gdi2290
-  AngularClass -- @AngularClass
+  David Llop <@llopv>
+  Pablo Ojanguren <@pablojan>
+  Devialab Team <@devialab>
 
 # TECHNOLOGY COLOPHON
 

@@ -1,7 +1,3 @@
-/**
- * @author: @AngularClass
- */
-
 const webpack = require('webpack');
 const helpers = require('./helpers');
 
@@ -13,13 +9,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
-const ProvidePlugin = require('webpack/lib/ProvidePlugin'); 
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 
 /*
  * Webpack Constants
  */
 const METADATA = {
-  title: 'swellrt-pad',
+  title: 'SwellRT Editor',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };

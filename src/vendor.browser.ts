@@ -12,15 +12,12 @@ import '@angular/forms';
 import '@angular/http';
 import '@angular/router';
 
-// AngularClass
-import '@angularclass/webpack-toolkit';
-import '@angularclass/request-idle-callback';
-
 // RxJS
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import 'jquery';
+import 'snackbarjs';
 
 if ('production' === ENV) {
   // Production
