@@ -34,7 +34,7 @@ npm run build
 
 By default, it is going to be connected to the SwellRT demo server.
 
-If you want to install your own SwellRT server, please visit the [SwellRt Readme](https://github.com/p2pvalue/swellrt). By now, the URL is hardcoded in several places of the app, i.e. in `index.html`.
+If you want to install your own SwellRT server, please visit the [SwellRt Readme](https://github.com/p2pvalue/swellrt). By now, the URL is hardcoded in several places of the app, i.e. in `src/index.html`.
 
 ## Copyright and License
 
