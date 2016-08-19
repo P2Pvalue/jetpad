@@ -120,8 +120,8 @@ export class EditorComponent implements OnInit {
         this._title = cObject.root.get('doc-title');
         this.editor.edit(cObject.root.get('doc'));
 
-        this.editor.onSelectionChanged((annotations) => {
-          this.annotations = annotations;
+        this.editor.onSelectionChanged((range) => {
+          this.annotations = range.annotations;
           this.updateAllButtons();
         });
 
