@@ -43,6 +43,7 @@ npm-debug.log
 
 # Dist #
 /old
+
 /dist
 /public/__build__/
 /src/*/__build__/
