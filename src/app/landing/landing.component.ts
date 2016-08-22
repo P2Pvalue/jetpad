@@ -8,11 +8,11 @@ import { SwellRTService } from '../services';
     template: `
     <div class="row">
 
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
         <app-user-panel #userPanel></app-user-panel>
       </div>
 
-      <div class="col-md-6 col-md-offset-1">
+      <div class="col-md-6 col-md-offset-1"> -->
 
         <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
           <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
@@ -54,7 +54,7 @@ import { SwellRTService } from '../services';
           </div>
         </div>
 
-      </div>
+      <!--</div>-->
 
     </div>
     `,

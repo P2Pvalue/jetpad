@@ -6,41 +6,98 @@
 @import "~snackbarjs/dist/snackbar.css";
 @import "~snackbarjs/themes-css/material.css";
 
+html, body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.navbar-brand {
+  margin-left: 0 !important;
+}
+
+.alert {
+  border-radius: 0;
+}
+
+.container {
+  width: 100%;
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-sm-1,
+.col-xs-2, .col-sm-2, .col-md-2, .col-sm-2,
+.col-xs-3, .col-sm-3, .col-md-3, .col-sm-3,
+.col-xs-4, .col-sm-4, .col-md-4, .col-sm-4,
+.col-xs-5, .col-sm-5, .col-md-5, .col-sm-5,
+.col-xs-6, .col-sm-6, .col-md-6, .col-sm-6,
+.col-xs-7, .col-sm-7, .col-md-7, .col-sm-7,
+.col-xs-8, .col-sm-8, .col-md-8, .col-sm-8,
+.col-xs-9, .col-sm-9, .col-md-9, .col-sm-9,
+.col-xs-10, .col-sm-10, .col-md-10, .col-sm-10,
+.col-xs-11, .col-sm-11, .col-md-11, .col-sm-11,
+.col-xs-12, .col-sm-12, .col-md-12, .col-sm-12 {
+  position: relative;
+  height: 100%;
+  min-height: 1px;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.footer {
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-top: none;
+}
+
+.panel {
+  border: none;
+}
+
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #editor-toolbar .btn {
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 #editor-toolbar .btn-group {
-    margin: 0px;
+  margin: 0px;
 }
 
 #editor-sidebar .btn {
-    padding-left: 14px;
-    padding-right: 14px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 #editor-sidebar .btn-group {
-    margin: 0px;
+  margin: 0px;
 }
 
 #editor-container > div {
-    min-height: 600px
+  min-height: 600px
 }
 
 #document-title {
-    border: none;
-    font-size: 2em;
+  border: none;
+  font-size: 2em;
 }
 
 .btn:not(.btn-raised).btn-success, .input-group-btn .btn:not(.btn-raised).btn-success {
-    color: #00a897;
+  color: #00a897;
 }

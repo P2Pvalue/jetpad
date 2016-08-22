@@ -20,24 +20,26 @@ import { SwellRTService } from './services';
   ],
   template: `
     <div class="container">
-
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" [routerLink]=" ['./'] ">SwellRT Editor</a>
+    
+      <div class="row">
+        <nav class="navbar navbar-default">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" [routerLink]=" ['./'] ">Jetpad</a>
+            </div>
           </div>
-        </div>
-      </nav>
-
-      <router-outlet></router-outlet>
-
-      <div id="snackbar-container"></div>
+        </nav>
+  
+        <router-outlet></router-outlet>
+  
+        <div id="snackbar-container"></div>
+      </div>
     </div>
   `
 })
 
 export class App {
-  
+
   constructor(private swellrt: SwellRTService) {
   }
 
