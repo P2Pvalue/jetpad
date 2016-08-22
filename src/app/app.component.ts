@@ -26,6 +26,8 @@ import { SwellRTService } from './services';
           <div class="container">
             <div class="navbar-header">
               <a class="navbar-brand" [routerLink]=" ['./'] ">Jetpad</a>
+              <button type="button" class="btn btn-default navbar-btn">Login</button>
+              <button type="button" class="btn btn-default navbar-btn">Register</button>
             </div>
           </div>
         </nav>
