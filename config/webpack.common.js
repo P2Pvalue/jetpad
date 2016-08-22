@@ -15,7 +15,7 @@ const ProvidePlugin = require('webpack/lib/ProvidePlugin');
  * Webpack Constants
  */
 const METADATA = {
-  title: 'SwellRT Editor',
+  title: 'Jetpad',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
@@ -78,7 +78,7 @@ module.exports = {
     root: helpers.root('src'),
 
     // remove other default values
-    modulesDirectories: ['node_modules'],
+    modulesDirectories: ['node_modules']
 
   },
 
