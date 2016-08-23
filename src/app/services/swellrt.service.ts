@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { User, CObject } from '../shared';
 
 declare let SwellRT:any;
-const DEFAULT_AVATAR_URL = 'images/user.jpeg';
+const DEFAULT_AVATAR_URL = 'assets/img/user.jpeg';
 const DEFAULT_USERNAME = '_anonymous_';
 const DEFAULT_PASSWORD = '';
 const DEFAULT_SNACK_TIMEOUT = 3000;

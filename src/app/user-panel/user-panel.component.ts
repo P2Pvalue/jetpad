@@ -6,40 +6,27 @@ import { User } from '../shared';
 @Component({
     selector: 'app-user-panel',
     template: `
-      <div class="panel panel-default" *ngIf="loggedInUser">
-        <div class="panel-body">
-
+      <div *ngIf="loggedInUser">
+        <div>
           <!-- Logged In user -->
           <div class="media" *ngIf="!loggedInUser.anonymous">
-            <div class="media-left">
-              <a href="#">
-                <img class="media-object" height="40" src="{{loggedInUser.avatarUrl}}" alt="">
+            <div class="media-left media-middle">
+              <a>
+                <img class="media-object img-circle" height="40" src="{{loggedInUser.avatarUrl}}" alt="">
               </a>
             </div>
-            <div class="media-body">
-              <h5 class="media-heading">{{loggedInUser.name}}</h5>
-              <span *ngIf="panelState == 'collapsed'">
-                <a href="javascript:void(0)" (click)="logout()">Logout</a>
-              </span>
+            <div class="media-right media-middle text-capitalize">
+              <a class="navbar-brand" href="javascript:void(0)" (click)="logout()">
+                <span>{{loggedInUser.name}}</span>
+                <small><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></small>
+              </a>
             </div>
           </div>
-
 
           <!-- Not Logged In user -->
-          <div class="media" *ngIf="loggedInUser.anonymous">
-            <div class="media-left media-middle">
-              <a href="#">
-                <img class="media-object" height="40" src="/assets/img/anonymous.png" alt="">
-              </a>
-            </div>
-            <div class="media-body">
-              <h5 class="media-heading">Anonymous</h5>
-              <span *ngIf="panelState == 'collapsed'">
-                <a href="javascript:void(0)" (click)="showLoginForm()">Login &nbsp;|</a>&nbsp;&nbsp;<a href="javascript:void(0)" (click)="showRegisterForm()">Create account</a>
-              </span>
-            </div>
+          <div class="media" *ngIf="!loggedInUser || loggedInUser.anonymous">
+            <a class="navbar-brand">Login &nbsp;| &nbsp;Register</a>
           </div>
-
 
           <form style="margin-top:4em" *ngIf="panelState == 'loginForm'" (ngSubmit)="login()">
 
@@ -79,13 +66,6 @@ import { User } from '../shared';
 
         </div><!-- panel-body -->
       </div><!-- panel -->
-
-
-      <div class="panel panel-default" *ngIf="!loggedInUser">
-        <div class="panel-body">
-          Loading...
-        </div>
-      </div>
     `
   })
 

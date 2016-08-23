@@ -1,12 +1,8 @@
 /*
  * Angular 2 decorators and services
  */
-import { Component, ViewEncapsulation } from '@angular/core';
-
-import { LandingComponent } from './landing';
-import { UserSpaceComponent } from './user-space';
-import { EditorComponent } from './editor';
-import { SwellRTService } from './services';
+import {Component, ViewEncapsulation} from "@angular/core";
+import {SwellRTService} from "./services";
 
 /*
  * App Component
@@ -20,14 +16,16 @@ import { SwellRTService } from './services';
   ],
   template: `
     <div class="container">
-    
       <div class="row">
         <nav class="navbar navbar-default">
-          <div class="container">
+          <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" [routerLink]=" ['./'] ">Jetpad</a>
-              <button type="button" class="btn btn-default navbar-btn">Login</button>
-              <button type="button" class="btn btn-default navbar-btn">Register</button>
+              <a class="navbar-brand" [routerLink]=" ['./'] "><b>Jetpad</b></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                <app-user-panel></app-user-panel>         
+              </ul>
             </div>
           </div>
         </nav>
