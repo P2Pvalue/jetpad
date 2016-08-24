@@ -19,16 +19,62 @@ import { SwellRTService } from '../services';
           <strong>{{msgError}}</strong>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-default text-center">
           <div class="panel-body">
-            <a (click)="createDocument()"><h3>Create a new Document</h3></a>
-            <p>
-              Write a document. Share and edit it with others.
-            </p>
+              <div class="col-md-4 col-md-offset-1">
+                <img height="200" class="center-block" src="assets/img/landing_1.jpg" alt="">            
+              </div>
+              <div class="col-md-6">
+                <h4>Your online document editor</h4>
+                <br>
+                <p>
+                  Write documents from any Web browser.<br>
+                  Use styles, pictures and tables.
+                </p>            
+              </div>
+          </div>
+          <div class="panel-body">
+            <div class="col-md-4 col-md-offset-1">
+              <h4>Your online document editor</h4>
+              <br>
+              <p>
+                Write documents from any Web browser.<br>
+                Use styles, pictures and tables.
+              </p>            
+            </div>
+            <div class="col-md-6">
+              <img height="200" class="center-block" src="assets/img/landing_1.jpg" alt="">            
+            </div>  
+          </div>
+          <div class="panel-body">
+              <div class="col-md-4 col-md-offset-1">
+                <img height="200" class="center-block" src="assets/img/landing_1.jpg" alt="">            
+              </div>
+              <div class="col-md-6">
+                <h4>Your online document editor</h4>
+                <br>
+                <p>
+                  Write documents from any Web browser.<br>
+                  Use styles, pictures and tables.
+                </p>            
+              </div>
+          </div>
+          <div class="panel-body">
+            <div class="col-md-4 col-md-offset-1">
+              <h4>Your online document editor</h4>
+              <br>
+              <p>
+                Write documents from any Web browser.<br>
+                Use styles, pictures and tables.
+              </p>            
+            </div>
+            <div class="col-md-6">
+              <img height="200" class="center-block" src="assets/img/landing_1.jpg" alt="">            
+            </div>  
           </div>
         </div>
 
-        <div class="panel panel-default">
+        <!--<div class="panel panel-default">
           <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
             <a (click)="documentIdInput.focus()"><h3>Open a Document</h3></a>
             <p>
@@ -42,17 +88,7 @@ import { SwellRTService } from '../services';
 
             <button class="btn btn-primary pull-right" [disabled]="!documentIdForm.form.valid">Open</button>
           </form>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <a (click)="userPanel.panelState = 'collapsed'"><h3>Sign up</h3></a>
-            <p>
-              Take advantage of being a registered user of SwellRT Editor.
-              Manage all the documents you collaborate with on the cloud.
-            </p>
-          </div>
-        </div>
+        </div>-->
 
       <!--</div>-->
 
