@@ -57,6 +57,7 @@ import { SwellRTService } from '../services';
       <!--</div>-->
 
     </div>
+    <app-footer></app-footer>
     `,
 
     directives: [UserPanelComponent]

@@ -21,7 +21,6 @@ import {SwellRTService} from "./services";
           <router-outlet></router-outlet>
           <div id="snackbar-container"></div>
         </main>
-        <app-footer></app-footer>
     </div>
   `
 })
