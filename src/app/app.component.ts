@@ -16,29 +16,12 @@ import {SwellRTService} from "./services";
   ],
   template: `
     <div class="container">
-      <div class="row">
-        <header>
-          <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <a class="navbar-brand" [routerLink]=" ['./'] "><b>Jetpad</b></a>
-              </div>
-              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                  <app-user-panel></app-user-panel>         
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </header>    
+        <app-header></app-header>
         <main>
           <router-outlet></router-outlet>
           <div id="snackbar-container"></div>
         </main>
-        <footer>
-          <app-footer></app-footer>
-        </footer>
-      </div>
+        <app-footer></app-footer>
     </div>
   `
 })

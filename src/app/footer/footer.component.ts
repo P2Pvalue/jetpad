@@ -1,15 +1,34 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 
 @Component({
   selector: 'app-footer',
   template: `
         <footer>
-          <div class="container">
             <div class="row">
-              <div class="col-md-12">
-                Created by <a href="http://twitter.com/DanWahlin" target="_blank">Dan Wahlin</a>
-              </div>
-            </div>
+            <nav class="navbar navbar-default">
+                <div class="col-md-3 text-center footer">
+                  <h5>Powered by</h5>
+                  <a href="http://swellrt.org/">
+                    <img height="100" class="center-block" src="assets/img/swellrt_logo.png" alt="">
+                  </a>
+                </div>
+                <div class="col-md-3 text-center footer">
+                  <h5>Get the code</h5>
+                  <a href="https://github.com/P2Pvalue">
+                    <img height="80" class="center-block" src="assets/img/github_logo.png" alt="">
+                  </a>
+                </div>
+                <div class="col-md-3 text-center footer">
+                  <h5>Contact with us</h5>
+                  <h5>info@jetpad.com</h5>
+                </div>
+                <div class="col-md-2 col-md-offset-1 footer">
+                  <h5>Home</h5>     
+                  <h5>Login</h5>
+                  <h5>Register</h5>                
+                  <h5>Terms and conditions</h5>                    
+                </div>
+            </nav>
           </div>
         </footer>
         `

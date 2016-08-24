@@ -5,19 +5,18 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
-/*
- * Platform and Environment providers/directives/pipes
- */
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
-// App is our top level component
+
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
+import { HeaderComponent } from "./header";
 import { UserPanelComponent } from "./user-panel";
 import { LandingComponent } from './landing';
 import { UserSpaceComponent } from './user-space';
 import { EditorComponent } from './editor';
+import { FooterComponent } from "./footer";
 import { NoContent } from './no-content';
 
 import {AppState} from "./app.service";
@@ -37,10 +36,12 @@ const APP_PROVIDERS = [
   bootstrap: [ App ],
   declarations: [
     App,
+    HeaderComponent,
     UserPanelComponent,
     LandingComponent,
     UserSpaceComponent,
     EditorComponent,
+    FooterComponent,
     NoContent
   ],
   imports: [ // import Angular's modules
