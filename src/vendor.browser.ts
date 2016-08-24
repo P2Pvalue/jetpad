@@ -12,10 +12,15 @@ import '@angular/forms';
 import '@angular/http';
 import '@angular/router';
 
+// AngularClass
+import '@angularclass/hmr';
+
 // RxJS
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
+
+// JQuery
 import 'jquery';
 import 'snackbarjs';
 
@@ -25,6 +30,5 @@ if ('production' === ENV) {
 
 } else {
   // Development
-  require('angular2-hmr');
 
 }

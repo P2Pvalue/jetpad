@@ -29,11 +29,11 @@ import {SwellRTService} from "./services";
             </div>
           </div>
         </nav>
-  
-        <router-outlet></router-outlet>
-  
+    
         <div id="snackbar-container"></div>
+        <router-outlet></router-outlet>
       </div>
+      <app-footer></app-footer>
     </div>
   `
 })
