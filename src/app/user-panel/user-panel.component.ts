@@ -25,24 +25,8 @@ import { User } from '../shared';
 
           <!-- Not Logged In user -->
           <div class="media" *ngIf="!loggedInUser || loggedInUser.anonymous">
-            <a class="navbar-brand">Login &nbsp;| &nbsp;Register</a>
+            <a class="navbar-brand" [routerLink]=" ['./authentication'] ">Login &nbsp;| &nbsp;Register</a>
           </div>
-
-          <form style="margin-top:4em" *ngIf="panelState == 'loginForm'" (ngSubmit)="login()">
-
-            <div class="form-group label-floating">
-              <label class="control-label" for="loginNameInput">Name</label>
-              <input class="form-control" id="loginNameInput" name="name" [(ngModel)]="nameInput">
-            </div>
-            <div class="form-group label-floating">
-              <label class="control-label" for="loginPasswordInput">Password</label>
-              <input class="form-control" id="loginPasswordInput" name="password" type="password" [(ngModel)]="passwordInput">
-            </div>
-
-            <a class="btn btn-default" (click)="cancelForm()">Cancel</a>
-            <button class="btn btn-primary">Login</button>
-          </form>
-
 
           <form style="margin-top:4em" *ngIf="panelState == 'registerForm'" (ngSubmit)="create()">
 
@@ -73,17 +57,8 @@ export class UserPanelComponent implements OnInit {
 
   // The logged in user
   loggedInUser: User;
-  // panelState = "collapsed | loginForm | registerForm"
-  panelState: string;
-  // Form fields
-  nameInput: string;
-  passwordInput: string;
-  repasswordInput: string;
 
-
-  constructor(private swellrt: SwellRTService) {
-        this.panelState = 'collapsed';
-    }
+  constructor(private swellrt: SwellRTService) {}
 
   ngOnInit() {
     this.swellrt.getUser().then(user => {
@@ -91,49 +66,7 @@ export class UserPanelComponent implements OnInit {
     });
   }
 
-
-  clearForms() {
-    this.nameInput = null;
-    this.passwordInput = null;
-    this.repasswordInput = null;
-  }
-
-  login() {
-    this.panelState = 'collapsed';
-    this.swellrt.login(this.nameInput + this.swellrt.domain, this.passwordInput).then(
-      user => {
-        this.loggedInUser = user;
-        this.clearForms();
-      }
-    );
-  }
-
-  create() {
-    this.panelState = 'collapsed';
-    this.swellrt.createUser(this.nameInput, this.passwordInput).then(() => {
-      return this.swellrt.login(this.nameInput, this.passwordInput);
-    }).then(
-      user => {
-        this.loggedInUser = user;
-        this.clearForms();
-      }
-    );
-  }
-
   logout() {
     this.swellrt.logout(true).then(user => this.loggedInUser = user);
   }
-
-  showLoginForm() {
-    this.panelState = 'loginForm';
-  }
-
-  showRegisterForm() {
-    this.panelState = 'registerForm';
-  }
-
-  cancelForm() {
-    this.panelState = 'collapsed';
-  }
-
 }

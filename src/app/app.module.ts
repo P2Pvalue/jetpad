@@ -12,6 +12,8 @@ import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
 import { HeaderComponent } from "./header";
+import { LoginComponent } from "./login";
+import {AuthenticationComponent} from "./authentication";
 import { UserPanelComponent } from "./user-panel";
 import { LandingComponent } from './landing';
 import { UserSpaceComponent } from './user-space';
@@ -37,6 +39,8 @@ const APP_PROVIDERS = [
   declarations: [
     App,
     HeaderComponent,
+    LoginComponent,
+    AuthenticationComponent,
     UserPanelComponent,
     LandingComponent,
     UserSpaceComponent,
@@ -66,15 +70,14 @@ export class AppModule {
   hmrOnDestroy(store) {
     var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
     // recreate elements
-    var state = this.appState.state;
-    store.state = state;
-    store.disposeOldHosts = createNewHosts(cmpLocation)
+    store.state = this.appState.state;
+    store.disposeOldHosts = createNewHosts(cmpLocation);
     // remove styles
     removeNgStyles();
   }
   hmrAfterDestroy(store) {
     // display new elements
-    store.disposeOldHosts()
+    store.disposeOldHosts();
     delete store.disposeOldHosts;
   }
 }

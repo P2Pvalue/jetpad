@@ -4,13 +4,21 @@ import { LandingComponent } from './landing';
 import { UserSpaceComponent } from './user-space';
 import { EditorComponent } from './editor';
 import { NoContent } from './no-content';
+import {AuthenticationComponent} from "./authentication";
 
 import { DataResolver } from './app.resolver';
 
 export const ROUTES: Routes = [
 
-  { path: '',
-    component: LandingComponent },
+  {
+    path: '',
+    component: LandingComponent
+  },
+
+  {
+    path: 'authentication',
+    component: AuthenticationComponent
+  },
 
   {
     path: 'user',
@@ -22,7 +30,9 @@ export const ROUTES: Routes = [
     component: EditorComponent
   },
 
-  { path: '**',
-    component: NoContent },
+  {
+    path: '**',
+    component: NoContent
+  },
 
 ];

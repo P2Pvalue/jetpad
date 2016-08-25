@@ -108,6 +108,7 @@ import { SwellRTService } from '../services';
       <!--</div>-->
 
     </div>
+    <app-login></app-login>
     <app-footer></app-footer>
     `,
 
