@@ -116,8 +116,6 @@ export class SwellRTService implements OnInit {
 
           });
     });
-
-
     return this.user;
   }
 

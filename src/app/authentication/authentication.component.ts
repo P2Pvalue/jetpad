@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
                 <app-login></app-login>         
               </div>
               <div class="col-md-4 col-md-offset-2">
-                <app-login></app-login>         
+                <app-register></app-register>         
               </div>
           </div>
         </div>

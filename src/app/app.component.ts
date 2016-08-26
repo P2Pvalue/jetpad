@@ -2,7 +2,7 @@
  * Angular 2 decorators and services
  */
 import {Component, ViewEncapsulation} from "@angular/core";
-import {SwellRTService} from "./services";
+import {SwellRTService, UserService} from "./services";
 
 /*
  * App Component
@@ -27,12 +27,12 @@ import {SwellRTService} from "./services";
 
 export class App {
 
-  constructor(private swellrt: SwellRTService) {
+  constructor(private swellrt: SwellRTService, private userService: UserService) {
   }
 
   ngOnInit() {
     this.swellrt.bindListeners();
-    this.swellrt.resume(true);
+    this.userService.resume(true);
   }
 
 }

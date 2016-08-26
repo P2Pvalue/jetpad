@@ -5,28 +5,28 @@ import {UserService} from "../services";
 
 
 @Component({
-    selector: 'app-login',
+    selector: 'app-register',
     template: `
       <div class="panel panel-default text-center">
         <div class="panel-body">
-          <h4>LOGIN</h4>
-          <form style="margin-top:4em" (ngSubmit)="login()">
+          <h4>REGISTER</h4>
+          <form style="margin-top:4em" (ngSubmit)="register()">
             <div class="form-group label-floating">
-              <label class="control-label" for="loginNameInput">Name</label>
-              <input class="form-control" id="loginNameInput" name="name" [(ngModel)]="nameInput">
+              <label class="control-label" for="registerNameInput">Name</label>
+              <input class="form-control" id="registerNameInput" name="name" [(ngModel)]="nameInput">
             </div>
             <div class="form-group label-floating">
-              <label class="control-label" for="loginPasswordInput">Password</label>
-              <input class="form-control" id="loginPasswordInput" name="password" type="password" [(ngModel)]="passwordInput">
-            </div>
-            <button class="btn btn-primary">Login</button>
+              <label class="control-label" for="registerPasswordInput">Password</label>
+              <input class="form-control" id="registerPasswordInput" name="password" type="password" [(ngModel)]="passwordInput">
+            </div>         
+            <button class="btn btn-primary">Register</button>
           </form>
         </div><!-- panel-body -->
       </div><!-- panel -->
     `
   })
 
-export class LoginComponent {
+export class RegisterComponent {
 
   // The logged in user
   loggedUser: User;
@@ -41,8 +41,8 @@ export class LoginComponent {
     });
   }
 
-  login() {
-    this.userService.login(this.nameInput, this.passwordInput);
+  register() {
+    this.userService.create(this.nameInput, this.passwordInput);
   }
 
 }

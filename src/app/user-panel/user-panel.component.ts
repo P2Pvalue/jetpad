@@ -1,72 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { SwellRTService } from '../services';
+import { Component } from '@angular/core';
 import { User } from '../shared';
+import { UserService } from "../services";
 
 
 @Component({
     selector: 'app-user-panel',
     template: `
-      <div *ngIf="loggedInUser">
         <div>
           <!-- Logged In user -->
-          <div class="media" *ngIf="!loggedInUser.anonymous">
+          <div class="media" *ngIf="loggedUser && !loggedUser.anonymous">
             <div class="media-left media-middle">
               <a>
-                <img class="media-object img-circle" height="40" src="{{loggedInUser.avatarUrl}}" alt="">
+                <img class="media-object img-circle" height="40" src="{{loggedUser.avatarUrl}}" alt="">
               </a>
             </div>
             <div class="media-right media-middle text-capitalize">
               <a class="navbar-brand" href="javascript:void(0)" (click)="logout()">
-                <span>{{loggedInUser.name}}</span>
+                <span>{{loggedUser.name}}</span>
                 <small><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></small>
               </a>
             </div>
           </div>
 
           <!-- Not Logged In user -->
-          <div class="media" *ngIf="!loggedInUser || loggedInUser.anonymous">
+          <div class="media" *ngIf="!loggedUser || loggedUser.anonymous">
             <a class="navbar-brand" [routerLink]=" ['./authentication'] ">Login &nbsp;| &nbsp;Register</a>
           </div>
-
-          <form style="margin-top:4em" *ngIf="panelState == 'registerForm'" (ngSubmit)="create()">
-
-            <div class="form-group label-floating">
-              <label class="control-label" for="registerNameInput">Name</label>
-              <input class="form-control" id="registerNameInput" name="name" [(ngModel)]="nameInput">
-            </div>
-            <div class="form-group label-floating">
-              <label class="control-label" for="registerPasswordInput">Password</label>
-              <input class="form-control" id="registerPasswordInput" name="password" type="password" [(ngModel)]="passwordInput">
-            </div>
-            <div class="form-group label-floating">
-              <label class="control-label" for="registerRepasswordInput">Repeat Password</label>
-              <input class="form-control" id="registerRepasswordInput" name="repassword" type="password" [(ngModel)]="repasswordInput">
-            </div>
-
-            <a class="btn btn-default" (click)="cancelForm()">Cancel</a>
-            <button class="btn btn-primary">Create</button>
-          </form>
-
-
+          
         </div><!-- panel-body -->
-      </div><!-- panel -->
     `
   })
 
-export class UserPanelComponent implements OnInit {
+export class UserPanelComponent {
 
   // The logged in user
-  loggedInUser: User;
+  loggedUser: User;
 
-  constructor(private swellrt: SwellRTService) {}
-
-  ngOnInit() {
-    this.swellrt.getUser().then(user => {
-        this.loggedInUser = user;
+  constructor(private userService: UserService) {
+    userService.userLogged.subscribe(user => {
+      this.loggedUser = user;
     });
   }
 
   logout() {
-    this.swellrt.logout(true).then(user => this.loggedInUser = user);
+    this.userService.logout();
   }
 }

@@ -13,7 +13,8 @@ import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
 import { HeaderComponent } from "./header";
 import { LoginComponent } from "./login";
-import {AuthenticationComponent} from "./authentication";
+import { RegisterComponent } from "./register";
+import { AuthenticationComponent } from "./authentication";
 import { UserPanelComponent } from "./user-panel";
 import { LandingComponent } from './landing';
 import { UserSpaceComponent } from './user-space';
@@ -22,13 +23,14 @@ import { FooterComponent } from "./footer";
 import { NoContent } from './no-content';
 
 import {AppState} from "./app.service";
-import {SwellRTService} from "./services/swellrt.service";
+import {SwellRTService, UserService} from "./services";
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  SwellRTService
+  SwellRTService,
+  UserService
 ];
 
 /**
@@ -40,6 +42,7 @@ const APP_PROVIDERS = [
     App,
     HeaderComponent,
     LoginComponent,
+    RegisterComponent,
     AuthenticationComponent,
     UserPanelComponent,
     LandingComponent,
