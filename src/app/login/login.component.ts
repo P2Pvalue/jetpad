@@ -28,8 +28,6 @@ import {UserService} from "../services";
 
 export class LoginComponent {
 
-  // The logged in user
-  loggedUser: User;
   // Form fields
   nameInput: string;
   passwordInput: string;
@@ -37,7 +35,7 @@ export class LoginComponent {
 
   constructor(private userService: UserService, private router: Router) {
     userService.userLogged.subscribe(user => {
-        this.loggedUser = user;
+        router.navigate(['']);
     });
   }
 

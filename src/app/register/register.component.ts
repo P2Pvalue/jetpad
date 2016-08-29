@@ -28,16 +28,14 @@ import {UserService} from "../services";
 
 export class RegisterComponent {
 
-  // The logged in user
-  loggedUser: User;
   // Form fields
   nameInput: string;
   passwordInput: string;
 
 
   constructor(private userService: UserService, private router: Router) {
-    userService.userLogged.subscribe(user => {
-        this.loggedUser = user;
+    userService.userRegistered.subscribe(user => {
+        router.navigate(['profile']);
     });
   }
 

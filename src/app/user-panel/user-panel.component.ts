@@ -7,15 +7,15 @@ import { UserService } from "../services";
     template: `
         <div>
           <!-- Logged In user -->
-          <div class="media" *ngIf="loggedUser && !loggedUser.anonymous">
+          <div class="media" *ngIf="currentUser && !currentUser.anonymous">
             <div class="media-left media-middle">
               <a>
-                <img class="media-object img-circle" height="40" src="{{loggedUser.avatarUrl}}" alt="">
+                <img class="media-object img-circle" height="40" src="{{currentUser.avatarUrl}}" alt="">
               </a>
             </div>
             <div class="media-right media-middle text-capitalize dropdown" dropdown>
               <a class="navbar-brand" dropdown-open>
-                <span>{{loggedUser.name}}</span>
+                <span>{{currentUser.name}}</span>
                 <small><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></small>
               </a>        
               <ul class="dropdown-menu">
@@ -26,7 +26,7 @@ import { UserService } from "../services";
           </div>
 
           <!-- Not Logged In user -->
-          <div class="media" *ngIf="!loggedUser || loggedUser.anonymous">
+          <div class="media" *ngIf="!currentUser || currentUser.anonymous">
             <a class="navbar-brand" [routerLink]=" ['./authentication'] ">Login &nbsp;| &nbsp;Register</a>
           </div>
           
@@ -37,11 +37,11 @@ import { UserService } from "../services";
 export class UserPanelComponent {
 
   // The logged in user
-  loggedUser: User;
+  currentUser: User;
 
   constructor(private userService: UserService) {
-    userService.userLogged.subscribe(user => {
-      this.loggedUser = user;
+    userService.currentUser.subscribe(user => {
+      this.currentUser = user;
     });
   }
 
