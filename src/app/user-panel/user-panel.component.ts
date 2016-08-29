@@ -19,7 +19,7 @@ import { UserService } from "../services";
                 <small><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></small>
               </a>        
               <ul class="dropdown-menu">
-                  <li><a [routerLink]=" ['./authentication'] ">MY PROFILE</a></li>
+                  <li><a [routerLink]=" ['./profile'] ">MY PROFILE</a></li>
                   <li><a href="javascript:void(0)" (click)="logout()">LOGOUT</a></li>
              </ul>
             </div>
