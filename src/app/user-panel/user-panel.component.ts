@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { User } from '../shared';
 import { UserService } from "../services";
 
-
 @Component({
     selector: 'app-user-panel',
     template: `
@@ -14,11 +13,15 @@ import { UserService } from "../services";
                 <img class="media-object img-circle" height="40" src="{{loggedUser.avatarUrl}}" alt="">
               </a>
             </div>
-            <div class="media-right media-middle text-capitalize">
-              <a class="navbar-brand" href="javascript:void(0)" (click)="logout()">
+            <div class="media-right media-middle text-capitalize dropdown" dropdown>
+              <a class="navbar-brand" dropdown-open>
                 <span>{{loggedUser.name}}</span>
                 <small><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></small>
-              </a>
+              </a>        
+              <ul class="dropdown-menu">
+                  <li><a [routerLink]=" ['./authentication'] ">MY PROFILE</a></li>
+                  <li><a href="javascript:void(0)" (click)="logout()">LOGOUT</a></li>
+             </ul>
             </div>
           </div>
 

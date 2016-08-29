@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 
 import { LandingComponent } from './landing';
-import { UserSpaceComponent } from './user-space';
+import { ProfileComponent } from "./profile";
 import { EditorComponent } from './editor';
 import { NoContent } from './no-content';
-import {AuthenticationComponent} from "./authentication";
+import { AuthenticationComponent } from "./authentication";
 
 import { DataResolver } from './app.resolver';
 
@@ -21,8 +21,8 @@ export const ROUTES: Routes = [
   },
 
   {
-    path: 'user',
-    component: UserSpaceComponent
+    path: 'profile',
+    component: ProfileComponent
   },
 
   {

@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserPanelComponent } from '../user-panel';
 import { SwellRTService } from '../services';
 
 @Component({
     selector: 'app-editor',
-    templateUrl: './editor.component.html',
-    directives: [UserPanelComponent]
+    templateUrl: './editor.component.html'
   })
 
 export class EditorComponent implements OnInit {

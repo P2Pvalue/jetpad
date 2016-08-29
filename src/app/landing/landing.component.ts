@@ -1,7 +1,5 @@
 import {Component} from "@angular/core";
 import {Router} from "@angular/router";
-import {UserPanelComponent} from "../user-panel";
-import {SwellRTService} from "../services";
 
 @Component({
   selector: 'app-landing',
@@ -83,9 +81,7 @@ import {SwellRTService} from "../services";
         </div>
     </div>
     <app-footer></app-footer>
-    `,
-
-  directives: [UserPanelComponent]
+    `
 })
 
 

@@ -77,7 +77,8 @@
     "jquery": "^3.1.0",
     "rxjs": "5.0.0-beta.6",
     "snackbarjs": "^1.1.0",
-    "zone.js": "~0.6.17"
+    "zone.js": "~0.6.17",
+    "ng2-dropdown": "^0.0.12"
   },
   "devDependencies": {
     "@angularclass/hmr": "^1.0.1",
