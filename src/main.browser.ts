@@ -1,6 +1,5 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { decorateModuleRef } from './app/environment';
-import { ApplicationRef } from '@angular/core';
 import { bootloader } from '@angularclass/hmr';
 /*
  * App Module
@@ -18,7 +17,6 @@ export function main(): Promise<any> {
     .catch(err => console.error(err));
 
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
 

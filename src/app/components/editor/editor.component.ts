@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SwellRTService } from '../services';
+import { UserService, SwellRTService } from "../../services";
 
 @Component({
     selector: 'app-editor',
@@ -40,6 +40,7 @@ export class EditorComponent implements OnInit {
 
   constructor(
     private swellrt: SwellRTService,
+    private userService: UserService,
     private route: ActivatedRoute
     ) {
       this.disableAllButtons();
@@ -97,7 +98,7 @@ export class EditorComponent implements OnInit {
 
     this.editor = this.swellrt.editor('editor-container', widgets, annotations);
 
-    this.swellrt.getUser().then(user => {
+    let user = this.userService.getUser();
 
       let id = this.route.snapshot.params['id'];
       this.swellrt.open(id).then(cObject => {
@@ -131,12 +132,6 @@ export class EditorComponent implements OnInit {
         this.wasError = true;
         this.msgError = `Document doesn't exist or you don't have permission to open (${ error })`;
       });
-
-    }).catch( error => {
-      this.wasError = true;
-      this.msgError = 'There is any session open.';
-    });
-
   }
 
   annotate (format) {

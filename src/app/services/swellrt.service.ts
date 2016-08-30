@@ -20,8 +20,6 @@ export class SwellRTService implements OnInit {
 
   listener: Function;
 
-  session: any;
-  user: Promise<any>;
   object: Promise<CObject>;
 
   constructor() {
@@ -29,10 +27,6 @@ export class SwellRTService implements OnInit {
 
   ngOnInit() {
     this.object = new Promise<CObject>(function(resolve, reject){
-      reject();
-    });
-
-    this.user = new Promise<any>(function(resolve, reject){
       reject();
     });
   }
@@ -104,7 +98,6 @@ export class SwellRTService implements OnInit {
         }
       });
     });
-  }
   }*/
 
   resume(_loginIfError: boolean) {
@@ -112,7 +105,7 @@ export class SwellRTService implements OnInit {
     let adaptSessionToUser = (session: any) => { return this.adaptSessionToUser(session); };
     let login = (name: string, password: string) => { return this.login(name, password); };
 
-    this.user = new Promise<any>(function(resolve, reject) {
+    return new Promise<any>(function(resolve, reject) {
 
       SwellRT.resumeSession(
         function(session) {
@@ -133,24 +126,22 @@ export class SwellRTService implements OnInit {
 
         });
     });
-    return this.user;
   }
-
 
   login(id: string, password: string) {
     return new Promise<any>((resolve, reject) => {
-      SwellRT.login({ id, password }, function(res) {
-        if (res.error) {
-          reject(res.error);
-        } else if (res.data) {
-          resolve(res.data);
-        }
-      });
+        SwellRT.login({ id, password }, function(res) {
+          if (res.error) {
+            reject(res.error);
+          } else if (res.data) {
+            resolve(res.data);
+          }
+        });
     });
   }
 
   createUser(id: string, password: string): Promise<any> {
-    this.user = new Promise<any>(function(resolve, reject) {
+    return new Promise<any>(function(resolve, reject) {
       SwellRT.createUser({ id, password }, function(res) {
         if (res.error) {
           reject(res.error);
@@ -159,11 +150,10 @@ export class SwellRTService implements OnInit {
         }
       });
     });
-    return this.user;
   };
 
   updateUser(email: string, avatarData: string) {
-    this.user = new Promise<any>(function(resolve, reject) {
+    return new Promise<any>(function(resolve, reject) {
       SwellRT.updateUserProfile({ email, avatarData }, function(res) {
         if (res.error) {
           reject(res.error);
@@ -172,7 +162,6 @@ export class SwellRTService implements OnInit {
         }
       });
     });
-    return this.user;
   }
 
   logout() {
@@ -200,20 +189,15 @@ export class SwellRTService implements OnInit {
     });
   }
 
-  getUser() {
-    return this.user;
-  }
-
-
   private adaptSessionToUser(_session: any) {
-    this.session = _session;
+    var session = _session;
     let n;
     // Remove this condition block when
     // SwellRT returns same data in both resume() and startSession()
-    if (this.session.data) {
-      n = this.session.data.id;
+    if (session.data) {
+      n = session.data.id;
     } else {
-      n = this.session.address;
+      n = session.address;
     }
 
     n = n.slice(0, n.indexOf('@'));

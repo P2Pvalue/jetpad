@@ -11,19 +11,21 @@ import { ROUTES } from './app.routes';
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { HeaderComponent } from "./header";
-import { LoginComponent } from "./login";
-import { ProfileComponent } from "./profile";
-import { RegisterComponent } from "./register";
-import { AuthenticationComponent } from "./authentication";
-import { UserPanelComponent } from "./user-panel";
-import { LandingComponent } from './landing';
-import { EditorComponent } from './editor';
-import { FooterComponent } from "./footer";
-import { NoContent } from './no-content';
+import { HeaderComponent } from "./components/header";
+import { LoginComponent } from "./components/login";
+import { ProfileComponent } from "./components/profile";
+import { RegisterComponent } from "./components/register";
+import { AuthenticationComponent } from "./components/authentication";
+import { UserPanelComponent } from "./components/user-panel";
+import { LandingComponent } from './components/landing';
+import { EditorComponent } from './components/editor';
+import { FooterComponent } from "./components/footer";
+import { NoContent } from './components/no-content';
 
-import {AppState} from "./app.service";
-import {SwellRTService, UserService} from "./services";
+import { SwellRTService, UserService } from "./services";
+import { LoggedUserGuard } from "./guards";
+
+import { AppState } from "./app.service";
 
 import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
 
@@ -32,7 +34,8 @@ const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   SwellRTService,
-  UserService
+  UserService,
+  LoggedUserGuard
 ];
 
 /**
@@ -65,6 +68,7 @@ const APP_PROVIDERS = [
     APP_PROVIDERS
   ]
 })
+
 export class AppModule {
   constructor(public appRef: ApplicationRef, public appState: AppState) {}
   hmrOnInit(store) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from "../services";
+import { UserService } from "../../services";
 
 @Component({
     selector: 'app-user-panel',

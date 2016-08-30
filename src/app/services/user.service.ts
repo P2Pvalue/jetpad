@@ -12,10 +12,19 @@ export class UserService {
   userRegistered = new Subject<any>();
   userUpdated = new Subject<any>();
 
-  constructor(private swellrt: SwellRTService, @Inject('DEFAULT_AVATAR_URL') private defaultAvatarUrl: string) {
+  constructor(@Inject('DEFAULT_AVATAR_URL') private defaultAvatarUrl: string,
+              private swellrt: SwellRTService) {
     this.currentUser.subscribe(user => {
       this.user = user;
     });
+  }
+
+  getUser() {
+    return this.user;
+  }
+
+  loggedUser() {
+    return this.user && !this.user.anonymous;
   }
 
   resume() {
@@ -60,15 +69,13 @@ export class UserService {
 
   parseUserResponse(user) {
     let name = user.name;
-    let isAnonymous = false;
     if ( /_anonymous_/.test(user.id)) {
       name = 'Anonymous';
-      isAnonymous = true;
     }
     return  {
       id: user.id,
       name: name ? name : user.id.slice(0, user.id.indexOf('@')),
-      anonymous: isAnonymous,
+      anonymous: name === "Anonymous",
       avatarUrl: user.avatarUrl ? user.avatarUrl : this.defaultAvatarUrl
     }
   }
