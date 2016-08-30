@@ -1,47 +1,39 @@
 import { enableDebugTools, disableDebugTools } from '@angular/platform-browser';
 import { enableProdMode, ApplicationRef } from '@angular/core';
-// Environment Providers
+
+let production = 'production' === ENV;
+
+/*--------------   Configuration variables   -------------- */
 let PROVIDERS = [
-  // common env directives
+  { provide: 'DEFAULT_AVATAR_URL', useValue: 'assets/img/user.jpeg' },
+  { provide: 'DEFAULT_USERNAME', useValue: '_anonymous_' },
+  { provide: 'DEFAULT_PASSWORD', useValue: '' },
+  { provide: 'DEFAULT_SNACK_TIMEOUT', useValue: 3000 },
+  { provide: 'SWELLRT_SERVER', useValue: 'http://demo.swellrt.org' },
+  { provide: 'SWELLRT_DOMAIN', useValue: '@demo.swellrt.org' }
 ];
 
-// Angular debug tools in the dev console
-// https://github.com/angular/angular/blob/86405345b781a9dc2438c0fbe3e9409245647019/TOOLS_JS.md
+if (production) { PROVIDERS = [ ...PROVIDERS ]; }
+else { PROVIDERS = [ ...PROVIDERS ]; }
+
+export const ENV_PROVIDERS = [ ...PROVIDERS ];
+
+/*--------------   Configuration options   -------------- */
 let _decorateModuleRef = function identity(value) { return value; };
 
-if ('production' === ENV) {
-  // Production
+if (production) {
   disableDebugTools();
   enableProdMode();
-
-  PROVIDERS = [
-    ...PROVIDERS,
-    // custom providers in production
-  ];
-
 } else {
-
   _decorateModuleRef = (modRef: any) => {
     var appRef = modRef.injector.get(ApplicationRef);
     var cmpRef = appRef.components[0];
-
     let _ng = (<any>window).ng;
     enableDebugTools(cmpRef);
     (<any>window).ng.probe = _ng.probe;
     (<any>window).ng.coreTokens = _ng.coreTokens;
     return modRef
   };
-
-  // Development
-  PROVIDERS = [
-    ...PROVIDERS,
-    // custom providers in development
-  ];
-
 }
 
 export const decorateModuleRef = _decorateModuleRef;
-
-export const ENV_PROVIDERS = [
-  ...PROVIDERS
-];

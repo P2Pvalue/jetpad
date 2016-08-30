@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { User, CObject } from '../shared';
+import { CObject } from '../shared';
 
 declare let SwellRT:any;
 const DEFAULT_AVATAR_URL = 'assets/img/user.jpeg';
@@ -21,7 +21,7 @@ export class SwellRTService implements OnInit {
   listener: Function;
 
   session: any;
-  user: Promise<User>;
+  user: Promise<any>;
   object: Promise<CObject>;
 
   constructor() {
@@ -32,7 +32,7 @@ export class SwellRTService implements OnInit {
       reject();
     });
 
-    this.user = new Promise<User>(function(resolve, reject){
+    this.user = new Promise<any>(function(resolve, reject){
       reject();
     });
   }
@@ -90,58 +90,63 @@ export class SwellRTService implements OnInit {
     this.listener = _listener;
   }
 
+  /*resume() {
+    var that = this;
+    return new Promise<any>((resolve, reject) => {
+      SwellRT.resume(function(res) {
+        if (res.error) {
+          that.login(DEFAULT_USERNAME, DEFAULT_PASSWORD).then(user => {
+            resolve(user)
+          });
+          reject(res.error);
+        } else if (res.data) {
+          resolve(res.data);
+        }
+      });
+    });
+  }
+  }*/
+
   resume(_loginIfError: boolean) {
 
     let adaptSessionToUser = (session: any) => { return this.adaptSessionToUser(session); };
     let login = (name: string, password: string) => { return this.login(name, password); };
 
-    this.user = new Promise<User>(function(resolve, reject) {
+    this.user = new Promise<any>(function(resolve, reject) {
 
-        SwellRT.resumeSession(
-          function(session) {
-            let user: User = adaptSessionToUser(session);
-            if (!user.anonymous) {
-              $.snackbar({ content: 'Welcome ' + user.name, timeout: DEFAULT_SNACK_TIMEOUT  });
-            }
-            resolve(user);
-          },
-          function(error) {
-            if (_loginIfError) {
-              login(DEFAULT_USERNAME, DEFAULT_PASSWORD)
-               .then(user => resolve(user))
-               .catch(err => reject(err));
-            } else {
-              reject(error);
-            }
-
-          });
-    });
-    return this.user;
-  }
-
-
-  login(_name: string, _password: string) {
-    let adaptSessionToUser = (session: any) => { return this.adaptSessionToUser(session); };
-    this.user = new Promise<User>((resolve, reject) => {
-
-      SwellRT.startSession(this.server, _name, _password,
-
-        (session) => {
-          let user: User = adaptSessionToUser(session);
+      SwellRT.resumeSession(
+        function(session) {
+          let user: any = adaptSessionToUser(session);
           if (!user.anonymous) {
             $.snackbar({ content: 'Welcome ' + user.name, timeout: DEFAULT_SNACK_TIMEOUT  });
           }
           resolve(user);
         },
+        function(error) {
+          if (_loginIfError) {
+            login(DEFAULT_USERNAME, DEFAULT_PASSWORD)
+              .then(user => resolve(user))
+              .catch(err => reject(err));
+          } else {
+            reject(error);
+          }
 
-        (e) => {
-          reject(e);
-        }
-      );
-
+        });
     });
-
     return this.user;
+  }
+
+
+  login(id: string, password: string) {
+    return new Promise<any>((resolve, reject) => {
+      SwellRT.login({ id, password }, function(res) {
+        if (res.error) {
+          reject(res.error);
+        } else if (res.data) {
+          resolve(res.data);
+        }
+      });
+    });
   }
 
   createUser(id: string, password: string): Promise<any> {
@@ -157,23 +162,42 @@ export class SwellRTService implements OnInit {
     return this.user;
   };
 
-  logout(_loginAsAnonymous: boolean) {
-    this.session = undefined;
-    try {
-      SwellRT.stopSession();
-    } catch (e) {
-      console.log(e);
-    }
-
-    if (_loginAsAnonymous) {
-      return this.login(DEFAULT_USERNAME, DEFAULT_PASSWORD);
-    }
-
-    this.user = new Promise<User>(function(resolve, reject) {
-      resolve(null);
+  updateUser(email: string, avatarData: string) {
+    this.user = new Promise<any>(function(resolve, reject) {
+      SwellRT.updateUserProfile({ email, avatarData }, function(res) {
+        if (res.error) {
+          reject(res.error);
+        } else if (res.data) {
+          resolve(res.data);
+        }
+      });
     });
-
     return this.user;
+  }
+
+  logout() {
+    var that = this;
+    return new Promise<any>(function(resolve, reject) {
+      SwellRT.logout(function(res) {
+        if (res.error) {
+          reject(res.error);
+        } else if (res.data.status == "SESSION_CLOSED") {
+          that.login(DEFAULT_USERNAME, DEFAULT_PASSWORD).then(user => {
+            resolve(user);
+          });
+        }
+      });
+    });
+  }
+
+  changePassword(id: string, oldPassword: string, newPassword: string) {
+    return new Promise<any>(function(resolve, reject) {
+      SwellRT.setPassword(id, oldPassword, newPassword, function() {
+        resolve();
+      }, function(error){
+        reject(error);
+      });
+    });
   }
 
   getUser() {
@@ -206,8 +230,6 @@ export class SwellRTService implements OnInit {
               avatarUrl: DEFAULT_AVATAR_URL };
 
   }
-
-
 
   open(_id: string) {
 

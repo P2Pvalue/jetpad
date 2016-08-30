@@ -1,13 +1,6 @@
-/*
- * Angular 2 decorators and services
- */
 import {Component, ViewEncapsulation} from "@angular/core";
 import {SwellRTService, UserService} from "./services";
 
-/*
- * App Component
- * Top Level Component
- */
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
@@ -32,7 +25,6 @@ export class App {
 
   ngOnInit() {
     this.swellrt.bindListeners();
-    this.userService.resume(true);
+    this.userService.resume();
   }
-
 }

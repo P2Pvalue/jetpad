@@ -111,3 +111,10 @@ a {
 .media {
   overflow: visible
 }
+
+#image_src {
+  position:absolute;
+  left:-9999px;
+
+}
+#img { cursor:pointer; }

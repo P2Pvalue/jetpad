@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { User } from '../shared';
 import { UserService } from "../services";
 
 @Component({
@@ -24,20 +23,18 @@ import { UserService } from "../services";
              </ul>
             </div>
           </div>
-
           <!-- Not Logged In user -->
           <div class="media" *ngIf="!currentUser || currentUser.anonymous">
             <a class="navbar-brand" [routerLink]=" ['./authentication'] ">Login &nbsp;| &nbsp;Register</a>
           </div>
-          
-        </div><!-- panel-body -->
+        </div>
     `
   })
 
 export class UserPanelComponent {
 
   // The logged in user
-  currentUser: User;
+  currentUser: any;
 
   constructor(private userService: UserService) {
     userService.currentUser.subscribe(user => {

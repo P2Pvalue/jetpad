@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { User } from '../shared';
 import {Router} from "@angular/router";
 import {UserService} from "../services";
 

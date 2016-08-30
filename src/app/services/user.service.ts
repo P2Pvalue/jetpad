@@ -1,29 +1,33 @@
-import { Injectable, OnInit } from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
-
-import { User } from "../shared";
 
 import {SwellRTService} from "./swellrt.service";
 
 @Injectable()
 export class UserService {
 
-  constructor(private swellrt: SwellRTService) {}
+  user: any;
+  currentUser = new Subject<any>();
+  userLogged = new Subject<any>();
+  userRegistered = new Subject<any>();
+  userUpdated = new Subject<any>();
 
-  currentUser = new Subject<User>();
-  userLogged = new Subject<User>();
-  userRegistered = new Subject<User>();
+  constructor(private swellrt: SwellRTService, @Inject('DEFAULT_AVATAR_URL') private defaultAvatarUrl: string) {
+    this.currentUser.subscribe(user => {
+      this.user = user;
+    });
+  }
 
-  resume(loginIfError: boolean) {
-    this.swellrt.resume(loginIfError).then(user => {
-      this.currentUser.next(user);
+  resume() {
+    this.swellrt.resume(true).then(user => {
+      this.sendCurrentUserEvent(user);
     });
   }
 
   login(user: string, password: string) {
     this.swellrt.login(user + this.swellrt.domain, password).then(user => {
-        this.currentUser.next(user);
-        this.userLogged.next(user);
+        this.sendCurrentUserEvent(user);
+        this.sendUserLoggedEvent(user);
     });
   }
 
@@ -31,12 +35,58 @@ export class UserService {
     this.swellrt.createUser(user, password).then(() => {
       return this.swellrt.login(user, password);
     }).then(user => {
-      this.currentUser.next(user);
-      this.userRegistered.next(user);
+      this.sendCurrentUserEvent(user);
+      this.sendUserRegisteredEvent(user);
+    });
+  }
+
+  update(email: string, avatar: string) {
+    this.swellrt.updateUser(email, avatar).then(user => {
+      this.sendUserUpdatedEvent(user);
     });
   }
 
   logout() {
-    this.swellrt.logout(true).then(user => this.currentUser.next(user));
+    this.swellrt.logout().then(user => {
+      this.sendCurrentUserEvent(user);
+    });
   }
+
+  changePassword(oldPassword: string, newPassword: string) {
+    this.swellrt.changePassword(this.user.name + this.swellrt.domain, oldPassword, newPassword).then(user => {
+      this.sendUserUpdatedEvent(user);
+    });
+  }
+
+  parseUserResponse(user) {
+    let name = user.name;
+    let isAnonymous = false;
+    if ( /_anonymous_/.test(user.id)) {
+      name = 'Anonymous';
+      isAnonymous = true;
+    }
+    return  {
+      id: user.id,
+      name: name ? name : user.id.slice(0, user.id.indexOf('@')),
+      anonymous: isAnonymous,
+      avatarUrl: user.avatarUrl ? user.avatarUrl : this.defaultAvatarUrl
+    }
+  }
+
+  sendCurrentUserEvent(user) {
+    this.currentUser.next(this.parseUserResponse(user));
+  }
+
+  sendUserLoggedEvent(user) {
+    this.userLogged.next(this.parseUserResponse(user));
+  }
+
+  sendUserRegisteredEvent(user) {
+    this.userRegistered.next(this.parseUserResponse(user));
+  }
+
+  sendUserUpdatedEvent(user) {
+    this.userUpdated.next(this.parseUserResponse(user));
+  }
+
 }

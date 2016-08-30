@@ -1,28 +1,55 @@
-import {Component} from "@angular/core";
+import {Component, ElementRef, ViewChild, Renderer} from "@angular/core";
 import {Router} from "@angular/router";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-profile',
   template: `
     <div class="row">
-        <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
-          <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
-          <strong>{{msgError}}</strong>
-        </div>
-       
-
-        <div class="panel panel-default text-center">
-          <div class="panel-body">
-            <div class="col-md-4 col-md-offset-1">
-              <h4>We respect your privacy</h4>
-              <br>
-              <p>
-                We don't use your data in any case
-              </p>            
+        <div class="panel panel-default">
+          <div class="panel-body text-center">
+            <div class="col-md-4 col-md-offset-4">
+              <h4>MY PROFILE</h4>
             </div>
-            <div class="col-md-6">
-              <img height="200" class="center-block" src="assets/img/landing_4.png" alt="">            
-            </div>  
+          </div>
+          <div class="panel-body">
+            <div class="col-md-4 col-md-offset-4">
+              <h5>USER INFORMATION</h5>
+              <h6>Photo</h6>
+              <img id="img" src="assets/img/select_avatar.png" (click)="showImageBrowseDialog()"/>
+              <input #imageInput type="file" name="image_src" id="image_src" (change)="changeListener($event)"/>
+              <br>
+              <form style="margin-top:4em" (ngSubmit)="updateUser()">
+                <div class="form-group label-floating">
+                  <label class="control-label" for="nameInput">Name</label>
+                  <input class="form-control" id="nameInput" name="name" [(ngModel)]="name">
+                </div>
+                <div class="form-group label-floating">
+                  <label class="control-label" for="emailInput">Email</label>
+                  <input class="form-control" id="emailInput" name="email" [(ngModel)]="email">
+                </div>
+                <button class="btn btn-primary">Save</button>
+              </form>
+            </div>
+           <div class="col-md-12"><hr></div>
+           <div class="col-md-4 col-md-offset-4">
+              <h5>CHANGE YOUR PASSWORD</h5>
+              <form style="margin-top:4em" (ngSubmit)="changePassword()">
+                <div class="form-group label-floating">
+                  <label class="control-label" for="nameInput">Old Password</label>
+                  <input class="form-control" id="oldPasswordInput" type="password" name="oldPassword" [(ngModel)]="oldPassword">
+                </div>
+                <div class="form-group label-floating">
+                  <label class="control-label" for="emailInput">New password</label>
+                  <input class="form-control" id="newPasswordInput" type="password" name="newPassword" [(ngModel)]="newPassword">
+                </div>
+                <div class="form-group label-floating">
+                  <label class="control-label" for="emailInput">Repeat new password</label>
+                  <input class="form-control" id="repeatNewPasswordInput" type="password" name="repeatNewPassword" [(ngModel)]="repeatNewPassword">
+                </div>
+                <button class="btn btn-primary">Change password</button>
+              </form>
+            </div>
           </div>
         </div>
     </div>
@@ -33,21 +60,44 @@ import {Router} from "@angular/router";
 
 export class ProfileComponent {
 
-  wasError: boolean = false;
-  msgError: string;
+  @ViewChild('imageInput') imageInput: ElementRef;
 
-  constructor(private router: Router) {
+  name: string;
+  email: string;
+  avatar: string;
+
+  oldPassword: string;
+  newPassword: string;
+  repeatNewPassword: string;
+
+  constructor(private userService: UserService, private renderer: Renderer) {}
+
+  updateUser() {
+    this.userService.update(this.email, this.avatar);
   }
 
-  openDocument(_id: string) {
-    if (!_id) {
-      this.msgError = 'Write a name for the pad.';
-      this.wasError = true;
-      return;
+  changePassword() {
+    if(this.newPassword === this.repeatNewPassword) {
+      this.userService.changePassword(this.oldPassword, this.newPassword);
     }
-    this.wasError = false;
-    let link = ['edit', _id];
-    this.router.navigate(link);
   }
 
+  showImageBrowseDialog() {
+    let event = new MouseEvent('click', {bubbles: true});
+    this.renderer.invokeElementMethod(this.imageInput.nativeElement, 'dispatchEvent', [event]);
+  }
+
+  changeListener($event) : void {
+    this.readThis($event.target);
+  }
+
+  readThis(inputValue: any) : void {
+    var file: File = inputValue.files[0];
+    var fileReader: FileReader = new FileReader();
+    var that = this;
+    fileReader.readAsDataURL(file);
+    fileReader.onloadend = function(e){
+      that.avatar = fileReader.result;
+    }
+  }
 }
