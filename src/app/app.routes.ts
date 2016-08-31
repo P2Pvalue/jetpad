@@ -5,6 +5,8 @@ import { ProfileComponent } from "./components/profile";
 import { EditorComponent } from './components/editor';
 import { NoContent } from './components/no-content';
 import { AuthenticationComponent } from "./components/authentication";
+import { UnauthorizedComponent } from "./components/unauthorized";
+
 import { LoggedUserGuard } from "./guards";
 
 
@@ -31,6 +33,11 @@ export const ROUTES: Routes = [
   {
     path: 'edit/:id',
     component: EditorComponent
+  },
+
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent
   },
 
   {

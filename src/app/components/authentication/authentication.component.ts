@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
         <div class="panel panel-default text-center">
           <div class="panel-body">
               <div class="col-md-4 col-md-offset-1">
-                <app-login></app-login>         
+                <app-login [title]="'LOGIN'"></app-login>        
               </div>
               <div class="col-md-4 col-md-offset-2">
                 <app-register></app-register>         

@@ -1,8 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
+import {Injectable, OnInit, Inject} from '@angular/core';
 import { CObject } from '../shared';
 
 declare let SwellRT:any;
-const DEFAULT_AVATAR_URL = 'assets/img/user.jpeg';
 const DEFAULT_USERNAME = '_anonymous_';
 const DEFAULT_PASSWORD = '';
 const DEFAULT_SNACK_TIMEOUT = 3000;
@@ -15,15 +14,13 @@ export class SwellRTService implements OnInit {
   domain: string = SWELLRT_DOMAIN;
   server: string = SWELLRT_SERVER;
 
-  state: string;
   lastSnack: any;
 
   listener: Function;
 
   object: Promise<CObject>;
 
-  constructor() {
-  }
+  constructor(@Inject('RECOVER_PASSWORD_URL') private recoverPasswordUrl: string) {}
 
   ngOnInit() {
     this.object = new Promise<CObject>(function(resolve, reject){
@@ -76,15 +73,11 @@ export class SwellRTService implements OnInit {
 
   }
 
-  getState() {
-    return this.state;
-  }
-
   setListener(_listener: Function) {
     this.listener = _listener;
   }
 
-  /*resume() {
+  resume() {
     var that = this;
     return new Promise<any>((resolve, reject) => {
       SwellRT.resume(function(res) {
@@ -97,34 +90,6 @@ export class SwellRTService implements OnInit {
           resolve(res.data);
         }
       });
-    });
-  }*/
-
-  resume(_loginIfError: boolean) {
-
-    let adaptSessionToUser = (session: any) => { return this.adaptSessionToUser(session); };
-    let login = (name: string, password: string) => { return this.login(name, password); };
-
-    return new Promise<any>(function(resolve, reject) {
-
-      SwellRT.resumeSession(
-        function(session) {
-          let user: any = adaptSessionToUser(session);
-          if (!user.anonymous) {
-            $.snackbar({ content: 'Welcome ' + user.name, timeout: DEFAULT_SNACK_TIMEOUT  });
-          }
-          resolve(user);
-        },
-        function(error) {
-          if (_loginIfError) {
-            login(DEFAULT_USERNAME, DEFAULT_PASSWORD)
-              .then(user => resolve(user))
-              .catch(err => reject(err));
-          } else {
-            reject(error);
-          }
-
-        });
     });
   }
 
@@ -189,30 +154,15 @@ export class SwellRTService implements OnInit {
     });
   }
 
-  private adaptSessionToUser(_session: any) {
-    var session = _session;
-    let n;
-    // Remove this condition block when
-    // SwellRT returns same data in both resume() and startSession()
-    if (session.data) {
-      n = session.data.id;
-    } else {
-      n = session.address;
-    }
-
-    n = n.slice(0, n.indexOf('@'));
-
-    let isAnonymous = false;
-    let regExpAnonymous = /_anonymous_/;
-    if (regExpAnonymous.test(n)) {
-      n = 'Anonymous';
-      isAnonymous = true;
-    }
-
-    return  { name: n,
-              anonymous: isAnonymous,
-              avatarUrl: DEFAULT_AVATAR_URL };
-
+  recoverPassword(email: string) {
+    var that = this;
+    return new Promise<any>(function(resolve, reject) {
+      SwellRT.recoverPassword(email, that.recoverPasswordUrl, function() {
+        resolve();
+      }, function(error){
+        reject(error);
+      });
+    });
   }
 
   open(_id: string) {
@@ -235,10 +185,6 @@ export class SwellRTService implements OnInit {
     return this.object;
   }
 
-  get() {
-    return this.object;
-  }
-
   close() {
 
     this.object.then(object => {
@@ -255,6 +201,4 @@ export class SwellRTService implements OnInit {
   editor(parentElementId, widgets, annotations) {
     return SwellRT.editor(parentElementId, widgets, annotations);
   }
-
-
 }

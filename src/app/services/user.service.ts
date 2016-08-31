@@ -28,7 +28,7 @@ export class UserService {
   }
 
   resume() {
-    this.swellrt.resume(true).then(user => {
+    this.swellrt.resume().then(user => {
       this.sendCurrentUserEvent(user);
     });
   }
@@ -63,6 +63,12 @@ export class UserService {
 
   changePassword(oldPassword: string, newPassword: string) {
     this.swellrt.changePassword(this.user.name + this.swellrt.domain, oldPassword, newPassword).then(user => {
+      this.sendUserUpdatedEvent(user);
+    });
+  }
+
+  recoverPassword(email: string) {
+    this.swellrt.recoverPassword(email).then(user => {
       this.sendUserUpdatedEvent(user);
     });
   }

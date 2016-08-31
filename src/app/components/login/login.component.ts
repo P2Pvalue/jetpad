@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { Router } from "@angular/router";
 import { UserService } from "../../services";
 
@@ -6,9 +6,9 @@ import { UserService } from "../../services";
 @Component({
     selector: 'app-login',
     template: `
-      <div class="panel panel-default text-center">
-        <div class="panel-body">
-          <h4>LOGIN</h4>
+      <div class="panel panel-default">
+        <div class="panel-body text-center">
+          <h4>{{title}}</h4>
           <form style="margin-top:4em" (ngSubmit)="login()">
             <div class="form-group label-floating">
               <label class="control-label" for="loginNameInput">Name</label>
@@ -20,12 +20,15 @@ import { UserService } from "../../services";
             </div>
             <button class="btn btn-primary">Login</button>
           </form>
-        </div><!-- panel-body -->
-      </div><!-- panel -->
+          <a href="javascript:void(0)" (click)="recoverPassword()">Do you forget your password?</a>
+        </div>
+      </div>
     `
   })
 
 export class LoginComponent {
+
+  @Input() title: string;
 
   // Form fields
   nameInput: string;
@@ -36,6 +39,12 @@ export class LoginComponent {
     userService.userLogged.subscribe(user => {
         router.navigate(['']);
     });
+  }
+
+  recoverPassword() {
+    if(this.nameInput) {
+      this.userService.recoverPassword(this.nameInput);
+    }
   }
 
   login() {

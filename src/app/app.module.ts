@@ -21,6 +21,7 @@ import { LandingComponent } from './components/landing';
 import { EditorComponent } from './components/editor';
 import { FooterComponent } from "./components/footer";
 import { NoContent } from './components/no-content';
+import { UnauthorizedComponent } from "./components/unauthorized";
 
 import { SwellRTService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
@@ -55,6 +56,7 @@ const APP_PROVIDERS = [
     EditorComponent,
     FooterComponent,
     NoContent,
+    UnauthorizedComponent,
     DROPDOWN_DIRECTIVES
   ],
   imports: [ // import Angular's modules
