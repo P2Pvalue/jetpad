@@ -117,4 +117,49 @@ a {
   left:-9999px;
 
 }
+
 #img { cursor:pointer; }
+
+.lateral-menu-button {
+  cursor:pointer;
+}
+
+.lateral-menu {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: darkgray;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.lateral-menu .lateral-menu-title {
+  color: white;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.lateral-menu .close-button {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.lateral-menu hr {
+  margin: 0;
+}
+
+@media screen and (max-height: 450px) {
+  .lateral-menu {padding-top: 15px;}
+  .lateral-menu a {font-size: 18px;}
+}
