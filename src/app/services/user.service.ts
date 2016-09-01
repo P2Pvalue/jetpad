@@ -51,9 +51,9 @@ export class UserService {
       if (res.error) {
         // ERROR
       } else if (res.data) {
-        let parsedUser = that.parseUserResponse(res.data);
-        that.currentUser.next(parsedUser);
-        that.userLogged.next(parsedUser);
+        let user = that.parseUserResponse(res.data);
+        that.currentUser.next(user);
+        that.userLogged.next(user);
       }
     });
   }
@@ -77,7 +77,9 @@ export class UserService {
       if (res.error) {
         // ERROR
       } else if (res.data) {
-        that.userUpdated.next(that.parseUserResponse(res.data));
+        let user = that.parseUserResponse(res.data);
+        that.currentUser.next(user);
+        that.userUpdated.next(user);
       }
     });
   }
@@ -118,6 +120,7 @@ export class UserService {
     }
     return {
       id: user.id,
+      email: user.email,
       name: name ? name : user.id.slice(0, user.id.indexOf('@')),
       anonymous: name === "Anonymous",
       avatarUrl: user.avatarUrl ? user.avatarUrl : this.DEFAULT_AVATAR_URL

@@ -15,7 +15,7 @@ import { UserService } from "../../services";
             <div class="col-md-4 col-md-offset-4">
               <h5>USER INFORMATION</h5>
               <h6>Photo</h6>
-              <img id="img" src="assets/img/select_avatar.png" (click)="showImageBrowseDialog()"/>
+              <img height="200" id="img" src="{{avatar}}" (click)="showImageBrowseDialog()"/>
               <input #imageInput type="file" name="image_src" id="image_src" (change)="changeListener($event)"/>
               <br>
               <form style="margin-top:4em" (ngSubmit)="updateUser()">
@@ -69,7 +69,11 @@ export class ProfileComponent {
   newPassword: string;
   repeatNewPassword: string;
 
-  constructor(private userService: UserService, private renderer: Renderer) {}
+  constructor(private userService: UserService, private renderer: Renderer) {
+    this.name = userService.getUser().name;
+    this.email = userService.getUser().email;
+    this.avatar = userService.getUser().avatarUrl;
+  }
 
   updateUser() {
     this.userService.update(this.email, this.avatar);
