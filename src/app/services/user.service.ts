@@ -11,7 +11,8 @@ export class UserService {
   userLogged = new Subject<any>();
   userUpdated = new Subject<any>();
 
-  constructor(@Inject('DEFAULT_USERNAME') private DEFAULT_USERNAME: string,
+  constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
+              @Inject('DEFAULT_USERNAME') private DEFAULT_USERNAME: string,
               @Inject('DEFAULT_PASSWORD') private DEFAULT_PASSWORD: string,
               @Inject('DEFAULT_AVATAR_URL') private DEFAULT_AVATAR_URL: string,
               @Inject('RECOVER_PASSWORD_URL') private RECOVER_PASSWORD_URL: string) {
@@ -20,8 +21,8 @@ export class UserService {
     });
   }
 
-  static generateDomainId(id: string) {
-    return id + '@' + SwellRT.domain();
+  generateDomainId(id: string) {
+    return id + '@' + this.SWELLRT_DOMAIN;
   }
 
   getUser() {
@@ -58,7 +59,7 @@ export class UserService {
 
   login(id: string, password: string) {
     let that = this;
-    id = UserService.generateDomainId(id);
+    id = this.generateDomainId(id);
     SwellRT.login({id, password}, function (res) {
       if (res.error) {
         // ERROR
@@ -72,7 +73,7 @@ export class UserService {
 
   create(id: string, password: string) {
     let that = this;
-    id = UserService.generateDomainId(id);
+    id = this.generateDomainId(id);
     SwellRT.createUser({id, password}, function (res) {
       if (res.error) {
         // ERROR
