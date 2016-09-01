@@ -101,7 +101,7 @@ export class EditorComponent implements OnInit {
     let user = this.userService.getUser();
 
       let id = this.route.snapshot.params['id'];
-      this.swellrt.open(id).then(cObject => {
+      this.swellrt.openDocument(id).then(cObject => {
 
         cObject.addParticipant(this.swellrt.domain);
 

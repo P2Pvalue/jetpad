@@ -29,14 +29,16 @@ export class UserService {
 
   resume() {
     this.swellrt.resume().then(user => {
-      this.sendCurrentUserEvent(user);
+      let user = this.parseUserResponse(user);
+      this.currentUser.next(user);
     });
   }
 
   login(user: string, password: string) {
     this.swellrt.login(user + this.swellrt.domain, password).then(user => {
-        this.sendCurrentUserEvent(user);
-        this.sendUserLoggedEvent(user);
+      let user = this.parseUserResponse(user);
+      this.currentUser.next(user);
+      this.userLogged.next(user);
     });
   }
 
@@ -44,32 +46,37 @@ export class UserService {
     this.swellrt.createUser(user, password).then(() => {
       return this.swellrt.login(user, password);
     }).then(user => {
-      this.sendCurrentUserEvent(user);
-      this.sendUserRegisteredEvent(user);
+      let user = this.parseUserResponse(user);
+      this.currentUser.next(user);
+      this.userRegistered.next(user);
     });
   }
 
   update(email: string, avatar: string) {
     this.swellrt.updateUser(email, avatar).then(user => {
-      this.sendUserUpdatedEvent(user);
+      let user = this.parseUserResponse(user);
+      this.userUpdated.next(user);
     });
   }
 
   logout() {
     this.swellrt.logout().then(user => {
-      this.sendCurrentUserEvent(user);
+      let user = this.parseUserResponse(user);
+      this.currentUser.next(user);
     });
   }
 
   changePassword(oldPassword: string, newPassword: string) {
     this.swellrt.changePassword(this.user.name + this.swellrt.domain, oldPassword, newPassword).then(user => {
-      this.sendUserUpdatedEvent(user);
+      let user = this.parseUserResponse(user);
+      this.userUpdated.next(user);
     });
   }
 
   recoverPassword(email: string) {
     this.swellrt.recoverPassword(email).then(user => {
-      this.sendUserUpdatedEvent(user);
+      let user = this.parseUserResponse(user);
+      this.userUpdated.next(user);
     });
   }
 
@@ -85,21 +92,4 @@ export class UserService {
       avatarUrl: user.avatarUrl ? user.avatarUrl : this.defaultAvatarUrl
     }
   }
-
-  sendCurrentUserEvent(user) {
-    this.currentUser.next(this.parseUserResponse(user));
-  }
-
-  sendUserLoggedEvent(user) {
-    this.userLogged.next(this.parseUserResponse(user));
-  }
-
-  sendUserRegisteredEvent(user) {
-    this.userRegistered.next(this.parseUserResponse(user));
-  }
-
-  sendUserUpdatedEvent(user) {
-    this.userUpdated.next(this.parseUserResponse(user));
-  }
-
 }
