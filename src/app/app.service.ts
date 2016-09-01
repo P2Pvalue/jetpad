@@ -32,7 +32,7 @@ export class AppState {
 
 
   _clone(object) {
-    // simple object clone
+    // simple document clone
     return JSON.parse(JSON.stringify( object ));
   }
 }

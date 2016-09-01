@@ -126,11 +126,11 @@ a {
 
 .lateral-menu {
   height: 100%;
-  width: 0;
+  width: 33%;
   position: fixed;
   z-index: 1;
   top: 0;
-  right: 0;
+  right: -33%;
   background-color: darkgray;
   overflow-x: hidden;
   transition: 0.5s;

@@ -23,7 +23,7 @@ import { FooterComponent } from "./components/footer";
 import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 
-import { SwellRTService, UserService } from "./services";
+import { EditorService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
 
 import { AppState } from "./app.service";
@@ -34,7 +34,8 @@ import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  SwellRTService,
+  EditorService,
+  ListenerService,
   UserService,
   LoggedUserGuard
 ];

@@ -38,14 +38,14 @@ export class HeaderComponent {
   constructor() {}
 
   openLateralMenu() {
-    this.changeLateralMenuWidth("33%");
+    this.changeLateralMenuPosition("0");
   }
 
   closeLateralMenu() {
-    this.changeLateralMenuWidth("0");
+    this.changeLateralMenuPosition("-33%");
   }
 
-  changeLateralMenuWidth(width: string) {
-    this.lateralMenu.nativeElement.style.width = width;
+  changeLateralMenuPosition(width: string) {
+    this.lateralMenu.nativeElement.style.right = width;
   }
 }

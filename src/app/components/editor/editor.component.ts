@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService, SwellRTService } from "../../services";
+import { UserService, EditorService } from "../../services";
 
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html'
   })
 
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, OnDestroy {
 
   _title: any;
   editor: any;
@@ -39,7 +39,7 @@ export class EditorComponent implements OnInit {
   buttons: Map<string, boolean> = new Map<string, boolean>();
 
   constructor(
-    private swellrt: SwellRTService,
+    private swellrt: EditorService,
     private userService: UserService,
     private route: ActivatedRoute
     ) {
@@ -77,6 +77,10 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.swellrt.close();
+  }
+
   ngOnInit() {
 
     let widgets = {
@@ -96,14 +100,12 @@ export class EditorComponent implements OnInit {
 
     let annotations =  {};
 
-    this.editor = this.swellrt.editor('editor-container', widgets, annotations);
+    this.editor = EditorService.editor('editor-container', widgets, annotations);
 
     let user = this.userService.getUser();
 
       let id = this.route.snapshot.params['id'];
-      this.swellrt.openDocument(id).then(cObject => {
-
-        cObject.addParticipant(this.swellrt.domain);
+      this.swellrt.open(id).then(cObject => {
 
         // Initialize the doc
         if (!cObject.root.get('doc')) {

@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation} from "@angular/core";
-import {SwellRTService, UserService} from "./services";
+import {ListenerService, UserService} from "./services";
 
 @Component({
   selector: 'app',
@@ -20,11 +20,11 @@ import {SwellRTService, UserService} from "./services";
 
 export class App {
 
-  constructor(private swellrt: SwellRTService, private userService: UserService) {
+  constructor(private listenerService: ListenerService, private userService: UserService) {
   }
 
   ngOnInit() {
-    this.swellrt.bindListeners();
+    this.listenerService.bindListeners();
     this.userService.resume();
   }
 }

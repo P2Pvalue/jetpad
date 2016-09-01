@@ -1,2 +1,3 @@
-export * from './swellrt.service';
+export * from './editor.service';
+export * from './listener.service';
 export * from './user.service';
