@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
 import { UserService } from "../../services";
 
@@ -25,7 +25,7 @@ import { UserService } from "../../services";
     `
   })
 
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
 
   // Form fields
   nameInput: string;
@@ -40,6 +40,10 @@ export class RegisterComponent {
 
   register() {
     this.userService.create(this.nameInput, this.passwordInput);
+  }
+
+  ngOnDestroy() {
+    this.userService.userRegistered.unsubscribe();
   }
 
 }

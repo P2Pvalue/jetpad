@@ -39,7 +39,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   buttons: Map<string, boolean> = new Map<string, boolean>();
 
   constructor(
-    private swellrt: EditorService,
+    private editorService: EditorService,
     private userService: UserService,
     private route: ActivatedRoute
     ) {
@@ -78,7 +78,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.swellrt.close();
+    this.editorService.close();
   }
 
   ngOnInit() {
@@ -105,7 +105,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     let user = this.userService.getUser();
 
       let id = this.route.snapshot.params['id'];
-      this.swellrt.open(id).then(cObject => {
+      this.editorService.open(id).then(cObject => {
 
         // Initialize the doc
         if (!cObject.root.get('doc')) {

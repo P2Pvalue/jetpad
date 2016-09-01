@@ -123,4 +123,8 @@ export class UserService {
       avatarUrl: user.avatarUrl ? user.avatarUrl : this.DEFAULT_AVATAR_URL
     }
   }
+
+  ngOnDestroy() {
+    this.currentUser.unsubscribe();
+  }
 }

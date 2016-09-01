@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy} from '@angular/core';
 import { Router } from "@angular/router";
 import { UserService } from "../../services";
 
@@ -26,7 +26,7 @@ import { UserService } from "../../services";
     `
   })
 
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
 
   @Input() title: string;
 
@@ -51,4 +51,7 @@ export class LoginComponent {
     this.userService.login(this.nameInput, this.passwordInput);
   }
 
+  ngOnDestroy() {
+    this.userService.userLogged.unsubscribe();
+  }
 }
