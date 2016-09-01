@@ -31,12 +31,7 @@ export class RegisterComponent {
   nameInput: string;
   passwordInput: string;
 
-
-  constructor(private userService: UserService, private router: Router) {
-    userService.userRegistered.subscribe(user => {
-        router.navigate(['profile']);
-    });
-  }
+  constructor(private userService: UserService) {}
 
   register() {
     this.userService.create(this.nameInput, this.passwordInput);

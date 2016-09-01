@@ -9,7 +9,6 @@ export class UserService {
   user: any;
   currentUser = new Subject<any>();
   userLogged = new Subject<any>();
-  userRegistered = new Subject<any>();
   userUpdated = new Subject<any>();
 
   constructor(@Inject('DEFAULT_USERNAME') private DEFAULT_USERNAME: string,
@@ -37,7 +36,20 @@ export class UserService {
     let that = this;
     SwellRT.resume(function (res) {
       if (res.error) {
-        that.login(that.DEFAULT_USERNAME, that.DEFAULT_PASSWORD);
+        that.anonymousLogin();
+      } else if (res.data) {
+        that.currentUser.next(that.parseUserResponse(res.data));
+      }
+    });
+  }
+
+  anonymousLogin() {
+    let that = this;
+    let id = this.DEFAULT_USERNAME;
+    let password = this.DEFAULT_PASSWORD;
+    SwellRT.login({id, password}, function (res) {
+      if (res.error) {
+        // ERROR
       } else if (res.data) {
         that.currentUser.next(that.parseUserResponse(res.data));
       }
@@ -65,8 +77,7 @@ export class UserService {
       if (res.error) {
         // ERROR
       } else if (res.data) {
-        that.userRegistered.next(that.parseUserResponse(res.data));
-        that.login(that.DEFAULT_USERNAME, that.DEFAULT_PASSWORD);
+        that.login(id, password);
       }
     });
   };
@@ -90,7 +101,7 @@ export class UserService {
       if (res.error) {
         // ERROR
       } else if (res.data.status == "SESSION_CLOSED") {
-        that.login(that.DEFAULT_USERNAME, that.DEFAULT_PASSWORD);
+        that.anonymousLogin();
       }
     });
   }
