@@ -17,6 +17,7 @@ import { ProfileComponent } from "./components/profile";
 import { RegisterComponent } from "./components/register";
 import { AuthenticationComponent } from "./components/authentication";
 import { UserPanelComponent } from "./components/user-panel";
+import { LateralMenuComponent } from "./components/lateral-menu";
 import { LandingComponent } from './components/landing';
 import { EditorComponent } from './components/editor';
 import { FooterComponent } from "./components/footer";
@@ -24,7 +25,7 @@ import { TermsComponent } from "./components/terms";
 import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 
-import { EditorService, ListenerService, UserService } from "./services";
+import { DocumentService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
 
 import { AppState } from "./app.service";
@@ -35,7 +36,7 @@ import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  EditorService,
+  DocumentService,
   ListenerService,
   UserService,
   LoggedUserGuard
@@ -54,6 +55,7 @@ const APP_PROVIDERS = [
     RegisterComponent,
     AuthenticationComponent,
     UserPanelComponent,
+    LateralMenuComponent,
     LandingComponent,
     EditorComponent,
     FooterComponent,

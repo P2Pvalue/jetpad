@@ -122,9 +122,16 @@ a {
 
 .lateral-menu-button {
   cursor:pointer;
+  width: 125px;
+  background-color: white;
+  color: darkgray !important;
+  &:hover {
+    background-color: #00a897 !important;
+    color: white !important;
+  }
 }
 
-.navigation-link {
+.link-cursor {
   cursor:pointer;
 }
 
@@ -142,8 +149,8 @@ a {
 
 .lateral-menu .lateral-menu-title {
   color: white;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .lateral-menu .close-button {

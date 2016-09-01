@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService, EditorService } from "../../services";
+import { UserService, DocumentService } from "../../services";
 
 @Component({
     selector: 'app-editor',
@@ -38,11 +38,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   buttons: Map<string, boolean> = new Map<string, boolean>();
 
-  constructor(
-    private editorService: EditorService,
-    private userService: UserService,
-    private route: ActivatedRoute
-    ) {
+  constructor(private documentService: DocumentService,
+              private userService: UserService,
+              private route: ActivatedRoute) {
       this.disableAllButtons();
   }
 
@@ -78,7 +76,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.editorService.close();
+    this.documentService.close();
   }
 
   ngOnInit() {
@@ -100,12 +98,12 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     let annotations =  {};
 
-    this.editor = EditorService.editor('editor-container', widgets, annotations);
+    this.editor = DocumentService.editor('editor-container', widgets, annotations);
 
     let user = this.userService.getUser();
 
       let id = this.route.snapshot.params['id'];
-      this.editorService.open(id).then(cObject => {
+      this.documentService.open(id).then(cObject => {
 
         // Initialize the doc
         if (!cObject.root.get('doc')) {

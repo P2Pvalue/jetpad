@@ -11,6 +11,7 @@ import {Component, ElementRef, ViewChild} from "@angular/core";
                 <a href="javascript:void(0)" class="close-button" (click)="closeLateralMenu()">&times;</a>
               </div>
               <hr>
+              <app-lateral-menu></app-lateral-menu>
             </div>
             <nav class="navbar navbar-default">
               <div class="container-fluid">
@@ -20,7 +21,7 @@ import {Component, ElementRef, ViewChild} from "@angular/core";
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav navbar-right">
                     <li><app-user-panel></app-user-panel></li>
-                    <li><span class="glyphicon glyphicon-menu-hamburger lateral-menu-button navbar-brand" 
+                    <li><span class="glyphicon glyphicon-menu-hamburger link-cursor navbar-brand" 
                               aria-hidden="true" (click)="openLateralMenu()"></span></li>
                   </ul>
                 </div>

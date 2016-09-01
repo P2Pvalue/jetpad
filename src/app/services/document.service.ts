@@ -3,7 +3,7 @@ import {Injectable } from "@angular/core";
 declare let SwellRT: any;
 
 @Injectable()
-export class EditorService {
+export class DocumentService {
 
   document: any;
 
