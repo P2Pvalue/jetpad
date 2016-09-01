@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {UserService} from "../../services";
+import { Component } from "@angular/core";
+import { UserService, DocumentService } from "../../services";
 
 @Component({
   selector: 'app-lateral-menu',
@@ -7,7 +7,7 @@ import {UserService} from "../../services";
         <div>
           <!-- Logged In user -->
           <div class="media" *ngIf="currentUser && !currentUser.anonymous">
-            <h4>LOGGED BABY! ;)</h4>
+            <h4>LOGGED USER! ;)</h4>
           </div>
           <!-- Not Logged In user -->
           <div  *ngIf="!currentUser || currentUser.anonymous">
@@ -28,9 +28,12 @@ export class LateralMenuComponent {
   // The logged in user
   currentUser: any;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private documentService: DocumentService) {
     userService.currentUser.subscribe(user => {
       this.currentUser = user;
+      if(!user.anonymous) {
+        documentService.getMyDocuments();
+      }
     });
   }
 }

@@ -13,6 +13,14 @@ export class DocumentService {
     return SwellRT.editor(parentElementId, widgets, annotations);
   }
 
+  getMyDocuments() {
+    SwellRT.query("{}", function (res) {
+      console.log(res);
+    }, function (error) {
+      // ERROR
+    });
+  }
+
   open(id: string) {
     let that = this;
     id = this.SWELLRT_DOMAIN + '/' + id;
