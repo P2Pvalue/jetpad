@@ -23,10 +23,10 @@ import {Component} from "@angular/core";
                   <h5>info@jetpad.com</h5>
                 </div>
                 <div class="col-md-2 col-md-offset-1 footer">
-                  <h5>Home</h5>     
-                  <h5>Login</h5>
-                  <h5>Register</h5>                
-                  <h5>Terms and conditions</h5>                    
+                  <h5 class="navigation-link" [routerLink]=" ['/'] ">Home</h5>     
+                  <h5 class="navigation-link" [routerLink]=" ['/authentication'] ">Login</h5>
+                  <h5 class="navigation-link" [routerLink]=" ['/authentication'] ">Register</h5>                
+                  <h5 class="navigation-link" [routerLink]=" ['/terms'] ">Terms and conditions</h5>
                 </div>
             </nav>
           </div>
@@ -34,9 +34,4 @@ import {Component} from "@angular/core";
         `
 })
 
-export class FooterComponent {
-
-  constructor() {
-  }
-
-}
+export class FooterComponent {}

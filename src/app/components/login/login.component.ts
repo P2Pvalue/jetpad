@@ -26,7 +26,7 @@ import { UserService } from "../../services";
     `
   })
 
-export class LoginComponent implements OnDestroy {
+export class LoginComponent {
 
   @Input() title: string;
 
@@ -49,9 +49,5 @@ export class LoginComponent implements OnDestroy {
 
   login() {
     this.userService.login(this.nameInput, this.passwordInput);
-  }
-
-  ngOnDestroy() {
-    this.userService.userLogged.unsubscribe();
   }
 }

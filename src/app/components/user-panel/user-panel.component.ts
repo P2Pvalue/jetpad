@@ -45,8 +45,4 @@ export class UserPanelComponent {
   logout() {
     this.userService.logout();
   }
-
-  ngOnDestroy() {
-    this.userService.currentUser.unsubscribe();
-  }
 }

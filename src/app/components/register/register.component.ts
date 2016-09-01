@@ -25,7 +25,7 @@ import { UserService } from "../../services";
     `
   })
 
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent {
 
   // Form fields
   nameInput: string;
@@ -41,9 +41,4 @@ export class RegisterComponent implements OnDestroy {
   register() {
     this.userService.create(this.nameInput, this.passwordInput);
   }
-
-  ngOnDestroy() {
-    this.userService.userRegistered.unsubscribe();
-  }
-
 }

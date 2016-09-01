@@ -20,6 +20,7 @@ import { UserPanelComponent } from "./components/user-panel";
 import { LandingComponent } from './components/landing';
 import { EditorComponent } from './components/editor';
 import { FooterComponent } from "./components/footer";
+import { TermsComponent } from "./components/terms";
 import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 
@@ -56,6 +57,7 @@ const APP_PROVIDERS = [
     LandingComponent,
     EditorComponent,
     FooterComponent,
+    TermsComponent,
     NoContent,
     UnauthorizedComponent,
     DROPDOWN_DIRECTIVES
