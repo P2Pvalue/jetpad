@@ -1,5 +1,5 @@
-import {Injectable, Inject} from "@angular/core";
-import {Subject} from "rxjs/Subject";
+import { Injectable, Inject } from "@angular/core";
+import { Subject } from "rxjs/Subject";
 
 declare let SwellRT: any;
 

@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { UserService, DocumentService } from "../../services";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-lateral-menu',
@@ -7,7 +8,19 @@ import { UserService, DocumentService } from "../../services";
         <div>
           <!-- Logged In user -->
           <div class="media" *ngIf="currentUser && !currentUser.anonymous">
-            <h4>LOGGED USER! ;)</h4>
+            <div>
+              <div class="col-md-3 col-md-offset-1">Name</div>
+              <div class="col-md-3 col-md-offset-1">Participants</div>
+              <div class="col-md-3 col-md-offset-1">Last edit</div>
+            </div>
+            <br>
+            <div *ngFor="let document of documents">
+              <div class="col-md-3 col-md-offset-1">
+                <a (click)="openDocument(document.wave_id);">{{ document.root["doc-title"] }}</a>
+              </div>
+              <!--<div class="col-md-3 col-md-offset-1">Participants</div>
+              <div class="col-md-3 col-md-offset-1">Last edit</div>-->
+            </div>
           </div>
           <!-- Not Logged In user -->
           <div  *ngIf="!currentUser || currentUser.anonymous">
@@ -27,13 +40,19 @@ export class LateralMenuComponent {
 
   // The logged in user
   currentUser: any;
+  documents: any;
 
-  constructor(private userService: UserService, private documentService: DocumentService) {
+  constructor(private userService: UserService, private documentService: DocumentService, private router: Router) {
     userService.currentUser.subscribe(user => {
       this.currentUser = user;
-      if(!user.anonymous) {
-        documentService.getMyDocuments();
-      }
     });
+    documentService.myDocuments.subscribe(documents => {
+      this.documents = documents;
+    });
+  }
+
+  openDocument(url: string) {
+    let id = url.substr(url.indexOf('/') + 1);
+    this.router.navigateByUrl('/edit/' + id);
   }
 }

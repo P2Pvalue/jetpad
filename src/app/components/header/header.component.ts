@@ -43,10 +43,10 @@ export class HeaderComponent {
   }
 
   closeLateralMenu() {
-    this.changeLateralMenuPosition("-33%");
+    this.changeLateralMenuPosition("-40%");
   }
 
-  changeLateralMenuPosition(width: string) {
-    this.lateralMenu.nativeElement.style.right = width;
+  changeLateralMenuPosition(percentage: string) {
+    this.lateralMenu.nativeElement.style.right = percentage;
   }
 }
