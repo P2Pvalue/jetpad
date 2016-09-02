@@ -34,7 +34,11 @@ npm run build
 
 By default, it is going to be connected to the SwellRT demo server.
 
-If you want to install your own SwellRT server, please visit the [SwellRt Readme](https://github.com/p2pvalue/swellrt). By now, the URL is hardcoded in several places of the app, i.e. in `src/index.html`.
+If you want to install your own SwellRT server, please visit the [SwellRt Readme](https://github.com/p2pvalue/swellrt). Then, you need to change SwellRT Pad configuration:
+
+You can found the script configuration in `src/index.html`.
+You can found the server configuration in `src/main.browser.ts`.
+You can found the domain configuration in `src/app/environment.ts`.
 
 ## Copyright and License
 
