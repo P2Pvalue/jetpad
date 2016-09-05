@@ -17,17 +17,17 @@ import {Router} from "@angular/router";
                 <!-- Logged In user -->
                 <div class="media" *ngIf="currentUser && !currentUser.anonymous">
                   <div>
-                    <div class="col-md-3 col-md-offset-1">Name</div>
+                    <div class="col-md-4 col-md-offset-1">Name</div>
                     <div class="col-md-3 col-md-offset-1">Participants</div>
-                    <div class="col-md-3 col-md-offset-1">Last edit</div>
+                    <div class="col-md-2 col-md-offset-1">Last edit</div>
                   </div>
                   <br>
                   <div *ngFor="let document of documents">
-                    <div class="col-md-3 col-md-offset-1">
+                    <div class="col-md-4 col-md-offset-1">
                       <a (click)="openDocument(document.wave_id);">{{ document.root["doc-title"] }}</a>
                     </div>
                     <div class="col-md-3 col-md-offset-1">Participants</div>
-                    <div class="col-md-3 col-md-offset-1">Last edit</div>
+                    <div class="col-md-2 col-md-offset-1">Last edit</div>
                   </div>
                 </div>
                 <!-- Not Logged In user -->
