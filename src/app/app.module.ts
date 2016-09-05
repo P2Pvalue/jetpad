@@ -17,7 +17,6 @@ import { ProfileComponent } from "./components/profile";
 import { RegisterComponent } from "./components/register";
 import { AuthenticationComponent } from "./components/authentication";
 import { UserPanelComponent } from "./components/user-panel";
-import { LateralMenuComponent } from "./components/lateral-menu";
 import { LandingComponent } from './components/landing';
 import { EditorComponent } from './components/editor';
 import { FooterComponent } from "./components/footer";
@@ -55,7 +54,6 @@ const APP_PROVIDERS = [
     RegisterComponent,
     AuthenticationComponent,
     UserPanelComponent,
-    LateralMenuComponent,
     LandingComponent,
     EditorComponent,
     FooterComponent,
