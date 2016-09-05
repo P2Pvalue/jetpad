@@ -52,7 +52,7 @@ export class LateralMenuComponent {
   }
 
   openDocument(url: string) {
-    let id = url.substr(url.indexOf('/') + 1);
-    this.router.navigateByUrl('/edit/' + id);
+    let link = ['edit', url.substr(url.indexOf('/') + 1)];
+    this.router.navigate(link);
   }
 }

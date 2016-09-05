@@ -26,10 +26,9 @@ export class DocumentService {
   }
 
   open(id: string) {
+    this.close();
     let that = this;
-    if (id.indexOf('/') === -1) {
-      id = this.SWELLRT_DOMAIN + '/' + id;
-    }
+    id = this.SWELLRT_DOMAIN + '/' + id;
     return new Promise<any>(function (resolve, reject) {
       SwellRT.open({id}, function (document) {
         if (!document || document.error) {
@@ -42,6 +41,9 @@ export class DocumentService {
   }
 
   close() {
-    SwellRT.close(this.currentDocument.id());
+    if(this.currentDocument) {
+      SwellRT.close(this.currentDocument.id());
+      this.currentDocument = undefined;
+    }
   }
 }

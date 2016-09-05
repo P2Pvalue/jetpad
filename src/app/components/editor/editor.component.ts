@@ -1,11 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UserService, DocumentService } from "../../services";
+import {Component, OnInit, OnDestroy} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
+import {DocumentService} from "../../services";
 
 @Component({
-    selector: 'app-editor',
-    templateUrl: './editor.component.html'
-  })
+  selector: 'app-editor',
+  templateUrl: './editor.component.html'
+})
 
 export class EditorComponent implements OnInit, OnDestroy {
 
@@ -39,12 +39,11 @@ export class EditorComponent implements OnInit, OnDestroy {
   buttons: Map<string, boolean> = new Map<string, boolean>();
 
   constructor(private documentService: DocumentService,
-              private userService: UserService,
               private route: ActivatedRoute) {
-      this.disableAllButtons();
+    this.disableAllButtons();
   }
 
-  get editorElem() {
+  get editorElement() {
     return (<HTMLElement>document.querySelector('#editor-container > div'));
   }
 
@@ -82,59 +81,55 @@ export class EditorComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     let widgets = {
-
-      'img-link' : {
-
-        onInit: function(parentElement, state) {
+      'img-link': {
+        onInit: function (parentElement, state) {
           parentElement.innerHTML = `<img src="${state}">`;
         },
-
-        onChangeState: function(parentElement, before, state) {
+        onChangeState: function (parentElement, before, state) {
           parentElement.innerHTML = `<img src="${state}">`;
         }
       }
-
     };
 
-    let annotations =  {};
+    this.editor = DocumentService.editor('editor-container', widgets, {});
 
-    this.editor = DocumentService.editor('editor-container', widgets, annotations);
-
-    let user = this.userService.getUser();
-
-      let id = this.route.snapshot.params['id'];
-      this.documentService.open(id).then(cObject => {
-
-        // Initialize the doc
-        if (!cObject.root.get('doc')) {
-          cObject.root.put('doc', cObject.createText(''));
-        }
-
-        // Initialize the doc's title
-        if (!cObject.root.get('doc-title')) {
-          cObject.root.put('doc-title', cObject.createString('New document'));
-        }
-
-        // Open the doc in the editor
-        this._title = cObject.root.get('doc-title');
-        this.editor.edit(cObject.root.get('doc'));
-
-        this.editor.onSelectionChanged((range) => {
-          this.annotations = range.annotations;
-          this.updateAllButtons();
-        });
-
-        this.editorElem.addEventListener('focus', () => this.updateAllButtons());
-        this.editorElem.addEventListener('blur', () => this.disableAllButtons());
-
-      })
-      .catch(error => {
-        this.wasError = true;
-        this.msgError = `Document doesn't exist or you don't have permission to open (${ error })`;
-      });
+    this.route.params.subscribe((param: any) => { this.openDocument(param['id']); });
   }
 
-  annotate (format) {
+  openDocument(id) {
+
+    this.documentService.open(id).then(cObject => {
+
+      // Initialize the doc
+      if (!cObject.root.get('doc')) {
+        cObject.root.put('doc', cObject.createText(''));
+      }
+
+      // Initialize the doc's title
+      if (!cObject.root.get('doc-title')) {
+        cObject.root.put('doc-title', cObject.createString('New document'));
+      }
+
+      // Open the doc in the editor
+      this._title = cObject.root.get('doc-title');
+      this.editor.edit(cObject.root.get('doc'));
+
+      this.editor.onSelectionChanged((range) => {
+        this.annotations = range.annotations;
+        this.updateAllButtons();
+      });
+
+      this.editorElement.addEventListener('focus', () => this.updateAllButtons());
+      this.editorElement.addEventListener('blur', () => this.disableAllButtons());
+
+    })
+    .catch(error => {
+      this.wasError = true;
+      this.msgError = `Document doesn't exist or you don't have permission to open (${ error })`;
+    });
+  }
+
+  annotate(format) {
     let [key, val] = this.annotationMap[format].split('=');
     let currentVal = this.annotations[key];
     if (currentVal === val) {
@@ -143,10 +138,10 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.annotations[key] = val;
     this.editor.setAnnotation(key, val);
-    this.editorElem.focus();
+    this.editorElement.focus();
   }
 
-  addImage (file) {
+  addImage(file) {
     let img = prompt('Image URL', 'http://lorempixel.com/600/600/');
     if (img) {
       this.editor.addWidget('img-link', img);
