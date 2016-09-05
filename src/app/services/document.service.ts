@@ -20,7 +20,16 @@ export class DocumentService {
 
   getMyDocuments() {
     let that = this;
-    SwellRT.query("{}", function (documents) { that.myDocuments.next(documents.result); }, function (error) {
+    SwellRT.query("{}", function (documents) {
+      var notEmptyDocuments = [];
+      //TODO: Temporal, remove empty documents
+      documents.result.forEach(function (document) {
+        if(document.root["doc-title"]) {
+          notEmptyDocuments.push(document);
+        }
+      });
+      that.myDocuments.next(notEmptyDocuments);
+    }, function (error) {
       // ERROR
     });
   }
