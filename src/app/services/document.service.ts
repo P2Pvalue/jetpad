@@ -21,22 +21,30 @@ export class DocumentService {
   getMyDocuments() {
     let that = this;
     SwellRT.query("{}", function (documents) {
-      var notEmptyDocuments = [];
-      //TODO: Temporal, remove empty documents
-      documents.result.forEach(function (document) {
-        if(document.root["doc-title"] && !document.root["doc-title"].startsWith("New")) {
-          let date = new Date(document.root.doc.lastmodtime);
-          if(date.toDateString() == new Date().toDateString()) {
-            document.lastEdit = ("0" + date.getHours()).slice(-2)   + ":" + ("0" + date.getMinutes()).slice(-2);
-          } else {
-            document.lastEdit = date.getDate() + " " + date.toUTCString().split(' ')[2];
-          }
-          notEmptyDocuments.push(document);
-        }
-      });
-      that.myDocuments.next(notEmptyDocuments);
+      that.myDocuments.next(that.parseDocuments(documents.result));
     }, function (error) {
       // ERROR
+    });
+  }
+
+  parseDocuments(myDocuments) {
+    return myDocuments.filter(function(document){
+      return document.root["doc-title"] && !document.root["doc-title"].startsWith("New")
+                                  && !document.root.doc.author.startsWith("_anonymous_");
+    }).map(function(document){
+      let modification;
+      let date = new Date(document.root.doc.lastmodtime);
+      if(date.toDateString() == new Date().toDateString()) {
+        modification = ("0" + date.getHours()).slice(-2)   + ":" + ("0" + date.getMinutes()).slice(-2);
+      } else {
+        modification = date.getDate() + " " + date.toUTCString().split(' ')[2];
+      }
+      return {
+        'id': document.wave_id,
+        'title': document.root["doc-title"],
+        'author': document.root.doc.author,
+        'modification': modification
+      }
     });
   }
 

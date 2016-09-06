@@ -30,14 +30,14 @@ import {Router} from "@angular/router";
                   <br>
                   <div *ngFor="let document of documents | slice:0:15">
                     <div class="col-md-1 col-md-offset-1">
-                      <small><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></small>
                       <small><span class="glyphicon glyphicon-share" aria-hidden="true"></span></small>
+                      <small><span *ngIf="currentUser.id === document.author" class="glyphicon glyphicon-trash" aria-hidden="true"></span></small>
                     </div>
                     <div class="col-md-3">
-                      <a class="documents-list" (click)="openDocument(document.wave_id);">{{ document.root["doc-title"] }}</a>
+                      <a class="documents-list" (click)="openDocument(document.id);">{{ document.title }}</a>
                     </div>
                     <div class="col-md-3 col-md-offset-1">Participants</div>
-                    <div class="col-md-2 col-md-offset-1"><p class="documents-list">{{ document.lastEdit }}</p></div>
+                    <div class="col-md-2 col-md-offset-1"><p class="documents-list">{{ document.modification }}</p></div>
                   </div>
                 </div>
                 <!-- Not Logged In user -->
