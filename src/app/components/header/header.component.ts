@@ -18,7 +18,7 @@ import {Router} from "@angular/router";
                 <div class="media" *ngIf="currentUser && !currentUser.anonymous">
                   <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                      <input class="form-control" type="text">
+                      <input class="form-control documents-list" type="text" [(ngModel)]="filter">
                     </div>
                   </div>
                   <br>
@@ -28,7 +28,7 @@ import {Router} from "@angular/router";
                     <div class="col-md-2 col-md-offset-1">Last edit</div>
                   </div>
                   <br>
-                  <div *ngFor="let document of documents | slice:0:15">
+                  <div *ngFor="let document of documents | search:filter | slice:0:15">
                     <div class="col-md-1 col-md-offset-1">
                       <small><span class="glyphicon glyphicon-share" aria-hidden="true"></span></small>
                       <small><span *ngIf="currentUser.id === document.author" class="glyphicon glyphicon-trash" aria-hidden="true"></span></small>
@@ -77,6 +77,7 @@ export class HeaderComponent {
 
   currentUser: any;
   documents: any;
+  filter:any;
 
   constructor(private userService: UserService, private documentService: DocumentService, private router: Router) {
     userService.currentUser.subscribe(user => {

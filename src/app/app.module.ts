@@ -30,6 +30,7 @@ import { LoggedUserGuard } from "./guards";
 import { AppState } from "./app.service";
 
 import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
+import {SearchPipe} from "./pipes";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -60,6 +61,7 @@ const APP_PROVIDERS = [
     TermsComponent,
     NoContent,
     UnauthorizedComponent,
+    SearchPipe,
     DROPDOWN_DIRECTIVES
   ],
   imports: [ // import Angular's modules
