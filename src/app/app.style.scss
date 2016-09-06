@@ -137,14 +137,19 @@ a {
 
 .lateral-menu {
   height: 100%;
-  width: 40%;
+  width: 50%;
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   top: 0;
-  right: -40%;
+  right: -50%;
   background-color: darkgray;
   overflow-x: hidden;
   transition: 0.5s;
+}
+
+.lateral-menu .glyphicon {
+  margin-right: 8px;
+  color: white;
 }
 
 .lateral-menu .lateral-menu-title {
@@ -168,6 +173,10 @@ a {
 
 .lateral-menu hr {
   margin: 0;
+}
+
+.documents-list {
+  color: white;
 }
 
 @media screen and (max-height: 450px) {

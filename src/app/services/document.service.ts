@@ -24,7 +24,13 @@ export class DocumentService {
       var notEmptyDocuments = [];
       //TODO: Temporal, remove empty documents
       documents.result.forEach(function (document) {
-        if(document.root["doc-title"]) {
+        if(document.root["doc-title"] && !document.root["doc-title"].startsWith("New")) {
+          let date = new Date(document.root.doc.lastmodtime);
+          if(date.toDateString() == new Date().toDateString()) {
+            document.lastEdit = ("0" + date.getHours()).slice(-2)   + ":" + ("0" + date.getMinutes()).slice(-2);
+          } else {
+            document.lastEdit = date.getDate() + " " + date.toUTCString().split(' ')[2];
+          }
           notEmptyDocuments.push(document);
         }
       });
