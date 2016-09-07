@@ -36,7 +36,7 @@ import {Router} from "@angular/router";
                     <div class="col-md-3">
                       <a class="documents-list" (click)="openDocument(document.id);">{{ document.title }}</a>
                     </div>
-                    <div class="col-md-3 col-md-offset-1">Participants</div>
+                    <div class="col-md-3 col-md-offset-1"><p class="documents-list">{{ document.participants }}</p></div>
                     <div class="col-md-2 col-md-offset-1"><p class="documents-list">{{ document.modification }}</p></div>
                   </div>
                 </div>

@@ -29,21 +29,30 @@ export class DocumentService {
 
   parseDocuments(myDocuments) {
     return myDocuments.filter(function(document){
-      return document.root["doc-title"] && !document.root["doc-title"].startsWith("New")
-                                  && !document.root.doc.author.startsWith("_anonymous_");
+      return document.root['doc-title'] && !document.root['doc-title'].startsWith('New')
+                                  && !document.root.doc.author.startsWith('_anonymous_');
     }).map(function(document){
       let modification;
       let date = new Date(document.root.doc.lastmodtime);
       if(date.toDateString() == new Date().toDateString()) {
-        modification = ("0" + date.getHours()).slice(-2)   + ":" + ("0" + date.getMinutes()).slice(-2);
+        modification = ('0' + date.getHours()).slice(-2)   + ':' + ('0' + date.getMinutes()).slice(-2);
       } else {
         modification = date.getDate() + " " + date.toUTCString().split(' ')[2];
+      }
+      let participants = document.participants.filter(function(participant) {
+        return !participant.startsWith('@');
+      }).map(function(participant){
+        return participant.split('@')[0];
+      });
+      if(participants.length > 3) {
+        participants = participants.slice(0, 3).join(', ').concat('...');
       }
       return {
         'id': document.wave_id,
         'title': document.root["doc-title"],
         'author': document.root.doc.author,
-        'modification': modification
+        'modification': modification,
+        'participants': participants
       }
     });
   }
