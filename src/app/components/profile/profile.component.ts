@@ -78,8 +78,10 @@ export class ProfileComponent {
 
   updateUser() {
     this.userService.update(this.email, this.name, this.avatarData);
-    this.avatar = this.avatarData;
-    this.avatarData = undefined;
+    if(this.avatarData) {
+      this.avatar = this.avatarData;
+      this.avatarData = undefined;
+    }
   }
 
   changePassword() {

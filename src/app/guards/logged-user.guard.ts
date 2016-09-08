@@ -9,11 +9,9 @@ export class LoggedUserGuard implements CanActivate {
 
   canActivate() {
     if(this.userService.getUser() !== undefined) {
-      return this.checkLoggedUser(this.userService.getUser());
+      return new Promise<any>(resolve => resolve(this.checkLoggedUser(this.userService.getUser())));
     } else {
-      return this.userService.getSession().then((user) => {
-        this.checkLoggedUser(user);
-      });
+      return this.userService.getSession().then(user => this.checkLoggedUser(user));
     }
   }
 
