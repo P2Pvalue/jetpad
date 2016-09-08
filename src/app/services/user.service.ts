@@ -40,24 +40,23 @@ export class UserService {
   }
 
   resume() {
-    let that = this;
-    this.session = new Promise<any>(function(resolve, reject) {
-      SwellRT.resume(function (res) {
-        if (res.error) {
-          let id = that.DEFAULT_USERNAME;
-          let password = that.DEFAULT_PASSWORD;
-          SwellRT.login({id, password}, function (res) {
-            if (res.error) {
-              reject(res.error);
-            } else if (res.data) {
-              let user = that.parseUserResponse(res.data);
-              that.currentUser.next(user);
+    this.session = new Promise<any>((resolve, reject) => {
+      SwellRT.resume(result => {
+        if (result.error) {
+          let id = this.DEFAULT_USERNAME;
+          let password = this.DEFAULT_PASSWORD;
+          SwellRT.login({id, password}, result => {
+            if (result.error) {
+              reject(result.error);
+            } else if (result.data) {
+              let user = this.parseUserResponse(result.data);
+              this.currentUser.next(user);
               resolve(user);
             }
           });
-        } else if (res.data) {
-          let user = that.parseUserResponse(res.data);
-          that.currentUser.next(user);
+        } else if (result.data) {
+          let user = this.parseUserResponse(result.data);
+          this.currentUser.next(user);
           resolve(user);
         }
       });
@@ -65,84 +64,69 @@ export class UserService {
   }
 
   anonymousLogin() {
-    let that = this;
     let id = this.DEFAULT_USERNAME;
     let password = this.DEFAULT_PASSWORD;
-    SwellRT.login({id, password}, function (res) {
-      if (res.error) {
+    SwellRT.login({id, password}, result => {
+      if (result.error) {
         // ERROR
-      } else if (res.data) {
-        that.currentUser.next(that.parseUserResponse(res.data));
+      } else if (result.data) {
+        this.currentUser.next(this.parseUserResponse(result.data));
       }
     });
   }
 
   login(id: string, password: string) {
-    let that = this;
     id = this.generateDomainId(id);
-    SwellRT.login({id, password}, function (res) {
-      if (res.error) {
+    SwellRT.login({id, password}, result => {
+      if (result.error) {
         // ERROR
-      } else if (res.data) {
-        let user = that.parseUserResponse(res.data);
-        that.currentUser.next(user);
-        that.userLogged.next(user);
+      } else if (result.data) {
+        let user = this.parseUserResponse(result.data);
+        this.currentUser.next(user);
+        this.userLogged.next(user);
       }
     });
   }
 
   create(id: string, password: string) {
-    let that = this;
     id = this.generateDomainId(id);
-    SwellRT.createUser({id, password}, function (res) {
-      if (res.error) {
+    SwellRT.createUser({id, password}, result => {
+      if (result.error) {
         // ERROR
-      } else if (res.data) {
-        that.login(id, password);
+      } else if (result.data) {
+        this.login(id, password);
       }
     });
   };
 
   update(email: string, name: string, avatarData: string) {
-    let that = this;
-    SwellRT.updateUserProfile({email, name, avatarData}, function (res) {
-      if (res.error) {
+    SwellRT.updateUserProfile({email, name, avatarData}, result => {
+      if (result.error) {
         // ERROR
-      } else if (res.data) {
-        let user = that.parseUserResponse(res.data);
-        that.currentUser.next(user);
-        that.userUpdated.next(user);
+      } else if (result.data) {
+        let user = this.parseUserResponse(result.data);
+        this.currentUser.next(user);
+        this.userUpdated.next(user);
       }
     });
   }
 
   logout() {
-    let that = this;
-    SwellRT.logout(function (res) {
-      if (res.error) {
+    SwellRT.logout(result => {
+      if (result.error) {
         // ERROR
-      } else if (res.data.status == "SESSION_CLOSED") {
-        that.anonymousLogin();
+      } else if (result.data.status == "SESSION_CLOSED") {
+        this.anonymousLogin();
       }
     });
   }
 
   changePassword(oldPassword: string, newPassword: string) {
-    let that = this;
-    SwellRT.setPassword(this.user.id, oldPassword, newPassword, function () {
-      that.userUpdated.next(that.user);
-    }, function (error) {
-      // ERROR
-    });
+    SwellRT.setPassword(this.user.id, oldPassword, newPassword, () => this.userUpdated.next(this.user), error => {});
   }
 
   recoverPassword(email: string) {
-    let that = this;
-    SwellRT.recoverPassword(email, this.RECOVER_PASSWORD_URL, function () {
-      that.userUpdated.next(that.user);
-    }, function (error) {
-      // ERROR
-    });
+    SwellRT.recoverPassword(email, this.RECOVER_PASSWORD_URL, () => this.userUpdated.next(this.user), error => {});
   }
 
   parseUserResponse(user) {

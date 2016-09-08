@@ -19,19 +19,12 @@ export class DocumentService {
   }
 
   getMyDocuments() {
-    let that = this;
-    SwellRT.query("{}", function (documents) {
-      that.myDocuments.next(that.parseDocuments(documents.result));
-    }, function (error) {
-      // ERROR
-    });
+    SwellRT.query("{}", documents => this.myDocuments.next(this.parseDocuments(documents.result)), error => {});
   }
 
   parseDocuments(myDocuments) {
-    return myDocuments.filter(function(document){
-      return document.root['doc-title'] && !document.root['doc-title'].startsWith('New')
-                                  && !document.root.doc.author.startsWith('_anonymous_');
-    }).map(function(document){
+    return myDocuments.filter(document => document.root['doc-title'] && !document.root['doc-title'].startsWith('New')
+      && !document.root.doc.author.startsWith('_anonymous_')).map(document => {
       let modification;
       let date = new Date(document.root.doc.lastmodtime);
       if(date.toDateString() == new Date().toDateString()) {
@@ -39,11 +32,8 @@ export class DocumentService {
       } else {
         modification = date.getDate() + " " + date.toUTCString().split(' ')[2];
       }
-      let participants = document.participants.filter(function(participant) {
-        return !participant.startsWith('@');
-      }).map(function(participant){
-        return participant.split('@')[0];
-      });
+      let participants = document.participants.filter(participant => !participant.startsWith('@'))
+        .map(participant => participant.split('@')[0]);
       if(participants.length > 3) {
         participants = participants.slice(0, 3).join(', ').concat('...');
       }
@@ -59,14 +49,13 @@ export class DocumentService {
 
   open(id: string) {
     this.close();
-    let that = this;
     id = this.SWELLRT_DOMAIN + '/' + id;
-    return new Promise<any>(function (resolve, reject) {
-      SwellRT.open({id}, function (document) {
+    return new Promise<any>((resolve, reject) => {
+      SwellRT.open({id}, document => {
         if (!document || document.error) {
           reject(document ? document.error : null);
         }
-        that.currentDocument = document;
+        this.currentDocument = document;
         resolve(document);
       });
     });
