@@ -10,8 +10,7 @@ import { UnauthorizedComponent } from "./components/unauthorized";
 
 import { LoggedUserGuard } from "./guards";
 
-
-import { DataResolver } from './app.resolver';
+import { SessionResolver } from "./resolver";
 
 export const ROUTES: Routes = [
 
@@ -33,7 +32,10 @@ export const ROUTES: Routes = [
 
   {
     path: 'edit/:id',
-    component: EditorComponent
+    component: EditorComponent,
+    resolve: {
+      session: SessionResolver
+    }
   },
 
   {

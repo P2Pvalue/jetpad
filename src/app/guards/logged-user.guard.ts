@@ -8,7 +8,17 @@ export class LoggedUserGuard implements CanActivate {
   constructor(private userService: UserService, private router: Router) {}
 
   canActivate() {
-    if (this.userService.loggedUser()) { return true; }
+    if(this.userService.getUser() !== undefined) {
+      return this.checkLoggedUser(this.userService.getUser());
+    } else {
+      return this.userService.getSession().then((user) => {
+        this.checkLoggedUser(user);
+      });
+    }
+  }
+
+  checkLoggedUser(user) {
+    if (!user.anonymous) { return true; }
     this.router.navigate(['/authentication']);
     return false;
   }

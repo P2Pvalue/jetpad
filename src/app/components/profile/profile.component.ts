@@ -64,6 +64,7 @@ export class ProfileComponent {
   name: string;
   email: string;
   avatar: string;
+  avatarData: any;
 
   oldPassword: string;
   newPassword: string;
@@ -76,7 +77,9 @@ export class ProfileComponent {
   }
 
   updateUser() {
-    this.userService.update(this.email, this.avatar);
+    this.userService.update(this.email, this.name, this.avatarData);
+    this.avatar = this.avatarData;
+    this.avatarData = undefined;
   }
 
   changePassword() {
@@ -100,7 +103,7 @@ export class ProfileComponent {
     var that = this;
     fileReader.readAsDataURL(file);
     fileReader.onloadend = function(e){
-      that.avatar = fileReader.result;
+      that.avatarData = fileReader.result;
     }
   }
 }

@@ -11,6 +11,8 @@ export class UserService {
   userLogged = new Subject<any>();
   userUpdated = new Subject<any>();
 
+  session: Promise<any>;
+
   constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
               @Inject('DEFAULT_USERNAME') private DEFAULT_USERNAME: string,
               @Inject('DEFAULT_PASSWORD') private DEFAULT_PASSWORD: string,
@@ -33,14 +35,32 @@ export class UserService {
     return this.user && !this.user.anonymous;
   }
 
+  getSession() {
+    return this.session;
+  }
+
   resume() {
     let that = this;
-    SwellRT.resume(function (res) {
-      if (res.error) {
-        that.anonymousLogin();
-      } else if (res.data) {
-        that.currentUser.next(that.parseUserResponse(res.data));
-      }
+    this.session = new Promise<any>(function(resolve, reject) {
+      SwellRT.resume(function (res) {
+        if (res.error) {
+          let id = that.DEFAULT_USERNAME;
+          let password = that.DEFAULT_PASSWORD;
+          SwellRT.login({id, password}, function (res) {
+            if (res.error) {
+              reject(res.error);
+            } else if (res.data) {
+              let user = that.parseUserResponse(res.data);
+              that.currentUser.next(user);
+              resolve(user);
+            }
+          });
+        } else if (res.data) {
+          let user = that.parseUserResponse(res.data);
+          that.currentUser.next(user);
+          resolve(user);
+        }
+      });
     });
   }
 
@@ -83,9 +103,9 @@ export class UserService {
     });
   };
 
-  update(email: string, avatarData: string) {
+  update(email: string, name: string, avatarData: string) {
     let that = this;
-    SwellRT.updateUserProfile({email, avatarData}, function (res) {
+    SwellRT.updateUserProfile({email, name, avatarData}, function (res) {
       if (res.error) {
         // ERROR
       } else if (res.data) {

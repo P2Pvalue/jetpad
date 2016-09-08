@@ -9,7 +9,6 @@ import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 
 import { App } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
 import { HeaderComponent } from "./components/header";
 import { LoginComponent } from "./components/login";
@@ -26,25 +25,22 @@ import { UnauthorizedComponent } from "./components/unauthorized";
 
 import { DocumentService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
+import {SessionResolver} from "./resolver";
+import {SearchPipe} from "./pipes";
 
 import { AppState } from "./app.service";
 
 import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
-import {SearchPipe} from "./pipes";
 
-// Application wide providers
 const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
   AppState,
   DocumentService,
   ListenerService,
   UserService,
+  SessionResolver,
   LoggedUserGuard
 ];
 
-/**
- * `AppModule` is the main entry point into Angular2's bootstraping process
- */
 @NgModule({
   bootstrap: [ App ],
   declarations: [
