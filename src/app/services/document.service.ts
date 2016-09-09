@@ -16,7 +16,8 @@ export class DocumentService {
     userService.currentUser.subscribe(user => {
       if(!user.anonymous) {
         this.query = {
-          _query : { participants: { $eq: user.id /*,  $not: "^@"*/ } }
+          _query : { participants: { $eq: user.id /*,  $not: "^@"*/ }},
+          _projection: { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1 }
         };
         this.getMyDocuments();
       }
