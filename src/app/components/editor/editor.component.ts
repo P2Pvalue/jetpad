@@ -15,9 +15,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   wasError: boolean = false;
   msgError: string;
 
+  textType = 'none';
+
   formats: Array<Array<string>> = [
     ['bold', 'italic', 'underline', 'strikethrough'],
-    // ['size', 'color_text', 'color_fill'],
     ['align_left', 'align_center', 'align_right'],
     ['list_bulleted', 'list_numbered']
   ];
@@ -40,7 +41,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   constructor(private documentService: DocumentService,
               private route: ActivatedRoute) {
-    this.disableAllButtons();
+    this.disableEditorToolbar();
   }
 
   get editorElement() {
@@ -57,16 +58,17 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateAllButtons() {
+  updateEditorToolbar() {
     for (let formatGroup of this.formats) {
       for (let format of formatGroup) {
         let [key, val] = this.annotationMap[format].split('=');
-        this.buttons[format] = this.annotations && (this.annotations[key] === val);
+        this.buttons[format] = this.annotations[key] === val;
       }
     }
+    this.textType = this.annotations['paragraph/header'] ? this.annotations['paragraph/header'] : 'none';
   }
 
-  disableAllButtons() {
+  disableEditorToolbar() {
     for (let formatGroup of this.formats) {
       for (let format of formatGroup) {
         this.buttons[format] = false;
@@ -79,7 +81,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     let widgets = {
       'img-link': {
         onInit: (parentElement, state) => parentElement.innerHTML = `<img src="${state}">`,
@@ -112,11 +113,11 @@ export class EditorComponent implements OnInit, OnDestroy {
 
       this.editor.onSelectionChanged((range) => {
         this.annotations = range.annotations;
-        this.updateAllButtons();
+        this.updateEditorToolbar();
       });
 
-      this.editorElement.addEventListener('focus', () => this.updateAllButtons());
-      this.editorElement.addEventListener('blur', () => this.disableAllButtons());
+      this.editorElement.addEventListener('focus', () => this.updateEditorToolbar());
+      this.editorElement.addEventListener('blur', () => this.disableEditorToolbar());
 
     })
     .catch(error => {
@@ -142,5 +143,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (img) {
       this.editor.addWidget('img-link', img);
     }
+  }
+
+  changeTextType(textType) {
+    this.textType = textType;
+    this.editor.setAnnotation('paragraph/header', textType);
   }
 }
