@@ -20,9 +20,7 @@ export function main(): Promise<any> {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // jquery.material.init();
-
-  (<any>window).SwellRT.ready(function() {
+  (<any>window).SwellRT.ready(() => {
 
     console.log('SwellRT Loaded!');
 

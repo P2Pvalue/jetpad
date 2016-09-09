@@ -112,7 +112,7 @@ export class UserService {
   }
 
   logout() {
-    SwellRT.logout(result => {
+    SwellRT.logout(this.user.id, result => {
       if (result.error) {
         // ERROR
       } else if (result.data.status == "SESSION_CLOSED") {

@@ -7,14 +7,13 @@ const DEFAULT_SNACK_TIMEOUT = 3000;
 export class ListenerService {
 
   lastSnack: any;
-
-  listener: Function;
+  listener: any;
 
   bindListeners() {
 
     console.log('SwellRT listeners bound');
 
-    SwellRT.on(SwellRT.events.NETWORK_CONNECTED, function () {
+    SwellRT.on(SwellRT.events.NETWORK_CONNECTED, () => {
       if (this.lastSnack) {
         this.lastSnack.hide();
       }
@@ -24,14 +23,14 @@ export class ListenerService {
       }
     });
 
-    SwellRT.on(SwellRT.events.NETWORK_DISCONNECTED, function () {
+    SwellRT.on(SwellRT.events.NETWORK_DISCONNECTED, () => {
       this.lastSnack = $.snackbar({content: 'Connection lost trying to reconnect...', timeout: 0});
       if (this.listener) {
         this.listener(SwellRT.events.NETWORK_DISCONNECTED);
       }
     });
 
-    SwellRT.on(SwellRT.events.FATAL_EXCEPTION, function () {
+    SwellRT.on(SwellRT.events.FATAL_EXCEPTION, () => {
       if (this.lastSnack) {
         this.lastSnack.hide();
       }
@@ -45,7 +44,7 @@ export class ListenerService {
 
   }
 
-  setListener(_listener: Function) {
+  setListener(_listener) {
     this.listener = _listener;
   }
 }

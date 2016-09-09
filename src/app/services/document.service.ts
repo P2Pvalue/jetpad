@@ -10,8 +10,17 @@ export class DocumentService {
   currentDocument: any;
   myDocuments = new Subject<any>();
 
+  query = {};
+
   constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string, private userService: UserService) {
-    userService.currentUser.subscribe(user => { if(!user.anonymous) this.getMyDocuments(); });
+    userService.currentUser.subscribe(user => {
+      if(!user.anonymous) {
+        this.query = {
+          _query : { participants: { $eq: user.id /*,  $not: "^@"*/ } }
+        };
+        this.getMyDocuments();
+      }
+    });
   }
 
   static editor(parentElementId, widgets, annotations) {
@@ -19,12 +28,11 @@ export class DocumentService {
   }
 
   getMyDocuments() {
-    SwellRT.query("{}", documents => this.myDocuments.next(this.parseDocuments(documents.result)), error => {});
+    SwellRT.query(this.query, documents => this.myDocuments.next(this.parseDocuments(documents.result)), error => {});
   }
 
   parseDocuments(myDocuments) {
-    return myDocuments.filter(document => document.root['doc-title'] && !document.root['doc-title'].startsWith('New')
-      && !document.root.doc.author.startsWith('_anonymous_')).map(document => {
+    return myDocuments.map(document => {
       let modification;
       let date = new Date(document.root.doc.lastmodtime);
       if(date.toDateString() == new Date().toDateString()) {

@@ -16,7 +16,7 @@ import { UserService } from "../../services";
               <h5>USER INFORMATION</h5>
               <h6>Photo</h6>
               <img height="200" id="img" src="{{avatar}}" (click)="showImageBrowseDialog()"/>
-              <input #imageInput type="file" name="image_src" id="image_src" (change)="changeListener($event)"/>
+              <input #imageInput type="file" accept="image/*" name="image_src" id="image_src" (change)="changeListener($event)"/>
               <br>
               <form style="margin-top:4em" (ngSubmit)="updateUser()">
                 <div class="form-group label-floating">
@@ -104,8 +104,6 @@ export class ProfileComponent {
     var fileReader: FileReader = new FileReader();
     var that = this;
     fileReader.readAsDataURL(file);
-    fileReader.onloadend = function(e){
-      that.avatarData = fileReader.result;
-    }
+    fileReader.onloadend = () => that.avatarData = fileReader.result;
   }
 }

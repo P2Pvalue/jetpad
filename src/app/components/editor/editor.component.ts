@@ -82,12 +82,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     let widgets = {
       'img-link': {
-        onInit: function (parentElement, state) {
-          parentElement.innerHTML = `<img src="${state}">`;
-        },
-        onChangeState: function (parentElement, before, state) {
-          parentElement.innerHTML = `<img src="${state}">`;
-        }
+        onInit: (parentElement, state) => parentElement.innerHTML = `<img src="${state}">`,
+        onChangeState: (parentElement, before, state) => parentElement.innerHTML = `<img src="${state}">`
       }
     };
 
