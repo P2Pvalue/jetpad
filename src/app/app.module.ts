@@ -31,6 +31,9 @@ import {SearchPipe} from "./pipes";
 import { AppState } from "./app.service";
 
 import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
+import {ShareSettingsComponent} from "./components/share-settings/share-settings.component";
+import {BootstrapModalModule} from "angular2-modal/plugins/bootstrap";
+import {ModalModule} from "angular2-modal";
 
 const APP_PROVIDERS = [
   AppState,
@@ -55,6 +58,7 @@ const APP_PROVIDERS = [
     EditorComponent,
     FooterComponent,
     TermsComponent,
+    ShareSettingsComponent,
     NoContent,
     UnauthorizedComponent,
     SearchPipe,
@@ -64,6 +68,8 @@ const APP_PROVIDERS = [
     BrowserModule,
     FormsModule,
     HttpModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
