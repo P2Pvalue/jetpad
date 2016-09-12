@@ -129,13 +129,16 @@
       </div>
       <div class="panel-heading">
         <div id="editor-toolbar" class="btn-toolbar">
-          <select [(ngModel)]="textType" class="form-control btn-group" (change)="changeTextType($event.target.value)">
+          <select [(ngModel)]="currentTextType" class="form-control btn-group" (change)="changeTextType($event.target.value)">
             <option value="h1">Heading 1</option>
             <option value="h2">Heading 2</option>
             <option value="h3">Heading 3</option>
             <option value="h4">Heading 4</option>
             <option value="h5">Heading 5</option>
             <option value="none">Normal text</option>
+          </select>
+          <select [(ngModel)]="currentTextSize" class="form-control btn-group" (change)="changeTextSize($event.target.value)">
+              <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
           </select>
           <div *ngFor="let formatGroup of formats" class="btn-group">
             <button *ngFor="let format of formatGroup" type="button"

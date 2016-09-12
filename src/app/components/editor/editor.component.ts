@@ -15,13 +15,15 @@ export class EditorComponent implements OnInit, OnDestroy {
   wasError: boolean = false;
   msgError: string;
 
-  textType = 'none';
-
   formats: Array<Array<string>> = [
     ['bold', 'italic', 'underline', 'strikethrough'],
     ['align_left', 'align_center', 'align_right'],
     ['list_bulleted', 'list_numbered']
   ];
+
+  textSizes = Array.from(new Array(72), (x,i) => i + 1).filter(x => x % 2 == 0 );
+  currentTextSize = '12px';
+  currentTextType = 'none';
 
   annotations: Array<any>;
 
@@ -42,6 +44,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   constructor(private documentService: DocumentService,
               private route: ActivatedRoute) {
     this.disableEditorToolbar();
+
   }
 
   get editorElement() {
@@ -65,7 +68,8 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.buttons[format] = this.annotations[key] === val;
       }
     }
-    this.textType = this.annotations['paragraph/header'] ? this.annotations['paragraph/header'] : 'none';
+    this.currentTextType = this.annotations['paragraph/header'];
+    this.currentTextSize = this.annotations['style/fontSize'];
   }
 
   disableEditorToolbar() {
@@ -146,7 +150,12 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   changeTextType(textType) {
-    this.textType = textType;
+    this.currentTextType = textType;
     this.editor.setAnnotation('paragraph/header', textType);
+  }
+
+  changeTextSize(textSize) {
+    this.currentTextSize = textSize;
+    this.editor.setAnnotation('style/fontSize', textSize);
   }
 }
