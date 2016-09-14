@@ -7,7 +7,8 @@ declare let SwellRT: any;
 @Injectable()
 export class DocumentService {
 
-  currentDocument: any;
+  document: any;
+  currentDocument = new Subject<any>();
   myDocuments = new Subject<any>();
 
   query = {};
@@ -64,16 +65,17 @@ export class DocumentService {
         if (!document || document.error) {
           reject(document ? document.error : null);
         }
-        this.currentDocument = document;
+        this.currentDocument.next(document);
+        this.document = document;
         resolve(document);
       });
     });
   }
 
   close() {
-    if(this.currentDocument) {
-      SwellRT.close(this.currentDocument.id());
-      this.currentDocument = undefined;
+    if(this.document) {
+      SwellRT.close(this.document.id());
+      this.document = undefined;
     }
   }
 }

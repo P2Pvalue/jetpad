@@ -10,7 +10,8 @@ let PROVIDERS = [
   { provide: 'DEFAULT_PASSWORD', useValue: '' },
   { provide: 'DEFAULT_SNACK_TIMEOUT', useValue: 3000 },
   { provide: 'SWELLRT_DOMAIN', useValue: 'demo.swellrt.org' },
-  { provide: 'RECOVER_PASSWORD_URL', useValue: 'http://jetpad-int.devialab.rocks/recover/#/*$token*$user-id*' }
+  { provide: 'JETPAD_URL', useValue: 'http://jetpad-int.devialab.rocks' },
+  { provide: 'RECOVER_PASSWORD_URL', useValue: 'http://jetpad-int.devialab.rocks/#/recover/*$token*$user-id*' }
 ];
 
 if (production) { PROVIDERS = [ ...PROVIDERS ]; }
