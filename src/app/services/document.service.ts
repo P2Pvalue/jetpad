@@ -13,24 +13,32 @@ export class DocumentService {
 
   query = {};
 
-  constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string, private userService: UserService) {
-    userService.currentUser.subscribe(user => {
-      if(!user.anonymous) {
-        this.query = {
-          _query : { participants: { $eq: user.id /*,  $not: "^@"*/ }},
-          _projection: { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1 }
-        };
-        this.getMyDocuments();
-      }
-    });
+  constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
+              @Inject('JETPAD_URL') private JETPAD_URL: string,
+              private userService: UserService) {
+    userService.currentUser.subscribe(user => this.getUserDocuments(user));
   }
 
   static editor(parentElementId, widgets, annotations) {
     return SwellRT.editor(parentElementId, widgets, annotations);
   }
 
-  getMyDocuments() {
-    SwellRT.query(this.query, documents => this.myDocuments.next(this.parseDocuments(documents.result)), error => {});
+  getDocumentUrl(waveId: any) {
+    return this.JETPAD_URL + '/#/edit/' + this.getEditorId(waveId);
+  }
+
+  getEditorId(waveId: any) {
+    return waveId.substr(waveId.indexOf('/') + 1);
+  }
+
+  getUserDocuments(user: any) {
+    if(!user.anonymous) {
+      this.query = {
+        _query : { participants: { $eq: user.id /*,  $not: "^@"*/ }},
+        _projection: { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1 }
+      };
+      SwellRT.query(this.query, documents => this.myDocuments.next(this.parseDocuments(documents.result)), error => {});
+    }
   }
 
   parseDocuments(myDocuments) {
@@ -52,7 +60,8 @@ export class DocumentService {
         'title': document.root["doc-title"],
         'author': document.root.doc.author,
         'modification': modification,
-        'participants': participants
+        'participants': participants,
+        'editorId': this.getEditorId(document.wave_id)
       }
     });
   }

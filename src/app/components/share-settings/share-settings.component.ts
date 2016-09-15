@@ -6,7 +6,7 @@ import {DocumentService} from "../../services/document.service";
 @Component({
     selector: 'share-settings',
     template: `
-        <button class="btn btn-info btn-lg" (click)="shareSettings.open()">Share</button>
+        <button [disabled]="!documentUrl" class="btn btn-info btn-lg" (click)="shareSettings.open()">Share</button>
         <modal #shareSettings>
           <modal-header>
             <h4>Share settings</h4>
@@ -42,13 +42,11 @@ export class ShareSettingsComponent {
   currentDocument: any;
   documentUrl: any;
 
-  constructor(@Inject('JETPAD_URL') private JETPAD_URL: string, private documentService: DocumentService,
-              private userService: UserService, private router: Router) {
+  constructor(private documentService: DocumentService, private userService: UserService, private router: Router) {
     this.currentUser = userService.getUser();
     documentService.currentDocument.subscribe(document => {
-      let id = document.id();
       this.currentDocument = document;
-      this.documentUrl = JETPAD_URL + '/#/edit/' + id.substr(id.indexOf('/') + 1);
+      this.documentUrl = this.documentService.getDocumentUrl(document.id());
     });
   }
 

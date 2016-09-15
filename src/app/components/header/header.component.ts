@@ -34,7 +34,7 @@ import {Router} from "@angular/router";
                       <small><span *ngIf="currentUser.id === document.author" class="glyphicon glyphicon-trash" aria-hidden="true"></span></small>
                     </div>
                     <div class="col-md-3">
-                      <a class="documents-list" (click)="openDocument(document.id);">{{ document.title }}</a>
+                      <a class="documents-list" (click)="openDocument(document.editorId);">{{ document.title }}</a>
                     </div>
                     <div class="col-md-3 col-md-offset-1"><p class="documents-list">{{ document.participants }}</p></div>
                     <div class="col-md-2 col-md-offset-1"><p class="documents-list">{{ document.modification }}</p></div>
@@ -92,8 +92,8 @@ export class HeaderComponent {
     this.navigate(['authentication']);
   }
 
-  openDocument(url: string) {
-    this.navigate(['edit', url.substr(url.indexOf('/') + 1)]);
+  openDocument(editorId: string) {
+    this.navigate(['edit', editorId]);
   }
 
   navigate(link) {

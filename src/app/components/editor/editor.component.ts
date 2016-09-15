@@ -43,7 +43,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   constructor(private documentService: DocumentService,
               private route: ActivatedRoute) {
-              this.disableEditorToolbar();
+    this.disableEditorToolbar();
   }
 
   get editorElement() {
