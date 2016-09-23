@@ -15,8 +15,13 @@ import {DocumentService} from "../../services/document.service";
             <h5 class="lateral-menu-title">Link to share</h5>
             <p class="share-link">{{ documentUrl }}</p>
             <br>
-            <div class="media" *ngIf="currentUser && !currentUser.anonymous">
-              <h5 class="lateral-menu-title">Make public this document</h5>
+            <div *ngIf="currentUser && !currentUser.anonymous">
+              <div class="col-md-4">
+                <h5 class="lateral-menu-title">Make public this document</h5>
+              </div>
+              <div class="col-md-8">
+                <ui-switch size="small" [(ngModel)]="publicDocument" (change)="changeDocumentVisibility()"></ui-switch>
+              </div>
             </div>
             <!-- Not Logged In user -->
             <div  *ngIf="!currentUser || currentUser.anonymous">
@@ -41,13 +46,26 @@ export class ShareSettingsComponent {
   currentUser: any;
   currentDocument: any;
   documentUrl: any;
+  publicDocument: any;
 
   constructor(private documentService: DocumentService, private userService: UserService, private router: Router) {
     this.currentUser = userService.getUser();
     documentService.currentDocument.subscribe(document => {
       this.currentDocument = document;
+      if(!this.currentUser.anonymous) {
+        this.publicDocument = this.documentService.isAPublicDocument();
+      }
       this.documentUrl = this.documentService.getDocumentUrl(document.id());
     });
+  }
+
+  changeDocumentVisibility() {
+    if(this.publicDocument) {
+      this.documentService.makeDocumentPrivate();
+    } else {
+      this.documentService.makeDocumentPublic();
+    }
+    this.publicDocument = this.publicDocument ? false : true;
   }
 
   goToAuthenticationScreen() {

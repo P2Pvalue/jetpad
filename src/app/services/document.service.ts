@@ -11,6 +11,8 @@ export class DocumentService {
   currentDocument = new Subject<any>();
   myDocuments = new Subject<any>();
 
+  PUBLIC_DOCUMENT_PARTICIPANT = "@" + this.SWELLRT_DOMAIN;
+
   query = {};
 
   constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
@@ -29,6 +31,18 @@ export class DocumentService {
 
   getEditorId(waveId: any) {
     return waveId.substr(waveId.indexOf('/') + 1);
+  }
+
+  isAPublicDocument() {
+    return this.document.getParticipants().includes(this.PUBLIC_DOCUMENT_PARTICIPANT)
+  }
+
+  makeDocumentPublic() {
+    this.document.addParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
+  }
+
+  makeDocumentPrivate() {
+    this.document.removeParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
   }
 
   getUserDocuments(user: any) {
@@ -73,10 +87,14 @@ export class DocumentService {
       SwellRT.open({id}, document => {
         if (!document || document.error) {
           reject(document ? document.error : null);
+        } else {
+          this.document = document;
+          if(!this.userService.loggedUser()) {
+            this.makeDocumentPublic();
+          }
+          this.currentDocument.next(document);
+          resolve(document);
         }
-        this.currentDocument.next(document);
-        this.document = document;
-        resolve(document);
       });
     });
   }

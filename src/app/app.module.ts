@@ -33,7 +33,8 @@ import { AppState } from "./app.service";
 
 import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
 
-import {ModalModule} from "ng2-modal";
+import { ModalModule } from "ng2-modal";
+import { UiSwitchModule } from 'angular2-ui-switch'
 
 const APP_PROVIDERS = [
   AppState,
@@ -69,6 +70,7 @@ const APP_PROVIDERS = [
     FormsModule,
     HttpModule,
     ModalModule,
+    UiSwitchModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
