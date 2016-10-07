@@ -9,7 +9,7 @@ Install *node.js* and *npm* package manager in order to download the dependencie
 ```
 git clone git://github.com/p2pvalue/swellrt-pad
 cd swellrt-pad
-npm i -g typings esformatter protractor webpack webpack-dev-server karma protractor typings typescript
+npm i -g typings esformatter protractor webpack webpack-dev-server karma protractor typings typescript webpack-merge webpack copy-webpack-plugin html-webpack-plugin awesome-typescript-loader autoprefixer angular2-template-loader hmr-loader
 npm i
 ```
 
