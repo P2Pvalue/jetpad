@@ -1,9 +1,12 @@
 {
+  "name": "jetpad",
+  "dependencies": {},
   "globalDependencies": {
-    "angular-protractor": "registry:dt/angular-protractor#1.5.0+20160425143459",
-    "core-js": "registry:dt/core-js#0.0.0+20160602141332",
+    "angular-protractor": "registry:dt/angular-protractor#1.5.0+20160914235635",
+    "core-js": "registry:dt/core-js#0.0.0+20160914114559",
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
-    "node": "registry:dt/node#6.0.0+20160621231320",
-    "selenium-webdriver": "registry:dt/selenium-webdriver#2.44.0+20160317120654"
+    "jquery": "registry:dt/jquery#1.10.0+20160908203239",
+    "node": "registry:dt/node#6.0.0+20160914131736",
+    "selenium-webdriver": "registry:dt/selenium-webdriver#2.53.1+20160914235635"
   }
 }

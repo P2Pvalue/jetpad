@@ -1,0 +1,13 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+  David Llop <@llopv>
+  Pablo Ojanguren <@pablojan>
+  Devialab Team <@devialab>
+
+# TECHNOLOGY COLOPHON
+
+  HTML5, CSS3
+  Angular2, TypeScript, Webpack

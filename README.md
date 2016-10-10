@@ -1,4 +1,4 @@
-# SwellRT Pad
+# SwellRT Pad ![Codeship Status for devialab/swellrt-pad](https://codeship.com/projects/fa4d1720-3d44-0134-f92e-4248a514221b/status?branch=master)
 
 SwellRT Pad is a web-based collaborative editor, build with [SwellRT real-time technology](http://swellrt.org) and the Angular 2 framework.
 
@@ -9,22 +9,36 @@ Install *node.js* and *npm* package manager in order to download the dependencie
 ```
 git clone git://github.com/p2pvalue/swellrt-pad
 cd swellrt-pad
+npm i -g typings esformatter protractor webpack webpack-dev-server karma protractor typings typescript webpack-merge webpack copy-webpack-plugin html-webpack-plugin awesome-typescript-loader autoprefixer angular2-template-loader hmr-loader
+npm i
+```
+
+## Run
+
+You can run it in dev mode with:
+
+```
 npm start
 ```
+
+
+## Build
+
+If you want to build the project, do:
+
+```
+npm run build
+```
+
+## SwellRT Server
+
 By default, it is going to be connected to the SwellRT demo server.
 
-If you want to install your own SwellRT server, please visit the [SwellRt Readme](https://github.com/p2pvalue/swellrt). By now, the URL is hardcoded in several places of the app, i.e. in `index.html`.
+If you want to install your own SwellRT server, please visit the [SwellRt Readme](https://github.com/p2pvalue/swellrt). Then, you need to change SwellRT Pad configuration:
 
-*Any issue after updating Angular2 dependencies or another libraries?*
-
-After updating Angular2 libraries or other dependencies you should run following commands to get the app running:
-
-```
-rm -R node_modules
-rm -R typings
-npm install
-npm start
-```
+You can found the script configuration in `src/index.html`.
+You can found the server configuration in `src/main.browser.ts`.
+You can found the domain configuration in `src/app/environment.ts`.
 
 ## Copyright and License
 
