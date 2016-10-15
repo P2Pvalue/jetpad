@@ -24,11 +24,6 @@ form {
       height: 40px;
       border-bottom: 3px solid $secondary-color-blend;
       @include border-radius(20px);
-      &:hover {
-        background-color: $secondary-color-blend;
-        border-top: 3px solid darken($secondary-color-blend, 20%);
-        border-bottom: 0;
-      }
     }
     &.btn-lg {
       font-size: 22px;
@@ -36,9 +31,6 @@ form {
       height: 70px;
       border-bottom: 7px solid $secondary-color-blend;
       @include border-radius(35px);
-      &:hover {
-        border-top: 7px solid darken($secondary-color-blend, 20%);
-      }
     }
   }
   .checkbox,
