@@ -4,7 +4,7 @@ import {Component} from "@angular/core";
   selector: 'app-footer',
   template: `
         <footer>
-            <div class="row">
+            <div class="">
             <nav class="navbar navbar-default">
                 <div class="col-md-3 text-center footer">
                   <h5>Powered by</h5>
