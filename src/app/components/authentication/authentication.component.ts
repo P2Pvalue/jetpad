@@ -8,14 +8,14 @@ import { Component } from '@angular/core';
         <div class="row row-eq-height">
           <div class="col-sm-6 left-content">
             <div class="row-centered">
-              <div class="col-sm-8 col-centered">
+              <div class="col-sm-7 col-centered">
                 <app-login [title]="'Login'"></app-login>
               </div>
             </div>
           </div>
           <div class="col-sm-6 right-content">
             <div class="row-centered">
-              <div class="col-sm-8 col-centered">
+              <div class="col-sm-7 col-centered">
                 <app-register></app-register>
               </div>
             </div>
@@ -23,7 +23,7 @@ import { Component } from '@angular/core';
         </div>
       </div>
     </section>
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
     `,
   })
 

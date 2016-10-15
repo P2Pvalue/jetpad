@@ -21,22 +21,6 @@ import {Router} from "@angular/router";
           </li>
           <li><span class="navbar-brand pipe"></span></li>
         </ul>
-
-        <div class="media-left media-middle" style="display: none">
-          <a>
-            <img class="media-object img-circle" height="40" src="{{currentUser.avatarUrl}}" alt="">
-          </a>
-        </div>
-        <div class="media-right media-middle text-capitalize dropdown" dropdown>
-          <a class="navbar-brand" dropdown-open>
-            <span>{{currentUser.name}}</span>
-            <small><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></small>
-          </a>        
-          <ul class="dropdown-menu">
-              <li><a [routerLink]=" ['./profile'] ">MY PROFILE</a></li>
-              <li><a href="javascript:void(0)" (click)="logout()">LOGOUT</a></li>
-         </ul>
-        </div>
       </div>
 
       <!-- Not Logged In user -->
