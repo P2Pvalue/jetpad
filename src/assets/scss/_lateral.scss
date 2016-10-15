@@ -1,0 +1,35 @@
+.lateral-menu {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: -50%;
+  background-color: darkgray;
+  overflow-x: hidden;
+  transition: 0.5s;
+  .glyphicon {
+    margin-right: 8px;
+    color: white;
+  }
+  .lateral-menu-title {
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .close-button {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  hr {
+    margin: 0;
+  }
+}

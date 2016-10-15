@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
   selector: 'app-header',
   template: `
         <header>
-          <div class="row">
+
             <div #lateralMenu class="lateral-menu">
               <div>
                 <h4 class="lateral-menu-title text-center">MY DOCUMENTS</h4>
@@ -15,7 +15,7 @@ import {Router} from "@angular/router";
               <hr>
               <div>
                 <!-- Logged In user -->
-                <div class="media" *ngIf="currentUser && !currentUser.anonymous">
+                <div class="clearfix" *ngIf="currentUser && !currentUser.anonymous">
                   <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                       <input class="form-control documents-list" type="text" [(ngModel)]="filter">
@@ -52,21 +52,28 @@ import {Router} from "@angular/router";
                 </div>
               </div>
             </div>
-            <nav class="navbar navbar-default">
+            <nav class="navbar">
               <div class="container-fluid">
                 <div class="navbar-header">
-                  <a class="navbar-brand" [routerLink]=" ['./'] "><b>Jetpad</b></a>
+                  <a class="navbar-brand logo" [routerLink]=" ['./'] ">
+                    <img alt="JET PAD" height="53" width="94" src="assets/img/jetpad-logo.png">
+                  </a>
                 </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav navbar-right">
-                    <li><app-user-panel></app-user-panel></li>
-                    <li><span class="glyphicon glyphicon-menu-hamburger link-cursor navbar-brand" 
-                              aria-hidden="true" (click)="openLateralMenu()"></span></li>
+                    <li>
+                      <app-user-panel></app-user-panel>
+                    </li>
+                    <li>
+                      <span class="navbar-brand menu-icon" aria-hidden="true" (click)="openLateralMenu()">
+                        <i class="icon icon-menu-vertical"></i>
+                      </span>
+                    </li>
                   </ul>
                 </div>
               </div>
             </nav>
-          </div>
+
         </header>
         `
 })
