@@ -1,0 +1,70 @@
+.authentication {
+  .left-content,
+  .right-content {
+    padding-top: 150px;
+    padding-bottom: 150px;
+    overflow: hidden;
+    position: relative;
+    &:after {
+      font-family: 'jetpad';
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      position: absolute;
+      color: transparentize($white, 0.8);
+      z-index: 0;
+    }
+    & > div {
+      position: relative;
+      z-index: 1;
+    }
+  }
+  .left-content {
+    background-color: $primary-color-blend-dark;
+    &:after {
+      content: "\62"; //lock icon
+      font-size: 550px;
+      top: 0;
+      left: 0;
+      margin: -140px 0 0 -110px;
+    }
+  }
+  .right-content {
+    background-color: $primary-color-blend;
+    &:after {
+      content: "\65"; //user icon
+      font-size: 500px;
+      bottom: 0;
+      right: 0;
+      margin: 0 -150px -130px 0;
+    }
+  }
+  p {
+    color: $white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    &.text {
+      font-size: 18px;
+      margin-bottom: 35px;
+    }
+  }
+  form {
+    input.form-control {
+      border: none;
+      text-align: center;
+    }
+    .checkbox {
+      color: transparentize($white, 0.25);
+      label {
+        padding: 0;
+      }
+    }
+    a {
+      color: $white;
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      text-decoration: underline;
+    }
+  }
+}

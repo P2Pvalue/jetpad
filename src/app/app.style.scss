@@ -1,11 +1,12 @@
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 
-@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,700');
-
 @import "~assets/scss/_colors";
-@import "~assets/scss/_helper_classes";
-@import "~assets/scss/_icons";
 @import "~assets/scss/_mixins";
+
+@import "~assets/scss/_helper_classes";
+@import "~assets/scss/_fonts";
+@import "~assets/scss/_forms";
+@import "~assets/scss/_icons";
 
 @import "~assets/scss/_authentication";
 @import "~assets/scss/_header";
