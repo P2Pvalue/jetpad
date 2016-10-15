@@ -1,0 +1,171 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin transition($transition-property, $transition-time, $method) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+
+
+@mixin placeholder-color($color: black) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder           {
+    color: $color;
+  }
+  &::-moz-placeholder          {
+    color: $color;
+  }
+  &:-ms-input-placeholder      {
+    color: $color;
+  }  
+}
+
+// generic transform
+@mixin transform($transforms) {
+     -moz-transform: $transforms;
+       -o-transform: $transforms;
+      -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+          transform: $transforms;
+}
+// rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+// scale
+@mixin scale($scale) {
+   @include transform(scale($scale));
+} 
+// translate
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+// skew
+@mixin skew ($x, $y) {
+   @include transform(skew(#{$x}deg, #{$y}deg));
+}
+//transform origin
+@mixin transform-origin ($origin) {
+    moz-transform-origin: $origin;
+       -o-transform-origin: $origin;
+      -ms-transform-origin: $origin;
+  -webkit-transform-origin: $origin;
+          transform-origin: $origin;
+}
+
+@mixin box-sizing($box-model) {
+  -webkit-box-sizing: $box-model;
+     -moz-box-sizing: $box-model;
+          box-sizing: $box-model;
+}
+
+@mixin box-shadow($horizontal: 0px, $vertical: 0px, $blur: 10px, $color: #000, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow: inset $horizontal $vertical $blur $color;
+    -moz-box-shadow: inset $horizontal $vertical $blur $color;
+    box-shadow: inset $horizontal $vertical $blur $color;
+  } @else {
+    -webkit-box-shadow: $horizontal $vertical $blur $color;
+    -moz-box-shadow: $horizontal $vertical $blur $color;
+    box-shadow: $horizontal $vertical $blur $color;
+  }
+}
+
+@mixin VerticalAlign() {
+  &:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%; width: .1px;
+  }
+}
+
+@function em($target, $context: $basefont) {
+  @return ($target / $context) * 1em;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin doble-arrow($box-edge: bottom, $edge-side: center, $arrow-size: 10px, $edge-side-offset : 0, $fill-color: black, $border-color: none, $border-style: border) {
+  // initiate internal variables
+  $box-edge-inverse: bottom;
+  $edge-side-pos: $edge-side;
+  $edge-side-pos-value: 0;
+  // establish inverse variables
+  @if      $box-edge == top    { $box-edge-inverse: bottom; }
+  @else if $box-edge == right  { $box-edge-inverse: left;   }
+  @else if $box-edge == bottom { $box-edge-inverse: top;    }
+  @else if $box-edge == left   { $box-edge-inverse: right;  }
+  // calculate remaining internal variables
+  @if ($box-edge == 'top' or
+       $box-edge == 'bottom') {
+    @if $edge-side == center {
+      $edge-side-pos: left;
+      $edge-side-pos-value: 50%;
+      $edge-side-offset: (-$arrow-size);
+    }
+  }
+  @if ($box-edge == 'left' or
+       $box-edge == 'right') {
+    @if $edge-side == center {
+      $edge-side-pos: top;
+      $edge-side-pos-value: 50%;
+      $edge-side-offset: (-$arrow-size);
+    }
+  }
+  &:after, &:before {
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border: solid rgba(#fff, 0);
+  }
+  &:after  {
+    border-color: rgba(#fff, 0);
+    border-width: $arrow-size - 1;
+    #{$box-edge}: (-$arrow-size) - $arrow-size + 2;
+    border-#{$box-edge-inverse}-color: $fill-color;
+    #{$edge-side-pos}: $edge-side-pos-value;
+    margin-#{$edge-side-pos}: $edge-side-offset + 1;
+  }
+  @if $border-style == flag {
+    @include border-radius(2px);
+    &:before {
+      border-color: rgba(#fff, 0);
+      border-width: $arrow-size - 1;
+      #{$box-edge}: (-$arrow-size) - $arrow-size + 2;
+      border-#{$box-edge-inverse}-color: $border-color;
+      #{$edge-side-pos}: $edge-side-pos-value;
+      margin-#{$edge-side-pos}: $edge-side-offset + 2;
+    }
+  } @else {
+    &:before {
+      border-color: rgba(#fff, 0);
+      border-width: $arrow-size;
+      #{$box-edge}: (-$arrow-size) - $arrow-size;
+      border-#{$box-edge-inverse}-color: $border-color;
+      #{$edge-side-pos}: $edge-side-pos-value;
+      margin-#{$edge-side-pos}: $edge-side-offset;
+    }
+  }
+}
+
+@mixin calc($property, $expression) {
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: calc(#{$expression});
+}
