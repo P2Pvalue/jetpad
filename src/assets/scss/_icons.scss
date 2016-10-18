@@ -38,6 +38,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+[class^="icon-"].icon-middle,
+[class*=" icon-"].icon-middle {
+  &:before {
+    vertical-align: middle;
+  }
+}
+
 .icon-edit:before {
   content: "\61";
 }
@@ -52,4 +59,19 @@
 }
 .icon-user:before {
   content: "\65";
+}
+.icon-cross:before {
+  content: "\66";
+}
+.icon-arrow-down:before {
+  content: "\67";
+}
+.icon-close:before {
+  content: "\68";
+}
+.icon-dots:before {
+  content: "\69";
+}
+.icon-search:before {
+  content: "\6a";
 }
