@@ -15,7 +15,7 @@ import {DocumentService} from "../../services/document.service";
             <h5 class="lateral-menu-title">Link to share</h5>
             <p class="share-link">{{ documentUrl }}</p>
             <br>
-            <div *ngIf="currentUser && !currentUser.anonymous">
+            <div *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
               <div class="col-md-4">
                 <h5 class="lateral-menu-title">Make public this document</h5>
               </div>
@@ -47,13 +47,15 @@ export class ShareSettingsComponent {
   currentDocument: any;
   documentUrl: any;
   publicDocument: any;
+  anonymousDocument = true;
 
   constructor(private documentService: DocumentService, private userService: UserService, private router: Router) {
     this.currentUser = userService.getUser();
     documentService.currentDocument.subscribe(document => {
       this.currentDocument = document;
       if(!this.currentUser.anonymous) {
-        this.publicDocument = this.documentService.isAPublicDocument();
+        this.publicDocument = this.documentService.publicDocument();
+        this.anonymousDocument = this.documentService.anonymousDocument();
       }
       this.documentUrl = this.documentService.getDocumentUrl(document.id());
     });

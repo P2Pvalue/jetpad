@@ -1,6 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { Subject } from "rxjs";
 import { UserService } from "./user.service";
+import {Router} from "@angular/router";
 
 declare let SwellRT: any;
 
@@ -11,13 +12,16 @@ export class DocumentService {
   currentDocument = new Subject<any>();
   myDocuments = new Subject<any>();
 
+  ANONYMOUS_DOCUMENT_PARTICIPANT = "_anonymous_@" + this.SWELLRT_DOMAIN;
   PUBLIC_DOCUMENT_PARTICIPANT = "@" + this.SWELLRT_DOMAIN;
+  ANONYMOUS_PARTICIPANT = "_anonymous_";
 
   query = {};
 
   constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
               @Inject('JETPAD_URL') private JETPAD_URL: string,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
     userService.currentUser.subscribe(user => this.getUserDocuments(user));
   }
 
@@ -33,16 +37,46 @@ export class DocumentService {
     return waveId.substr(waveId.indexOf('/') + 1);
   }
 
-  isAPublicDocument() {
+  userHasPermission() {
+    return this.document.getParticipants().includes(this.PUBLIC_DOCUMENT_PARTICIPANT) ||
+           this.document.getParticipants().includes(this.userService.getUser().id)
+  }
+
+  publicDocument() {
     return this.document.getParticipants().includes(this.PUBLIC_DOCUMENT_PARTICIPANT)
   }
 
+  anonymousDocument() {
+    return this.document.getParticipants().includes(this.ANONYMOUS_DOCUMENT_PARTICIPANT)
+  }
+
+  newAnonymousDocument() {
+    return this.document.getParticipants().length == 1 && this.document.getParticipants()[0].startsWith(this.ANONYMOUS_PARTICIPANT)
+  }
+
+  makeDocumentAnonymous() {
+    this.document.addParticipant(this.ANONYMOUS_DOCUMENT_PARTICIPANT);
+    this.makeDocumentPublic()
+  }
+
+  addParticipant(participant: string) {
+    this.document.addParticipant(participant)
+  }
+
+  removeParticipant(participant: string) {
+    this.document.removeParticipant(participant)
+  }
+
+  addUserAsParticipant() {
+    this.addParticipant(this.userService.getUser().id)
+  }
+
   makeDocumentPublic() {
-    this.document.addParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
+    this.addParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
   }
 
   makeDocumentPrivate() {
-    this.document.removeParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
+    this.removeParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
   }
 
   getUserDocuments(user: any) {
@@ -89,11 +123,17 @@ export class DocumentService {
           reject(document ? document.error : null);
         } else {
           this.document = document;
-          if(!this.userService.loggedUser()) {
-            this.makeDocumentPublic();
+          if(this.userHasPermission()) {
+            if(this.userService.loggedUser()) {
+              this.addUserAsParticipant()
+            } else if(this.newAnonymousDocument()) {
+              this.makeDocumentAnonymous()
+            }
+            this.currentDocument.next(document);
+            resolve(document);
+          } else {
+            this.router.navigate(['unauthorized']);
           }
-          this.currentDocument.next(document);
-          resolve(document);
         }
       });
     });
