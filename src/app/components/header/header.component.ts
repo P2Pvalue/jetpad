@@ -8,50 +8,101 @@ import {Router} from "@angular/router";
         <header>
 
             <div #lateralMenu class="lateral-menu">
-              <div>
-                <h4 class="lateral-menu-title text-center">MY DOCUMENTS</h4>
-                <a href="javascript:void(0)" class="close-button" (click)="closeLateralMenu()">&times;</a>
+              
+              <div class="clearfix no-gutter">
+                <div class="col-sm-12 text-right">
+                  <div class="close-button" (click)="closeLateralMenu()">
+                    <i class="icon icon-cross"></i>
+                  </div>
+                </div>
               </div>
-              <hr>
-              <div>
+              <div class="clearfix container">
+                <div class="col-sm-12">
+                  <h4 class="lateral-menu-title">My documents</h4>
+                  <hr>
+                </div>
+              </div>
+
+              <div class="clearfix container">
                 <!-- Logged In user -->
-                <div class="clearfix" *ngIf="currentUser && !currentUser.anonymous">
-                  <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                      <input class="form-control documents-list" type="text" [(ngModel)]="filter">
+                <div *ngIf="currentUser && !currentUser.anonymous">
+                  <div class="form clearfix">
+                    <div class="col-sm-4">
+                      <div class="input-select">
+                        <select name="order-by" id="order-by" class="form-control">
+                          <option value="1" selected>Ordenar por...</option>
+                          <option value="2">Option 1</option>
+                          <option value="3">Option 2</option>
+                          <option value="4">Option 3</option>
+                        </select>
+                        <i class="icon icon-arrow-down" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-4">
+                      <div class="form-group has-feedback">
+                        <input class="form-control documents-list" type="text" placeholder="Search document" [(ngModel)]="filter">
+                        <i class="icon icon-search form-control-feedback" aria-hidden="true"></i>
+                      </div>
                     </div>
                   </div>
-                  <br>
-                  <div class="row documents-list">
-                    <div class="col-md-3 col-md-offset-2">Name</div>
-                    <div class="col-md-3 col-md-offset-1">Participants</div>
-                    <div class="col-md-2 col-md-offset-1">Last edit</div>
-                  </div>
-                  <br>
-                  <div *ngFor="let document of documents | search:filter | slice:0:15">
-                    <div class="col-md-1 col-md-offset-1">
-                      <small><span class="glyphicon glyphicon-share" aria-hidden="true"></span></small>
-                      <small><span *ngIf="currentUser.id === document.author" class="glyphicon glyphicon-trash" aria-hidden="true"></span></small>
+
+                  <div class="clearfix">
+                    <div class="col-sm-12">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Participants</th>
+                            <th>Last edit</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let document of documents | search:filter | slice:0:15">
+                            <td class="with-icon">
+                              <i class="icon icon-share cursor-pointer" aria-hidden="true"></i>
+                            </td>
+                            <td>
+                              <a class="documents-title" (click)="openDocument(document.editorId);">{{ document.title }}</a>
+                            </td>
+                            <td>
+                              {{ document.participants }}
+                            </td>
+                            <td>
+                              {{ document.modification }}
+                            </td>
+                            <td class="with-icon">
+                              <i *ngIf="currentUser.id === document.author" class="icon icon-close cursor-pointer" aria-hidden="true"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
-                    <div class="col-md-3">
-                      <a class="documents-list" (click)="openDocument(document.editorId);">{{ document.title }}</a>
-                    </div>
-                    <div class="col-md-3 col-md-offset-1"><p class="documents-list">{{ document.participants }}</p></div>
-                    <div class="col-md-2 col-md-offset-1"><p class="documents-list">{{ document.modification }}</p></div>
                   </div>
+
                 </div>
+                <!-- END Logged In user -->
+
                 <!-- Not Logged In user -->
-                <div  *ngIf="!currentUser || currentUser.anonymous">
-                  <h5 class="lateral-menu-title text-center">If you want have a list of your documents you must to login</h5>
-                  <div class="col-md-3 col-md-offset-3">
-                    <button type="button" class="btn btn-default lateral-menu-button" (click)="goToAuthenticationScreen() ">Login</button>
+                <div *ngIf="!currentUser || currentUser.anonymous">
+                  <div class="col-sm-12">
+                    <p>If you want have a list of your documents you must to login</p>
                   </div>
-                  <div class="col-md-3 col-md-offset-1">
-                    <button type="button" class="btn btn-default lateral-menu-button" (click)="goToAuthenticationScreen() ">Register</button>
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary btn-lower" (click)="goToAuthenticationScreen() ">
+                      <i class="icon icon-lock icon-middle"></i> Login
+                    </button>
+                    <button type="button" class="btn btn-primary btn-lower" (click)="goToAuthenticationScreen() ">
+                      <i class="icon icon-user icon-middle"></i> Register
+                    </button>
                   </div>
                 </div>
+                <!-- END Not Logged In user -->
               </div>
+
             </div>
+
             <nav class="navbar">
               <div class="container-fluid">
                 <div class="navbar-header">
@@ -113,7 +164,7 @@ export class HeaderComponent {
   }
 
   closeLateralMenu() {
-    this.changeLateralMenuPosition("-50%");
+    this.changeLateralMenuPosition("-70%");
   }
 
   changeLateralMenuPosition(percentage: string) {

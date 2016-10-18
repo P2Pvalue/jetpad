@@ -1,4 +1,18 @@
-form {
+form,
+.form {
+  .form-group {
+    .form-control {
+      padding-right: 50px;
+    }
+    .form-control-feedback {
+      width: auto;
+      height: 100%;
+      padding: 14px 15px 0;
+      &:before {
+        font-size: 22px;
+      }
+    }
+  }
   input.form-control {
     background: $white;
     border: 1px solid $soft-gray;
@@ -10,27 +24,36 @@ form {
     @include border-radius(0);
     @include placeholder-color($color: $soft-gray);
   }
-  .btn {
-    &.btn-primary {
-      background: $secondary-color;
+  select.form-control {
+    background: $light-gray;
+    border: 1px solid $soft-gray;
+    color: $text-color-blend;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    height: 50px;
+    font-style: italic;
+    padding: 5px 45px 5px 20px;
+    @include x-appearance (inherit);
+    @include border-radius(0);
+    @include placeholder-color($color: $soft-gray);
+  }
+  .input-select {
+    position: relative;
+    .icon {
+      width: 40px;
+      height: 50px;
+      background: $primary-color;
+      border: 1px solid $primary-color-blend-dark;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 10;
+      text-align: center;
+      padding-top: 17px;
       color: $white;
-      font-size: 13px;
-      font-family: 'Rubik', sans-serif;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 2.9px;
-      border: none;
-      margin-top: 20px;
-      height: 40px;
-      border-bottom: 3px solid $secondary-color-blend;
-      @include border-radius(20px);
-    }
-    &.btn-lg {
-      font-size: 22px;
-      margin-top: 40px;
-      height: 70px;
-      border-bottom: 7px solid $secondary-color-blend;
-      @include border-radius(35px);
+      pointer-events: none;
+      cursor: pointer;
     }
   }
   .checkbox,
@@ -89,6 +112,45 @@ form {
       .cr-icon {
         margin-left: 0.04em;
       }
+    }
+  }
+}
+
+.btn {
+  margin-left: 10px;
+  &:first-of-type {
+    margin-left: 0;
+  }
+  &.btn-primary {
+    background: $secondary-color;
+    color: $white;
+    font-size: 13px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2.9px;
+    border: none;
+    margin-top: 20px;
+    height: 40px;
+    border-bottom: 3px solid $secondary-color-blend;
+    @include border-radius(20px);
+  }
+  &.btn-lg {
+    font-size: 22px;
+    margin-top: 40px;
+    height: 70px;
+    border-bottom: 7px solid $secondary-color-blend;
+    @include border-radius(35px);
+  }
+  &.btn-lower {
+    text-transform: inherit;
+    letter-spacing: inherit;
+    font-weight: 300;
+    font-size: 18px;
+    padding: 7px 33px;
+    height: inherit;
+    .icon {
+      margin-right: 10px;
     }
   }
 }
