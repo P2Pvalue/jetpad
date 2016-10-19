@@ -67,10 +67,6 @@ export class DocumentService {
     this.document.removeParticipant(participant)
   }
 
-  addUserAsParticipant() {
-    this.addParticipant(this.userService.getUser().id)
-  }
-
   makeDocumentPublic() {
     this.addParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
   }
@@ -124,9 +120,7 @@ export class DocumentService {
         } else {
           this.document = document;
           if(this.userHasPermission()) {
-            if(this.userService.loggedUser()) {
-              this.addUserAsParticipant()
-            } else if(this.newAnonymousDocument()) {
+            if(this.newAnonymousDocument()) {
               this.makeDocumentAnonymous()
             }
             this.currentDocument.next(document);
