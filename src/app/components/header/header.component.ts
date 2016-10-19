@@ -61,19 +61,36 @@ import {Router} from "@angular/router";
                         <tbody>
                           <tr *ngFor="let document of documents | search:filter | slice:0:15">
                             <td class="with-icon">
-                              <i class="icon icon-share cursor-pointer" aria-hidden="true"></i>
+                              <i class="icon icon-share icon-middle cursor-pointer" aria-hidden="true"></i>
                             </td>
                             <td>
                               <a class="documents-title" (click)="openDocument(document.editorId);">{{ document.title }}</a>
                             </td>
                             <td>
-                              {{ document.participants }}
+                              <div class="author">
+                                <img src="assets/img/user1.png" alt="{{ document.participants }}" class="img-circle" />
+                              </div>
+                              <div class="contributors">
+                                <img src="assets/img/user2.png" alt="{{ document.participants }}" class="img-circle" />
+                                <span class="not-avatar">VF</span>
+                                <!-- <img src="assets/img/user4.png" alt="{{ document.participants }}" class="img-circle" /> -->
+                                <img src="assets/img/user3.png" alt="{{ document.participants }}" class="img-circle" />
+                              </div>
+                              <div class="view-more">
+                                <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+                                <div class="drowdown-box">
+                                  <img src="assets/img/user2.png" alt="{{ document.participants }}" class="img-circle" />
+                                  <span class="not-avatar">VF</span>
+                                  <img src="assets/img/user4.png" alt="{{ document.participants }}" class="img-circle" />
+                                  <img src="assets/img/user3.png" alt="{{ document.participants }}" class="img-circle" />
+                                </div>
+                              </div>
                             </td>
                             <td>
                               {{ document.modification }}
                             </td>
                             <td class="with-icon">
-                              <i *ngIf="currentUser.id === document.author" class="icon icon-close cursor-pointer" aria-hidden="true"></i>
+                              <i *ngIf="currentUser.id === document.author" class="icon icon-close icon-middle cursor-pointer" aria-hidden="true"></i>
                             </td>
                           </tr>
                         </tbody>

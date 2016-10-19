@@ -59,6 +59,7 @@
         font-weight: 400;
         font-size: 17px;
         padding-bottom: 10px;
+        border-bottom: 1px solid $soft-gray;
       }
     }
     tbody {
@@ -69,6 +70,8 @@
         font-size: 15px;
         padding-top: 20px;
         padding-bottom: 15px;
+        vertical-align: middle;
+        border-top: 1px dashed $soft-gray;
         &.with-icon {
           text-align: center;
         }
@@ -89,6 +92,78 @@
           text-decoration: underline;
           cursor: pointer;
         }
+      }
+    }
+    .author {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    .contributors {
+      display: inline-block;
+      img {
+        margin-left: -10px;
+        z-index: 5;
+        position: relative;
+        &:first-child {
+          margin-left: 0;
+          z-index: 10;
+        }
+        &:last-child {
+          z-index: 1;
+        }
+        &:hover {
+          z-index: 15;
+        }
+      }
+      & + .not-avatar {
+        margin-left: 0;
+      }
+    }
+    .view-more {
+      display: inline-block;
+      margin-left: 10px;
+      position: relative;
+      .icon {
+        font-size: 20px;
+      }
+      .drowdown-box {
+        display: none;
+        position: absolute;
+        top: -20px;
+        left: 0;
+        width: 200px;
+        background-color: $white;
+        padding: 10px 10px 0;
+        border: 1px solid $soft-gray;
+        img,
+        .not-avatar {
+          margin: 0 0 10px 0;
+        }
+      }
+      &:hover {
+        .drowdown-box {
+          display: block;
+        }
+      }
+    }
+    .not-avatar {
+      width: 40px;
+      height: 40px;
+      padding-top: 9px;
+      margin-left: -10px;
+      color: $text-color-blend;
+      font-size: 18px;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 300;
+      text-align: center;
+      display: inline-block;
+      vertical-align: middle;
+      z-index: 5;
+      position: relative;
+      background-color: lighten($primary-color, 55%);
+      @include border-radius(20px);
+      &:hover {
+        z-index: 15;
       }
     }
   }
