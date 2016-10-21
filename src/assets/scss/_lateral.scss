@@ -25,10 +25,7 @@
     width: 100%;
   }
   .lateral-menu-title {
-    font-family: 'Rubik', sans-serif;
-    font-size: 25px;
-    font-weight: 700;
-    color: $text-color;
+    @include heading-styles(25px, $text-color);
   }
   hr {
     margin: 15px 0 0 0;

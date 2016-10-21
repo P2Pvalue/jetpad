@@ -73,3 +73,10 @@
     display: -ms-flexbox;
     display: flex;
 }
+
+@mixin heading-styles($font-size, $color) {
+    font-family: 'Rubik', sans-serif;
+    font-size: $font-size;
+    font-weight: 700;
+    color: $color;
+}
