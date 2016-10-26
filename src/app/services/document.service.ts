@@ -78,8 +78,8 @@ export class DocumentService {
   getUserDocuments(user: any) {
     if(!user.anonymous) {
       this.query = {
-        _query : { participants: { $eq: user.id /*,  $not: "^@"*/ }},
-        _projection: { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1 }
+        _query : { participants: { $eq: user.id,  $ne: this.ANONYMOUS_DOCUMENT_PARTICIPANT }},
+       _projection: { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1, 'root.doc.author' : 1 }
       };
       SwellRT.query(this.query, documents => this.myDocuments.next(this.parseDocuments(documents.result)), error => {});
     }

@@ -38,10 +38,11 @@ export class RegisterComponent {
   // Form fields
   nameInput: string;
   passwordInput: string;
+  mailInput: string;
 
   constructor(private userService: UserService) {}
 
   register() {
-    this.userService.create(this.nameInput, this.passwordInput);
+    this.userService.create(this.nameInput, this.passwordInput, this.mailInput);
   }
 }

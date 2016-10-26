@@ -30,10 +30,10 @@ import {Router} from "@angular/router";
                     <div class="col-sm-4">
                       <div class="input-select">
                         <select name="order-by" id="order-by" class="form-control">
-                          <option value="1" selected>Ordenar por...</option>
-                          <option value="2">Option 1</option>
-                          <option value="3">Option 2</option>
-                          <option value="4">Option 3</option>
+                          <option value="1" selected>Order by ...</option>
+                          <option value="2">Name</option>
+                          <option value="3">Author</option>
+                          <option value="4">Last edit</option>
                         </select>
                         <i class="icon icon-arrow-down" aria-hidden="true"></i>
                       </div>

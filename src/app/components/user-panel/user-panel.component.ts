@@ -11,7 +11,8 @@ import {Router} from "@angular/router";
         <ul class="list-inline">
           <li class="dropdown cursor-pointer" dropdown>
             <span class="navbar-brand" dropdown-open>
-              <img class="img-circle user-avatar" height="40" src="{{currentUser.avatarUrl}}" alt="">
+              <img *ngIf="currentUser.avatarUrl" class="img-circle user-avatar" height="40" src="{{currentUser.avatarUrl}}" alt="">
+              <span *ngIf="!currentUser.avatarUrl" class="not-avatar">{{this.getInitials()}}</span>
               {{currentUser.name}}
             </span>
             <ul class="dropdown-menu">
@@ -52,6 +53,15 @@ export class UserPanelComponent {
     userService.currentUser.subscribe(user => {
       this.currentUser = user;
     });
+  }
+
+  getInitials() {
+    let initials = "";
+    let name = this.currentUser.name;
+    name.split(" ").forEach(function (word) {
+      initials = initials.concat(word.charAt(0))
+    });
+    return initials.toUpperCase();
   }
 
   logout() {
