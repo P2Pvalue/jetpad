@@ -125,10 +125,12 @@ export class DocumentService {
         if (!document || document.error) {
           reject(document ? document.error : null);
         } else {
+          document.properties = {};
           this.document = document;
           if(this.userHasPermission()) {
             if(this.newAnonymousDocument()) {
-              this.makeDocumentAnonymous()
+              this.makeDocumentAnonymous();
+              document.properties.created = true;
             }
             this.currentDocument.next(document);
             resolve(document);

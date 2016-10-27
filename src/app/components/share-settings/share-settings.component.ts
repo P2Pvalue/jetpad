@@ -10,11 +10,16 @@ import {DocumentService} from "../../services/document.service";
         <button #shareSettingsButton [disabled]="!documentUrl" class="btn btn-info btn-lg" (click)="shareSettings.open()">Share</button>
         <modal #shareSettings>
           <modal-header>
-            <h4>Share settings</h4>
+            <h4 *ngIf="currentDocument && currentDocument.properties.created">New public document</h4>
+            <h4 *ngIf="currentDocument && !currentDocument.properties.created">Share settings</h4>
           </modal-header>
           <modal-content>
+            <div *ngIf="currentDocument && currentDocument.properties.created">
+              <h5>Name of de document</h5>
+              <p class="text-box name">{{ documentName }}</p>
+            </div>
             <h5 class="lateral-menu-title">Link to share</h5>
-            <p class="share-link">{{ documentUrl }}</p>
+            <p class="text-box share-link">{{ documentUrl }}</p>
             <br>
             <div *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
               <div class="col-md-4">
@@ -30,7 +35,7 @@ import {DocumentService} from "../../services/document.service";
             <div  *ngIf="!currentUser || currentUser.anonymous">
               <h5 class="muted">If you want to make private this document you must <a (click)="goToAuthenticationScreen()">login</a> or <a (click)="goToAuthenticationScreen()">register</a>.</h5>
             </div>
-            <button class="btn btn-primary">READY!</button>
+            <button class="btn btn-primary" (click)="updateDocumentProperties(); shareSettings.close()">READY!</button>
           </modal-footer>
         </modal>
         `
@@ -42,6 +47,7 @@ export class ShareSettingsComponent {
   currentUser: any;
   currentDocument: any;
   documentUrl: any;
+  documentName: any;
   publicDocument: any;
   anonymousDocument = true;
 
@@ -57,7 +63,12 @@ export class ShareSettingsComponent {
         this.anonymousDocument = this.documentService.anonymousDocument();
       }
       this.documentUrl = this.documentService.getDocumentUrl(document.id());
-      setTimeout(() => { this.pressShareSettingsButton(); }, 0);
+      this.documentName = this.documentService.getEditorId(document.id());
+      if(this.currentDocument.properties.created) {
+        setTimeout(() => {
+          this.renderer.invokeElementMethod(this.shareSettingsButton.nativeElement, 'click', []);
+        }, 0);
+      }
     });
   }
 
@@ -74,9 +85,8 @@ export class ShareSettingsComponent {
     this.router.navigate(['authentication']);
   }
 
-  pressShareSettingsButton() {
-    let event = new MouseEvent('click', {bubbles: true});
-    this.renderer.invokeElementMethod(this.shareSettingsButton.nativeElement, 'click', []);
+  updateDocumentProperties() {
+    this.currentDocument.properties.created = false;
   }
 
 }

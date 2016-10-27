@@ -31,12 +31,19 @@
         	cursor: pointer;
         }
     }
-    .share-link {
-		padding: 15px 0px;
-		background-color: $light-gray;
-		border-bottom: 1px solid $soft-gray;
-    	border-right: 1px solid $soft-gray;
-    	color: $primary-color;
-    	overflow: hidden;
-	}
+    .text-box {
+      padding: 15px 0px;
+      background-color: $light-gray;
+      border-bottom: 1px solid $soft-gray;
+      border-right: 1px solid $soft-gray;
+      &.share-link {
+        color: $primary-color;
+        overflow: hidden;
+      }
+      &.name {
+        margin-bottom: 30px;
+      }
+    }
+
+
 }
