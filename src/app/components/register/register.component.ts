@@ -21,7 +21,7 @@ import { UserService } from "../../services";
           <label class="sr-only" for="registerPasswordInput">Password</label>
           <input class="form-control" id="registerPasswordInput" name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
         </div> 
-        <button class="btn btn-primary btn-lg btn-block">Register</button>
+        <button class="btn btn-primary btn-lg btn-block mar-top-20">Register</button>
         <div class="checkbox">
           <label>
             <input type="checkbox">

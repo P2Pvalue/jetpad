@@ -2,6 +2,10 @@
     margin: 0 !important;
 }
 
+.mar-top-20 {
+    margin-top: 20px;
+}
+
 .no-padding {
     padding: 0 !important;
 }
@@ -72,6 +76,10 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+}
+
+.muted {
+    color: $text-color-blend;
 }
 
 @mixin heading-styles($font-size, $color) {

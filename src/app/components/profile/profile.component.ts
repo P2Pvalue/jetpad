@@ -27,7 +27,7 @@ import { UserService } from "../../services";
                   <label class="control-label" for="emailInput">Email</label>
                   <input class="form-control" id="emailInput" name="email" [(ngModel)]="email">
                 </div>
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary mar-top-20">Save</button>
               </form>
             </div>
            <div class="col-md-12"><hr></div>
@@ -46,7 +46,7 @@ import { UserService } from "../../services";
                   <label class="control-label" for="emailInput">Repeat new password</label>
                   <input class="form-control" id="repeatNewPasswordInput" type="password" name="repeatNewPassword" [(ngModel)]="repeatNewPassword">
                 </div>
-                <button class="btn btn-primary">Change password</button>
+                <button class="btn btn-primary mar-top-20">Change password</button>
               </form>
             </div>
           </div>
