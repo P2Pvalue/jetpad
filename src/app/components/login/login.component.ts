@@ -20,7 +20,7 @@ import { UserService } from "../../services";
         <div class="form-group text-center">
           <a href="javascript:void(0)" (click)="recoverPassword()">Do you forget your password?</a>
         </div>
-        <button class="btn btn-primary btn-lg btn-block">Login</button>
+        <button class="btn btn-primary btn-lg btn-block mar-top-20">Login</button>
       </form>
     `
   })
