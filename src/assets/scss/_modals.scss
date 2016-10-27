@@ -2,12 +2,19 @@
     padding-left: 30px;
     padding-right: 30px;
     .modal-header {
-        padding: 25px 0px 10px 0px;
+        padding: 30px 0px 5px 0px;
         position: relative;
         button {
             position: absolute;
-            top: 0;
-            right: -29px;
+    		top: 2px;
+    		right: -30px;
+    		background-color: $soft-gray;
+    		width: 20px;
+    		height: 20px;
+    		font-size: 15px;
+        }
+        .close {
+        	opacity: 1;
         }
         h4 {
             font-weight: bold;
@@ -20,6 +27,9 @@
         padding: 15px 0px;
         text-align: left;
         border-top: 0;
+        a {
+        	cursor: pointer;
+        }
     }
     .share-link {
 		padding: 15px 0px;
@@ -27,5 +37,6 @@
 		border-bottom: 1px solid $soft-gray;
     	border-right: 1px solid $soft-gray;
     	color: $primary-color;
+    	overflow: hidden;
 	}
 }
