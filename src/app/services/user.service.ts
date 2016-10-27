@@ -16,7 +16,6 @@ export class UserService {
   constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
               @Inject('DEFAULT_USERNAME') private DEFAULT_USERNAME: string,
               @Inject('DEFAULT_PASSWORD') private DEFAULT_PASSWORD: string,
-              @Inject('DEFAULT_AVATAR_URL') private DEFAULT_AVATAR_URL: string,
               @Inject('RECOVER_PASSWORD_URL') private RECOVER_PASSWORD_URL: string) {
     this.currentUser.subscribe(user => {
       this.user = user;
@@ -63,6 +62,16 @@ export class UserService {
     });
   }
 
+  getUserProfiles(users) {
+    SwellRT.getUserProfile(users, function(result) {
+      if (result.error) {
+        //ERROR
+      } else if (result.data) {
+
+      }
+    });
+  }
+
   anonymousLogin() {
     let id = this.DEFAULT_USERNAME;
     let password = this.DEFAULT_PASSWORD;
@@ -76,8 +85,11 @@ export class UserService {
   }
 
   login(id: string, password: string) {
-    id = this.generateDomainId(id);
-    SwellRT.login({id, password}, result => {
+    let user = {
+      id: this.generateDomainId(id),
+      password: password,
+    };
+    SwellRT.login(user, result => {
       if (result.error) {
         // ERROR
       } else if (result.data) {
@@ -88,9 +100,13 @@ export class UserService {
     });
   }
 
-  create(id: string, password: string) {
-    id = this.generateDomainId(id);
-    SwellRT.createUser({id, password}, result => {
+  create(id: string, password: string, email: string) {
+    let user = {
+      id: this.generateDomainId(id),
+      password: password,
+      email: email
+    };
+    SwellRT.createUser(user, result => {
       if (result.error) {
         // ERROR
       } else if (result.data) {
@@ -139,7 +155,7 @@ export class UserService {
       email: user.email,
       name: name ? name : user.id.slice(0, user.id.indexOf('@')),
       anonymous: name === "Anonymous",
-      avatarUrl: user.avatarUrl ? user.avatarUrl : this.DEFAULT_AVATAR_URL
+      avatarUrl: user.avatarUrl
     }
   }
 }

@@ -1,0 +1,42 @@
+.modal-content {
+    padding-left: 30px;
+    padding-right: 30px;
+    .modal-header {
+        padding: 30px 0px 5px 0px;
+        position: relative;
+        button {
+            position: absolute;
+    		top: 2px;
+    		right: -30px;
+    		background-color: $soft-gray;
+    		width: 20px;
+    		height: 20px;
+    		font-size: 15px;
+        }
+        .close {
+        	opacity: 1;
+        }
+        h4 {
+            font-weight: bold;
+        }
+    }
+    .modal-body {
+        padding: 20px 0px 0px 0px;
+    }
+    .modal-footer {
+        padding: 15px 0px;
+        text-align: left;
+        border-top: 0;
+        a {
+        	cursor: pointer;
+        }
+    }
+    .share-link {
+		padding: 15px 0px;
+		background-color: $light-gray;
+		border-bottom: 1px solid $soft-gray;
+    	border-right: 1px solid $soft-gray;
+    	color: $primary-color;
+    	overflow: hidden;
+	}
+}
