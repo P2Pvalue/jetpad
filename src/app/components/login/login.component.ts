@@ -17,9 +17,11 @@ import { UserService } from "../../services";
           <label class="sr-only" for="loginPasswordInput">Password</label>
           <input class="form-control" id="loginPasswordInput" name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
         </div>
+        <!-- TODO: Forget password doesn't work in server
         <div class="form-group text-center">
           <a href="javascript:void(0)" (click)="recoverPassword()">Do you forget your password?</a>
         </div>
+        -->
         <button class="btn btn-primary btn-lg btn-block mar-top-20">Login</button>
       </form>
     `

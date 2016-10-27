@@ -81,11 +81,12 @@ export class DocumentService {
         _query : { participants: { $eq: user.id,  $ne: this.ANONYMOUS_DOCUMENT_PARTICIPANT }},
        _projection: { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1, 'root.doc.author' : 1 }
       };
-      SwellRT.query(this.query, documents => this.myDocuments.next(this.parseDocuments(documents.result)), error => {});
+      SwellRT.query(this.query, documents => this.parseDocuments(documents.result), error => {});
     }
   }
 
   parseDocuments(myDocuments) {
+    let that = this;
     return myDocuments.map(document => {
       let modification;
       let date = new Date(document.root.doc.lastmodtime);
@@ -94,19 +95,25 @@ export class DocumentService {
       } else {
         modification = date.getDate() + " " + date.toUTCString().split(' ')[2];
       }
-      let participants = document.participants.filter(participant => !participant.startsWith('@'))
-        .map(participant => participant.split('@')[0]);
-      if(participants.length > 3) {
-        participants = participants.slice(0, 3).join(', ').concat('...');
-      }
-      return {
-        'id': document.wave_id,
-        'title': document.root["doc-title"],
-        'author': document.root.doc.author,
-        'modification': modification,
-        'participants': participants,
-        'editorId': this.getEditorId(document.wave_id)
-      }
+      let author;
+      return this.userService.getUserProfiles([document.root.doc.author]).then(function(authorProfile) {
+        if(authorProfile.length) {
+          author = authorProfile[0];
+        }
+        let participants = document.participants.filter(participant => !participant.startsWith('@') && !participant.startsWith('_anonymous_'));
+        return that.userService.getUserProfiles(participants);
+      }).then(function (participantProfiles) {
+        let parsedDocument = {
+          id: document.wave_id,
+          title: document.root["doc-title"],
+          author: author,
+          modification: modification,
+          participants: participantProfiles,
+          editorId: that.getEditorId(document.wave_id),
+          documentUrl: that.getDocumentUrl(document.wave_id)
+        };
+        that.myDocuments.next(parsedDocument);
+      });
     });
   }
 

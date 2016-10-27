@@ -59,30 +59,26 @@ import {Router} from "@angular/router";
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let document of documents | search:filter | slice:0:15">
+                          <tr *ngFor="let document of documents | search:filter">
                             <td class="with-icon">
-                              <i class="icon icon-share icon-middle cursor-pointer" aria-hidden="true"></i>
+                              <i class="icon icon-share icon-middle cursor-pointer" ngIIclipboard [cbContent]="document.documentUrl" aria-hidden="true"></i>
                             </td>
                             <td>
                               <a class="documents-title" (click)="openDocument(document.editorId);">{{ document.title }}</a>
                             </td>
                             <td>
-                              <div class="author">
-                                <img src="assets/img/user1.png" alt="{{ document.participants }}" class="img-circle" />
+                              <div class="author" *ngIf="document.author">
+                                <app-user-icon [user]="document.author"></app-user-icon>
                               </div>
-                              <div class="contributors">
-                                <img src="assets/img/user2.png" alt="{{ document.participants }}" class="img-circle" />
-                                <span class="not-avatar">VF</span>
-                                <!-- <img src="assets/img/user4.png" alt="{{ document.participants }}" class="img-circle" /> -->
-                                <img src="assets/img/user3.png" alt="{{ document.participants }}" class="img-circle" />
+                              <div class="contributors" *ngFor="let participant of document.participants | slice:0:3">
+                                <app-user-icon [user]="participant"></app-user-icon>
                               </div>
-                              <div class="view-more">
+                              <div class="view-more" *ngIf="document.participants.length > 3">
                                 <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
                                 <div class="drowdown-box">
-                                  <img src="assets/img/user2.png" alt="{{ document.participants }}" class="img-circle" />
-                                  <span class="not-avatar">VF</span>
-                                  <img src="assets/img/user4.png" alt="{{ document.participants }}" class="img-circle" />
-                                  <img src="assets/img/user3.png" alt="{{ document.participants }}" class="img-circle" />
+                                <div class="contributors" *ngFor="let participant of document.participants | slice:3">
+                                  <app-user-icon [user]="participant"></app-user-icon>
+                                </div>
                                 </div>
                               </div>
                             </td>
@@ -90,7 +86,9 @@ import {Router} from "@angular/router";
                               {{ document.modification }}
                             </td>
                             <td class="with-icon">
+                              <!-- TODO: You can't delete documents on the server
                               <i *ngIf="currentUser.id === document.author" class="icon icon-close icon-middle cursor-pointer" aria-hidden="true"></i>
+                              -->
                             </td>
                           </tr>
                         </tbody>
@@ -151,15 +149,22 @@ export class HeaderComponent {
   @ViewChild('lateralMenu') lateralMenu: ElementRef;
 
   currentUser: any;
-  documents: any;
   filter:any;
 
+  documents = [];
+
   constructor(private userService: UserService, private documentService: DocumentService, private router: Router) {
+    router.events.subscribe(() => {
+      this.closeLateralMenu();
+    });
     userService.currentUser.subscribe(user => {
       this.currentUser = user;
+      if(user.anonymous) {
+        this.documents = [];
+      }
     });
-    documentService.myDocuments.subscribe(documents => {
-      this.documents = documents;
+    documentService.myDocuments.subscribe(document => {
+      this.documents.push(document);
     });
   }
 

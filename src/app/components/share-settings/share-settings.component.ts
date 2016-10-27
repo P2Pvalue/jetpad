@@ -1,12 +1,13 @@
-import {Component, ViewContainerRef, Inject} from '@angular/core';
+import {Component, ElementRef, ViewChild, Renderer} from '@angular/core';
 import { UserService } from "../../services";
 import {Router} from "@angular/router";
 import {DocumentService} from "../../services/document.service";
 
+
 @Component({
     selector: 'share-settings',
     template: `
-        <button [disabled]="!documentUrl" class="btn btn-info btn-lg" (click)="shareSettings.open()">Share</button>
+        <button #shareSettingsButton [disabled]="!documentUrl" class="btn btn-info btn-lg" (click)="shareSettings.open()">Share</button>
         <modal #shareSettings>
           <modal-header>
             <h4>Share settings</h4>
@@ -44,7 +45,10 @@ export class ShareSettingsComponent {
   publicDocument: any;
   anonymousDocument = true;
 
-  constructor(private documentService: DocumentService, private userService: UserService, private router: Router) {
+  @ViewChild('shareSettingsButton') shareSettingsButton: ElementRef;
+
+  constructor(private documentService: DocumentService, private userService: UserService,
+              private renderer: Renderer, private router: Router) {
     this.currentUser = userService.getUser();
     documentService.currentDocument.subscribe(document => {
       this.currentDocument = document;
@@ -53,6 +57,7 @@ export class ShareSettingsComponent {
         this.anonymousDocument = this.documentService.anonymousDocument();
       }
       this.documentUrl = this.documentService.getDocumentUrl(document.id());
+      setTimeout(() => { this.pressShareSettingsButton(); }, 0);
     });
   }
 
@@ -68,4 +73,10 @@ export class ShareSettingsComponent {
   goToAuthenticationScreen() {
     this.router.navigate(['authentication']);
   }
+
+  pressShareSettingsButton() {
+    let event = new MouseEvent('click', {bubbles: true});
+    this.renderer.invokeElementMethod(this.shareSettingsButton.nativeElement, 'click', []);
+  }
+
 }

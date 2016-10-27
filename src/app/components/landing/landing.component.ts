@@ -25,7 +25,7 @@ import {Router} from "@angular/router";
           </form>
         </nav>
 
-        <div class="panel panel-default text-center">
+        <!--<div class="panel panel-default text-center">
           <div class="panel-body">
               <div class="col-md-4 col-md-offset-1">
                 <img height="200" class="center-block" src="assets/img/landing_1.png" alt="">            
@@ -78,7 +78,7 @@ import {Router} from "@angular/router";
               <img height="200" class="center-block" src="assets/img/landing_4.png" alt="">            
             </div>  
           </div>
-        </div>
+        </div>-->
     </div>
     <app-footer></app-footer>
     `

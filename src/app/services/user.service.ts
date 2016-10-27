@@ -63,12 +63,14 @@ export class UserService {
   }
 
   getUserProfiles(users) {
-    SwellRT.getUserProfile(users, function(result) {
-      if (result.error) {
-        //ERROR
-      } else if (result.data) {
-
-      }
+    return new Promise<any>((resolve, reject) => {
+      SwellRT.getUserProfile(users, function(result) {
+        if (result.error) {
+          reject(result.error)
+        } else if (result.data) {
+          resolve(result.data)
+        }
+      });
     });
   }
 

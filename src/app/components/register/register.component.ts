@@ -22,13 +22,15 @@ import { UserService } from "../../services";
           <input class="form-control" id="registerPasswordInput" name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
         </div> 
         <button class="btn btn-primary btn-lg btn-block mar-top-20">Register</button>
+        <!-- TODO: Terms screen not finished 
         <div class="checkbox">
           <label>
             <input type="checkbox">
             <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
-            By clicking you accept <a href="#">terms and conditions</a>
+            By clicking you accept <a [routerLink]=" ['/terms']">terms and conditions</a>
           </label>
         </div>
+        -->
       </form>
     `
   })
