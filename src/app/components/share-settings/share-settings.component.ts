@@ -22,15 +22,27 @@ import {DocumentService} from "../../services/document.service";
             <p class="text-box share-link">{{ documentUrl }}</p>
             <br>
             <div class="col-xs-12 no-padding" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
-                <div class="col-xs-4 no-padding">
-                  <h5 class="muted">Make public this document</h5>
-                </div>
-                <div class="col-xs-8 no-padding">
-                  <div class="switch">
-                    <ui-switch size="small" [(ngModel)]="publicDocument" (change)="changeDocumentVisibility()"></ui-switch>
-                  </div>
+              <div class="col-xs-4 no-padding">
+                <h5 class="muted">Make public this document</h5>
+              </div>
+              <div class="col-xs-8 no-padding">
+                <div class="switch">
+                  <ui-switch size="small" [(ngModel)]="publicDocument" (change)="changeDocumentVisibility()"></ui-switch>
                 </div>
               </div>
+            </div>
+            <div class="participants-container col-xs-12" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
+              <div *ngFor="let participant of participants" class="col-xs-12 participant">
+                 <div class="icon col-xs-1 no-padding">
+                  <app-user-icon [user]="participant"></app-user-icon>
+                 </div>
+                 <div class="name col-xs-7">
+                  <span>{{participant.name}}</span>
+                 </div>
+                 <div class="remove-participant col-xs-4 no-padding">
+                 </div>
+              </div>
+            </div>
           </modal-content>
           <modal-footer>
           <!-- Not Logged In user -->
@@ -52,6 +64,7 @@ export class ShareSettingsComponent {
   documentName: any;
   publicDocument: any;
   anonymousDocument = true;
+  participants = [];
 
   @ViewChild('shareSettingsButton') shareSettingsButton: ElementRef;
 
@@ -63,6 +76,10 @@ export class ShareSettingsComponent {
       if(!this.currentUser.anonymous) {
         this.publicDocument = this.documentService.publicDocument();
         this.anonymousDocument = this.documentService.anonymousDocument();
+        var participantEmails = this.currentDocument.getParticipants();
+        userService.getUserProfiles(participantEmails)
+          .then(users => this.participants = users);
+
       }
       this.documentUrl = this.documentService.getDocumentUrl(document.id());
       this.documentName = this.documentService.getEditorId(document.id());

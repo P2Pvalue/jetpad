@@ -47,6 +47,21 @@
     .switch {
       padding-top: 5px;
     }
+    .participants-container {
+      padding: 0px 0px 20px 0px;
+      .participant {
+        height: 50px;
+        padding: 15px 0px 45px 0px;
+        border-bottom: 1px solid $soft-gray;
+        .name {
+          padding-top: 12px;
+        }
+        .not-avatar {
+          margin-left: 0;
+        }
+      }
+    }
+
 
 
 }
