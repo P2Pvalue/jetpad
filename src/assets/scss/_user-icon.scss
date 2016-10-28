@@ -32,8 +32,17 @@
   }
 }
 
-.name-icon {
-  float: left;
-  margin-top: 6px;
-  padding-left: 10px;
+.user-info {
+  margin-top: -15px;
+  .name-icon {
+    float: left;
+    margin-top: 10px;
+    padding-left: 10px;
+  }
+  .header-icon {
+    float:left;
+    .pipe {
+      margin-top: 32px;
+    }
+  }
 }
