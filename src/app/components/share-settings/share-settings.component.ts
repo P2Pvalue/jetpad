@@ -32,17 +32,17 @@ import {DocumentService} from "../../services/document.service";
               </div>
             </div>
             <div class="participants-container col-xs-12" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
-              <div *ngFor="let participant of participants" class="col-xs-12 participant">
+              <div *ngFor="let participant of participants; let first = first" class="col-xs-12 participant">
                  <div class="icon col-xs-1 no-padding">
                   <app-user-icon [user]="participant"></app-user-icon>
                  </div>
                  <div class="name col-xs-8">
-                  <span>{{participant.name}}</span>
+                  <span [ngClass]="{'bold': first}">{{participant.name}}</span>
                  </div>
-                 <div class="muted remove-participant-label col-xs-2 no-padding">
-                  Participant 
+                 <div *ngIf="!first" class="muted remove-participant-label col-xs-2 no-padding">
+                    Participant
                  </div>
-                 <div class="remove-participant-icon col-xs-1 no-padding">
+                 <div *ngIf="!first" class="remove-participant-icon col-xs-1 no-padding">
                     x
                  </div>
               </div>

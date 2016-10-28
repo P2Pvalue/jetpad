@@ -18,6 +18,10 @@
   float: left;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 // Remove the Gutter Padding from Columns
 .no-gutter > [class*='col-'] {
     padding-right: 0;
