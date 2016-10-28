@@ -1,4 +1,5 @@
 .user-icon {
+  float: left;
   .img-circle {
     height: 40px;
     width: 40px;
@@ -30,4 +31,10 @@
     padding-right: 0;
     margin: 0;
   }
+}
+
+.name-icon {
+  float: left;
+  margin-top: 6px;
+  padding-left: 10px;
 }

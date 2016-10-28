@@ -12,7 +12,6 @@ import {Router} from "@angular/router";
           <li class="dropdown cursor-pointer" dropdown>
             <span class="navbar-brand" dropdown-open>
               <app-user-icon [user]="currentUser"></app-user-icon>
-              {{currentUser.name}}
             </span>
             <ul class="dropdown-menu">
               <li><a [routerLink]=" ['./profile'] ">MY PROFILE</a></li>
