@@ -21,14 +21,16 @@ import {DocumentService} from "../../services/document.service";
             <h5 class="lateral-menu-title">Link to share</h5>
             <p class="text-box share-link">{{ documentUrl }}</p>
             <br>
-            <div *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
-              <div class="col-md-4">
-                <h5 class="lateral-menu-title">Make public this document</h5>
+            <div class="col-xs-12 no-padding" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
+                <div class="col-xs-4 no-padding">
+                  <h5 class="muted">Make public this document</h5>
+                </div>
+                <div class="col-xs-8 no-padding">
+                  <div class="switch">
+                    <ui-switch size="small" [(ngModel)]="publicDocument" (change)="changeDocumentVisibility()"></ui-switch>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-8">
-                <ui-switch size="small" [(ngModel)]="publicDocument" (change)="changeDocumentVisibility()"></ui-switch>
-              </div>
-            </div>
           </modal-content>
           <modal-footer>
           <!-- Not Logged In user -->
