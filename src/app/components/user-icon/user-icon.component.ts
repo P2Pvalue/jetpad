@@ -8,8 +8,6 @@ import {Component, Input} from '@angular/core';
         <img  *ngIf="user.avatarUrl" src="{{user.avatarUrl}}" alt="{{ user }}" class="img-circle user-avatar" />
         <span *ngIf="!user.avatarUrl" class="not-avatar">{{this.getUserInitials(user)}}</span>
       </div>
-      <div class="name-icon">{{user.name}}</div>
-
     `
   })
 
