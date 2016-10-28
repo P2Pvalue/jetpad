@@ -66,6 +66,36 @@ form,
       }
     }
   }
+  .input-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    & + .input-btn {
+      font-family: 'Roboto', sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: $secondary-color;
+      display: inline-block;
+      cursor: pointer;
+      text-decoration: underline;
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        margin-top: 5px;
+        &:before {
+          font-size: 35px;
+        }
+      }
+    }
+    &:focus + .input-btn,
+    & + .input-btn:hover {
+      color: $secondary-color-blend;
+    }
+  }
   .checkbox,
   .radio {
     margin-top: 35px;

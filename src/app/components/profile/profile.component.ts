@@ -4,55 +4,84 @@ import { UserService } from "../../services";
 @Component({
   selector: 'app-profile',
   template: `
-    <div class="row">
-        <div class="panel panel-default">
-          <div class="panel-body text-center">
-            <div class="col-md-4 col-md-offset-4">
-              <h4>MY PROFILE</h4>
-            </div>
+    <section class="profile">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <a href="#" class="go-back">
+              <i class="icon icon-go-back icon-middle"></i>
+              <span>Volver a mi documento</span>
+            </a>
           </div>
-          <div class="panel-body">
-            <div class="col-md-4 col-md-offset-4">
-              <h5>USER INFORMATION</h5>
-              <h6>Photo</h6>
-              <img height="200" id="img" src="{{avatar}}" (click)="showImageBrowseDialog()"/>
-              <input #imageInput type="file" accept="image/*" name="image_src" id="image_src" (change)="changeListener($event)"/>
-              <br>
-              <form style="margin-top:4em" (ngSubmit)="updateUser()">
-                <div class="form-group label-floating">
-                  <label class="control-label" for="nameInput">Name</label>
-                  <input class="form-control" id="nameInput" name="name" [(ngModel)]="name">
-                </div>
-                <div class="form-group label-floating">
-                  <label class="control-label" for="emailInput">Email</label>
-                  <input class="form-control" id="emailInput" name="email" [(ngModel)]="email">
-                </div>
-                <button class="btn btn-primary mar-top-20">Save</button>
-              </form>
-            </div>
-           <div class="col-md-12"><hr></div>
-           <div class="col-md-4 col-md-offset-4">
-              <h5>CHANGE YOUR PASSWORD</h5>
-              <form style="margin-top:4em" (ngSubmit)="changePassword()">
-                <div class="form-group label-floating">
-                  <label class="control-label" for="nameInput">Old Password</label>
-                  <input class="form-control" id="oldPasswordInput" type="password" name="oldPassword" [(ngModel)]="oldPassword">
-                </div>
-                <div class="form-group label-floating">
-                  <label class="control-label" for="emailInput">New password</label>
-                  <input class="form-control" id="newPasswordInput" type="password" name="newPassword" [(ngModel)]="newPassword">
-                </div>
-                <div class="form-group label-floating">
-                  <label class="control-label" for="emailInput">Repeat new password</label>
-                  <input class="form-control" id="repeatNewPasswordInput" type="password" name="repeatNewPassword" [(ngModel)]="repeatNewPassword">
-                </div>
-                <button class="btn btn-primary mar-top-20">Change password</button>
-              </form>
-            </div>
+          <div class="col-sm-12">
+            <h2 class="text-center">My profile</h2>
+            <hr />
           </div>
         </div>
-    </div>
-    <app-footer></app-footer>
+        <div class="row">
+          <div class="col-sm-4 col-sm-offset-1">
+            <h3>
+              <i class="icon icon-user icon-middle"></i>
+              User information
+              <hr />
+            </h3>
+            <form (ngSubmit)="updateUser()">
+              <div class="form-group">
+                <label for="image_src">Photo</label>
+                <div class="media">
+                  <div class="media-left">
+                    <img src="assets/img/user-mask.png" class="user-mask" />
+                    <img height="130" id="img" src="{{avatar}}" (click)="showImageBrowseDialog()"/>
+                  </div>
+                  <div class="media-body media-middle">
+                    <input #imageInput type="file" accept="image/*" name="image_src" id="image_src" class="input-file" (change)="changeListener($event)"/>
+                    <span class="input-btn">
+                      <i class="icon icon-image icon-middle"></i>Upload a file
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="nameInput">Name</label>
+                <input class="form-control" id="nameInput" name="name" [(ngModel)]="name">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="emailInput">
+                  Email
+                  <span>(opcional, you could recieved notifications about your documents)</span>
+                </label>
+                <input class="form-control" id="emailInput" name="email" [(ngModel)]="email">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary mar-top-20">Save</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-4 col-sm-offset-2">
+            <h3>
+              <i class="icon icon-lock icon-middle"></i>
+              Change your password
+              <hr />
+            </h3>
+            <form style="margin-top:4em" (ngSubmit)="changePassword()">
+              <div class="form-group label-floating">
+                <label class="control-label" for="nameInput">Old Password</label>
+                <input class="form-control" id="oldPasswordInput" type="password" name="oldPassword" [(ngModel)]="oldPassword">
+              </div>
+              <div class="form-group label-floating">
+                <label class="control-label" for="emailInput">New password</label>
+                <input class="form-control" id="newPasswordInput" type="password" name="newPassword" [(ngModel)]="newPassword">
+              </div>
+              <div class="form-group label-floating">
+                <label class="control-label" for="emailInput">Repeat new password</label>
+                <input class="form-control" id="repeatNewPasswordInput" type="password" name="repeatNewPassword" [(ngModel)]="repeatNewPassword">
+              </div>
+              <button class="btn btn-primary mar-top-20">Change password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
     `
 })
 
