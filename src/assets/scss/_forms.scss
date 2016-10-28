@@ -1,12 +1,19 @@
 form,
 .form {
   .form-group {
+    &.has-feedback {
+      .form-control {
+        padding-right: 50px;
+      }
+    }
     .form-control-feedback {
       width: auto;
       height: 100%;
       padding: 14px 15px 0;
       &:before {
-        font-size: 22px;
+        font-size: 35px;
+        display: inline-block;
+        margin: -2px -5px 0 0;
       }
     }
   }
@@ -51,6 +58,12 @@ form,
       color: $white;
       pointer-events: none;
       cursor: pointer;
+      &:before {
+        font-size: 40px;
+        display: inline-block;
+        margin-top: -10px;
+        margin-left: -1px;
+      }
     }
   }
   .checkbox,
@@ -145,8 +158,14 @@ form,
     font-size: 18px;
     padding: 7px 33px;
     height: inherit;
+  }
+  &.btn-with-icon {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 23px;
     .icon {
-      margin-right: 10px;
+      font-size: 28px;
+      vertical-align: middle;
     }
   }
 }

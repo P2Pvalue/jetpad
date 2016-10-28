@@ -22,21 +22,21 @@
   .left-content {
     background-color: $primary-color-blend-dark;
     &:after {
-      content: "\62"; //lock icon
-      font-size: 550px;
+      content: "\70"; //lock icon
+      font-size: 850px;
       top: 0;
       left: 0;
-      margin: -140px 0 0 -110px;
+      margin: -280px 0 0 -260px;
     }
   }
   .right-content {
     background-color: $primary-color-blend;
     &:after {
-      content: "\65"; //user icon
-      font-size: 500px;
+      content: "\6f"; //user icon
+      font-size: 920px;
       bottom: 0;
       right: 0;
-      margin: 0 -150px -130px 0;
+      margin: 0 -300px -480px 0;
     }
   }
   p {

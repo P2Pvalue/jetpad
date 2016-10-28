@@ -105,10 +105,10 @@ import {Router} from "@angular/router";
                     <p>If you want have a list of your documents you must to login</p>
                   </div>
                   <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary btn-lower mar-top-20" (click)="goToAuthenticationScreen() ">
+                    <button type="button" class="btn btn-primary btn-lower btn-with-icon mar-top-20" (click)="goToAuthenticationScreen() ">
                       <i class="icon icon-lock icon-middle"></i> Login
                     </button>
-                    <button type="button" class="btn btn-primary btn-lower mar-top-20" (click)="goToAuthenticationScreen() ">
+                    <button type="button" class="btn btn-primary btn-lower btn-with-icon mar-top-20" (click)="goToAuthenticationScreen() ">
                       <i class="icon icon-user icon-middle"></i> Register
                     </button>
                   </div>

@@ -12,12 +12,13 @@
   .close-button {
     cursor: pointer;
     display: inline-block;
-    padding: 18px 20px;
+    padding: 10px 7px 0px;
     background-color: $soft-gray;
     .icon {
-      font-size: 22px;
+      font-size: 50px;
       color: $text-color;
       display: flex;
+      vertical-align: middle;
     }
   }
   .container {
@@ -76,11 +77,11 @@
           vertical-align: middle;
           &.icon-close {
             color: $error-color;
-            font-size: 18px;
+            font-size: 28px;
           }
           &.icon-share {
             color: $primary-color;
-            font-size: 19px;
+            font-size: 29px;
           }
         }
         .documents-title {

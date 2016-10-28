@@ -10,7 +10,7 @@ header {
     .navbar-brand {
       height: auto;
       line-height: inherit;
-      padding: 28px 15px 0;
+      padding: 20px 15px 0;
       &.logo {
         padding: 11px;
         margin-left: 0;
@@ -30,12 +30,13 @@ header {
         padding-right: 0;
         margin: 0;
       }
-      [class^="icon-"]:before,
-      [class*=" icon-"]:before {
-        padding-right: 5px;
+      .icon {
+        font-size: 25px;
+        vertical-align: middle;
       }
       .pipe {
         border-color: transparentize($black, 0.8);
+        height: 30px;
       }
     }
     [class^="icon-"]:before,
