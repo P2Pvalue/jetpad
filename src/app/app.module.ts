@@ -27,8 +27,8 @@ import { UserIconComponent } from "./components/user-icon";
 
 import { DocumentService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
-import {SessionResolver} from "./resolver";
-import {SearchPipe} from "./pipes";
+import { SessionResolver } from "./resolver";
+import { OrderPipe, SearchPipe } from "./pipes";
 
 import { AppState } from "./app.service";
 
@@ -65,6 +65,7 @@ const APP_PROVIDERS = [
     NoContent,
     UnauthorizedComponent,
     UserIconComponent,
+    OrderPipe,
     SearchPipe,
     DROPDOWN_DIRECTIVES
   ],

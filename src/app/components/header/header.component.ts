@@ -29,11 +29,11 @@ import {Router} from "@angular/router";
                   <div class="form clearfix">
                     <div class="col-sm-4">
                       <div class="input-select">
-                        <select name="order-by" id="order-by" class="form-control">
-                          <option value="1" selected>Order by ...</option>
-                          <option value="2">Name</option>
-                          <option value="3">Author</option>
-                          <option value="4">Last edit</option>
+                        <select [(ngModel)]="order" name="order-by" id="order-by" class="form-control">
+                          <option value="" selected>Order by ...</option>
+                          <option value="title">Name</option>
+                          <option value="authorId">Author</option>
+                          <option value="timestamp">Last edit</option>
                         </select>
                         <i class="icon icon-arrow-down" aria-hidden="true"></i>
                       </div>
@@ -59,7 +59,7 @@ import {Router} from "@angular/router";
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let document of documents | search:filter">
+                          <tr *ngFor="let document of documents | search:filter | order:order">
                             <td class="with-icon">
                               <i class="icon icon-share icon-middle cursor-pointer" ngIIclipboard [cbContent]="document.documentUrl" aria-hidden="true"></i>
                             </td>
@@ -149,7 +149,8 @@ export class HeaderComponent {
   @ViewChild('lateralMenu') lateralMenu: ElementRef;
 
   currentUser: any;
-  filter:any;
+  filter: any;
+  order = '';
 
   documents = [];
 
@@ -164,7 +165,12 @@ export class HeaderComponent {
       }
     });
     documentService.myDocuments.subscribe(document => {
-      this.documents.push(document);
+      let index = this.documents.findIndex(x => x.id === document.id);
+      if(index > -1) {
+        this.documents.splice(index, 1, document);
+      } else {
+        this.documents.push(document);
+      }
     });
   }
 
