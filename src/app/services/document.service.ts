@@ -11,18 +11,24 @@ export class DocumentService {
   document: any;
   currentDocument = new Subject<any>();
   myDocuments = new Subject<any>();
+  myDocumentsInterval: any;
 
   ANONYMOUS_DOCUMENT_PARTICIPANT = "_anonymous_@" + this.SWELLRT_DOMAIN;
   PUBLIC_DOCUMENT_PARTICIPANT = "@" + this.SWELLRT_DOMAIN;
   ANONYMOUS_PARTICIPANT = "_anonymous_";
 
-  query = {};
+  projection = { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1, 'root.doc.author' : 1 };
 
   constructor(@Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
               @Inject('JETPAD_URL') private JETPAD_URL: string,
               private userService: UserService,
               private router: Router) {
-    userService.currentUser.subscribe(user => this.getUserDocuments(user));
+    userService.currentUser.subscribe(user => {
+      clearInterval(this.myDocumentsInterval);
+      if(!user.anonymous) {
+        this.myDocumentsInterval = setInterval(() => { this.getUserDocuments(user) }, 1000);
+      }
+    });
   }
 
   static editor(parentElementId, widgets, annotations) {
@@ -60,11 +66,11 @@ export class DocumentService {
   }
 
   addParticipant(participant: string) {
-    this.document.addParticipant(participant)
+    this.document.addParticipant(participant);
   }
 
   removeParticipant(participant: string) {
-    this.document.removeParticipant(participant)
+    this.document.removeParticipant(participant);
   }
 
   makeDocumentPublic() {
@@ -76,13 +82,11 @@ export class DocumentService {
   }
 
   getUserDocuments(user: any) {
-    if(!user.anonymous) {
-      this.query = {
-        _query : { participants: { $eq: user.id,  $ne: this.ANONYMOUS_DOCUMENT_PARTICIPANT }},
-       _projection: { wave_id: 1, participants: 1, 'root.doc-title' : 1, 'root.doc.lastmodtime' : 1, 'root.doc.author' : 1 }
-      };
-      SwellRT.query(this.query, documents => this.parseDocuments(documents.result), error => {});
-    }
+    let query = {
+      _query : { participants: { $eq: user.id,  $ne: this.ANONYMOUS_DOCUMENT_PARTICIPANT }},
+      _projection: this.projection
+    };
+    SwellRT.query(query, documents => this.parseDocuments(documents.result), error => {});
   }
 
   parseDocuments(myDocuments) {
@@ -100,7 +104,9 @@ export class DocumentService {
         if(authorProfile.length) {
           author = authorProfile[0];
         }
-        let participants = document.participants.filter(participant => !participant.startsWith('@') && !participant.startsWith('_anonymous_'));
+        let participants = document.participants.filter(participant => {
+          return !participant.startsWith('@') && !participant.startsWith('_anonymous_') && participant !== document.root.doc.author
+        });
         return that.userService.getUserProfiles(participants);
       }).then(function (participantProfiles) {
         let parsedDocument = {
@@ -109,6 +115,8 @@ export class DocumentService {
           author: author,
           modification: modification,
           participants: participantProfiles,
+          authorId: document.root.doc.author,
+          timestamp: document.root.doc.lastmodtime,
           editorId: that.getEditorId(document.wave_id),
           documentUrl: that.getDocumentUrl(document.wave_id)
         };
