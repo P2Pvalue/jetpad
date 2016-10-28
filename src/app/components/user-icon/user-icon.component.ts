@@ -5,7 +5,9 @@ import {Component, Input} from '@angular/core';
     selector: 'app-user-icon',
     template: `
       <div class="user-icon">
-        <img  *ngIf="user.avatarUrl" src="{{user.avatarUrl}}" alt="{{ user }}" class="img-circle user-avatar" />
+        <div class="avatar">
+          <img  *ngIf="user.avatarUrl" src="{{user.avatarUrl}}" alt="{{ user }}" class="img-circle user-avatar" />
+        </div>
         <span *ngIf="!user.avatarUrl" class="not-avatar">{{this.getUserInitials(user)}}</span>
       </div>
     `

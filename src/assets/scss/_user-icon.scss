@@ -1,4 +1,7 @@
 .user-icon {
+  .pipe {
+    margin-top: 4px !important;
+  }
   .img-circle {
     height: 40px;
     width: 40px;
@@ -42,6 +45,10 @@
   .header-icon {
     float:left;
     span {
+      top: 5px;
+    }
+    img {
+      position: relative;
       top: 5px;
     }
   }
