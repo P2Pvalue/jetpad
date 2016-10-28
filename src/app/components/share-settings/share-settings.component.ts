@@ -32,7 +32,7 @@ import {DocumentService} from "../../services/document.service";
           </modal-content>
           <modal-footer>
           <!-- Not Logged In user -->
-            <div  *ngIf="!currentUser || currentUser.anonymous">
+            <div  *ngIf="currentDocument && currentDocument.properties.created">
               <h5 class="muted">If you want to make private this document you must <a (click)="goToAuthenticationScreen()">login</a> or <a (click)="goToAuthenticationScreen()">register</a>.</h5>
             </div>
             <button class="btn btn-primary" (click)="updateDocumentProperties(); shareSettings.close()">READY!</button>
