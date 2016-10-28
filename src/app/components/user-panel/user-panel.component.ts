@@ -11,7 +11,9 @@ import {Router} from "@angular/router";
         <ul class="list-inline">
           <li class="dropdown cursor-pointer" dropdown>
             <span class="navbar-brand" dropdown-open>
-              <app-user-icon [user]="currentUser"></app-user-icon>
+              <div class="left">
+                <app-user-icon [user]="currentUser"></app-user-icon>
+              </div>
               <div class="name-icon">{{currentUser.name}}</div>
             </span>
             <ul class="dropdown-menu">
