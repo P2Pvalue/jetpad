@@ -43,7 +43,7 @@ import {DocumentService} from "../../services/document.service";
                     Participant
                  </div>
                  <div *ngIf="!first" class="remove-participant-icon col-xs-1 no-padding">
-                    x
+                    <i class="icon icon-close icon-middle cursor-pointer"></i> 
                  </div>
               </div>
             </div>
