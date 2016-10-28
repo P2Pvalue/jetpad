@@ -32,7 +32,7 @@
         }
     }
     .text-box {
-      padding: 15px 0px;
+      padding: 15px;
       background-color: $light-gray;
       border-bottom: 1px solid $soft-gray;
       border-right: 1px solid $soft-gray;
@@ -58,6 +58,19 @@
         }
         .not-avatar {
           margin-left: 0;
+        }
+        .remove-participant-label {
+          margin-top: 12px;
+          text-align: center;
+        }
+        .remove-participant-icon {
+          border: 1px solid;
+          width: 18px;
+          text-align: center;
+          height: 18px;
+          border-radius: 50%;
+          color: $red;
+          margin-top: 11px;
         }
       }
     }

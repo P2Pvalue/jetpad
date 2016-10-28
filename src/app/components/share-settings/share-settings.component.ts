@@ -36,10 +36,14 @@ import {DocumentService} from "../../services/document.service";
                  <div class="icon col-xs-1 no-padding">
                   <app-user-icon [user]="participant"></app-user-icon>
                  </div>
-                 <div class="name col-xs-7">
+                 <div class="name col-xs-8">
                   <span>{{participant.name}}</span>
                  </div>
-                 <div class="remove-participant col-xs-4 no-padding">
+                 <div class="muted remove-participant-label col-xs-2 no-padding">
+                  Participant 
+                 </div>
+                 <div class="remove-participant-icon col-xs-1 no-padding">
+                    x
                  </div>
               </div>
             </div>
@@ -78,7 +82,10 @@ export class ShareSettingsComponent {
         this.anonymousDocument = this.documentService.anonymousDocument();
         var participantEmails = this.currentDocument.getParticipants();
         userService.getUserProfiles(participantEmails)
-          .then(users => this.participants = users);
+          .then(users => {
+            this.setNames(users);
+            this.participants = users;
+          });
 
       }
       this.documentUrl = this.documentService.getDocumentUrl(document.id());
@@ -106,6 +113,12 @@ export class ShareSettingsComponent {
 
   updateDocumentProperties() {
     this.currentDocument.properties.created = false;
+  }
+
+  setNames(users) {
+    users.forEach(function (user) {
+      user.name = user.name ? user.name : user.id.slice(0, user.id.indexOf('@'))
+    });
   }
 
 }
