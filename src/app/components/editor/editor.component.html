@@ -117,53 +117,47 @@
 
 <!-- Main area -->
 
-  <section class="editor">
+<section class="editor">
+  <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
+    <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
+    <strong>{{msgError}}</strong>
+  </div>
 
-    <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
-      <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
-      <strong>{{msgError}}</strong>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row no-gutter row-eq-height header-document">
-        <div class="col-sm-7 form">
-          <div class="form-group">
-            <div class="input-group">
-              <span class="input-group-addon icon icon-edit icon-middle"></span>
-              <input id="document-title" class="form-control" [(ngModel)]="title">
-            </div>
+  <div class="container-fluid">
+    <div class="row no-gutter row-eq-height header-document">
+      <div class="col-sm-7 form">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon icon icon-edit icon-middle"></span>
+            <input id="document-title" class="form-control" [(ngModel)]="title">
           </div>
-        </div>
-        <div class="col-sm-3 text-right participants">
-          <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-          <span class="not-avatar">AA</span>
-          <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-          <span class="not-avatar">BB</span>
-          <div class="view-more">
-            <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
-              <div class="drowdown-box">
-                <div class="contributors">
-                  <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-                  <span class="not-avatar">CC</span>
-                  <span class="not-avatar">DD</span>
-                  <span class="not-avatar">EE</span>
-                  <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-                </div>
-              </div>
-          </div>
-        </div>
-        <div class="col-sm-2 text-center">
-          <share-settings class="clearfix"></share-settings>
         </div>
       </div>
+      <div class="col-sm-3 text-right participants">
+        <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
+        <span class="not-avatar">AA</span>
+        <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
+        <span class="not-avatar">BB</span>
+        <div class="view-more">
+          <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+            <div class="drowdown-box">
+              <div class="contributors text-left">
+                <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
+                <span class="not-avatar">CC</span>
+                <span class="not-avatar">DD</span>
+                <span class="not-avatar">EE</span>
+                <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-2 text-center">
+        <share-settings class="clearfix"></share-settings>
+      </div>
     </div>
-
-  </section>
-
-  <div class="panel panel-default hide">
-    <div class="panel-heading">
-      <div id="editor-toolbar" class="btn-toolbar">
-        <select [(ngModel)]="currentTextType" class="form-control btn-group" (change)="changeTextType($event.target.value)">
+    <div id="editor-toolbar" class="row row-eq-height toolbox form">
+      <div class="col-sm">
+        <select [(ngModel)]="currentTextType" class="form-control" (change)="changeTextType($event.target.value)">
           <option value="h1">Heading 1</option>
           <option value="h2">Heading 2</option>
           <option value="h3">Heading 3</option>
@@ -171,9 +165,97 @@
           <option value="h5">Heading 5</option>
           <option value="none">Normal text</option>
         </select>
-        <select [(ngModel)]="currentTextSize" class="form-control btn-group" (change)="changeTextSize($event.target.value)">
-            <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <select class="form-control">
+          <option value="">Times New Roman</option>
+          <option value="">Arial</option>
+          <option value="">Tahoma</option>
+          <option value="">Futura</option>
         </select>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <select [(ngModel)]="currentTextSize" class="form-control" (change)="changeTextSize($event.target.value)">
+          <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
+        </select>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-text-bold icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-italic icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-underline-doble icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-underline icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-strike-through icon-middle"></i></button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <!-- not supported by explorer and safari -->
+        <div class="input-color">
+          <input type="color" id="text-color" value="#0072BC">
+        </div>
+        <label for="text-color" class="cursor-pointer btn">
+          <i class="icon icon-text-decoration icon-middle input-btn" style="color: #0072BC;"></i>
+        </label>
+      </div>
+      <div class="col-sm">
+        <!-- not supported by explorer and safari -->
+        <div class="input-color">
+          <input type="color" id="background-text-color" value="#F34E1E">
+        </div>
+        <label for="background-text-color" class="cursor-pointer btn">
+          <i class="icon icon-text-color icon-middle input-btn" style="color: #F34E1E;"></i>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-text-left icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-center icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-right icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-justify icon-middle"></i></button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <button type="button" class="btn">
+          <i class="icon icon-link icon-middle"></i>
+        </button>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <button type="button" class="btn">
+          <i class="icon icon-text-sort icon-middle"></i>
+        </button>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-text-dots icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-number icon-middle"></i></button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-square-divider icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="addImage()">
+            <i class="icon icon-image icon-middle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  <div class="panel panel-default hide">
+    <div class="panel-heading">
+      <div id="editor-toolbar" class="btn-toolbar">
         <div *ngFor="let formatGroup of formats" class="btn-group">
           <button *ngFor="let format of formatGroup" type="button"
           (click)="annotate(format)"

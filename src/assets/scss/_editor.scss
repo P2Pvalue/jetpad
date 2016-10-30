@@ -95,4 +95,35 @@
       }
     }
   }
+  .toolbox {
+    border-bottom: 1px solid $soft-gray;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    & > [class*='col-'] {
+      align-self: center;
+      margin: auto;
+    }
+    .divider {
+      width: 1px;
+      height: 100%;
+      background-color: $soft-gray;
+    }
+    .btn {
+      padding: 0;
+      border: none;
+      background: none;
+      [class^="icon-"]:before,
+      [class*=" icon-"]:before {
+        font-size: 30px;
+        vertical-align: middle;
+        margin-top: 8px;
+        display: inline-block;
+      }
+    }
+  }
 }
