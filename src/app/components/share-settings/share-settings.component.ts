@@ -7,7 +7,9 @@ import {DocumentService} from "../../services/document.service";
 @Component({
     selector: 'share-settings',
     template: `
-        <button #shareSettingsButton [disabled]="!documentUrl" class="btn btn-info btn-lg" (click)="shareSettings.open()">Share</button>
+        <button #shareSettingsButton [disabled]="!documentUrl" class="btn btn-primary btn-with-icon" (click)="shareSettings.open()">
+          <i class="icon icon-lock icon-middle"></i>Share
+        </button>
         <modal #shareSettings>
           <modal-header>
             <h4 *ngIf="currentDocument && currentDocument.properties.created">New public document</h4>
