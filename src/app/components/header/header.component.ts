@@ -76,9 +76,9 @@ import {Router} from "@angular/router";
                               <div class="view-more" *ngIf="document.participants.length > 3">
                                 <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
                                 <div class="drowdown-box">
-                                <div class="contributors" *ngFor="let participant of document.participants | slice:3">
-                                  <app-user-icon [user]="participant"></app-user-icon>
-                                </div>
+                                  <div class="contributors" *ngFor="let participant of document.participants | slice:3">
+                                    <app-user-icon [user]="participant"></app-user-icon>
+                                  </div>
                                 </div>
                               </div>
                             </td>
