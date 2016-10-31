@@ -26,6 +26,7 @@ export class DocumentService {
     userService.currentUser.subscribe(user => {
       clearInterval(this.myDocumentsInterval);
       if(!user.anonymous) {
+        this.getUserDocuments(user);
         this.myDocumentsInterval = setInterval(() => { this.getUserDocuments(user) }, 3000);
       }
     });
