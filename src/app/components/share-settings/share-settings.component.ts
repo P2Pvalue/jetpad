@@ -45,12 +45,12 @@ import {DocumentService} from "../../services/document.service";
                     Participant
                  </div>
                  <div *ngIf="!first" class="remove-participant-icon col-xs-1 no-padding">
-                    <i class="icon icon-close icon-middle cursor-pointer"></i> 
+                  <i (click)="deleteParticipant(participant.id)" class="icon icon-close icon-middle cursor-pointer"></i> 
                  </div>
               </div>
               <div class="col-xs-12 no-padding mar-top-30">         
                 <p>Invite people</p>
-                <input [(ngModel)]="passwordInput">
+                <input [(ngModel)]="userInvited">
               </div>
             </div>
           </modal-content>
@@ -77,6 +77,7 @@ export class ShareSettingsComponent {
   publicDocument: any;
   anonymousDocument = true;
   participants = [];
+  userInvited: string;
 
   @ViewChild('shareSettingsButton') shareSettingsButton: ElementRef;
 
@@ -121,6 +122,14 @@ export class ShareSettingsComponent {
 
   updateDocumentProperties() {
     this.currentDocument.properties.created = false;
+    if(this.userInvited) {
+      //TODO invite user
+    }
+  }
+
+  deleteParticipant(id) {
+    console.log(id);
+    //TODO remove participant
   }
 
   setNames(users) {
