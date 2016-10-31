@@ -1,13 +1,29 @@
 .unauthorized {
-  h2 {
-    @include heading-styles(45px, $text-color);
+  .title {
+    h2 {
+      @include heading-styles(45px, $text-color);
+    }
+    padding-bottom: 30px;
   }
-
   .login-container {
     padding: 0 50px;
   }
   label {
     margin-top: 50px;
+    margin-bottom: 50px;
     font-weight: normal;
   }
+  .icon-edit {
+    font-size: 2.3em;
+    padding-right: 15px;
+  }
+  span{
+    bottom: 12px;
+    position: relative;
+    font-style: italic;
+  }
+  .btn-register {
+    margin-top: 0;
+  }
+
 }

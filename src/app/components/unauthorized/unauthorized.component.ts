@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
     selector: 'app-unauthorized',
     template: `
     <div class="unauthorized">
-      <div class="col-sm-12">
+      <div class="col-sm-12 title">
         <h2 class="text-center">{{title}}</h2>
         <hr />
       </div>
@@ -12,9 +12,12 @@ import { Component } from '@angular/core';
           <div class="panel panel-default text-center">
             <div class="panel-body">
                 <div class="col-md-4 col-md-offset-4 login-container">
+                  <i class="icon icon-edit"></i><span>Name of Document</span>
                   <app-login [hiddenDescription]=true></app-login>
                   <label>or</label>
-                  <button class="btn btn-primary btn-lg btn-block mar-top-20">Register</button>
+                  
+                  <p class="register-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                  <button class="btn btn-primary btn-lg btn-block btn-register">Register</button>
                 </div>
             </div>
           </div>
