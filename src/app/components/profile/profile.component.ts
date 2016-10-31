@@ -10,7 +10,7 @@ import { UserService } from "../../services";
           <div class="col-sm-12">
             <a href="#" class="go-back">
               <i class="icon icon-go-back icon-middle"></i>
-              <span>Volver a mi documento</span>
+              <span>Return</span>
             </a>
           </div>
           <div class="col-sm-12">
@@ -31,11 +31,11 @@ import { UserService } from "../../services";
                 <div class="media">
                   <div class="media-left">
                     <img src="assets/img/user-mask.png" class="user-mask" />
-                    <img height="130" id="img" src="{{avatar}}" (click)="showImageBrowseDialog()"/>
+                    <img height="130" id="img" src="{{avatar}}" />
                   </div>
                   <div class="media-body media-middle">
                     <input #imageInput type="file" accept="image/*" name="image_src" id="image_src" class="input-file" (change)="changeListener($event)"/>
-                    <span class="input-btn">
+                    <span class="input-btn" (click)="showImageBrowseDialog()">
                       <i class="icon icon-image icon-middle"></i>Upload a file
                     </span>
                   </div>
@@ -48,7 +48,7 @@ import { UserService } from "../../services";
               <div class="form-group">
                 <label class="control-label" for="emailInput">
                   Email
-                  <span>(opcional, you could recieved notifications about your documents)</span>
+                  <span>(optional, you could recieved notifications about your documents)</span>
                 </label>
                 <input class="form-control" id="emailInput" name="email" [(ngModel)]="email">
               </div>
@@ -108,7 +108,6 @@ export class ProfileComponent {
   updateUser() {
     this.userService.update(this.email, this.name, this.avatarData);
     if(this.avatarData) {
-      this.avatar = this.avatarData;
       this.avatarData = undefined;
     }
   }
@@ -120,8 +119,7 @@ export class ProfileComponent {
   }
 
   showImageBrowseDialog() {
-    let event = new MouseEvent('click', {bubbles: true});
-    this.renderer.invokeElementMethod(this.imageInput.nativeElement, 'dispatchEvent', [event]);
+    this.renderer.invokeElementMethod(this.imageInput.nativeElement, 'click', []);
   }
 
   changeListener($event) : void {
@@ -133,6 +131,9 @@ export class ProfileComponent {
     var fileReader: FileReader = new FileReader();
     var that = this;
     fileReader.readAsDataURL(file);
-    fileReader.onloadend = () => that.avatarData = fileReader.result;
+    fileReader.onloadend = () => {
+      that.avatarData = fileReader.result;
+      that.avatar = fileReader.result;
+    }
   }
 }
