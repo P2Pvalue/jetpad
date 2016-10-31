@@ -12,9 +12,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   _title: any;
   editor: any;
 
-  wasError: boolean = false;
-  msgError: string;
-
   formats: Array<Array<string>> = [
     ['bold', 'italic', 'underline', 'strikethrough'],
     ['align_left', 'align_center', 'align_right'],
@@ -124,8 +121,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     })
     .catch(error => {
-      this.wasError = true;
-      this.msgError = `Document doesn't exist or you don't have permission to open (${ error })`;
+      console.log('Document doesn\'t exist or you don\'t have permission to open: ' + error);
     });
   }
 

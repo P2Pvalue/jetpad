@@ -22,8 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   (<any>window).SwellRT.ready(() => {
 
-    console.log('SwellRT Loaded!');
-
     // Fine tunning the SwellRT server connection.
     // Don't touch!
     (<any>window).__atmosphere_config = {

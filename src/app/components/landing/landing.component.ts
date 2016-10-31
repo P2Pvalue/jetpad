@@ -5,11 +5,6 @@ import {Router} from "@angular/router";
   selector: 'app-landing',
   template: `
     <div class="row">
-        <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
-          <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
-          <strong>{{msgError}}</strong>
-        </div>
-        
         <nav class="navbar navbar-default text-center">
           <h2>Create a document and collaborate with</h2>
           <h2>others!</h2>
@@ -87,21 +82,14 @@ import {Router} from "@angular/router";
 
 export class LandingComponent {
 
-  wasError: boolean = false;
-  msgError: string;
-
   constructor(private router: Router) {
   }
 
   openDocument(_id: string) {
-    if (!_id) {
-      this.msgError = 'Write a name for the pad.';
-      this.wasError = true;
-      return;
+    if (_id) {
+      let link = ['edit', _id];
+      this.router.navigate(link);
     }
-    this.wasError = false;
-    let link = ['edit', _id];
-    this.router.navigate(link);
   }
 
 }

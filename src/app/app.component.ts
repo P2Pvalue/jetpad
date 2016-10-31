@@ -12,7 +12,6 @@ import {ListenerService, UserService} from "./services";
         <app-header></app-header>
         <main>
           <router-outlet></router-outlet>
-          <div id="snackbar-container"></div>
         </main>
     </div>
   `

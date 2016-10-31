@@ -26,7 +26,7 @@ export class DocumentService {
     userService.currentUser.subscribe(user => {
       clearInterval(this.myDocumentsInterval);
       if(!user.anonymous) {
-        this.myDocumentsInterval = setInterval(() => { this.getUserDocuments(user) }, 1000);
+        this.myDocumentsInterval = setInterval(() => { this.getUserDocuments(user) }, 3000);
       }
     });
   }
@@ -107,7 +107,11 @@ export class DocumentService {
         let participants = document.participants.filter(participant => {
           return !participant.startsWith('@') && !participant.startsWith('_anonymous_') && participant !== document.root.doc.author
         });
-        return that.userService.getUserProfiles(participants);
+        if(participants.length > 0) {
+          return that.userService.getUserProfiles(participants);
+        } else {
+          return [];
+        }
       }).then(function (participantProfiles) {
         let parsedDocument = {
           id: document.wave_id,

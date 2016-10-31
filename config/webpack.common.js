@@ -253,12 +253,6 @@ module.exports = {
      */
     new HtmlElementsPlugin({
       headTags: require('./head-config.common')
-    }),
-
-    new ProvidePlugin({
-        jQuery: 'jquery',
-        $: 'jquery',
-        jquery: 'jquery'
     })
 
   ],

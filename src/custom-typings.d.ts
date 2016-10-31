@@ -106,14 +106,6 @@ type IdleCallbacks = Es6PromiseLoader |
 //   stackTraceLimit: number;
 // }
 
-interface JQueryStatic {
-  snackbar: any;
-}
-
-interface cssSelectorHelper {
-  snackbar: any;
-}
-
 // // Extend typings
 // interface NodeRequire extends WebpackRequire {}
 // interface ErrorConstructor extends ErrorStackTraceLimit {}
