@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-unauthorized',
@@ -17,7 +18,7 @@ import { Component } from '@angular/core';
                   <label><hr class="line-decoration-left">or<hr class="line-decoration-right"></label>
                   
                   <p class="register-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  <button class="btn btn-primary btn-lg btn-block btn-register">Register</button>
+                  <button class="btn btn-primary btn-lg btn-block btn-register" (click)="goToAuthenticationScreen()">Register</button>
                 </div>
             </div>
           </div>
@@ -32,4 +33,12 @@ import { Component } from '@angular/core';
 export class UnauthorizedComponent {
 
     title: string = 'You need to login to open this document';
+
+  constructor(private router: Router) {
+
+  }
+
+  goToAuthenticationScreen() {
+    this.router.navigate(['authentication']);
+  }
 }
