@@ -1,0 +1,13 @@
+.unauthorized {
+  h2 {
+    @include heading-styles(45px, $text-color);
+  }
+
+  .login-container {
+    padding: 0 50px;
+  }
+  label {
+    margin-top: 50px;
+    font-weight: normal;
+  }
+}

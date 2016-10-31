@@ -7,7 +7,7 @@ import { UserService } from "../../services";
     selector: 'app-login',
     template: `
       <h2 class="h2 text-center">{{title}}</h2>
-      <p class="text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p *ngIf="!hiddenDescription" class="text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       <form (ngSubmit)="login()">
         <div class="form-group">
           <label class="sr-only" for="loginNameInput">Name</label>
@@ -30,6 +30,7 @@ import { UserService } from "../../services";
 export class LoginComponent {
 
   @Input() title: string;
+  @Input() hiddenDescription: boolean;
 
   // Form fields
   nameInput: string;
