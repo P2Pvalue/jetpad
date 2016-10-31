@@ -13,8 +13,8 @@ import { Component } from '@angular/core';
             <div class="panel-body">
                 <div class="col-md-4 col-md-offset-4 login-container">
                   <i class="icon icon-edit"></i><span>Name of Document</span>
-                  <app-login [hiddenDescription]=true></app-login>
-                  <label>or</label>
+                  <app-login [customStyle]="'login-unauthorized'" [hiddenDescription]=true></app-login>
+                  <label><hr class="line-decoration-left">or<hr class="line-decoration-right"></label>
                   
                   <p class="register-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                   <button class="btn btn-primary btn-lg btn-block btn-register">Register</button>
