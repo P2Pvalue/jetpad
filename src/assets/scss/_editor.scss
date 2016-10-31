@@ -127,3 +127,12 @@
     }
   }
 }
+
+.editor-box-container {
+  padding: 20px 150px;
+  background-color: $editor-gray;
+  #editor-container {
+    background-color: $white;
+    border: 1px solid $soft-gray;
+  }
+}
