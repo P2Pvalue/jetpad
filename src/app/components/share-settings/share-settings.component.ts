@@ -48,6 +48,10 @@ import {DocumentService} from "../../services/document.service";
                     <i class="icon icon-close icon-middle cursor-pointer"></i> 
                  </div>
               </div>
+              <div class="col-xs-12 no-padding mar-top-30">         
+                <p>Invite people</p>
+                <input [(ngModel)]="passwordInput">
+              </div>
             </div>
           </modal-content>
           <modal-footer>
