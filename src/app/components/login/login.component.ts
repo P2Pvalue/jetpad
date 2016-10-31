@@ -12,7 +12,7 @@ import { UserService } from "../../services";
         <form (ngSubmit)="login()">
           <div class="form-group">
             <label class="sr-only" for="loginNameInput">Name</label>
-            <input class="form-control" id="loginNameInput" name="name" placeholder="Username o mail" [(ngModel)]="nameInput">
+            <input class="form-control" id="loginNameInput" name="name" placeholder="Username or email" [(ngModel)]="nameInput">
           </div>
           <div class="form-group label-floating">
             <label class="sr-only" for="loginPasswordInput">Password</label>
