@@ -13,10 +13,9 @@ import {Router} from "@angular/router";
           <div class="panel panel-default text-center">
             <div class="panel-body">
                 <div class="col-md-4 col-md-offset-4 login-container">
-                  <i class="icon icon-edit"></i><span>Name of Document</span>
+                  <i class="icon icon-edit"></i><span>Name of the document</span>
                   <app-login [customStyle]="'login-unauthorized'" [hiddenDescription]=true></app-login>
-                  <label><hr class="line-decoration-left">or<hr class="line-decoration-right"></label>
-                  
+                  <label><hr class="line-decoration-left"> or <hr class="line-decoration-right"></label>
                   <p class="register-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                   <button class="btn btn-primary btn-lg btn-block btn-register" (click)="goToAuthenticationScreen()">Register</button>
                 </div>
