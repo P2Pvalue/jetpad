@@ -134,5 +134,7 @@
   #editor-container {
     background-color: $white;
     border: 1px solid $soft-gray;
+    min-height: 1200px;
+    padding: 60px 80px;
   }
 }
