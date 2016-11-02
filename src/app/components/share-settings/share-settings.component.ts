@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild, Renderer} from '@angular/core';
+import {Component, ElementRef, ViewChild, Renderer, Inject} from '@angular/core';
 import { UserService } from "../../services";
 import {Router} from "@angular/router";
 import {DocumentService} from "../../services/document.service";
@@ -25,7 +25,7 @@ import {DocumentService} from "../../services/document.service";
             <br>
             <div class="col-xs-12 no-padding" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
               <div class="col-xs-4 no-padding">
-                <h5 class="muted">Make public this document</h5>
+                <h5 class="muted">Public document: </h5>
               </div>
               <div class="col-xs-8 no-padding">
                 <div class="switch">
@@ -50,7 +50,7 @@ import {DocumentService} from "../../services/document.service";
               </div>
               <div class="col-xs-12 no-padding mar-top-30">         
                 <p>Invite people</p>
-                <input [(ngModel)]="userInvited">
+                <input [(ngModel)]="usersInvited">
               </div>
             </div>
           </modal-content>
@@ -76,34 +76,46 @@ export class ShareSettingsComponent {
   // The logged in user
   currentUser: any;
   currentDocument: any;
+  documentId: any;
   documentUrl: any;
   documentName: any;
   publicDocument: any;
   anonymousDocument = true;
   participants = [];
-  userInvited: string;
+  usersInvited: string;
+  updateParticipants = true;
 
   @ViewChild('shareSettingsButton') shareSettingsButton: ElementRef;
 
   constructor(private documentService: DocumentService, private userService: UserService,
-              private renderer: Renderer, private router: Router) {
-    this.documentService = documentService;
+              private renderer: Renderer, private router: Router,
+              @Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string) {
     this.currentUser = userService.getUser();
     documentService.currentDocument.subscribe(document => {
+      this.documentUrl = this.documentService.getDocumentUrl(document.id());
+      this.documentName = this.documentService.getEditorId(document.id());
       this.currentDocument = document;
       this.publicDocument = this.documentService.publicDocument();
       this.anonymousDocument = this.documentService.anonymousDocument();
 
       if(!this.currentUser.anonymous) {
         var participantEmails = this.currentDocument.getParticipants();
-        userService.getUserProfiles(participantEmails)
-          .then(users => {
+        userService.getUserProfiles(participantEmails).then(users => {
             this.setNames(users);
             this.participants = users;
-          });
+        });
+        documentService.myDocuments.subscribe(myDocument => {
+            if(myDocument.editorId === this.documentName) {
+              if(this.updateParticipants) {
+                this.participants = myDocument.participants.slice();
+                this.participants.unshift(myDocument.author);
+                this.setNames(this.participants);
+              } else {
+                this.updateParticipants = true;
+              }
+            }
+        });
       }
-      this.documentUrl = this.documentService.getDocumentUrl(document.id());
-      this.documentName = this.documentService.getEditorId(document.id());
       if(this.currentDocument.properties.created) {
         setTimeout(() => {
           this.renderer.invokeElementMethod(this.shareSettingsButton.nativeElement, 'click', []);
@@ -127,17 +139,24 @@ export class ShareSettingsComponent {
 
   updateDocumentProperties() {
     this.currentDocument.properties.created = false;
-    if(this.userInvited) {
-      this.documentService.addParticipant(this.userInvited);
+    if(this.usersInvited) {
+      this.usersInvited.split(",").forEach(user => {
+        let userWithDomain = user.trim();
+        if(!userWithDomain.endsWith("@" + this.SWELLRT_DOMAIN)) {
+          userWithDomain = userWithDomain.concat("@" + this.SWELLRT_DOMAIN);
+        }
+        this.documentService.addParticipant(userWithDomain);
+      });
+      this.usersInvited = '';
     }
   }
 
   deleteParticipant(id) {
+    this.updateParticipants = false;
     this.documentService.removeParticipant(id);
     this.participants =  this.participants.filter(function(participant) {
       return participant.id !== id;
     });
-
   }
 
   setNames(users) {
