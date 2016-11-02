@@ -61,7 +61,11 @@ import {DocumentService} from "../../services/document.service";
               <h5 class="muted">If you want to make private this document you must <a (click)="goToAuthenticationScreen()">login</a> or <a (click)="goToAuthenticationScreen()">register</a>.</h5>
             </div>
             -->
-            <button class="btn btn-primary" (click)="updateDocumentProperties(); shareSettings.close()">READY!</button>
+            <div *ngIf="currentUser && currentUser.anonymous && !anonymousDocument && publicDocument">
+              <button class="btn btn-primary" (click)="goToAuthenticationScreen()">login</button>
+              <button class="btn btn-primary" (click)="goToAuthenticationScreen()">register</button>
+            </div>
+            <button *ngIf="(currentUser && !currentUser.anonymous) || anonymousDocument || !publicDocument" class="btn btn-primary" (click)="updateDocumentProperties(); shareSettings.close()">READY!</button>
           </modal-footer>
         </modal>
         `
@@ -87,9 +91,10 @@ export class ShareSettingsComponent {
     this.currentUser = userService.getUser();
     documentService.currentDocument.subscribe(document => {
       this.currentDocument = document;
+      this.publicDocument = this.documentService.publicDocument();
+      this.anonymousDocument = this.documentService.anonymousDocument();
+
       if(!this.currentUser.anonymous) {
-        this.publicDocument = this.documentService.publicDocument();
-        this.anonymousDocument = this.documentService.anonymousDocument();
         var participantEmails = this.currentDocument.getParticipants();
         userService.getUserProfiles(participantEmails)
           .then(users => {
@@ -132,7 +137,7 @@ export class ShareSettingsComponent {
     this.participants =  this.participants.filter(function(participant) {
       return participant.id !== id;
     });
-    
+
   }
 
   setNames(users) {
