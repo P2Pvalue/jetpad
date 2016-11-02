@@ -65,6 +65,23 @@
         padding-left: 0;
         padding-right: 0;
       }
+      .contributors {
+        display: inline-block;
+        img {
+          margin-left: 10px !important;
+          z-index: 5;
+          position: relative;
+          &:first-child {
+            z-index: 10;
+          }
+          &:last-child {
+            z-index: 1;
+          }
+          &:hover {
+            z-index: 15;
+          }
+        }
+      }
       .view-more {
         display: inline-block;
         margin-left: 10px;
@@ -74,6 +91,7 @@
         }
         .drowdown-box {
           display: none;
+          text-align: left;
           position: absolute;
           top: -14px;
           left: 0;
@@ -84,7 +102,7 @@
           z-index: 5;
           img,
           .not-avatar {
-            margin: 0 0 10px 0;
+            margin: 0 10px 10px 0;
           }
         }
         &:hover {

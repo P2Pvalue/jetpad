@@ -129,21 +129,18 @@
         </div>
       </div>
       <div class="col-sm-3 text-right participants">
-        <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-        <span class="not-avatar">AA</span>
-        <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-        <span class="not-avatar">BB</span>
-        <div class="view-more">
-          <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+        <div *ngIf="privateDocument">
+          <div class="contributors" *ngFor="let participant of participants | slice:0:3">
+            <app-user-icon [user]="participant"></app-user-icon>
+          </div>
+          <div class="view-more" *ngIf="participants.length > 3">
+            <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
             <div class="drowdown-box">
-              <div class="contributors text-left">
-                <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-                <span class="not-avatar">CC</span>
-                <span class="not-avatar">DD</span>
-                <span class="not-avatar">EE</span>
-                <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
+              <div class="contributors text-left" *ngFor="let participant of participants | slice:3">
+                <app-user-icon [user]="participant"></app-user-icon>
               </div>
             </div>
+          </div>
         </div>
       </div>
       <div class="col-sm-2 text-center">

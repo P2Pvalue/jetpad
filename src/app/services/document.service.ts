@@ -10,6 +10,7 @@ export class DocumentService {
 
   document: any;
   currentDocument = new Subject<any>();
+  currentDocumentIsPrivate = new Subject<any>();
   myDocuments = new Subject<any>();
   myDocumentsInterval: any;
 
@@ -75,11 +76,13 @@ export class DocumentService {
   }
 
   makeDocumentPublic() {
-    this.addParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
+    this.addParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT);
+    this.currentDocumentIsPrivate.next(false);
   }
 
   makeDocumentPrivate() {
-    this.removeParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT)
+    this.removeParticipant(this.PUBLIC_DOCUMENT_PARTICIPANT);
+    this.currentDocumentIsPrivate.next(true);
   }
 
   getUserDocuments(user: any) {
