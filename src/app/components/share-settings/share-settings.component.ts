@@ -83,6 +83,7 @@ export class ShareSettingsComponent {
 
   constructor(private documentService: DocumentService, private userService: UserService,
               private renderer: Renderer, private router: Router) {
+    this.documentService = documentService;
     this.currentUser = userService.getUser();
     documentService.currentDocument.subscribe(document => {
       this.currentDocument = document;
@@ -123,7 +124,7 @@ export class ShareSettingsComponent {
   updateDocumentProperties() {
     this.currentDocument.properties.created = false;
     if(this.userInvited) {
-      //TODO invite user
+      this.documentService.addParticipant(this.userInvited);
     }
   }
 
