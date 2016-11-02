@@ -62,8 +62,9 @@ import {DocumentService} from "../../services/document.service";
             </div>
             -->
             <div *ngIf="currentUser && currentUser.anonymous && !anonymousDocument && publicDocument">
-              <button class="btn btn-primary" (click)="goToAuthenticationScreen()">login</button>
-              <button class="btn btn-primary" (click)="goToAuthenticationScreen()">register</button>
+              <h5 class="muted">If you want to make private this document you must login or register.</h5>
+              <button class="btn btn-primary btn-icon" (click)="goToAuthenticationScreen()"><i class="icon icon-lock"></i>login</button>
+              <button class="btn btn-primary btn-icon" (click)="goToAuthenticationScreen()"><i class="icon icon-user"></i>register</button>
             </div>
             <button *ngIf="(currentUser && !currentUser.anonymous) || anonymousDocument || !publicDocument" class="btn btn-primary" (click)="updateDocumentProperties(); shareSettings.close()">READY!</button>
           </modal-footer>

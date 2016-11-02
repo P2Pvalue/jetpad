@@ -79,7 +79,14 @@
         border: 1px solid $soft-gray;
       }
     }
+    .btn-icon {
+      padding-top: 10px;
+      .icon {
+        font-size: 2em;
+        float: left;
+        bottom: 6px;
+        position: relative;
+      }
 
-
-
+    }
 }
