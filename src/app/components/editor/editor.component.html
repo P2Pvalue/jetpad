@@ -129,12 +129,13 @@
         </div>
       </div>
       <div class="col-sm-3 text-right participants">
-        <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-        <span class="not-avatar">AA</span>
-        <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
-        <span class="not-avatar">BB</span>
-        <div class="view-more">
-          <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+        <div *ngIf="privateDocument">
+          <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
+          <span class="not-avatar">AA</span>
+          <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
+          <span class="not-avatar">BB</span>
+          <div class="view-more">
+            <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
             <div class="drowdown-box">
               <div class="contributors text-left">
                 <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
@@ -144,6 +145,7 @@
                 <img src="assets/img/anonymous.png" width="40" height="40" class="img-circle user-avatar" />
               </div>
             </div>
+          </div>
         </div>
       </div>
       <div class="col-sm-2 text-center">

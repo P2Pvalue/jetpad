@@ -12,6 +12,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   _title: any;
   editor: any;
 
+  privateDocument: any;
+
   formats: Array<Array<string>> = [
     ['bold', 'italic', 'underline', 'strikethrough'],
     ['align_left', 'align_center', 'align_right'],
@@ -41,6 +43,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   constructor(private documentService: DocumentService,
               private route: ActivatedRoute) {
     this.disableEditorToolbar();
+    documentService.currentDocumentIsPrivate.subscribe(visibility => this.privateDocument = visibility);
   }
 
   get editorElement() {
@@ -119,6 +122,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.editorElement.addEventListener('focus', () => this.updateEditorToolbar());
       this.editorElement.addEventListener('blur', () => this.disableEditorToolbar());
 
+      this.privateDocument = !this.documentService.publicDocument();
     })
     .catch(error => {
       console.log('Document doesn\'t exist or you don\'t have permission to open: ' + error);
