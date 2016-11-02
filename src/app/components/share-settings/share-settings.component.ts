@@ -128,8 +128,11 @@ export class ShareSettingsComponent {
   }
 
   deleteParticipant(id) {
-    console.log(id);
-    //TODO remove participant
+    this.documentService.removeParticipant(id);
+    this.participants =  this.participants.filter(function(participant) {
+      return participant.id !== id;
+    });
+    
   }
 
   setNames(users) {
