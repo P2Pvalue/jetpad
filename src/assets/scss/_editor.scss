@@ -91,6 +91,7 @@
         }
         .drowdown-box {
           display: none;
+          text-align: left;
           position: absolute;
           top: -14px;
           left: 0;
@@ -101,7 +102,7 @@
           z-index: 5;
           img,
           .not-avatar {
-            margin: 0 0 10px 0;
+            margin: 0 10px 10px 0;
           }
         }
         &:hover {

@@ -47,7 +47,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     documentService.currentDocumentIsPrivate.subscribe(visibility => this.privateDocument = visibility);
     documentService.myDocuments.subscribe(document => {
       if(document.editorId === this.documentId) {
-        this.participants = document.participants;
+        this.participants = document.participants.slice();
         this.participants.unshift(document.author);
       }
     });
