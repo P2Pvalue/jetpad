@@ -12,6 +12,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   _title: any;
   editor: any;
 
+  documentId: any;
+  participants = [];
   privateDocument: any;
 
   formats: Array<Array<string>> = [
@@ -40,10 +42,15 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   buttons: Map<string, boolean> = new Map<string, boolean>();
 
-  constructor(private documentService: DocumentService,
-              private route: ActivatedRoute) {
+  constructor(private documentService: DocumentService, private route: ActivatedRoute) {
     this.disableEditorToolbar();
     documentService.currentDocumentIsPrivate.subscribe(visibility => this.privateDocument = visibility);
+    documentService.myDocuments.subscribe(document => {
+      if(document.editorId === this.documentId) {
+        this.participants = document.participants;
+        this.participants.unshift(document.author);
+      }
+    });
   }
 
   get editorElement() {
@@ -80,6 +87,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.participants = [];
+    this.documentId = undefined;
     this.documentService.close();
   }
 
@@ -93,12 +102,15 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.editor = DocumentService.editor('editor-container', widgets, {});
 
-    this.route.params.subscribe((param: any) => { this.openDocument(param['id']); });
+    this.route.params.subscribe((param: any) => {
+      this.documentId = param['id'];
+      this.openDocument();
+    });
   }
 
-  openDocument(id) {
+  openDocument() {
 
-    this.documentService.open(id).then(cObject => {
+    this.documentService.open(this.documentId).then(cObject => {
 
       // Initialize the doc
       if (!cObject.root.get('doc')) {

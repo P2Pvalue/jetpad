@@ -95,7 +95,6 @@ export class ShareSettingsComponent {
             this.setNames(users);
             this.participants = users;
           });
-
       }
       this.documentUrl = this.documentService.getDocumentUrl(document.id());
       this.documentName = this.documentService.getEditorId(document.id());
