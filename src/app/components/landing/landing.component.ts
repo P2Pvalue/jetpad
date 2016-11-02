@@ -87,6 +87,7 @@ export class LandingComponent {
 
   openDocument(_id: string) {
     if (_id) {
+      _id = _id.split(" ").join("-").substr(0, 64);
       let link = ['edit', _id];
       this.router.navigate(link);
     }

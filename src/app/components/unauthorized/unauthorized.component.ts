@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
                   <app-login [customStyle]="'login-unauthorized'" [hiddenDescription]=true></app-login>
                   <label><hr class="line-decoration-left"> or <hr class="line-decoration-right"></label>
                   <p class="register-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  <button class="btn btn-primary btn-lg btn-block btn-register" (click)="goToAuthenticationScreen()">Register</button>
+                  <button class="btn btn-primary btn-lg btn-block btn-register mar-bottom-50" (click)="goToAuthenticationScreen()">Register</button>
                 </div>
             </div>
           </div>
