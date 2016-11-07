@@ -23,18 +23,20 @@ import { TermsComponent } from "./components/terms";
 import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 import { ShareSettingsComponent } from "./components/share-settings";
+import { UserIconComponent } from "./components/user-icon";
 
 import { DocumentService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
-import {SessionResolver} from "./resolver";
-import {SearchPipe} from "./pipes";
+import { SessionResolver } from "./resolver";
+import { OrderPipe, SearchPipe } from "./pipes";
 
 import { AppState } from "./app.service";
 
 import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
 
 import { ModalModule } from "ng2-modal";
-import { UiSwitchModule } from 'angular2-ui-switch'
+import { UiSwitchModule } from 'angular2-ui-switch';
+import { ClipboardModule }  from 'angular2-clipboard';
 
 const APP_PROVIDERS = [
   AppState,
@@ -62,6 +64,8 @@ const APP_PROVIDERS = [
     ShareSettingsComponent,
     NoContent,
     UnauthorizedComponent,
+    UserIconComponent,
+    OrderPipe,
     SearchPipe,
     DROPDOWN_DIRECTIVES
   ],
@@ -71,6 +75,7 @@ const APP_PROVIDERS = [
     HttpModule,
     ModalModule,
     UiSwitchModule,
+    ClipboardModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

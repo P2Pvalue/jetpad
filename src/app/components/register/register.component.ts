@@ -6,22 +6,32 @@ import { UserService } from "../../services";
 @Component({
     selector: 'app-register',
     template: `
-      <div class="panel panel-default text-center">
-        <div class="panel-body">
-          <h4>REGISTER</h4>
-          <form style="margin-top:4em" (ngSubmit)="register()">
-            <div class="form-group label-floating">
-              <label class="control-label" for="registerNameInput">Name</label>
-              <input class="form-control" id="registerNameInput" name="name" [(ngModel)]="nameInput">
-            </div>
-            <div class="form-group label-floating">
-              <label class="control-label" for="registerPasswordInput">Password</label>
-              <input class="form-control" id="registerPasswordInput" name="password" type="password" [(ngModel)]="passwordInput">
-            </div>         
-            <button class="btn btn-primary">Register</button>
-          </form>
-        </div><!-- panel-body -->
-      </div><!-- panel -->
+      <h2 class="h2 text-center">Register</h2>
+      <p class="text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <form (ngSubmit)="register()">
+        <div class="form-group">
+          <label class="sr-only" for="registerMailInput">Mail</label>
+          <input class="form-control" id="registerMailInput" name="email" type="email" placeholder="Mail" [(ngModel)]="mailInput">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="registerNameInput">Username</label>
+          <input class="form-control" id="registerNameInput" name="name" placeholder="Username" [(ngModel)]="nameInput">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="registerPasswordInput">Password</label>
+          <input class="form-control" id="registerPasswordInput" name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
+        </div> 
+        <button class="btn btn-primary btn-lg btn-block mar-top-20">Register</button>
+        <!-- TODO: Terms screen not finished 
+        <div class="checkbox">
+          <label>
+            <input type="checkbox">
+            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+            By clicking you accept <a [routerLink]=" ['/terms']">terms and conditions</a>
+          </label>
+        </div>
+        -->
+      </form>
     `
   })
 
@@ -30,10 +40,11 @@ export class RegisterComponent {
   // Form fields
   nameInput: string;
   passwordInput: string;
+  mailInput: string;
 
   constructor(private userService: UserService) {}
 
   register() {
-    this.userService.create(this.nameInput, this.passwordInput);
+    this.userService.create(this.nameInput, this.passwordInput, this.mailInput);
   }
 }

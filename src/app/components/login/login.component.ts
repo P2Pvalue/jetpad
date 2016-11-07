@@ -6,22 +6,25 @@ import { UserService } from "../../services";
 @Component({
     selector: 'app-login',
     template: `
-      <div class="panel panel-default">
-        <div class="panel-body text-center">
-          <h4>{{title}}</h4>
-          <form style="margin-top:4em" (ngSubmit)="login()">
-            <div class="form-group label-floating">
-              <label class="control-label" for="loginNameInput">Name</label>
-              <input class="form-control" id="loginNameInput" name="name" [(ngModel)]="nameInput">
-            </div>
-            <div class="form-group label-floating">
-              <label class="control-label" for="loginPasswordInput">Password</label>
-              <input class="form-control" id="loginPasswordInput" name="password" type="password" [(ngModel)]="passwordInput">
-            </div>
-            <button class="btn btn-primary">Login</button>
-          </form>
-          <a href="javascript:void(0)" (click)="recoverPassword()">Do you forget your password?</a>
-        </div>
+      <div [ngClass]="customStyle">
+        <h2  class="h2 text-center">{{title}}</h2>
+        <p *ngIf="!hiddenDescription" class="text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <form (ngSubmit)="login()">
+          <div class="form-group">
+            <label class="sr-only" for="loginNameInput">Name</label>
+            <input class="form-control" id="loginNameInput" name="name" placeholder="Username or email" [(ngModel)]="nameInput">
+          </div>
+          <div class="form-group label-floating">
+            <label class="sr-only" for="loginPasswordInput">Password</label>
+            <input class="form-control" id="loginPasswordInput" name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
+          </div>
+          <!-- TODO: Forget password doesn't work in server
+          <div class="form-group text-center">
+            <a href="javascript:void(0)" (click)="recoverPassword()">Do you forget your password?</a>
+          </div>
+          -->
+          <button class="btn btn-primary btn-lg btn-block mar-top-20">Login</button>
+        </form>
       </div>
     `
   })
@@ -29,6 +32,8 @@ import { UserService } from "../../services";
 export class LoginComponent {
 
   @Input() title: string;
+  @Input() hiddenDescription: boolean;
+  @Input() customStyle: string;
 
   // Form fields
   nameInput: string;

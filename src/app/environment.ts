@@ -5,10 +5,8 @@ let production = 'production' === ENV;
 
 /*--------------   Configuration variables   -------------- */
 let PROVIDERS = [
-  { provide: 'DEFAULT_AVATAR_URL', useValue: 'assets/img/user.jpeg' },
   { provide: 'DEFAULT_USERNAME', useValue: '_anonymous_' },
   { provide: 'DEFAULT_PASSWORD', useValue: '' },
-  { provide: 'DEFAULT_SNACK_TIMEOUT', useValue: 3000 },
   { provide: 'SWELLRT_DOMAIN', useValue: 'demo.swellrt.org' },
   { provide: 'JETPAD_URL', useValue: 'http://jetpad-int.devialab.rocks' },
   { provide: 'RECOVER_PASSWORD_URL', useValue: 'http://jetpad-int.devialab.rocks/#/recover/*$token*$user-id*' }

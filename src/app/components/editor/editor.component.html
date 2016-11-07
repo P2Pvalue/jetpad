@@ -1,162 +1,273 @@
-<div class="row">
 
-  <!-- Left bar
-  <div class="col-md-3">
+<!-- Left bar
+<div class="col-md-3">
 
 
 <app-user-panel></app-user-panel>
 
 <div class="panel panel-default">
 
-  <div class="panel-heading">
+<div class="panel-heading">
 
-    <div id="editor-sidebar" class="btn-toolbar">
-      <div class="btn-group">
-        <button type="button" class="btn btn-default">
-          <span class="material-icons">toc</span>
-        </button>
-        <button type="button" class="btn btn-default">
-          <span class="material-icons">people</span>
-        </button>
-        <button type="button" class="btn btn-default">
-          <span class="material-icons">chat</span>
-        </button>
-      </div>
+  <div id="editor-sidebar" class="btn-toolbar">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default">
+        <span class="material-icons">toc</span>
+      </button>
+      <button type="button" class="btn btn-default">
+        <span class="material-icons">people</span>
+      </button>
+      <button type="button" class="btn btn-default">
+        <span class="material-icons">chat</span>
+      </button>
     </div>
-
   </div>
 
-  <div class="panel-body">
-
-    <!-- Outline -->
-        <!--
-
-        <div id="editor-outline">
-          <ul>
-          <li><h4>Introduction</h4></li>
-          <h4>Abstract</h4>
-          <h4>Definitions</h4>
-          <h4>Definitive Solution</h4>
-          </ul>
-        </div>
-
-
-        <!-- Participants -->
-        <!--
-        <div id="editor-participants">
-
-          <div class="media">
-            <div class="media-left media-middle">
-              <a href="#">
-                <img class="media-document" height="40" src="images/user.jpeg" alt="">
-              </a>
-            </div>
-            <div class="media-body">
-              <h5 class="media-heading">Andrés Reyero</h5>
-              <span>
-
-              </span>
-            </div>
-          </div>
-
-          <div class="media">
-            <div class="media-left media-middle">
-              <a href="#">
-                <img class="media-document" height="40" src="images/user.jpeg" alt="">
-              </a>
-            </div>
-            <div class="media-body">
-              <h5 class="media-heading">Juana de Arco</h5>
-              <span>
-
-              </span>
-            </div>
-          </div>
-
-          <div class="media">
-            <div class="media-left media-middle">
-              <a href="#">
-                <img class="media-document" height="40" src="images/user.jpeg" alt="">
-              </a>
-            </div>
-            <div class="media-body">
-              <h5 class="media-heading">Luis Tosar</h5>
-              <span>
-
-              </span>
-            </div>
-          </div>
-
-          <div class="media">
-            <div class="media-left media-middle">
-              <a href="#">
-                <img class="media-document" height="40" src="/assets/img/anonymous.png" alt="">
-              </a>
-            </div>
-            <div class="media-body">
-              <h5 class="media-heading">Anonymous #1</h5>
-              <span>
-                <img class="media-document" height="40" src="/assets/img/anonymous.png" alt="">
-              </a>
-            </div>
-            <div class="media-body">
-              <h5 class="media-heading">Anonymous #2</h5>
-              <span>
-
-              </span>
-            </div>
-          </div>
-
-
-        </div>
-
-      </div>
-
-    </div></div>--><!-- panel -->
-
-  <!-- Left bar -->
-
-  <!-- Main area -->
-
-    <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
-      <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
-      <strong>{{msgError}}</strong>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <input id="document-title" [(ngModel)]="title">
-        <share-settings></share-settings>
-      </div>
-      <div class="panel-heading">
-        <div id="editor-toolbar" class="btn-toolbar">
-          <select [(ngModel)]="currentTextType" class="form-control btn-group" (change)="changeTextType($event.target.value)">
-            <option value="h1">Heading 1</option>
-            <option value="h2">Heading 2</option>
-            <option value="h3">Heading 3</option>
-            <option value="h4">Heading 4</option>
-            <option value="h5">Heading 5</option>
-            <option value="none">Normal text</option>
-          </select>
-          <select [(ngModel)]="currentTextSize" class="form-control btn-group" (change)="changeTextSize($event.target.value)">
-              <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
-          </select>
-          <div *ngFor="let formatGroup of formats" class="btn-group">
-            <button *ngFor="let format of formatGroup" type="button"
-            (click)="annotate(format)"
-            class="btn btn-{{buttons[format] ? 'success' : 'default'}}">
-              <span class="material-icons">format_{{format}}</span>
-            </button>
-          </div>
-          <div class="btn-group">
-            <button type="button" (click)="addImage()" class="btn btn-default">
-              <span class="material-icons">image</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div id="editor-container" class="panel-body">
-      </div>
-    </div>
-
 </div>
+
+<div class="panel-body">
+
+  <!-- Outline -->
+      <!--
+
+      <div id="editor-outline">
+        <ul>
+        <li><h4>Introduction</h4></li>
+        <h4>Abstract</h4>
+        <h4>Definitions</h4>
+        <h4>Definitive Solution</h4>
+        </ul>
+      </div>
+
+
+      <!-- Participants -->
+      <!--
+      <div id="editor-participants">
+
+        <div class="media">
+          <div class="media-left media-middle">
+            <a href="#">
+              <img class="media-document" height="40" src="images/user.jpeg" alt="">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading">Andrés Reyero</h5>
+            <span>
+
+            </span>
+          </div>
+        </div>
+
+        <div class="media">
+          <div class="media-left media-middle">
+            <a href="#">
+              <img class="media-document" height="40" src="images/user.jpeg" alt="">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading">Juana de Arco</h5>
+            <span>
+
+            </span>
+          </div>
+        </div>
+
+        <div class="media">
+          <div class="media-left media-middle">
+            <a href="#">
+              <img class="media-document" height="40" src="images/user.jpeg" alt="">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading">Luis Tosar</h5>
+            <span>
+
+            </span>
+          </div>
+        </div>
+
+        <div class="media">
+          <div class="media-left media-middle">
+            <a href="#">
+              <img class="media-document" height="40" src="/assets/img/anonymous.png" alt="">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading">Anonymous #1</h5>
+            <span>
+              <img class="media-document" height="40" src="/assets/img/anonymous.png" alt="">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading">Anonymous #2</h5>
+            <span>
+
+            </span>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div></div>--><!-- panel -->
+
+<!-- Left bar -->
+
+<!-- Main area -->
+
+<section class="editor-section">
+  <div class="container-fluid">
+    <div class="row no-gutter row-eq-height header-document">
+      <div class="col-sm-7 form">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon icon icon-edit icon-middle"></span>
+            <input id="document-title" class="form-control" [(ngModel)]="title">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 text-right participants">
+        <div *ngIf="privateDocument">
+          <div class="contributors" *ngFor="let participant of participants | slice:0:3">
+            <app-user-icon [user]="participant"></app-user-icon>
+          </div>
+          <div class="view-more" *ngIf="participants.length > 3">
+            <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+            <div class="drowdown-box">
+              <div class="contributors text-left" *ngFor="let participant of participants | slice:3">
+                <app-user-icon [user]="participant"></app-user-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2 text-center">
+        <share-settings class="clearfix"></share-settings>
+      </div>
+    </div>
+    <div id="editor-toolbar" class="row row-eq-height toolbox form">
+      <div class="col-sm">
+        <select [(ngModel)]="currentTextType" class="form-control" (change)="changeTextType($event.target.value)">
+          <option value="h1">Heading 1</option>
+          <option value="h2">Heading 2</option>
+          <option value="h3">Heading 3</option>
+          <option value="h4">Heading 4</option>
+          <option value="h5">Heading 5</option>
+          <option value="none">Normal text</option>
+        </select>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <select class="form-control">
+          <option value="">Times New Roman</option>
+          <option value="">Arial</option>
+          <option value="">Tahoma</option>
+          <option value="">Futura</option>
+        </select>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <select [(ngModel)]="currentTextSize" class="form-control" (change)="changeTextSize($event.target.value)">
+          <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
+        </select>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-text-bold icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-italic icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-underline-doble icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-underline icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-strike-through icon-middle"></i></button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <!-- not supported by explorer and safari -->
+        <div class="input-color">
+          <input type="color" id="text-color" value="#0072BC">
+        </div>
+        <label for="text-color" class="cursor-pointer btn">
+          <i class="icon icon-text-decoration icon-middle input-btn" style="color: #0072BC;"></i>
+        </label>
+      </div>
+      <div class="col-sm">
+        <!-- not supported by explorer and safari -->
+        <div class="input-color">
+          <input type="color" id="background-text-color" value="#F34E1E">
+        </div>
+        <label for="background-text-color" class="cursor-pointer btn">
+          <i class="icon icon-text-color icon-middle input-btn" style="color: #F34E1E;"></i>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-text-left icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-center icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-right icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-justify icon-middle"></i></button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <button type="button" class="btn">
+          <i class="icon icon-link icon-middle"></i>
+        </button>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <button type="button" class="btn">
+          <i class="icon icon-text-sort icon-middle"></i>
+        </button>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-text-dots icon-middle"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon icon-text-number icon-middle"></i></button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default"><i class="icon icon-square-divider icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="addImage()">
+            <i class="icon icon-image icon-middle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="editor-box-container">
+  <div id="editor-container"></div>
+</section>
+
+<!--  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div id="editor-toolbar2" class="btn-toolbar">
+        <div *ngFor="let formatGroup of formats" class="btn-group">
+          <button *ngFor="let format of formatGroup" type="button"
+          (click)="annotate(format)"
+          class="btn btn-{{buttons[format] ? 'success' : 'default'}}">
+            <span class="material-icons">format_{{format}}</span>
+          </button>
+        </div>
+        <div class="btn-group">
+          <button type="button" (click)="addImage()" class="btn btn-default">
+            <span class="material-icons">image</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="editor-box-container">
+      <div id="editor-container" class="panel-body">
+    </div>
+
+    </div>
+  </div>-->
+

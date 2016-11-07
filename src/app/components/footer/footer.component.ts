@@ -4,8 +4,8 @@ import {Component} from "@angular/core";
   selector: 'app-footer',
   template: `
         <footer>
-            <div class="row">
-            <nav class="navbar navbar-default">
+            <div class="">
+            <!--<nav class="navbar navbar-default">
                 <div class="col-md-3 text-center footer">
                   <h5>Powered by</h5>
                   <a href="http://swellrt.org/">
@@ -28,7 +28,7 @@ import {Component} from "@angular/core";
                   <h5 class="link-cursor" [routerLink]=" ['/authentication'] ">Register</h5>                
                   <h5 class="link-cursor" [routerLink]=" ['/terms'] ">Terms and conditions</h5>
                 </div>
-            </nav>
+            </nav>-->
           </div>
         </footer>
         `

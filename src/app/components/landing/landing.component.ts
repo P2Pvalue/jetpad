@@ -5,11 +5,6 @@ import {Router} from "@angular/router";
   selector: 'app-landing',
   template: `
     <div class="row">
-        <div class="alert alert-dismissible alert-danger" *ngIf="wasError">
-          <button type="button" class="close" data-dismiss="alert" (click)="wasError = false">×</button>
-          <strong>{{msgError}}</strong>
-        </div>
-        
         <nav class="navbar navbar-default text-center">
           <h2>Create a document and collaborate with</h2>
           <h2>others!</h2>
@@ -25,7 +20,7 @@ import {Router} from "@angular/router";
           </form>
         </nav>
 
-        <div class="panel panel-default text-center">
+        <!--<div class="panel panel-default text-center">
           <div class="panel-body">
               <div class="col-md-4 col-md-offset-1">
                 <img height="200" class="center-block" src="assets/img/landing_1.png" alt="">            
@@ -78,7 +73,7 @@ import {Router} from "@angular/router";
               <img height="200" class="center-block" src="assets/img/landing_4.png" alt="">            
             </div>  
           </div>
-        </div>
+        </div>-->
     </div>
     <app-footer></app-footer>
     `
@@ -87,21 +82,15 @@ import {Router} from "@angular/router";
 
 export class LandingComponent {
 
-  wasError: boolean = false;
-  msgError: string;
-
   constructor(private router: Router) {
   }
 
   openDocument(_id: string) {
-    if (!_id) {
-      this.msgError = 'Write a name for the pad.';
-      this.wasError = true;
-      return;
+    if (_id) {
+      _id = _id.split(" ").join("-").substr(0, 64);
+      let link = ['edit', _id];
+      this.router.navigate(link);
     }
-    this.wasError = false;
-    let link = ['edit', _id];
-    this.router.navigate(link);
   }
 
 }

@@ -1,0 +1,74 @@
+header {
+  .navbar {
+    background-color: $primary-color;
+    color: $white;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    height: 80px;
+    margin: 0;
+    @include border-radius(0);
+    .navbar-brand {
+      height: auto;
+      line-height: inherit;
+      padding: 20px 15px 0;
+      &.logo {
+        padding: 11px;
+        margin-left: 0;
+      }
+      &.menu-icon {
+        padding-top: 20px;
+        cursor: pointer;
+        .icon {
+          font-size: 25px;
+        }
+      }
+    }
+    .list-inline {
+      margin-right: 50px;
+      .navbar-brand {
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
+      }
+      .icon {
+        font-size: 25px;
+        vertical-align: middle;
+      }
+      .pipe {
+        border-color: transparentize($black, 0.8);
+        height: 30px;
+      }
+    }
+    [class^="icon-"]:before,
+    [class*=" icon-"]:before {
+      vertical-align: middle;
+    }
+    a {
+      color: $white;
+    }
+    .dropdown-menu {
+      background: $primary-color;
+      border: none;
+      padding: 0;
+      margin-top: 24px;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      @include border-radius(0);
+      li {
+        a {
+          color: $white;
+          font-size: 13px;
+          font-family: 'Rubik', sans-serif;
+          font-weight: 400;
+          letter-spacing: 1.7px;
+          text-align: center;
+          padding: 20px 0;
+          &:hover {
+            background: $primary-color-blend;
+          }
+        }
+      }
+    }
+  }
+}

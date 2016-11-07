@@ -4,9 +4,8 @@
   "globalDependencies": {
     "angular-protractor": "registry:dt/angular-protractor#1.5.0+20160914235635",
     "core-js": "registry:dt/core-js#0.0.0+20160914114559",
-    "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
-    "jquery": "registry:dt/jquery#1.10.0+20160908203239",
-    "node": "registry:dt/node#6.0.0+20160914131736",
+    "jasmine": "registry:dt/jasmine#2.5.0+20161003201800",
+    "node": "registry:dt/node#6.0.0+20161019125345",
     "selenium-webdriver": "registry:dt/selenium-webdriver#2.53.1+20160914235635"
   }
 }

@@ -8,11 +8,10 @@ import {ListenerService, UserService} from "./services";
     './app.style.scss'
   ],
   template: `
-    <div class="container">
+    <div class="clearfix">
         <app-header></app-header>
         <main>
           <router-outlet></router-outlet>
-          <div id="snackbar-container"></div>
         </main>
     </div>
   `

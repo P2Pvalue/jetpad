@@ -1,0 +1,71 @@
+.profile {
+  padding: 35px 0 0;
+  .go-back {
+    text-decoration: none;
+    span {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      text-decoration: underline;
+      display: inline-block;
+      margin-left: 15px;
+    }
+    .icon {
+      font-size: 30px;
+      vertical-align: middle;
+    }
+  }
+  h2 {
+    @include heading-styles(45px, $text-color);
+  }
+  h3 {
+    @include heading-styles(30px, $text-color);
+    font-weight: 300;
+    margin: 40px 0 0 0;
+    .icon {
+      font-size: 100px;
+      vertical-align: middle;
+      display: inline-block;
+      height: 100px;
+    }
+    hr {
+      margin-top: 0px;
+    }
+  }
+  form,
+  .form {
+    .form-group {
+      margin-bottom: 26px;
+      .media {
+        margin-top: 0;
+        .media-left {
+          position: relative;
+          .user-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+          }
+        }
+      }
+      label {
+        margin-bottom: 12px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 17px;
+        font-weight: 400;
+        color: $text-color;
+        span {
+          color: $text-color-blend;
+          display: block;
+        }
+      }
+      input {
+        background-color: $light-gray;
+      }
+    }
+    .btn {
+      padding-left: 26px;
+      padding-right: 26px;
+    }
+  }
+}

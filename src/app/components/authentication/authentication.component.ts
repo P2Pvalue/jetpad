@@ -3,19 +3,27 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'app-authentication',
     template: `
-    <div class="row">
-        <div class="panel panel-default text-center">
-          <div class="panel-body">
-              <div class="col-md-4 col-md-offset-1">
-                <app-login [title]="'LOGIN'"></app-login>        
+    <section class="authentication">
+      <div class="container-fluid">
+        <div class="row row-eq-height">
+          <div class="col-sm-6 left-content">
+            <div class="row-centered">
+              <div class="col-sm-7 col-centered">
+                <app-login [title]="'Login'"></app-login>
               </div>
-              <div class="col-md-4 col-md-offset-2">
-                <app-register></app-register>         
+            </div>
+          </div>
+          <div class="col-sm-6 right-content">
+            <div class="row-centered">
+              <div class="col-sm-7 col-centered">
+                <app-register></app-register>
               </div>
+            </div>
           </div>
         </div>
-    </div>
-    <app-footer></app-footer>
+      </div>
+    </section>
+    <!-- <app-footer></app-footer> -->
     `,
   })
 

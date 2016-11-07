@@ -1,0 +1,106 @@
+.no-margin {
+    margin: 0 !important;
+}
+
+.mar-top-20 {
+    margin-top: 20px;
+}
+
+.mar-top-30 {
+  margin-top: 30px;
+}
+
+.mar-bottom-50 {
+  margin-bottom: 50px;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.rlt {
+    position: relative;
+}
+
+.left {
+  float: left;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+// Remove the Gutter Padding from Columns
+.no-gutter > [class*='col-'] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+// Accessibility and Screen Readers
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.vertical-container {
+    display: table !important;
+    height: 100%;
+    .vertical-middle {
+        display: table-cell;
+        vertical-align: middle;
+        top: 0;
+        transform: none;
+    }
+}
+
+.vertical-middle {
+    position: relative;
+    top: 50%;
+    @include translate(0, -50%);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align: center;
+}
+.col-centered {
+    display: inline-block;
+    float: none !important;
+    /* reset the text-align */
+    text-align: left;
+    /* inline-block space fix */
+    margin-right: -4px;
+}
+
+.pipe {
+    border-right: 1px solid $gray;
+}
+
+/* Row with equal height columns */
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.muted {
+    color: $text-color-blend;
+}
+
+@mixin heading-styles($font-size, $color) {
+    font-family: 'Rubik', sans-serif;
+    font-size: $font-size;
+    font-weight: 700;
+    color: $color;
+}

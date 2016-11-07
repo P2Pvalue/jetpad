@@ -1,0 +1,48 @@
+.unauthorized {
+  .title {
+    h2 {
+      @include heading-styles(45px, $text-color);
+    }
+    padding-bottom: 30px;
+    padding-top: 50px;
+  }
+  .login-container {
+    padding: 0 75px;
+  }
+  label {
+    font-weight: normal;
+  }
+  .icon-edit {
+    font-size: 2.3em;
+    padding-right: 15px;
+    color: $text-color-blend;
+  }
+  span{
+    bottom: 12px;
+    position: relative;
+    font-style: italic;
+    color: $text-color-blend;
+  }
+  .btn-register {
+    margin-top: 15px;
+  }
+  .line-decoration-left{
+    position: relative;
+    width: 134px;
+    top: 29px;
+    right: 78px;
+  }
+  .line-decoration-right {
+    position: relative;
+    width: 134px;
+    bottom: 31px;
+    left: 78px;
+  }
+}
+
+.login-unauthorized {
+  form input{
+    background: $light-gray;
+    text-align: center;
+  }
+}

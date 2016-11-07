@@ -1,0 +1,148 @@
+.lateral-menu {
+  height: 100%;
+  width: 65%;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: -70%;
+  background-color: $white;
+  overflow-x: hidden;
+  @include transition(right, 0.4s, ease);
+  @include box-shadow(0px, 2px, 114px, transparentize($black, 0.88));
+  .close-button {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 7px 0px;
+    background-color: $soft-gray;
+    .icon {
+      font-size: 50px;
+      color: $text-color;
+      display: flex;
+      vertical-align: middle;
+    }
+  }
+  .container {
+    padding: 0 30px 30px;
+    width: 100%;
+  }
+  .lateral-menu-title {
+    @include heading-styles(25px, $text-color);
+  }
+  hr {
+    margin: 15px 0 0 0;
+    border-color: $soft-gray;
+  }
+  p {
+    color: $text-color-blend;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+  }
+  .form {
+    margin-bottom: 40px;
+    input.form-control {
+      background: $light-gray;
+      font-size: 15px;
+      height: 50px;
+      font-style: italic;
+      padding: 5px 20px;
+      @include border-radius(25px);
+    }
+  }
+  table {
+    thead {
+      th {
+        color: $text-color;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 17px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $soft-gray;
+      }
+    }
+    tbody {
+      td {
+        color: $text-color-blend;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 15px;
+        padding-top: 20px;
+        padding-bottom: 15px;
+        vertical-align: middle;
+        border-top: 1px dashed $soft-gray;
+        &.with-icon {
+          text-align: center;
+        }
+        .icon {
+          vertical-align: middle;
+          &.icon-close {
+            color: $error-color;
+            font-size: 28px;
+          }
+          &.icon-share {
+            color: $primary-color;
+            font-size: 29px;
+          }
+        }
+        .documents-title {
+          color: $primary-color;
+          font-size: 17px;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+    .author {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    .contributors {
+      display: inline-block;
+      img {
+        margin-left: -10px;
+        z-index: 5;
+        position: relative;
+        &:first-child {
+          margin-left: 0;
+          z-index: 10;
+        }
+        &:last-child {
+          z-index: 1;
+        }
+        &:hover {
+          z-index: 15;
+        }
+      }
+      & + .not-avatar {
+        margin-left: 0;
+      }
+    }
+    .view-more {
+      display: inline-block;
+      margin-left: 10px;
+      position: relative;
+      .icon {
+        font-size: 20px;
+      }
+      .drowdown-box {
+        display: none;
+        position: absolute;
+        top: -20px;
+        left: 0;
+        width: 200px;
+        background-color: $white;
+        padding: 10px 10px 0;
+        border: 1px solid $soft-gray;
+        img,
+        .not-avatar {
+          margin: 0 0 10px 0;
+        }
+      }
+      &:hover {
+        .drowdown-box {
+          display: block;
+        }
+      }
+    }
+  }
+}
