@@ -65,6 +65,35 @@ form,
         margin-left: -1px;
       }
     }
+    &.simple-select {
+      select.form-control {
+        background: $white;
+        border: none;
+        color: $text-color;
+        font-size: 15px;
+        font-family: 'Rubik', sans-serif;
+        font-weight: 400;
+        height: 50px;
+        font-style: normal;
+        padding: 5px 30px 5px 5px;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+      }
+      .icon {
+        background: transparent;
+        border: none;
+        width: 20px;
+        padding-top: 13px;
+        color: $caret-gray;
+        &:before {
+          font-size: 30px;
+          display: inline-block;
+          margin-top: 0;
+          margin-left: -5px;
+        }
+      }
+    }
   }
   .input-file,
   .input-color {
