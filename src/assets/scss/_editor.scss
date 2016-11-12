@@ -1,4 +1,10 @@
 .editor-section {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  background: $white;
+  border-bottom: 1px solid $soft-gray;
   .header-document {
     border-bottom: 1px solid $soft-gray;
     .form {
@@ -114,8 +120,7 @@
     }
   }
   .toolbox {
-    border-bottom: 1px solid $soft-gray;
-    height: 60px;
+    min-height: 60px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -181,12 +186,15 @@
 }
 
 .editor-box-container {
-  padding: 20px 150px;
-  background-color: $editor-gray;
+  padding: 180px 105px 30px;
+  background-color: $bg-gray;
   #editor-container {
     background-color: $white;
+    border: 1px solid $soft-gray;
     min-height: 1200px;
     padding: 60px 80px;
+    max-width: 1170px;
+    min-width: 800px;
   }
   .wave-editor-on {
     outline: none;
