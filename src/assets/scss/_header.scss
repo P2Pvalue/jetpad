@@ -1,3 +1,8 @@
+body {
+  //Body padding required for the navbar-fixed-top
+  padding-top: 80px;
+}
+
 header {
   .navbar {
     background-color: $primary-color;
