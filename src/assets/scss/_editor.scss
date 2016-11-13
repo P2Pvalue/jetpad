@@ -41,7 +41,9 @@
       }
     }
     .participants {
+      min-width: 15em;
       margin-top: 25px;
+      margin-right: 1em;
       .not-avatar, .user-avatar {
         margin-left: 8px;
         &:first-child {

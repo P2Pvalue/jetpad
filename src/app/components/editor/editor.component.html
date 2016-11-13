@@ -9,17 +9,15 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3 text-right participants">
-        <div *ngIf="privateDocument">
-          <div class="contributors" *ngFor="let participant of participants | slice:0:3">
-            <app-user-icon [user]="participant"></app-user-icon>
-          </div>
-          <div class="view-more" *ngIf="participants.length > 3">
-            <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
-            <div class="drowdown-box">
-              <div class="contributors text-left" *ngFor="let participant of participants | slice:3">
-                <app-user-icon [user]="participant"></app-user-icon>
-              </div>
+      <div class="col-sm-3 text-right participants" *ngIf="privateDocument">
+        <div class="contributors" *ngFor="let participant of participants | slice:0:3">
+          <app-user-icon [user]="participant"></app-user-icon>
+        </div>
+        <div class="view-more" *ngIf="participants.length > 3">
+          <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+          <div class="drowdown-box">
+            <div class="contributors text-left" *ngFor="let participant of participants | slice:3">
+              <app-user-icon [user]="participant"></app-user-icon>
             </div>
           </div>
         </div>
@@ -195,4 +193,3 @@
 
     </div>
   </div>-->
-
