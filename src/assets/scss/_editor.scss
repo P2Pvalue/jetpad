@@ -7,7 +7,13 @@
   border-bottom: 1px solid $soft-gray;
   z-index: 10;
   .header-document {
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid $soft-gray;
+    .header-document-right {
+      display: flex;
+      align-items: center;
+    }
     .form {
       .form-group {
         margin: 0;
@@ -37,14 +43,15 @@
     }
     .btn {
       &.btn-with-icon {
-        margin-top: 25px;
+        margin: 0 1em;
         padding: 0px 20px 0 15px;
       }
     }
     .participants {
-      min-width: 15em;
-      margin-top: 25px;
-      margin-right: 1em;
+      display: flex;
+      align-items: center;
+      margin: 0;
+      justify-content: flex-end;
       .not-avatar, .user-avatar {
         margin-left: 8px;
         &:first-child {
@@ -117,6 +124,9 @@
           }
         }
       }
+    }
+    share-settings {
+      display: block;
     }
   }
   .toolbox {

@@ -1,7 +1,7 @@
 <section class="editor-section">
   <div class="container-fluid">
-    <div class="row no-gutter row-eq-height header-document">
-      <div class="col-sm-7 form">
+    <div class="row no-gutter header-document">
+      <div class="form">
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-addon icon icon-edit icon-middle"></span>
@@ -9,20 +9,20 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3 text-right participants" *ngIf="privateDocument">
-        <div class="contributors" *ngFor="let participant of participants | slice:0:3">
-          <app-user-icon [user]="participant"></app-user-icon>
-        </div>
-        <div class="view-more" *ngIf="participants.length > 3">
-          <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
-          <div class="drowdown-box">
-            <div class="contributors text-left" *ngFor="let participant of participants | slice:3">
-              <app-user-icon [user]="participant"></app-user-icon>
+      <div class="header-document-right">
+        <div class="participants" *ngIf="privateDocument">
+          <div class="contributors" *ngFor="let participant of participants | slice:0:3">
+            <app-user-icon [user]="participant"></app-user-icon>
+          </div>
+          <div class="view-more" *ngIf="participants.length > 3">
+            <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+            <div class="drowdown-box">
+              <div class="contributors text-left" *ngFor="let participant of participants | slice:3">
+                <app-user-icon [user]="participant"></app-user-icon>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-2 text-center">
         <share-settings class="clearfix"></share-settings>
       </div>
     </div>
