@@ -5,6 +5,7 @@
   right: 0;
   background: $white;
   border-bottom: 1px solid $soft-gray;
+  z-index: 10;
   .header-document {
     border-bottom: 1px solid $soft-gray;
     .form {
