@@ -1,5 +1,4 @@
-form,
-.form {
+form, .form {
   .form-group {
     &.has-feedback {
       .form-control {
@@ -95,8 +94,7 @@ form,
       }
     }
   }
-  .input-file,
-  .input-color {
+  .input-file, .input-color {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -121,13 +119,11 @@ form,
         }
       }
     }
-    &:focus + .input-btn,
-    & + .input-btn:hover {
+    &:focus + .input-btn, & + .input-btn:hover {
       color: $secondary-color-blend;
     }
   }
-  .checkbox,
-  .radio {
+  .checkbox, .radio {
     margin-top: 35px;
     label {
       &:after {
@@ -135,8 +131,7 @@ form,
         display: table;
         clear: both;
       }
-      input[type="checkbox"],
-      input[type="radio"] {
+      input[type="checkbox"], input[type="radio"] {
         display: none;
         + .cr > .cr-icon {
           transform: scale(3) rotateZ(-20deg);
@@ -190,6 +185,17 @@ form,
   margin-left: 10px;
   &:first-of-type {
     margin-left: 0;
+  }
+  &:focus {
+    outline: 0;
+    &:active {
+      outline: 0;
+      box-shadow: none;
+      border-bottom-width: 1px;
+      border-top: 1px solid $white;
+      background: $secondary-color;
+      border-bottom-color: $secondary-color-blend;
+    }
   }
   &.btn-primary {
     background: $secondary-color;
