@@ -15,8 +15,7 @@
         @include border-radius(0);
         background: none;
         border: none;
-        &[class^="icon-"]:before,
-        &[class*=" icon-"]:before {
+        &[class^="icon-"]:before, &[class*=" icon-"]:before {
           font-size: 35px;
           margin-top: 5px;
           display: inline-block;
@@ -43,8 +42,7 @@
     }
     .participants {
       margin-top: 25px;
-      .not-avatar,
-      .user-avatar {
+      .not-avatar, .user-avatar {
         margin-left: 8px;
         &:first-child {
           margin-left: 0;
@@ -106,8 +104,7 @@
           padding: 10px 10px 0;
           border: 1px solid $soft-gray;
           z-index: 5;
-          img,
-          .not-avatar {
+          img, .not-avatar {
             margin: 0 10px 10px 0;
           }
         }
@@ -127,9 +124,19 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
+    overflow-x: scroll;
     & > [class*='col-'] {
       align-self: center;
       margin: auto;
+    }
+    .toolbox-2 {
+      min-width: 8em;
+    }
+    .toolbox-4 {
+      min-width: 9em;
+    }
+    .toolbox-5 {
+      min-width: 11em;
     }
     .divider {
       width: 1px;
@@ -140,8 +147,7 @@
       padding: 0;
       border: none;
       background: none;
-      [class^="icon-"]:before,
-      [class*=" icon-"]:before {
+      [class^="icon-"]:before, [class*=" icon-"]:before {
         font-size: 30px;
         vertical-align: middle;
         margin-top: 8px;
