@@ -1,16 +1,22 @@
 $black:                     #000000;
 $white:                     #FFF;
 
-$primary-color:             #0072BC;
-$primary-color-blend:       #0580CF;
-$primary-color-blend-dark:  #0069AE;
-$primary-color-muted:       #B2D4EA;
-$secondary-color:           #F34E1E;
-$secondary-color-blend:     #CA3610;
+$primary-color:         		#0072BC;
+$primary-color-blend:   		#0580CF;
+$primary-color-blend-dark:	#0069AE;
+$primary-color-blend-light:	#00ABDF;
+$primary-color-muted:   		#B2D4EA;
+$secondary-color:       		#F34E1E;
+$secondary-color-blend: 		#CA3610;
 
-$text-color:                #454545;
-$text-color-blend:          #7F7F7F;
-$text-color-negative:       $white;
+$orange:                    #F04000;
+$orange-light:              #FD8200;
+$orange-lighter:            #FF8A00;
+
+$text-color:            		#454545;
+$text-color-blend:      		#7F7F7F;
+$text-color-blend-light:    #8A8A8A;
+$text-color-negative:   		$white;
 
 $links-color:               $primary-color;
 
@@ -19,9 +25,17 @@ $success-color-border:      #0C9F00;
 $error-color:               #CA3610;
 $highlight-color:           #FFF600;
 
+<<<<<<< b5240b6284a1eae82a0a22ba140deeddc8718a6a
 $light-gray:                #FAFAFA;
 $soft-gray:                 #E0E0E0;
 $bg-gray:                   #F3F3F3;
 $caret-gray:                #C4C4C4;
+=======
+$light-gray:            		#FAFAFA;
+$soft-gray:             		#E0E0E0;
+$softer-gray:             	#E2E2E2;
+$bg-gray:               		#F3F3F3;
+$editor-gray:               #E9E9E9;
+>>>>>>> Landing
 
 $red:                       #D60909;

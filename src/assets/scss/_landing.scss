@@ -1,0 +1,65 @@
+app-landing {
+  font-family: 'Roboto', sans-serif;
+  h2, h3, h4 {
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    color: $text-color;
+  }
+  h2.text-normal, h3.text-normal, h4.text-normal {
+    font-weight: normal;
+  }
+  h2 {
+    font-size: 55px;
+  }
+  h3 {
+    font-size: 40px;
+  }
+  h3.big {
+    font-size: 100px;
+  }
+  h4 {
+    font-size: 25px;
+    margin-bottom: 30px;
+    span {
+      font-size: 40px;
+      position: relative;
+      top: 10px;
+      margin-right: 20px;
+    }
+  }
+  p {
+    font-size: 18px;
+    color: $text-color-blend;
+    line-height: 30px;
+  }
+  p.padding {
+    padding: 0px 60px;
+  }
+  form {
+    .form-group {
+      display: inline-block;
+      width: 60%;
+    }
+    button.btn {
+      display: inline-block !important;
+      margin-left: 4% !important;
+      position: relative;
+      top: -3px;
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+  .panel {
+    border: 0px;
+    box-shadow: none;
+    .panel-body {
+      padding: 40px 0px;
+    }
+  }
+  h3.text-muted {
+    color: $text-color-blend-light;
+    opacity: 0.2;
+    margin-bottom: 100px;
+  }
+}

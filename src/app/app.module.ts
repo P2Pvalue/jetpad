@@ -20,6 +20,7 @@ import { LandingComponent } from './components/landing';
 import { EditorComponent } from './components/editor';
 import { FooterComponent } from "./components/footer";
 import { TermsComponent } from "./components/terms";
+import { VisionComponent } from "./components/vision";
 import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 import { ShareSettingsComponent } from "./components/share-settings";
@@ -61,6 +62,7 @@ const APP_PROVIDERS = [
     EditorComponent,
     FooterComponent,
     TermsComponent,
+    VisionComponent,
     ShareSettingsComponent,
     NoContent,
     UnauthorizedComponent,

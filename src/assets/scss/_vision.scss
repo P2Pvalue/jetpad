@@ -1,0 +1,16 @@
+app-vision {
+  font-family: 'Roboto', sans-serif;
+  h3 {
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    color: $text-color;
+    font-size: 60px;
+    margin-bottom: 40px;
+  }
+  p {
+    font-size: 18px;
+    color: $text-color-blend;
+    line-height: 30px;
+    margin: 0 0 12px;
+  }
+}

@@ -23,7 +23,7 @@ import { Component } from '@angular/core';
         </div>
       </div>
     </section>
-    <!-- <app-footer></app-footer> -->
+    <app-footer></app-footer>
     `,
   })
 
