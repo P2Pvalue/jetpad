@@ -153,8 +153,10 @@
     background-color: $white;
     min-height: 1200px;
     padding: 60px 80px;
+    display: flex;
   }
   .wave-editor-on {
     outline: none;
+    flex: 1;
   }
 }
