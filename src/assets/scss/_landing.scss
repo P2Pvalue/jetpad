@@ -63,4 +63,57 @@ app-landing {
     opacity: 0.2;
     margin-bottom: 100px;
   }
+  carousel {
+    .carousel-inner {
+      overflow: visible;
+    }
+    .carousel-indicators {
+      display: none !important;
+    }
+    .carousel-control {
+      background: none !important;
+      border: 1px solid $text-color-blend;
+      border-radius: 100%;
+      width: 66px;
+      height: 66px;
+      cursor: pointer;
+      transition: all .2s;
+      top: 115% !important;
+      span {
+        font-size: 45px !important;
+        top: 20% !important;
+        width: auto !important;
+        height: auto !important;
+        margin-left: -8px !important;
+      }
+      &.left, &.right {
+        color: $text-color;
+      }
+      &.left {
+        left: 42%;
+      }
+      &.right {
+        right: 42%;
+      }
+    }
+  }
+}
+
+@media (max-width: $screen-md) {
+  /* Change text alignment on extra small and small */
+  app-landing {
+    carousel {
+      .carousel-control {
+        &.left {
+          left: 30%;
+        }
+        &.right {
+          right: 30%;
+        }
+      }
+    }
+  }
+  .sm-text-center {
+    text-align: center !important;
+  }
 }
