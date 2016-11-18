@@ -330,6 +330,16 @@
   .toggle-items {
     width: 20em;
     padding: 0 !important;
+    position: relative;
+    .icon {
+      position: absolute;
+      top: -30px;
+      right: 5px;
+      font-size: 30px;
+      z-index: 50;
+      color: $secondary-color-blend;
+      cursor: pointer;
+    }
     .toggle-box {
       padding: 20px 20px 40px;
       margin-top: -30px;
@@ -355,13 +365,6 @@
           font-weight: 400;
           display: block;
           margin-top: 5px;
-        }
-        .icon {
-          position: absolute;
-          top: -15px;
-          right: 5px;
-          font-size: 30px;
-          color: $secondary-color-blend;
         }
         &[aria-expanded="false"] {
           &:hover {
