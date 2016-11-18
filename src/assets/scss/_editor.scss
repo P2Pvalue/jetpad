@@ -206,8 +206,10 @@
 }
 
 .editor-box-container {
-  padding: 50px 105px 30px;
   background-color: $bg-gray;
+  padding: 3em 12em 3em;
+  position: relative;
+  overflow-x: hidden;
   #editor-container {
     background-color: $white;
     border: 1px solid $soft-gray;
@@ -215,8 +217,44 @@
     padding: 60px 80px;
     max-width: 1170px;
     min-width: 800px;
+    width: 980px;
+    margin: 0 auto;
   }
   .wave-editor-on {
     outline: none;
+  }
+  .btn-editor, .panel {
+    margin-top: 1em;
+    background-color: $white;
+  }
+  .btn-editor {
+    margin-left: 2em;
+    margin-right: 2em;
+    padding-left: 7px;
+    box-shadow: 0 2px 4px 0 rgba(139, 111, 111, 0.22);
+  }
+  .panel {
+    box-shadow: 0 2px 30px 0 rgba(185, 185, 185, 0.34);
+    position: relative;
+    transition: all 0.3s;
+    ul {
+      padding-left: 1em;
+      line-height: 2em;
+    }
+  }
+  .editor-box-left, .editor-box-right {
+    position: absolute;
+    width: 20em;
+    top: 5em;
+    display: flex;
+    flex-direction: column;
+  }
+  .editor-box-left {
+    left: calc(((100vw - 980px) / 2) - 15em);
+    align-items: flex-end;
+  }
+  .editor-box-right {
+    right: calc(((100vw - 980px) / 2) - 15em);
+    align-items: flex-start;
   }
 }
