@@ -1,5 +1,4 @@
-form,
-.form {
+form, .form {
   .form-group {
     &.has-feedback {
       .form-control {
@@ -65,9 +64,37 @@ form,
         margin-left: -1px;
       }
     }
+    &.simple-select {
+      select.form-control {
+        background: $white;
+        border: none;
+        color: $text-color;
+        font-size: 15px;
+        font-family: 'Rubik', sans-serif;
+        font-weight: 400;
+        height: 50px;
+        font-style: normal;
+        padding: 5px 30px 5px 5px;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+      }
+      .icon {
+        background: transparent;
+        border: none;
+        width: 20px;
+        padding-top: 13px;
+        color: $caret-gray;
+        &:before {
+          font-size: 30px;
+          display: inline-block;
+          margin-top: 0;
+          margin-left: -5px;
+        }
+      }
+    }
   }
-  .input-file,
-  .input-color {
+  .input-file, .input-color {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -92,13 +119,11 @@ form,
         }
       }
     }
-    &:focus + .input-btn,
-    & + .input-btn:hover {
+    &:focus + .input-btn, & + .input-btn:hover {
       color: $secondary-color-blend;
     }
   }
-  .checkbox,
-  .radio {
+  .checkbox, .radio {
     margin-top: 35px;
     label {
       &:after {
@@ -106,8 +131,7 @@ form,
         display: table;
         clear: both;
       }
-      input[type="checkbox"],
-      input[type="radio"] {
+      input[type="checkbox"], input[type="radio"] {
         display: none;
         + .cr > .cr-icon {
           transform: scale(3) rotateZ(-20deg);
@@ -161,6 +185,17 @@ form,
   margin-left: 10px;
   &:first-of-type {
     margin-left: 0;
+  }
+  &:focus {
+    outline: 0;
+    &:active {
+      outline: 0;
+      box-shadow: none;
+      border-bottom-width: 1px;
+      border-top: 1px solid $white;
+      background: $secondary-color;
+      border-bottom-color: $secondary-color-blend;
+    }
   }
   &.btn-primary {
     background: $secondary-color;

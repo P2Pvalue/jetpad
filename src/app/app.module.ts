@@ -20,6 +20,7 @@ import { LandingComponent } from './components/landing';
 import { EditorComponent } from './components/editor';
 import { FooterComponent } from "./components/footer";
 import { TermsComponent } from "./components/terms";
+import { VisionComponent } from "./components/vision";
 import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 import { ShareSettingsComponent } from "./components/share-settings";
@@ -37,6 +38,7 @@ import { DROPDOWN_DIRECTIVES } from "ng2-dropdown";
 import { ModalModule } from "ng2-modal";
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { ClipboardModule }  from 'angular2-clipboard';
+import { CarouselModule } from 'ng2-bootstrap/components/carousel';
 
 const APP_PROVIDERS = [
   AppState,
@@ -61,6 +63,7 @@ const APP_PROVIDERS = [
     EditorComponent,
     FooterComponent,
     TermsComponent,
+    VisionComponent,
     ShareSettingsComponent,
     NoContent,
     UnauthorizedComponent,
@@ -76,6 +79,7 @@ const APP_PROVIDERS = [
     ModalModule,
     UiSwitchModule,
     ClipboardModule,
+    CarouselModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

@@ -1,126 +1,7 @@
-
-<!-- Left bar
-<div class="col-md-3">
-
-
-<app-user-panel></app-user-panel>
-
-<div class="panel panel-default">
-
-<div class="panel-heading">
-
-  <div id="editor-sidebar" class="btn-toolbar">
-    <div class="btn-group">
-      <button type="button" class="btn btn-default">
-        <span class="material-icons">toc</span>
-      </button>
-      <button type="button" class="btn btn-default">
-        <span class="material-icons">people</span>
-      </button>
-      <button type="button" class="btn btn-default">
-        <span class="material-icons">chat</span>
-      </button>
-    </div>
-  </div>
-
-</div>
-
-<div class="panel-body">
-
-  <!-- Outline -->
-      <!--
-
-      <div id="editor-outline">
-        <ul>
-        <li><h4>Introduction</h4></li>
-        <h4>Abstract</h4>
-        <h4>Definitions</h4>
-        <h4>Definitive Solution</h4>
-        </ul>
-      </div>
-
-
-      <!-- Participants -->
-      <!--
-      <div id="editor-participants">
-
-        <div class="media">
-          <div class="media-left media-middle">
-            <a href="#">
-              <img class="media-document" height="40" src="images/user.jpeg" alt="">
-            </a>
-          </div>
-          <div class="media-body">
-            <h5 class="media-heading">Andrés Reyero</h5>
-            <span>
-
-            </span>
-          </div>
-        </div>
-
-        <div class="media">
-          <div class="media-left media-middle">
-            <a href="#">
-              <img class="media-document" height="40" src="images/user.jpeg" alt="">
-            </a>
-          </div>
-          <div class="media-body">
-            <h5 class="media-heading">Juana de Arco</h5>
-            <span>
-
-            </span>
-          </div>
-        </div>
-
-        <div class="media">
-          <div class="media-left media-middle">
-            <a href="#">
-              <img class="media-document" height="40" src="images/user.jpeg" alt="">
-            </a>
-          </div>
-          <div class="media-body">
-            <h5 class="media-heading">Luis Tosar</h5>
-            <span>
-
-            </span>
-          </div>
-        </div>
-
-        <div class="media">
-          <div class="media-left media-middle">
-            <a href="#">
-              <img class="media-document" height="40" src="/assets/img/anonymous.png" alt="">
-            </a>
-          </div>
-          <div class="media-body">
-            <h5 class="media-heading">Anonymous #1</h5>
-            <span>
-              <img class="media-document" height="40" src="/assets/img/anonymous.png" alt="">
-            </a>
-          </div>
-          <div class="media-body">
-            <h5 class="media-heading">Anonymous #2</h5>
-            <span>
-
-            </span>
-          </div>
-        </div>
-
-
-      </div>
-
-    </div>
-
-  </div></div>--><!-- panel -->
-
-<!-- Left bar -->
-
-<!-- Main area -->
-
 <section class="editor-section">
   <div class="container-fluid">
-    <div class="row no-gutter row-eq-height header-document">
-      <div class="col-sm-7 form">
+    <div class="row no-gutter header-document">
+      <div class="form">
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-addon icon icon-edit icon-middle"></span>
@@ -128,8 +9,8 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3 text-right participants">
-        <div *ngIf="privateDocument">
+      <div class="header-document-right">
+        <div class="participants" *ngIf="privateDocument">
           <div class="contributors" *ngFor="let participant of participants | slice:0:3">
             <app-user-icon [user]="participant"></app-user-icon>
           </div>
@@ -142,39 +23,46 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-2 text-center">
         <share-settings class="clearfix"></share-settings>
       </div>
     </div>
     <div id="editor-toolbar" class="row row-eq-height toolbox form">
-      <div class="col-sm">
-        <select [(ngModel)]="currentTextType" class="form-control" (change)="changeTextType($event.target.value)">
-          <option value="h1">Heading 1</option>
-          <option value="h2">Heading 2</option>
-          <option value="h3">Heading 3</option>
-          <option value="h4">Heading 4</option>
-          <option value="h5">Heading 5</option>
-          <option value="none">Normal text</option>
-        </select>
+      <div class="col-sm toolbox-2">
+        <div class="input-select simple-select">
+          <select [(ngModel)]="currentTextType" class="form-control" (change)="changeTextType($event.target.value)">
+            <option value="h1">Heading 1</option>
+            <option value="h2">Heading 2</option>
+            <option value="h3">Heading 3</option>
+            <option value="h4">Heading 4</option>
+            <option value="h5">Heading 5</option>
+            <option value="none">Normal text</option>
+          </select>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-sm toolbox-4">
+        <div class="input-select simple-select">
+          <select class="form-control">
+            <option value="">Times New Roman</option>
+            <option value="">Arial</option>
+            <option value="">Tahoma</option>
+            <option value="">Futura</option>
+          </select>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </div>
       </div>
       <div class="divider"></div>
       <div class="col-sm">
-        <select class="form-control">
-          <option value="">Times New Roman</option>
-          <option value="">Arial</option>
-          <option value="">Tahoma</option>
-          <option value="">Futura</option>
-        </select>
+        <div class="input-select simple-select">
+          <select [(ngModel)]="currentTextSize" class="form-control" (change)="changeTextSize($event.target.value)">
+            <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
+          </select>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </div>
       </div>
       <div class="divider"></div>
-      <div class="col-sm">
-        <select [(ngModel)]="currentTextSize" class="form-control" (change)="changeTextSize($event.target.value)">
-          <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
-        </select>
-      </div>
-      <div class="divider"></div>
-      <div class="col-sm">
+      <div class="col-sm toolbox-5">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-default"><i class="icon icon-text-bold icon-middle"></i></button>
           <button type="button" class="btn btn-default"><i class="icon icon-text-italic icon-middle"></i></button>
@@ -184,26 +72,26 @@
         </div>
       </div>
       <div class="divider"></div>
-      <div class="col-sm">
+      <div class="col-sm toolbox-2">
         <!-- not supported by explorer and safari -->
         <div class="input-color">
           <input type="color" id="text-color" value="#0072BC">
         </div>
         <label for="text-color" class="cursor-pointer btn">
           <i class="icon icon-text-decoration icon-middle input-btn" style="color: #0072BC;"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
         </label>
-      </div>
-      <div class="col-sm">
         <!-- not supported by explorer and safari -->
         <div class="input-color">
           <input type="color" id="background-text-color" value="#F34E1E">
         </div>
         <label for="background-text-color" class="cursor-pointer btn">
           <i class="icon icon-text-color icon-middle input-btn" style="color: #F34E1E;"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
         </label>
       </div>
       <div class="divider"></div>
-      <div class="col-sm">
+      <div class="col-sm toolbox-4">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-default"><i class="icon icon-text-left icon-middle"></i></button>
           <button type="button" class="btn btn-default"><i class="icon icon-text-center icon-middle"></i></button>
@@ -221,23 +109,58 @@
       <div class="col-sm">
         <button type="button" class="btn">
           <i class="icon icon-text-sort icon-middle"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
         </button>
       </div>
       <div class="divider"></div>
-      <div class="col-sm">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default"><i class="icon icon-text-dots icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-number icon-middle"></i></button>
-        </div>
+      <div class="col-sm toolbox-2">
+        <button type="button" class="btn btn-default">
+          <i class="icon icon-text-dots icon-middle"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="btn btn-default">
+          <i class="icon icon-text-number icon-middle"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </button>
       </div>
       <div class="divider"></div>
-      <div class="col-sm">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default"><i class="icon icon-square-divider icon-middle"></i></button>
-          <button type="button" class="btn btn-default" (click)="addImage()">
-            <i class="icon icon-image icon-middle"></i>
+      <div class="col-sm toolbox-2">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <i class="icon icon-square-divider icon-middle"></i>
+            <i class="icon icon-caret" aria-hidden="true"></i>
           </button>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+            <i class="icon icon-square icon-middle"></i>
+          </div>
         </div>
+        <button type="button" class="btn btn-default" (click)="addImage()">
+          <i class="icon icon-image icon-middle"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -270,4 +193,3 @@
 
     </div>
   </div>-->
-

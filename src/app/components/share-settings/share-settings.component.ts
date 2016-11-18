@@ -17,7 +17,7 @@ import {DocumentService} from "../../services/document.service";
           </modal-header>
           <modal-content>
             <div *ngIf="currentDocument && currentDocument.properties.created">
-              <h5>Name of de document</h5>
+              <h5>Name of the document</h5>
               <p class="text-box name">{{ documentName }}</p>
             </div>
             <h5 class="lateral-menu-title">Link to share</h5>

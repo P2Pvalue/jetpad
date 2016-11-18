@@ -1,6 +1,19 @@
 .editor-section {
+  //position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  background: $white;
+  border-bottom: 1px solid $soft-gray;
+  z-index: 10;
   .header-document {
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid $soft-gray;
+    .header-document-right {
+      display: flex;
+      align-items: center;
+    }
     .form {
       .form-group {
         margin: 0;
@@ -9,8 +22,7 @@
         @include border-radius(0);
         background: none;
         border: none;
-        &[class^="icon-"]:before,
-        &[class*=" icon-"]:before {
+        &[class^="icon-"]:before, &[class*=" icon-"]:before {
           font-size: 35px;
           margin-top: 5px;
           display: inline-block;
@@ -31,14 +43,16 @@
     }
     .btn {
       &.btn-with-icon {
-        margin-top: 25px;
+        margin: 0 1em;
         padding: 0px 20px 0 15px;
       }
     }
     .participants {
-      margin-top: 25px;
-      .not-avatar,
-      .user-avatar {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      justify-content: flex-end;
+      .not-avatar, .user-avatar {
         margin-left: 8px;
         &:first-child {
           margin-left: 0;
@@ -100,8 +114,7 @@
           padding: 10px 10px 0;
           border: 1px solid $soft-gray;
           z-index: 5;
-          img,
-          .not-avatar {
+          img, .not-avatar {
             margin: 0 10px 10px 0;
           }
         }
@@ -112,9 +125,11 @@
         }
       }
     }
+    share-settings {
+      display: block;
+    }
   }
   .toolbox {
-    border-bottom: 1px solid $soft-gray;
     height: 60px;
     display: flex;
     flex-direction: row;
@@ -122,9 +137,20 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
     & > [class*='col-'] {
       align-self: center;
       margin: auto;
+    }
+    .toolbox-2 {
+      min-width: 8em;
+    }
+    .toolbox-4 {
+      min-width: 9em;
+    }
+    .toolbox-5 {
+      min-width: 11em;
     }
     .divider {
       width: 1px;
@@ -135,24 +161,60 @@
       padding: 0;
       border: none;
       background: none;
-      [class^="icon-"]:before,
-      [class*=" icon-"]:before {
+      [class^="icon-"]:before, [class*=" icon-"]:before {
         font-size: 30px;
         vertical-align: middle;
         margin-top: 8px;
         display: inline-block;
       }
     }
+    .icon-caret {
+      color: $caret-gray;
+      display: inline-block;
+      width: 10px;
+      &:before {
+        margin-left: -11px;
+      }
+    }
+    .dropdown {
+      display: inline-block;
+      .dropdown-menu {
+        top: 48px;
+        width: 205px;
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-top: 1px solid $soft-gray;
+        @include border-radius(0);
+        @include box-shadow(0px, 2px, 4px, transparentize(rgb(139, 111, 111), 0.78));
+        .icon {
+          color: $text-color;
+          display: inline-block;
+          &:before {
+            font-size: 30px;
+            padding-top: 5px;
+            display: inline-block;
+          }
+          &:hover {
+            cursor: pointer;
+            color: $text-color-blend;
+          }
+        }
+      }
+    }
   }
 }
 
 .editor-box-container {
-  padding: 20px 150px;
-  background-color: $editor-gray;
+  padding: 50px 105px 30px;
+  background-color: $bg-gray;
   #editor-container {
     background-color: $white;
+    border: 1px solid $soft-gray;
     min-height: 1200px;
     padding: 60px 80px;
+    max-width: 1170px;
+    min-width: 800px;
     display: flex;
   }
   .wave-editor-on {
