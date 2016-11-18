@@ -39,6 +39,7 @@ import { ModalModule } from "ng2-modal";
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { ClipboardModule }  from 'angular2-clipboard';
 import { CarouselModule } from 'ng2-bootstrap/components/carousel';
+import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
 
 const APP_PROVIDERS = [
   AppState,
@@ -80,6 +81,7 @@ const APP_PROVIDERS = [
     UiSwitchModule,
     ClipboardModule,
     CarouselModule,
+    TooltipModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
