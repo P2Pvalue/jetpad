@@ -31,7 +31,7 @@ import {Router} from "@angular/router";
 
           <carousel [interval]="3000">
             <slide>
-              <div class="row">
+              <div class="row" style="width: 100%;">
                 <div class="col-md-8">
                   <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px;">
                 </div>
@@ -47,7 +47,7 @@ import {Router} from "@angular/router";
               </div>
             </slide>
             <slide>
-              <div class="row">
+              <div class="row" style="width: 100%;">
                 <div class="col-md-8">
                   <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px;">
                 </div>
@@ -63,7 +63,7 @@ import {Router} from "@angular/router";
               </div>
             </slide>
             <slide>
-              <div class="row">
+              <div class="row" style="width: 100%;">
                 <div class="col-md-8">
                   <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px;">
                 </div>
@@ -81,33 +81,6 @@ import {Router} from "@angular/router";
               </div>
             </slide>
           </carousel>
-          <!--
-          <carousel [interval]="5000" [noWrap]="noWrapSlides">
-            <slide>
-              <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px; margin-left: -15px;">
-              <div class="carousel-caption">
-                <h4>Slide 1</h4>
-                <p>Test 1</p>
-              </div>
-            </slide>
-          </carousel>
-          -->
-
-          <!--
-          <div class="col-md-8">
-            <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px; margin-left: -15px;">
-          </div>
-          <div class="col-md-4 sm-text-center">
-            <h4>Edit a document in a group simultaneosly</h4>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Cras tincidunt magna elit, sagittis convallis lacus ornare nec.
-              Nulla aliquet metus non quam facilisis tincidunt eagittis
-              convallis lacus ornare nec.
-            </p>
-          </div>
-          -->
-
         </div>
       </div>
     </section>

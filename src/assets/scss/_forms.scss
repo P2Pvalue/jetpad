@@ -192,7 +192,7 @@ form, .form {
       outline: 0;
       box-shadow: none;
       border-bottom-width: 1px;
-      border-top: 1px solid $white;
+      border-top: 1px solid transparent;
       background: $secondary-color;
       border-bottom-color: $secondary-color-blend;
     }
