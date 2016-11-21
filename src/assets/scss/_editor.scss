@@ -207,9 +207,10 @@
 
 .editor-box-container {
   background-color: $bg-gray;
-  padding: 3em 12em 3em;
+  padding: 3em 0 3em;
+  margin: 0 auto;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: auto;
   #editor-container {
     background-color: $white;
     border: 1px solid $soft-gray;
@@ -242,8 +243,7 @@
         background-color: $black;
         color: $highlight-color;
       }
-      &.active,
-      &:focus {
+      &.active, &:focus {
         background-color: $black;
         color: $white;
         &:hover {
@@ -256,8 +256,7 @@
         background-color: $black;
         color: $primary-color-blend-light;
       }
-      &.active,
-      &:focus {
+      &.active, &:focus {
         background-color: $black;
         color: $white;
         &:hover {
@@ -302,8 +301,7 @@
       }
     }
   }
-  .editor-box-left,
-  .editor-box-right {
+  .editor-box-left, .editor-box-right {
     position: absolute;
     width: 20em;
     top: 3em;
@@ -377,8 +375,7 @@
         color: $text-color-blend;
         font-size: 14px;
       }
-      form,
-      .form {
+      form, .form {
         .form-group:last-child {
           margin-bottom: 0;
         }
