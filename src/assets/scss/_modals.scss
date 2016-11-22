@@ -1,3 +1,14 @@
+.modal {
+  background: rgba(255, 255, 255, 0.5);
+}
+.modal-dialog {
+  margin-top: 120px;
+}
+// Disabling backdrop because of position fixed and z-index
+// https://stackoverflow.com/questions/5218927/z-index-not-working-with-fixed-positioning
+.modal-backdrop {
+  display: none
+}
 .modal-content {
     padding-left: 30px;
     padding-right: 30px;
