@@ -17,9 +17,16 @@ export class EditorComponent implements OnInit, OnDestroy {
   privateDocument: any;
 
   formats: Array<Array<string>> = [
-    ['bold', 'italic', 'underline', 'strikethrough'],
-    ['align_left', 'align_center', 'align_right'],
-    ['list_bulleted', 'list_numbered']
+    //['paragraph-type'],
+    //['font-family'],
+    //['text-size'],
+    ['bold', 'italic', 'underline', 'strike-through'],
+    //['color', 'background-color'],
+    ['text-left', 'text-center', 'text-right', 'text-justify'],
+    //['link'],
+    //['export'],
+    ['text-dots', 'text-number']
+    //['table', 'img']
   ];
 
   textSizes = Array.from(new Array(72), (x,i) => i + 1).filter(x => x % 2 == 0 );
@@ -32,12 +39,13 @@ export class EditorComponent implements OnInit, OnDestroy {
     'bold': 'style/fontWeight=bold',
     'italic': 'style/fontStyle=italic',
     'underline': 'style/textDecoration=underline',
-    'strikethrough': 'style/textDecoration=line-through',
-    'align_left': 'paragraph/textAlign=left',
-    'align_center': 'paragraph/textAlign=center',
-    'align_right': 'paragraph/textAlign=right',
-    'list_bulleted': 'paragraph/listStyleType=unordered',
-    'list_numbered': 'paragraph/listStyleType=decimal'
+    'strike-through': 'style/textDecoration=line-through',
+    'text-left': 'paragraph/textAlign=left',
+    'text-center': 'paragraph/textAlign=center',
+    'text-right': 'paragraph/textAlign=right',
+    'text-justify': 'paragraph/textAlign=justify',
+    'text-dots': 'paragraph/listStyleType=unordered',
+    'text-number': 'paragraph/listStyleType=decimal'
   };
 
   buttons: Map<string, boolean> = new Map<string, boolean>();

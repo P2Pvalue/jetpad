@@ -64,11 +64,10 @@
       <div class="divider"></div>
       <div class="col-sm toolbox-5">
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default"><i class="icon icon-text-bold icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-italic icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-underline-doble icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-underline icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-strike-through icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('bold')" [class.active]="buttons['bold']"><i class="icon icon-text-bold icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('italic')" [class.active]="buttons['italic']"><i class="icon icon-text-italic icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('underline')" [class.active]="buttons['underline']"><i class="icon icon-text-underline icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('strike-through')" [class.active]="buttons['strike-through']"><i class="icon icon-text-strike-through icon-middle"></i></button>
         </div>
       </div>
       <div class="divider"></div>
@@ -93,10 +92,10 @@
       <div class="divider"></div>
       <div class="col-sm toolbox-4">
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default"><i class="icon icon-text-left icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-center icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-right icon-middle"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon icon-text-justify icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('text-left')" [class.active]="buttons['text-left']"><i class="icon icon-text-left icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('text-center')" [class.active]="buttons['text-center']"><i class="icon icon-text-center icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('text-right')" [class.active]="buttons['text-right']"><i class="icon icon-text-right icon-middle"></i></button>
+          <button type="button" class="btn btn-default" (click)="annotate('text-justify')" [class.active]="buttons['text-justify']"><i class="icon icon-text-justify icon-middle"></i></button>
         </div>
       </div>
       <div class="divider"></div>
@@ -114,11 +113,11 @@
       </div>
       <div class="divider"></div>
       <div class="col-sm toolbox-2">
-        <button type="button" class="btn btn-default">
+        <button type="button" class="btn btn-default" (click)="annotate('text-dots')" [class.active]="buttons['text-dots']">
           <i class="icon icon-text-dots icon-middle"></i>
           <i class="icon icon-caret" aria-hidden="true"></i>
         </button>
-        <button type="button" class="btn btn-default">
+        <button type="button" class="btn btn-default" (click)="annotate('text-number')" [class.active]="buttons['text-number']">
           <i class="icon icon-text-number icon-middle"></i>
           <i class="icon icon-caret" aria-hidden="true"></i>
         </button>
