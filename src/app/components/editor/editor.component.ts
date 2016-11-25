@@ -16,6 +16,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   participants = [];
   privateDocument: any;
 
+  showOutline: boolean = false;
+
   formats: Array<Array<string>> = [
     //['paragraph-type'],
     //['font-family'],

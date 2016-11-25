@@ -1,4 +1,4 @@
-# SwellRT Pad ![Codeship Status for devialab/swellrt-pad](https://codeship.com/projects/fa4d1720-3d44-0134-f92e-4248a514221b/status?branch=master)
+# SwellRT Pad [![Build Status](https://travis-ci.org/P2Pvalue/swellrt-pad.svg?branch=master)](https://travis-ci.org/P2Pvalue/swellrt-pad) [![Dependency Status](https://david-dm.org/P2Pvalue/swellrt-pad.svg)](https://david-dm.org/P2Pvalue/swellrt-pad)
 
 SwellRT Pad is a web-based collaborative editor, build with [SwellRT real-time technology](http://swellrt.org) and the Angular 2 framework.
 

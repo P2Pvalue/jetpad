@@ -169,12 +169,12 @@
 
   <div class="editor-box-left">
 
-    <button class="btn btn-with-icon btn-editor yellow">
+    <button class="btn btn-with-icon btn-editor yellow" (click)="showOutline = !showOutline">
       <i class="icon icon-text-indent icon-middle"></i>
       Outline
     </button>
 
-    <div class="panel">
+    <div class="panel" *ngIf="showOutline">
       <div class="panel-body">
         <ul>
           <li><a href>Lorem ipsum dolor sit amet, the consectetur.</a></li>

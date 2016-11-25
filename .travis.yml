@@ -1,11 +1,28 @@
 language: node_js
+env:
+  global:
+    secure: SbRGlt5ddFWKMabLkARwdOgVfxI0+/M+KFiljP73wjI33/BcAt9NLvoQ5fWzK6rFUKxu2pTZ2X85t9QNSu5lwYNrW6ZpaWRaipVDt7BihBePBNRfAmlVABolD0mRyi3vC2nTif2K0aK+7zxrayHk5RyfnM9P3TfN6rb3KAOQnIQsCZu8tlK+blD7XBPvhhn7LJzHw+CYXgJgXnX0a144jpLL/mkBTVvVKML2Uevd4y5Vm74BdD9WSsgsdS5/g7crosd3VzU655khaZ90rpIxKM90XSpWevN8tDaGvpsh21QZVcOZzrBCFqIxhNBsiFUZ1oW90qxPRuOknMAbMHfnpGGX2zDoBOrIwHaCKvwwatHOQdgMm9/KiiTTkzoRbbOb1Bno4o0MmqiM+zQ8dMOcD4Rt+GvgQd67v4JuJORzvFfsEgHSQyuOkXeuFE5DDNVYTiPIi6Ls9WrZpNzFosGeaY2lyY898PWbi7MErEgHRObXuNMPeqTvh4FRNV9siHP1jbrkgkMzuxeSwHYhP5Nt1Z9szhFIh63QR7PNTockrSX6doYS5HejexGdadIMgy/ayc85ynciWriF6lavxQ8QIWNe9t4xtdkve813A/SxzVBonYdHnULQ9ciS5IbD+VJwtfc9NDCnBS3+y649ZKLTDyco9cWsOwL8vXgkJ9whSc0=
+addons:
+  apt:
+    packages:
+      - sshpass
+  ssh_known_hosts: demo.jetpad.net
+cache:
+  directories:
+  - node_modules
 node_js:
-  - "4"
-  - "5"
-  - "node"
+  node
 before_install:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 sudo: false
+install:
+  - npm i -g typings esformatter protractor webpack webpack-dev-server karma protractor typings typescript webpack-merge webpack copy-webpack-plugin html-webpack-plugin awesome-typescript-loader autoprefixer angular2-template-loader hmr-loader
+  - npm i
+script:
+  - npm run build
+after_success:
+  - export SSHPASS=$DEPLOY_PASS
+  - sshpass -e rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist/* jetpad@demo.jetpad.net:/var/www/demo.jetpad.net
