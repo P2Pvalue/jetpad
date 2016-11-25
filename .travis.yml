@@ -6,6 +6,10 @@ addons:
   apt:
     packages:
       - sshpass
+  ssh_known_hosts: demo.jetpad.net
+cache:
+  directories:
+  - node_modules
 node_js:
   node
 before_install:
