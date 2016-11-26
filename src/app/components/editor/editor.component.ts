@@ -32,9 +32,9 @@ export class EditorComponent implements OnInit, OnDestroy {
   ];
 
   textSizes = Array.from(new Array(72), (x,i) => i + 1).filter(x => x % 2 == 0 );
-  currentTextSize = '12px';
+  currentTextSize = '14px';
   currentTextType = 'none';
-
+  currentTextFamily = 'Arial';
   annotations: Array<any>;
 
   annotationMap = {
@@ -85,7 +85,17 @@ export class EditorComponent implements OnInit, OnDestroy {
       }
     }
     this.currentTextType = this.annotations['paragraph/header'];
+    if (this.currentTextType === null) {
+      this.currentTextType = 'none';
+    }
     this.currentTextSize = this.annotations['style/fontSize'];
+    if (this.currentTextSize === null) {
+      this.currentTextSize = '14px';
+    }
+    this.currentTextFamily = this.annotations['style/fontFamily'];
+    if (this.currentTextFamily === null) {
+      this.currentTextFamily = 'Arial';
+    }
   }
 
   disableEditorToolbar() {
@@ -178,5 +188,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   changeTextSize(textSize) {
     this.currentTextSize = textSize;
     this.editor.setAnnotation('style/fontSize', textSize);
+  }
+
+  changeTextFamily(textFamily) {
+    this.currentTextFamily = textFamily;
+    this.editor.setAnnotation('style/fontFamily', textFamily)
   }
 }

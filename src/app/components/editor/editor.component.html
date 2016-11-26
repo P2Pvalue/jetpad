@@ -43,11 +43,11 @@
       <div class="divider"></div>
       <div class="col-sm toolbox-4">
         <div class="input-select simple-select">
-          <select class="form-control">
-            <option value="">Times New Roman</option>
-            <option value="">Arial</option>
-            <option value="">Tahoma</option>
-            <option value="">Futura</option>
+          <select [(ngModel)]="currentTextFamily" class="form-control" (change)="changeTextFamily($event.target.value)">
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Arial">Arial</option>
+            <option value="Tahoma,Verdana,Segoe,sans-serif">Tahoma</option>
+            <option value="Futura,Trebuchet MS,Arial,sans-serif">Futura</option>
           </select>
           <i class="icon icon-caret" aria-hidden="true"></i>
         </div>
