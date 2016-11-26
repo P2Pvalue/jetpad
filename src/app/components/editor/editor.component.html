@@ -210,7 +210,7 @@
       <i class="icon icon-label icon-middle"></i>
       Bookmarks (5)
     </button>
-
+    <comment-assessment [tipo]="assessmentComment" [hasVoted]="hasVoted" [texto]="selectedRange"></comment-assessment>
     <div class="panel">
       <div class="panel-body">
         <ul>
@@ -343,7 +343,9 @@
   </div>
 
 
-  <div id="editor-container"></div>
+  <div id="editor-container">
+    <editor-assessment [hidden]="hideAssessment" [posY]="assesmentTop" (onVoted)="onVoted($event)"></editor-assessment>
+  </div>
 </section>
 
 <!--  <div class="panel panel-default">

@@ -36,6 +36,11 @@ export class EditorComponent implements OnInit, OnDestroy {
   currentTextType = 'none';
   currentTextFamily = 'Arial';
   annotations: Array<any>;
+  hideAssessment = false;
+  assesmentTop = 100;
+  selectedRange = '';
+  assessmentComment = '';
+  hasVoted = false;
 
   annotationMap = {
     'bold': 'style/fontWeight=bold',
@@ -147,6 +152,14 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.editor.edit(cObject.root.get('doc'));
 
       this.editor.onSelectionChanged((range) => {
+        if (range.lenght > 10) {
+          this.hideAssessment = false;
+          this.assesmentTop = range.node.parentElement.offsetTop + range.node.parentElement.offsetHeight;
+        } else {
+          this.hideAssessment = true;
+        }
+        this.selectedRange = range.text;
+        this.hasVoted = false;
         this.annotations = range.annotations;
         this.updateEditorToolbar();
       });
@@ -193,5 +206,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   changeTextFamily(textFamily) {
     this.currentTextFamily = textFamily;
     this.editor.setAnnotation('style/fontFamily', textFamily)
+  }
+
+  onVoted(agreed: boolean) {
+    agreed ? this.assessmentComment = ' de acuerdo?' : this.assessmentComment = ' en desacuerdo?';
+    this.hasVoted = true;
   }
 }

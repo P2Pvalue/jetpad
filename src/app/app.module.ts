@@ -40,6 +40,8 @@ import { UiSwitchModule } from 'angular2-ui-switch';
 import { ClipboardModule }  from 'angular2-clipboard';
 import { CarouselModule } from 'ng2-bootstrap/components/carousel';
 import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
+import {InlineAssessment} from "./components/inline-assessment/inline-assessment.component";
+import {CommentAssessment} from "./components/inline-assessment/comment-assessment.component";
 
 const APP_PROVIDERS = [
   AppState,
@@ -71,6 +73,8 @@ const APP_PROVIDERS = [
     UserIconComponent,
     OrderPipe,
     SearchPipe,
+    InlineAssessment,
+    CommentAssessment,
     DROPDOWN_DIRECTIVES
   ],
   imports: [ // import Angular's modules
