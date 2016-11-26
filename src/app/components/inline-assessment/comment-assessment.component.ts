@@ -5,9 +5,10 @@ import {Component, Input} from "@angular/core";
     template: `
         <div class="panel" [hidden]="!hasVoted">
           <div class="panel-body">
-            <h5>¿Porqué está {{tipo}}</h5>
+            <h4>¿Porqué está {{tipo}}</h4>
             {{texto}}
-            <input type="text" placeholder="máximo 250 caracteres ...">
+            <textarea placeholder="máximo 250 caracteres ..." maxlength="250" style="width: 100%"></textarea>
+            <button class="btn btn-success btn-block">Aceptar</button>
           </div>
         </div>
     `
