@@ -8,17 +8,10 @@ import {Component} from "@angular/core";
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-12 text-center">
-                  <h3 class="text-muted text-uppercase">Team and Collaborators</h3>
-                  <p>
-                    JetPad es un grupo heterog&eacute;neo de programadores. Ingenieros,
-                    dise&ntilde;adores, tecn&oacute;logos, soci&oacute;logos, investigadores,
-                    marketers y activistas…
-                    <br/>
-                    La idea inicial ha sido desarrollada dentro del
-                    proyecto de investigaci&oacute;n europeo P2Pvalue y del proyecto SwellRT
-                  </p>
+                  <h3 class="text-muted text-uppercase">Supported by</h3>
                 </div>
-                <div class="col-xs-4 col-sm-2 col-sm-offset-1 text-center img-wrapper">
+
+                <div class="col-xs-4 col-sm-2 col-sm-offset-2 text-center img-wrapper">
                   <img class="center-block vertical-middle" src="assets/img/ucm_logo.png" alt="">
                 </div>
                 <div class="col-xs-4 col-sm-2 text-center img-wrapper">
@@ -28,13 +21,11 @@ import {Component} from "@angular/core";
                   <img class="center-block vertical-middle" src="assets/img/grasia_logo.png" alt="">
                 </div>
                 <div class="col-xs-4 col-sm-2 text-center img-wrapper">
-                  <img class="center-block vertical-middle" src="assets/img/surrey_logo.png" alt="">
-                </div>
-                <div class="col-xs-4 col-sm-2 text-center img-wrapper">
-                  <img class="center-block vertical-middle" src="assets/img/p2pf_logo.png" alt="">
-                </div>
-                <div class="col-xs-4 col-sm-2 col-sm-offset-2 text-center img-wrapper">
                   <img class="center-block vertical-middle" src="assets/img/medialab_prado_logo.png" alt="">
+                </div>
+
+                <div class="col-xs-4 col-sm-2 col-sm-offset-2 text-center img-wrapper">
+                  <img class="center-block vertical-middle" src="assets/img/p2pf_logo.png" alt="">
                 </div>
                 <div class="col-xs-4 col-sm-2 text-center img-wrapper">
                   <img class="center-block vertical-middle" src="assets/img/techhub_logo.png" alt="">
@@ -66,21 +57,26 @@ import {Component} from "@angular/core";
             </div>
           </section>
           <nav class="navbar">
-            <div class="col-xs-6 col-md-2 col-md-offset-1 img-wrapper mar-top-50">
+
+            <div class="col-xs-6 col-md-2 col-md-offset-1 img-wrapper">
+              <h3>Built with</h3>
               <!-- <a href="http://swellrt.org/"> -->
-                <img class="center-block vertical-middle" src="assets/img/swellrt_logo_text.png" alt="">
+                <img class="center-block vertical-middle mar-top-30" src="assets/img/swellrt_logo_text.png" alt="">
               <!-- </a> -->
             </div>
-            <div class="col-xs-6 col-md-2 img-wrapper mar-top-50">
-              <!-- <a href="https://github.com/P2Pvalue"> -->
-                <img class="center-block" src="assets/img/github_logo_text.png" alt="">
+            <div class="col-xs-6 col-md-2 img-wrapper">
+                <h3>Collaborate</h3>
+                <!-- <a href="https://github.com/P2Pvalue"> -->
+                <img class="center-block mar-top-30" src="assets/img/github_logo_text.png" alt="">
               <!-- </a> -->
             </div>
             <div class="col-xs-6 col-xs-offset-0 col-md-2 col-md-offset-3 sm-text-center">
               <h3>Jetpad</h3>
               <ul class="footer-links">
                 <li><a [routerLink]=" ['./'] ">Home</a></li>
+                <!--
                 <li><a [routerLink]=" ['./vision'] ">Vision and History</a></li>
+                -->
                 <li><a [routerLink]=" ['./'] ">Login</a></li>
                 <li><a [routerLink]=" ['./'] ">Register</a></li>
               </ul>
@@ -88,18 +84,20 @@ import {Component} from "@angular/core";
             <div class="col-xs-6 col-md-2 sm-text-center">
               <h3>Contact with us</h3>
               <ul class="footer-links">
-                <li><a [routerLink]=" ['./'] ">@twitterjetpad</a></li>
-                <li><a [routerLink]=" ['./'] ">GitHub-Gitter</a></li>
+                <li><a [routerLink]=" ['./'] ">@getjetpad</a></li>
+                <!--
+                <li><a [routerLink]=" ['./'] ">GitHub</a></li>
+                -->
               </ul>
             </div>
             <div class="col-xs-12 text-center mar-top-30">
               <p>
                 <span>
-                  JetPad software is licensed under
+                  Jetpad software is licensed under
                   <a>GNU Affero General Public License, version 3.</a>
                 </span>
                 <span>
-                  JetPad.org is a service provided with no warranty under the following
+                  jetpad.net is a service provided with no warranty under the following
                   <a [routerLink]=" ['./terms'] ">Terms of Use.</a>
                 </span>
               </p>

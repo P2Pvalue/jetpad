@@ -9,12 +9,12 @@ import {Router} from "@angular/router";
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12 text-center bg-blue-gradient">
-            <h2>Create a document and collaborate with</h2>
-            <h2>real-time with others</h2>
+            <h2>Create and share documents</h2>
+            <h2>Collaborative editing in real-time</h2>
             <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
               <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
-                  <input [(ngModel)]="documentId" placeholder="Document ID here" name="documentId" #documentIdInput required class="form-control" id="documentIdInput">
+                  <input [(ngModel)]="documentId" placeholder="Document name" name="documentId" #documentIdInput required class="form-control" id="documentIdInput">
                 </div>
                 <button class="btn btn-primary btn-lg no-margin" [disabled]="!documentIdForm.form.valid">Open or Create</button>
               </div>
@@ -36,12 +36,11 @@ import {Router} from "@angular/router";
                   <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px;">
                 </div>
                 <div class="col-md-4 sm-text-center">
-                  <h4>Edit a document in a group simultaneosly</h4>
+                  <h3>Edit<br/>rich-text<br/>documents<br/></h3>
+                  <br/>
+                  <h3>Auto-generated<br/>table of contents<br/></h3>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Cras tincidunt magna elit, sagittis convallis lacus ornare nec.
-                    Nulla aliquet metus non quam facilisis tincidunt eagittis
-                    convallis lacus ornare nec.
+
                   </p>
                 </div>
               </div>
@@ -52,12 +51,9 @@ import {Router} from "@angular/router";
                   <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px;">
                 </div>
                 <div class="col-md-4 sm-text-center">
-                  <h4>Sed ut perspiciatis</h4>
+                  <h3>Make<br/>comments,<br/><br/>discuss<br/>with your peers</h3>
                   <p>
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                    accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                    quae ab illo inventore veritatis et quasi architecto beatae
-                    vitae dicta sunt explicabo.
+
                   </p>
                 </div>
               </div>
@@ -68,14 +64,9 @@ import {Router} from "@angular/router";
                   <img class="center-block" src="assets/img/computer.png" alt="" style="margin-top: -115px;">
                 </div>
                 <div class="col-md-4 sm-text-center">
-                  <h4>At vero eos et accusamus</h4>
+                  <h3>Add<br/>pictures<br/>and<br/>tables</h3>
                   <p>
-                    At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                    blanditiis praesentium voluptatum deleniti atque corrupti quos
-                    dolores et quas molestias excepturi sint occaecati cupiditate non
-                    provident, similique sunt in culpa qui officia deserunt mollitia
-                    animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis
-                    est et expedita distinctio.
+
                   </p>
                 </div>
               </div>
@@ -89,16 +80,16 @@ import {Router} from "@angular/router";
       <div class="container-fluid">
         <div class="row row-eq-height">
           <div class="col-xs-6 bg-orange-gradient text-center">
-            <h4 class="text-normal">
+            <h3 class="text-normal">
               <span class="icon-23 bottom-left"></span>
-              Create a public document for<br/>everyone on internet.
-            </h4>
+              Create public documents<br/>on Internet
+            </h3>
           </div>
           <div class="col-xs-6 bg-orange-gradient text-center">
-            <h4 class="text-normal">
+            <h3 class="text-normal">
               <span class="icon-share top-right"></span>
-              Manage your private documents<br/>and share with others.
-            </h4>
+              Manage private documents<br/>with sharing control
+            </h3>
           </div>
         </div>
       </div>
@@ -108,7 +99,7 @@ import {Router} from "@angular/router";
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h3 class="big text-muted text-uppercase">Why JetPad?</h3>
+            <h3 class="text-muted text-uppercase">Why Jetpad?</h3>
           </div>
           <div class="col-xs-12 col-md-4 text-center">
             <h4>
@@ -116,21 +107,10 @@ import {Router} from "@angular/router";
               Privacy
             </h4>
             <p class="padding">
-              JetPad.net respects your privacy: only stores documents.
-              We will never use or give your contents to others.
-            </p>
-          </div>
-          <div class="col-xs-12 col-md-4 text-center">
-            <h4>
-              <span class="icon-tick-check"></span>
-              Innovation
-            </h4>
-            <p class="padding">
-              We are an Open Source project.
+              Jetpad.net respects your privacy:
             </p>
             <p class="padding">
-              Anyone can extend, adapt or improve JetPad. Contribute now,
-              visit our GitHub repo.
+              Your content will be never used by or shared with other services.
             </p>
           </div>
           <div class="col-xs-12 col-md-4 text-center">
@@ -139,8 +119,25 @@ import {Router} from "@angular/router";
               Internet Freedom
             </h4>
             <p class="padding">
-              JetPad gives you freedom to install yer with others to
-              keep collaborating together.
+              Jetpad gives you the freedom to install it on your own server.
+            </p>
+            <p class="padding">
+              Connect your server with others to keep collaborating together.
+            </p>
+          </div>
+          <div class="col-xs-12 col-md-4 text-center">
+            <h4>
+              <span class="icon-tick-check"></span>
+              Open Source
+            </h4>
+            <p class="padding">
+              Jetpad is Open Source.
+            </p>
+            <p class="padding">
+              Anyone can extend, adapt or improve Jetpad.
+            </p>
+            <p class="padding">
+              Check out source code or contribute on <a href="https://github.com/P2Pvalue/swellrt-pad">GitHub</a>.
             </p>
           </div>
         </div>
