@@ -1,4 +1,4 @@
-# SwellRT Pad [![Build Status](https://travis-ci.org/P2Pvalue/swellrt-pad.svg?branch=master)](https://travis-ci.org/P2Pvalue/swellrt-pad) [![Dependency Status](https://david-dm.org/P2Pvalue/swellrt-pad.svg)](https://david-dm.org/P2Pvalue/swellrt-pad)
+# SwellRT Pad [![Build Status](https://travis-ci.org/P2Pvalue/swellrt-pad.svg?branch=master)](https://travis-ci.org/P2Pvalue/swellrt-pad) [![Dependency Status](https://david-dm.org/P2Pvalue/swellrt-pad.svg)](https://david-dm.org/P2Pvalue/swellrt-pad) [![Chat on Matrix](https://img.shields.io/badge/chat-on%20matrix-brightgreen.svg)](https://riot.im/app/#/room/#jetpad:matrix.org)
 
 SwellRT Pad is a web-based collaborative editor, build with [SwellRT real-time technology](http://swellrt.org) and the Angular 2 framework.
 
