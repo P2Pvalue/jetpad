@@ -41,6 +41,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   selectedRange = '';
   assessmentComment = '';
   hasVoted = false;
+  outline: any;
 
   annotationMap = {
     'bold': 'style/fontWeight=bold',
@@ -82,6 +83,11 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  documentLink(hash) {
+    let link:string = window.location.origin + window.location.pathname;
+    return link + (hash ? '#' + hash : '');
+  }
+
   updateEditorToolbar() {
     for (let formatGroup of this.formats) {
       for (let format of formatGroup) {
@@ -111,6 +117,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  refreshOutline() {
+    this.outline = this.editor.getAnnotationSet('paragraph/header');
+  }
+
   ngOnDestroy() {
     this.participants = [];
     this.documentId = undefined;
@@ -125,17 +135,26 @@ export class EditorComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.editor = DocumentService.editor('editor-container', widgets, {});
+    let annotations = {
+      'paragraph/header': {
+        onAdd: this.refreshOutline,
+        onChange: this.refreshOutline,
+        onRemove: this.refreshOutline
+      }
+    };
+    this.editor = DocumentService.editor('editor-container', widgets, annotations);
 
     this.route.params.subscribe((param: any) => {
       this.documentId = param['id'];
-      this.openDocument();
+      this.openDocument().then(() => {
+        this.refreshOutline();
+      });
     });
   }
 
   openDocument() {
 
-    this.documentService.open(this.documentId).then(cObject => {
+    return this.documentService.open(this.documentId).then(cObject => {
 
       // Initialize the doc
       if (!cObject.root.get('doc')) {
@@ -155,11 +174,11 @@ export class EditorComponent implements OnInit, OnDestroy {
         if (range.lenght > 10) {
           this.hideAssessment = false;
           this.assesmentTop = range.node.parentElement.offsetTop + range.node.parentElement.offsetHeight;
+
         } else {
           this.hideAssessment = true;
         }
         this.selectedRange = range.text;
-        this.hasVoted = false;
         this.annotations = range.annotations;
         this.updateEditorToolbar();
       });

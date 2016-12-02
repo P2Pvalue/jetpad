@@ -176,25 +176,9 @@
 
     <div class="panel" *ngIf="showOutline">
       <div class="panel-body">
-        <ul>
-          <li><a href>Lorem ipsum dolor sit amet, the consectetur.</a></li>
-          <li>
-            <a href>Lorem ipsum dolor sit amet, the consectetur.</a>
-            <ul>
-              <li><a href>Lorem ipsum dolor sit amet, the consectetur.</a></li>
-              <li><a href>Lorem ipsum dolor sit amet, the consectetur.</a></li>
-
-            </ul>
-          </li>
-          <li><a href>Lorem ipsum dolor sit amet, the consectetur.</a></li>
-          <li>
-            <a href>Lorem ipsum dolor sit amet, the consectetur.</a>
-            <ul>
-              <li><a href>Lorem ipsum dolor sit amet, the consectetur.</a></li>
-              <li><a href>Lorem ipsum dolor sit amet, the consectetur.</a></li>
-            </ul>
-          </li>
-        </ul>
+        <ol>
+          <li *ngFor="let heading of outline"><a href="{{documentLink(heading.id)}}">{{heading.text}}</a></li>
+        </ol>
       </div>
     </div>
 

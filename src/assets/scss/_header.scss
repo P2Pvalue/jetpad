@@ -3,6 +3,13 @@ body {
   padding-top: 80px;
 }
 
+:target:before {
+  content: "";
+  display: block;
+  height: 250px; /* fixed header height*/
+  margin: -250px 0 0; /* negative fixed header height */
+}
+
 header {
   .navbar {
     background-color: $primary-color;
