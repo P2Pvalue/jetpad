@@ -174,13 +174,7 @@
       Outline
     </button>
 
-    <div class="panel" *ngIf="showOutline">
-      <div class="panel-body">
-        <ol>
-          <li *ngFor="let heading of outline"><a href="{{documentLink(heading.id)}}">{{heading.text}}</a></li>
-        </ol>
-      </div>
-    </div>
+    <editor-outline [outline]="outline" *ngIf="showOutline"></editor-outline>
 
   </div>
 

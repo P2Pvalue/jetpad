@@ -25,6 +25,7 @@ import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 import { ShareSettingsComponent } from "./components/share-settings";
 import { UserIconComponent } from "./components/user-icon";
+import {EditorOutline} from "./components/editor/outline.component";
 
 import { DocumentService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
@@ -75,6 +76,7 @@ const APP_PROVIDERS = [
     SearchPipe,
     InlineAssessment,
     CommentAssessment,
+    EditorOutline,
     DROPDOWN_DIRECTIVES
   ],
   imports: [ // import Angular's modules

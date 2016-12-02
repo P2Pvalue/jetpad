@@ -17,7 +17,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   privateDocument: any;
 
   showOutline: boolean = false;
-
   formats: Array<Array<string>> = [
     //['paragraph-type'],
     //['font-family'],
@@ -81,11 +80,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this._title) {
       this._title.setValue(value);
     }
-  }
-
-  documentLink(hash) {
-    let link:string = window.location.origin + window.location.pathname;
-    return link + (hash ? '#' + hash : '');
   }
 
   updateEditorToolbar() {
