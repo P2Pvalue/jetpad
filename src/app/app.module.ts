@@ -86,7 +86,7 @@ const APP_PROVIDERS = [
     ClipboardModule,
     CarouselModule,
     TooltipModule,
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
