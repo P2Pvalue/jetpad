@@ -33,7 +33,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   textSizes = Array.from(new Array(72), (x,i) => i + 1).filter(x => x % 2 == 0 );
   currentTextSize = '14px';
   currentTextType = 'none';
-  currentTextFamily = 'Arial';
+  currentTextFamily = 'Liberation Serif';
   currentColor = '#000000';
   currentBgColor = '#FFFFFF'
   annotations: Array<any>;
@@ -43,6 +43,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   assessmentComment = '';
   hasVoted = false;
   outline: any;
+  fontFamilies = ['Open Sans', 'Droid Serif', 'Liberation Sans', 'Liberation Serif', 'Roboto Mono'];
 
   annotationMap = {
     'bold': 'style/fontWeight=bold',
@@ -97,7 +98,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.currentBgColor = this.annotations['style/backgroundColor'] || '#FFFFFF';
     this.currentTextType = this.annotations['paragraph/header'] || 'none';
     this.currentTextSize = this.annotations['style/fontSize'] || '14px';
-    this.currentTextFamily = this.annotations['style/fontFamily'] || 'Arial';
+    this.currentTextFamily = this.annotations['style/fontFamily'] || 'Liberation Serif';
   }
 
   disableEditorToolbar() {
@@ -224,6 +225,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     } else {
       this.editor.clearAnnotation('link');
     }
+    this.editorElement.focus();
   }
 
   addImage(file) {
@@ -233,19 +235,19 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeTextType(textType) {
-    this.currentTextType = textType;
-    this.editor.setAnnotation('paragraph/header', textType);
+  changeTextType() {
+    this.editor.setAnnotation('paragraph/header', this.currentTextType);
+    this.editorElement.focus();
   }
 
-  changeTextSize(textSize) {
-    this.currentTextSize = textSize;
-    this.editor.setAnnotation('style/fontSize', textSize);
+  changeTextSize() {
+    this.editor.setAnnotation('style/fontSize', this.currentTextSize);
+    this.editorElement.focus();
   }
 
-  changeTextFamily(textFamily) {
-    this.currentTextFamily = textFamily;
-    this.editor.setAnnotation('style/fontFamily', textFamily)
+  changeTextFamily() {
+    this.editor.setAnnotation('style/fontFamily', this.currentTextFamily);
+    this.editorElement.focus();
   }
 
   onVoted(agreed: boolean) {

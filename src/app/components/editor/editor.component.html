@@ -29,7 +29,7 @@
     <div id="editor-toolbar" class="row row-eq-height toolbox form">
       <div class="col-sm toolbox-2">
         <div class="input-select simple-select">
-          <select [(ngModel)]="currentTextType" class="form-control" (change)="changeTextType($event.target.value)">
+          <select [(ngModel)]="currentTextType" class="form-control" (ngModelChange)="changeTextType($event.target.value)">
             <option value="h1">Heading 1</option>
             <option value="h2">Heading 2</option>
             <option value="h3">Heading 3</option>
@@ -43,11 +43,8 @@
       <div class="divider"></div>
       <div class="col-sm toolbox-4">
         <div class="input-select simple-select">
-          <select [(ngModel)]="currentTextFamily" class="form-control" (change)="changeTextFamily($event.target.value)">
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Arial">Arial</option>
-            <option value="Tahoma,Verdana,Segoe,sans-serif">Tahoma</option>
-            <option value="Futura,Trebuchet MS,Arial,sans-serif">Futura</option>
+          <select [(ngModel)]="currentTextFamily" class="form-control" (focus)="loadFonts = true" (ngModelChange)="changeTextFamily()">
+            <option *ngFor="let fontFamily of fontFamilies" style="font-size: 20px" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
           </select>
           <i class="icon icon-caret" aria-hidden="true"></i>
         </div>
@@ -55,7 +52,7 @@
       <div class="divider"></div>
       <div class="col-sm">
         <div class="input-select simple-select">
-          <select [(ngModel)]="currentTextSize" class="form-control" (change)="changeTextSize($event.target.value)">
+          <select [(ngModel)]="currentTextSize" class="form-control" (ngModelChange)="changeTextSize()">
             <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
           </select>
           <i class="icon icon-caret" aria-hidden="true"></i>
@@ -74,7 +71,7 @@
       <div class="col-sm toolbox-2">
         <!-- not supported by explorer and safari -->
         <div class="input-color">
-          <input type="color" id="text-color" [(ngModel)]="currentColor" (change)="annotate('color', $event.target.value)">
+          <input type="color" id="text-color" [(ngModel)]="currentColor" (ngModelChange)="annotate('color', currentColor)">
         </div>
         <label for="text-color" class="cursor-pointer btn">
           <i class="icon icon-text-decoration icon-middle input-btn" [style.color]="currentColor"></i>
@@ -82,7 +79,7 @@
         </label>
         <!-- not supported by explorer and safari -->
         <div class="input-color">
-          <input type="color" id="background-text-color" [(ngModel)]="currentBgColor" (change)="annotate('bg-color', $event.target.value)">
+          <input type="color" id="background-text-color" [(ngModel)]="currentBgColor" (ngModelChange)="annotate('bg-color', currentBgColor)">
         </div>
         <label for="background-text-color" class="cursor-pointer btn">
           <i class="icon icon-text-color icon-middle input-btn" [style.color]="currentBgColor"></i>

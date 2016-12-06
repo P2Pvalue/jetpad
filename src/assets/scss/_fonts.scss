@@ -1,4 +1,130 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Rubik:300,400,700');
+@font-face {
+  font-family: "Rubik";
+  src: url("~assets/fonts/Rubik/Rubik-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Rubik";
+  src: url("~assets/fonts/Rubik/Rubik-Light.ttf");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Rubik";
+  src: url("~assets/fonts/Rubik/Rubik-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Droid Serif";
+  src: url("~assets/fonts/Droid_Serif/DroidSerif.ttf");
+  font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+  font-family: "Droid Serif";
+  src: url("~assets/fonts/Droid_Serif/DroidSerif-Bold.ttf");
+  font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+  font-family: "Droid Serif";
+  src: url("~assets/fonts/Droid_Serif/DroidSerif-Italic.ttf");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Droid Serif";
+  src: url("~assets/fonts/Droid_Serif/DroidSerif-BoldItalic.ttf");
+  font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("~assets/fonts/Liberation_Sans/LiberationSans-Regular.ttf");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("~assets/fonts/Liberation_Sans/LiberationSans-Bold.ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("~assets/fonts/Liberation_Sans/LiberationSans-Italic.ttf");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("~assets/fonts/Liberation_Sans/LiberationSans-BoldItalic.ttf");
+  font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-Regular.ttf");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-Bold.ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-Italic.ttf");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-BoldItalic.ttf");
+  font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("~assets/fonts/Open_Sans/OpenSans-Regular.ttf");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url("~assets/fonts/Open_Sans/OpenSans-Bold.ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url("~assets/fonts/Open_Sans/OpenSans-Italic.ttf");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url("~assets/fonts/Open_Sans/OpenSans-BoldItalic.ttf");
+  font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Regular.ttf");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Bold.ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Italic.ttf");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-BoldItalic.ttf");
+  font-weight: bold;
+	font-style: italic;
+}
 
 .h2 {
 	font-family: 'Rubik', sans-serif;
@@ -6,6 +132,10 @@
 	font-weight: 300;
 	color: $white;
 	margin-bottom: 28px;
+}
+
+#editor-container {
+	font-family: 'Liberation Serif', serif;
 }
 
 .text-inverse {
