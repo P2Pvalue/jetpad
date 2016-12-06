@@ -23,11 +23,7 @@ import {Component} from "@angular/core";
                 <div class="col-xs-4 col-sm-2 text-center img-wrapper">
                   <img class="center-block vertical-middle" src="assets/img/medialab_prado_logo.png" alt="">
                 </div>
-
-                <div class="col-xs-4 col-sm-2 col-sm-offset-2 text-center img-wrapper">
-                  <img class="center-block vertical-middle" src="assets/img/p2pf_logo.png" alt="">
-                </div>
-                <div class="col-xs-4 col-sm-2 text-center img-wrapper">
+                <div class="col-xs-4 col-sm-2 col-sm-offset-3 col-xs-offset-5 text-center img-wrapper">
                   <img class="center-block vertical-middle" src="assets/img/techhub_logo.png" alt="">
                 </div>
                 <div class="col-xs-4 col-sm-2 text-center img-wrapper">
@@ -58,16 +54,16 @@ import {Component} from "@angular/core";
           </section>
           <nav class="navbar">
 
-            <div class="col-xs-6 col-md-2 col-md-offset-1 img-wrapper">
+            <div class="col-xs-6 col-md-2 col-md-offset-1 img-wrapper text-center">
               <h3>Built with</h3>
               <!-- <a href="http://swellrt.org/"> -->
-                <img class="center-block vertical-middle mar-top-30" src="assets/img/swellrt_logo_text.png" alt="">
+                <img class="center-block vertical-bottom" height="80px" src="assets/img/swellrt-logo-small-vertical.png" alt="">
               <!-- </a> -->
             </div>
-            <div class="col-xs-6 col-md-2 img-wrapper">
-                <h3>Collaborate</h3>
+            <div class="col-xs-6 col-md-2 img-wrapper text-center">
+                <h3>Get the code</h3>
                 <!-- <a href="https://github.com/P2Pvalue"> -->
-                <img class="center-block mar-top-30" src="assets/img/github_logo_text.png" alt="">
+                <img class="center-block vertical-bottom " height="60px" src="assets/img/github-mark.png" alt="">
               <!-- </a> -->
             </div>
             <div class="col-xs-6 col-xs-offset-0 col-md-2 col-md-offset-3 sm-text-center">

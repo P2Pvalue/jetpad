@@ -9,8 +9,8 @@ import {Router} from "@angular/router";
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12 text-center bg-blue-gradient">
-            <h2>Create and share documents</h2>
-            <h2>Collaborative editing in real-time</h2>
+            <h2>Create documents and</h2>
+            <h2>edit simultaneously</h2>
             <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
               <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
