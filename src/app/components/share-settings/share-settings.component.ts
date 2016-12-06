@@ -21,6 +21,7 @@ import {DocumentService} from "../../services/document.service";
               <p class="text-box name">{{ documentName }}</p>
             </div>
             <h5 class="lateral-menu-title">Link to share</h5>
+            <p class="text-box share-link">{{ documentUrl }}</p>
             <share-buttons
             style="font-family: Jetpad"
             [url]="documentUrl"
@@ -33,7 +34,6 @@ import {DocumentService} from "../../services/document.service";
             [tumblr]="false"
             [google]="false"
             [stumbleUpOn]="false"></share-buttons>
-            <p class="text-box share-link">{{ documentUrl }}</p>
             <br>
             <div class="col-xs-12 no-padding" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
               <div class="col-xs-4 no-padding">
