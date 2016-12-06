@@ -37,7 +37,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   annotations: Array<any>;
   hideAssessment = false;
   assesmentTop = 100;
-  selectedRange = '';
+  selectedRange = null;
   assessmentComment = '';
   hasVoted = false;
   outline: any;
@@ -134,6 +134,21 @@ export class EditorComponent implements OnInit, OnDestroy {
         onAdd: this.refreshOutline,
         onChange: this.refreshOutline,
         onRemove: this.refreshOutline
+      },
+      'link': {
+        onEvent: function(range, event) {
+          if (event.type === 'click') {
+            event.stopPropagation();
+            if(event.ctrlKey) {
+              let annotation = range ? this.editor.getAnnotationInRange(range, 'link') : null;
+              let link = annotation ? annotation.value : null;
+              if (link) {
+                let win = window.open(link, '_blank');
+                win.focus();
+              }
+            }
+          }
+        }
       }
     };
     this.editor = DocumentService.editor('editor-container', widgets, annotations);
@@ -172,7 +187,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         } else {
           this.hideAssessment = true;
         }
-        this.selectedRange = range.text;
+        this.selectedRange = range;
         this.annotations = range.annotations;
         this.updateEditorToolbar();
       });
@@ -197,6 +212,18 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.annotations[key] = val;
     this.editor.setAnnotation(key, val);
     this.editorElement.focus();
+  }
+
+  addLink() {
+    let selection = this.editor.getSelection();
+    let annotation = selection ? this.editor.getAnnotationInRange(selection, 'link') : null;
+    let link = annotation ? annotation.value : null;
+    link = prompt('Link URL', link ? link : 'http://');
+    if (link) {
+      this.editor.setAnnotation('link', link);
+    } else {
+      this.editor.clearAnnotation('link');
+    }
   }
 
   addImage(file) {

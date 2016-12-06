@@ -100,7 +100,7 @@
       </div>
       <div class="divider"></div>
       <div class="col-sm">
-        <button type="button" class="btn">
+        <button type="button" class="btn" (click)="addLink()">
           <i class="icon icon-link icon-middle"></i>
         </button>
       </div>
@@ -188,7 +188,7 @@
       <i class="icon icon-label icon-middle"></i>
       Bookmarks (5)
     </button>
-    <comment-assessment [tipo]="assessmentComment" [hasVoted]="hasVoted" [texto]="selectedRange"></comment-assessment>
+    <comment-assessment [tipo]="assessmentComment" [hasVoted]="hasVoted" [texto]="selectedRange?.text"></comment-assessment>
     <div class="panel">
       <div class="panel-body">
         <ul>
