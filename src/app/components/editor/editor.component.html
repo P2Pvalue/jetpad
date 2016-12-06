@@ -29,7 +29,7 @@
     <div id="editor-toolbar" class="row row-eq-height toolbox form">
       <div class="col-sm toolbox-2">
         <div class="input-select simple-select">
-          <select [(ngModel)]="currentTextType" class="form-control" (ngModelChange)="changeTextType($event.target.value)">
+          <select [(ngModel)]="currentTextType" class="form-control" (ngModelChange)="annotate('header', currentTextType)">
             <option value="h1">Heading 1</option>
             <option value="h2">Heading 2</option>
             <option value="h3">Heading 3</option>
@@ -43,7 +43,7 @@
       <div class="divider"></div>
       <div class="col-sm toolbox-4">
         <div class="input-select simple-select">
-          <select [(ngModel)]="currentTextFamily" class="form-control" (focus)="loadFonts = true" (ngModelChange)="changeTextFamily()">
+          <select [(ngModel)]="currentTextFamily" class="form-control" (focus)="loadFonts = true" (ngModelChange)="annotate('font-family', currentTextFamily)">
             <option *ngFor="let fontFamily of fontFamilies" style="font-size: 20px" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
           </select>
           <i class="icon icon-caret" aria-hidden="true"></i>
@@ -52,7 +52,7 @@
       <div class="divider"></div>
       <div class="col-sm">
         <div class="input-select simple-select">
-          <select [(ngModel)]="currentTextSize" class="form-control" (ngModelChange)="changeTextSize()">
+          <select [(ngModel)]="currentTextSize" class="form-control" (ngModelChange)="annotate('font-size', currentTextSize)">
             <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
           </select>
           <i class="icon icon-caret" aria-hidden="true"></i>
@@ -101,27 +101,25 @@
           <i class="icon icon-link icon-middle"></i>
         </button>
       </div>
-      <div class="divider"></div>
+      <!--<div class="divider"></div>
       <div class="col-sm">
         <button type="button" class="btn">
           <i class="icon icon-text-sort icon-middle"></i>
           <i class="icon icon-caret" aria-hidden="true"></i>
         </button>
-      </div>
+      </div>-->
       <div class="divider"></div>
       <div class="col-sm toolbox-2">
         <button type="button" class="btn btn-default" (click)="annotate('text-dots')" [class.active]="buttons['text-dots']">
           <i class="icon icon-text-dots icon-middle"></i>
-          <i class="icon icon-caret" aria-hidden="true"></i>
         </button>
         <button type="button" class="btn btn-default" (click)="annotate('text-number')" [class.active]="buttons['text-number']">
           <i class="icon icon-text-number icon-middle"></i>
-          <i class="icon icon-caret" aria-hidden="true"></i>
         </button>
       </div>
       <div class="divider"></div>
       <div class="col-sm toolbox-2">
-        <div class="dropdown">
+        <!--<div class="dropdown">
           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <i class="icon icon-square-divider icon-middle"></i>
             <i class="icon icon-caret" aria-hidden="true"></i>
@@ -152,7 +150,7 @@
             <i class="icon icon-square icon-middle"></i>
             <i class="icon icon-square icon-middle"></i>
           </div>
-        </div>
+        </div>-->
         <button type="button" class="btn btn-default" (click)="addImage()">
           <i class="icon icon-image icon-middle"></i>
           <i class="icon icon-caret" aria-hidden="true"></i>

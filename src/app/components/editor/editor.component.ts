@@ -46,6 +46,9 @@ export class EditorComponent implements OnInit, OnDestroy {
   fontFamilies = ['Open Sans', 'Droid Serif', 'Liberation Sans', 'Liberation Serif', 'Roboto Mono'];
 
   annotationMap = {
+    'header': 'paragraph/header=*',
+    'font-family': 'style/fontFamily=*',
+    'font-size': 'style/fontSize=*',
     'bold': 'style/fontWeight=bold',
     'italic': 'style/fontStyle=italic',
     'underline': 'style/textDecoration=underline',
@@ -210,6 +213,15 @@ export class EditorComponent implements OnInit, OnDestroy {
       val = null;
     }
 
+    // FIXME (SwellRT) Workarround for lists and paragraphs
+    if (key === 'paragraph/header' || key === 'paragraph/listStyleType') {
+      this.annotations['paragraph/header'] = 'none';
+      this.annotations['paragraph/listStyleType'] = null;
+      if (val === null) {
+        key = 'paragraph/header';
+        val = 'none';
+      }
+    }
     this.annotations[key] = val;
     this.editor.setAnnotation(key, val);
     this.editorElement.focus();
@@ -233,21 +245,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (img) {
       this.editor.addWidget('img-link', img);
     }
-  }
-
-  changeTextType() {
-    this.editor.setAnnotation('paragraph/header', this.currentTextType);
-    this.editorElement.focus();
-  }
-
-  changeTextSize() {
-    this.editor.setAnnotation('style/fontSize', this.currentTextSize);
-    this.editorElement.focus();
-  }
-
-  changeTextFamily() {
-    this.editor.setAnnotation('style/fontFamily', this.currentTextFamily);
-    this.editorElement.focus();
   }
 
   onVoted(agreed: boolean) {
