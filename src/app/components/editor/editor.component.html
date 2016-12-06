@@ -74,18 +74,18 @@
       <div class="col-sm toolbox-2">
         <!-- not supported by explorer and safari -->
         <div class="input-color">
-          <input type="color" id="text-color" value="#0072BC">
+          <input type="color" id="text-color" [(ngModel)]="currentColor" (change)="annotate('color', $event.target.value)">
         </div>
         <label for="text-color" class="cursor-pointer btn">
-          <i class="icon icon-text-decoration icon-middle input-btn" style="color: #0072BC;"></i>
+          <i class="icon icon-text-decoration icon-middle input-btn" [style.color]="currentColor"></i>
           <i class="icon icon-caret" aria-hidden="true"></i>
         </label>
         <!-- not supported by explorer and safari -->
         <div class="input-color">
-          <input type="color" id="background-text-color" value="#F34E1E">
+          <input type="color" id="background-text-color" [(ngModel)]="currentBgColor" (change)="annotate('bg-color', $event.target.value)">
         </div>
         <label for="background-text-color" class="cursor-pointer btn">
-          <i class="icon icon-text-color icon-middle input-btn" style="color: #F34E1E;"></i>
+          <i class="icon icon-text-color icon-middle input-btn" [style.color]="currentBgColor"></i>
           <i class="icon icon-caret" aria-hidden="true"></i>
         </label>
       </div>

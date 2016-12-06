@@ -34,6 +34,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   currentTextSize = '14px';
   currentTextType = 'none';
   currentTextFamily = 'Arial';
+  currentColor = '#000000';
+  currentBgColor = '#FFFFFF'
   annotations: Array<any>;
   hideAssessment = false;
   assesmentTop = 100;
@@ -47,6 +49,8 @@ export class EditorComponent implements OnInit, OnDestroy {
     'italic': 'style/fontStyle=italic',
     'underline': 'style/textDecoration=underline',
     'strike-through': 'style/textDecoration=line-through',
+    'color': 'style/color=*',
+    'bg-color': 'style/backgroundColor=*',
     'text-left': 'paragraph/textAlign=left',
     'text-center': 'paragraph/textAlign=center',
     'text-right': 'paragraph/textAlign=right',
@@ -89,18 +93,11 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.buttons[format] = this.annotations[key] === val;
       }
     }
-    this.currentTextType = this.annotations['paragraph/header'];
-    if (this.currentTextType === null) {
-      this.currentTextType = 'none';
-    }
-    this.currentTextSize = this.annotations['style/fontSize'];
-    if (this.currentTextSize === null) {
-      this.currentTextSize = '14px';
-    }
-    this.currentTextFamily = this.annotations['style/fontFamily'];
-    if (this.currentTextFamily === null) {
-      this.currentTextFamily = 'Arial';
-    }
+    this.currentColor = this.annotations['style/color'] || '#000000';
+    this.currentBgColor = this.annotations['style/backgroundColor'] || '#FFFFFF';
+    this.currentTextType = this.annotations['paragraph/header'] || 'none';
+    this.currentTextSize = this.annotations['style/fontSize'] || '14px';
+    this.currentTextFamily = this.annotations['style/fontFamily'] || 'Arial';
   }
 
   disableEditorToolbar() {
@@ -202,8 +199,11 @@ export class EditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  annotate(format) {
+  annotate(format, value) {
     let [key, val] = this.annotationMap[format].split('=');
+    if (val === '*') {
+      val = value;
+    }
     let currentVal = this.annotations[key];
     if (currentVal === val) {
       val = null;
