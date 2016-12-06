@@ -8,8 +8,8 @@ let PROVIDERS = [
   { provide: 'DEFAULT_USERNAME', useValue: '_anonymous_' },
   { provide: 'DEFAULT_PASSWORD', useValue: '' },
   { provide: 'SWELLRT_DOMAIN', useValue: 'demo.swellrt.org' },
-  { provide: 'JETPAD_URL', useValue: 'http://jetpad-int.devialab.rocks' },
-  { provide: 'RECOVER_PASSWORD_URL', useValue: 'http://jetpad-int.devialab.rocks/#/recover/*$token*$user-id*' }
+  { provide: 'JETPAD_URL', useValue: 'https://demo.jetpad.net' },
+  { provide: 'RECOVER_PASSWORD_URL', useValue: 'https://demo.jetpad.net/recover/*$token*$user-id*' }
 ];
 
 if (production) { PROVIDERS = [ ...PROVIDERS ]; }

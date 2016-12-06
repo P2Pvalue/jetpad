@@ -21,6 +21,18 @@ import {DocumentService} from "../../services/document.service";
               <p class="text-box name">{{ documentName }}</p>
             </div>
             <h5 class="lateral-menu-title">Link to share</h5>
+            <share-buttons
+            style="font-family: Jetpad"
+            [url]="documentUrl"
+            [title]="documentName"
+            facebook="&#xf09a;"
+            twitter="&#xf099;"
+            reddit="&#xf281;"
+            [pinterest]="false"
+            [linkedIn]="false"
+            [tumblr]="false"
+            [google]="false"
+            [stumbleUpOn]="false"></share-buttons>
             <p class="text-box share-link">{{ documentUrl }}</p>
             <br>
             <div class="col-xs-12 no-padding" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
@@ -45,10 +57,10 @@ import {DocumentService} from "../../services/document.service";
                     Participant
                  </div>
                  <div *ngIf="!first" class="remove-participant-icon col-xs-1 no-padding">
-                  <i (click)="deleteParticipant(participant.id)" class="icon icon-close icon-middle cursor-pointer"></i> 
+                  <i (click)="deleteParticipant(participant.id)" class="icon icon-close icon-middle cursor-pointer"></i>
                  </div>
               </div>
-              <div class="col-xs-12 no-padding mar-top-30">         
+              <div class="col-xs-12 no-padding mar-top-30">
                 <p>Invite people</p>
                 <input [(ngModel)]="usersInvited">
               </div>

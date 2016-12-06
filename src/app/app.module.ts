@@ -25,7 +25,9 @@ import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 import { ShareSettingsComponent } from "./components/share-settings";
 import { UserIconComponent } from "./components/user-icon";
-import {EditorOutline} from "./components/editor/outline.component";
+import { EditorOutline } from "./components/editor/outline.component";
+import { InlineAssessment } from "./components/inline-assessment/inline-assessment.component";
+import { CommentAssessment } from "./components/inline-assessment/comment-assessment.component";
 
 import { DocumentService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
@@ -41,8 +43,7 @@ import { UiSwitchModule } from 'angular2-ui-switch';
 import { ClipboardModule }  from 'angular2-clipboard';
 import { CarouselModule } from 'ng2-bootstrap/components/carousel';
 import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
-import {InlineAssessment} from "./components/inline-assessment/inline-assessment.component";
-import {CommentAssessment} from "./components/inline-assessment/comment-assessment.component";
+import {ShareButtonsModule} from "ng2-sharebuttons";
 
 const APP_PROVIDERS = [
   AppState,
@@ -88,7 +89,8 @@ const APP_PROVIDERS = [
     ClipboardModule,
     CarouselModule,
     TooltipModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    ShareButtonsModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

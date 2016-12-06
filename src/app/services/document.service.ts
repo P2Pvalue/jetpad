@@ -38,7 +38,7 @@ export class DocumentService {
   }
 
   getDocumentUrl(waveId: any) {
-    return this.JETPAD_URL + '/#/edit/' + this.getEditorId(waveId);
+    return this.JETPAD_URL + '/edit/' + this.getEditorId(waveId);
   }
 
   getEditorId(waveId: any) {
