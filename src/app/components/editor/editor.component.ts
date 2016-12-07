@@ -112,17 +112,19 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  refreshOutline() {
-    this.outline = this.editor.getAnnotationSet('paragraph/header');
-  }
-
   ngOnDestroy() {
     this.participants = [];
     this.documentId = undefined;
     this.documentService.close();
   }
 
+  refreshOutline: Function;
+
   ngOnInit() {
+    this.refreshOutline = () => {
+      this.outline = this.editor.getAnnotationSet('paragraph/header');
+    }
+
     let widgets = {
       'img-link': {
         onInit: (parentElement, state) => parentElement.innerHTML = `<img src="${state}">`,
