@@ -88,8 +88,7 @@ for unit test managed by *Karma* and E2E tests based in protractor.
 The project uses *Bootstrap* as UI framework. The current version is 3.3.7. The project also uses the [bootstrap-material-design](http://fezvrasta.github.io/bootstrap-material-design/) 
 modules and [bootstrap-sass](https://github.com/twbs/bootstrap-sass) module.
 
-Bootstrap also requires *Jquery*. The version imported with the project is 1.9.1. The *Sass* styles are defined in ```src/assets``` folder and the main file is
-```src/app/app.style.scss```.
+Bootstrap also requires *Jquery*. The version imported with the project is 1.9.1. The *Sass* styles are defined in ```src/assets``` folder and the main file is ```src/app/app.style.scss``` .
 
 In order to use bootstrap seamless within Angular2 application we imported [ng2-bootstrap](https://github.com/valor-software/ng2-bootstrap) library to have
 native directives for Angular2 project.
