@@ -45,6 +45,13 @@ import { CarouselModule } from 'ng2-bootstrap/components/carousel';
 import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
 import {ShareButtonsModule} from "ng2-sharebuttons";
 
+// New layout
+import { _SiteComponent } from "./components/_site";
+import { _SiteHeaderComponent } from "./components/_site-header";
+import { _SiteFooterComponent } from "./components/_site-footer";
+import { _LandingComponent } from "./components/_landing";
+import { _EditorComponent } from "./components/_editor";
+
 const APP_PROVIDERS = [
   AppState,
   DocumentService,
@@ -78,6 +85,14 @@ const APP_PROVIDERS = [
     InlineAssessment,
     CommentAssessment,
     EditorOutline,
+
+    // New layout
+    _SiteComponent,
+    _SiteHeaderComponent,
+    _SiteFooterComponent,
+    _LandingComponent,
+    _EditorComponent,
+
     DROPDOWN_DIRECTIVES
   ],
   imports: [ // import Angular's modules

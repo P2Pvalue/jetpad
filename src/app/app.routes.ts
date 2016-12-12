@@ -9,15 +9,21 @@ import { NoContent } from './components/no-content';
 import { AuthenticationComponent } from "./components/authentication";
 import { UnauthorizedComponent } from "./components/unauthorized";
 
+// New site layout (all prefixed with _)
+import { _SiteComponent } from "./components/_site";
+
 import { LoggedUserGuard } from "./guards";
 
 import { SessionResolver } from "./resolver";
+
+
 
 export const ROUTES: Routes = [
 
   {
     path: '',
-    component: LandingComponent
+    // component: LandingComponent
+    component: _SiteComponent
   },
 
   {
