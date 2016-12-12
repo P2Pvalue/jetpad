@@ -121,6 +121,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   refreshOutline: Function;
 
   ngOnInit() {
+    // TODO Understand why changes are not detected on this.outline outside ngOnInit
     this.refreshOutline = () => {
       this.outline = this.editor.getAnnotationSet('paragraph/header');
     }
