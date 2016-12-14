@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 
 import { LandingComponent } from './components/landing';
+import { _LandingComponent } from './components/_landing';
 import { ProfileComponent } from "./components/profile";
 import { EditorComponent } from './components/editor';
+import { _EditorComponent } from './components/_editor';
 import { TermsComponent } from "./components/terms";
 import { VisionComponent } from "./components/vision";
 import { NoContent } from './components/no-content';
@@ -22,8 +24,8 @@ export const ROUTES: Routes = [
 
   {
     path: '',
-    // component: LandingComponent
-    component: _SiteComponent
+     component: _LandingComponent
+    //component: _SiteComponent
   },
 
   {
@@ -39,7 +41,7 @@ export const ROUTES: Routes = [
 
   {
     path: 'edit/:id',
-    component: EditorComponent,
+    component: _EditorComponent,
     resolve: {
       session: SessionResolver
     }

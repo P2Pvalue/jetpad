@@ -64,6 +64,7 @@ app-landing {
     margin-bottom: 100px;
   }
   carousel {
+    margin-bottom: 15px;
     .carousel-inner {
       overflow: visible;
     }
@@ -95,6 +96,93 @@ app-landing {
       &.right {
         right: 42%;
       }
+    }
+  }
+}
+
+img.supporter{
+  width: 90%;
+}
+
+.same-height {
+  div[class^="col-"] {
+    padding: 0.5em 0;
+  }
+  display: flex;
+  align-items: center;
+}
+
+.vcenter {
+  /*display: inline-block;
+  vertical-align: middle;*/
+}
+
+@media (min-width: 768px) {
+  .same-height {
+    div[class^="col-"] {
+      height: 100px;
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .same-height {
+    div[class^="col-"] {
+      height: 300px;
+    }
+  }
+}
+
+
+ul.landing-links {
+  list-style: none;
+  padding-left: 0px;
+  margin-top: 30px;
+  li {
+    margin: 10px 0px;
+  }
+}
+
+.wrapped-img{
+  width: 95%;
+}
+
+.spaced-vertically{
+  margin: 10px 0;
+  padding: 10px 15px;
+}
+
+carousel {
+  .carousel-inner {
+    overflow: visible;
+  }
+  .carousel-indicators {
+    display: none !important;
+  }
+  .carousel-control {
+    background: none !important;
+    border: 1px solid $text-color-blend;
+    border-radius: 100%;
+    width: 66px;
+    height: 66px;
+    cursor: pointer;
+    transition: all .2s;
+    top: 115% !important;
+    span {
+      font-size: 45px !important;
+      top: 20% !important;
+      width: auto !important;
+      height: auto !important;
+      margin-left: -8px !important;
+    }
+    &.left, &.right {
+      color: $text-color;
+    }
+    &.left {
+      left: 42%;
+    }
+    &.right {
+      right: 42%;
     }
   }
 }

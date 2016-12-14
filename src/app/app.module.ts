@@ -92,7 +92,6 @@ const APP_PROVIDERS = [
     _SiteFooterComponent,
     _LandingComponent,
     _EditorComponent,
-    _EditorComponent,
 
     DROPDOWN_DIRECTIVES
   ],

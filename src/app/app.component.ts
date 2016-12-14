@@ -8,9 +8,14 @@ import {ListenerService, UserService} from "./services";
     './app.style.scss'
   ],
   template: `
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div>
+    <main>
+      <div class="container">
+        <jp-site-header></jp-site-header>
+        <router-outlet></router-outlet>
+        <jp-site-footer></jp-site-footer>
+      </div>
+    </main>
+
   `
 })
 
