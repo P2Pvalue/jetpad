@@ -3,6 +3,18 @@ body {
   padding-top: 0px;
 }
 
+.navbar {
+  background-color: $primary-color;
+}
+
+.navbar-nav{
+  li{
+    a {
+      color: $white;
+    }
+  }
+}
+
 .navbar-brand {
   vertical-align: middle;
   padding-left: 15px;

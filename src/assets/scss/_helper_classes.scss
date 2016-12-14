@@ -98,6 +98,11 @@
     display: flex;
 }
 
+section {
+  margin: 0;
+  padding: 20px 0;
+}
+
 .muted {
     color: $text-color-blend;
 }
@@ -131,14 +136,15 @@
     color: $white;
     font-size: 22px;
     opacity: 0.7;
-    margin-bottom: 70px;
+    margin-bottom: 2em;
   }
 }
 .bg-blue-gradient {
   background: linear-gradient(to right, $primary-color 0%, $primary-color-blend-light 100%);
 }
 .bg-orange-gradient {
-  padding: 196px 0px;
+  padding: 1.0em 0px;
+  margin: 0.2em 0px;
   background: linear-gradient(to right, $orange 0%, $orange-light 80%, $orange-lighter 100%);
   h4 {
     margin: 0px;
