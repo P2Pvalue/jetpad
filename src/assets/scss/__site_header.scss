@@ -1,11 +1,31 @@
-body {
-  //Body padding required for the navbar-fixed-top
-  padding-top: 0px;
+jp-site-header {
+  .navbar {
+    background-color: $primary-color;
+    .container-fluid{
+      .navbar-header{
+        /*.glyphicon-menu-hamburger{
+          color: $white;
+        }*/
+        button {
+          span.icon-bar{
+            background-color: $white;
+          }
+        }
+      }
+      .navbar-collapse{
+        ul{
+          li{
+            a{
+              color: $white;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
-.navbar {
-  background-color: $primary-color;
-}
+
 
 .navbar-nav{
   li{
