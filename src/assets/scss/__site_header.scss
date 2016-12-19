@@ -17,6 +17,21 @@ jp-site-header {
           li{
             a{
               color: $white;
+              i {
+                font-size: 25px;
+              }
+              font-size: 18px;
+              &.active{
+                color: #8A8A8A;
+              }
+            }
+          }
+          .about {
+            a {
+              @media (min-width: 768px) {
+                padding-top: 18px;
+                padding-bottom: 15px;
+              }
             }
           }
         }

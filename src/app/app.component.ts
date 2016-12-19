@@ -9,12 +9,7 @@ import {ListenerService, UserService} from "./services";
   ],
   template: `
     <main>
-      <jp-site-header></jp-site-header>
-      <div class="container">
-        
-        <router-outlet></router-outlet>
-        <jp-site-footer></jp-site-footer>
-      </div>
+      <router-outlet></router-outlet>
     </main>
 
   `

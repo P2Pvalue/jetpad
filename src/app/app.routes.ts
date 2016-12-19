@@ -10,6 +10,8 @@ import { VisionComponent } from "./components/vision";
 import { NoContent } from './components/no-content';
 import { AuthenticationComponent } from "./components/authentication";
 import { UnauthorizedComponent } from "./components/unauthorized";
+import { LoginComponent } from "./components/login";
+import { RegisterComponent } from "./components/register";
 
 // New site layout (all prefixed with _)
 import { _SiteComponent } from "./components/_site";
@@ -24,13 +26,22 @@ export const ROUTES: Routes = [
 
   {
     path: '',
-     component: _LandingComponent
-    //component: _SiteComponent
-  },
-
-  {
-    path: 'authentication',
-    component: AuthenticationComponent
+     //component: _LandingComponent
+    component: _SiteComponent,
+    children: [
+      {
+        path: '',
+        component: _LandingComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent
+      }
+    ]
   },
 
   {
