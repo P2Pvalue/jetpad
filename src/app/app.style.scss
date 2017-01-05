@@ -14,7 +14,7 @@
 
 
 @import "~assets/scss/_authentication";
-@import "~assets/scss/_editor";
+//@import "~assets/scss/_editor";
 //@import "~assets/scss/_header";
 @import "~assets/scss/_footer";
 @import "~assets/scss/_landing";
@@ -24,5 +24,9 @@
 @import "~assets/scss/_profile";
 @import "~assets/scss/_user-icon";
 @import "~assets/scss/_unauthorized";
+
+
+
+@import "editor/editor.style";
 
 

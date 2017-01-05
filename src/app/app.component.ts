@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation} from "@angular/core";
-import {ListenerService, UserService} from "./services";
+import {ListenerService, UserService} from "./core/services";
 
 @Component({
   selector: 'app',

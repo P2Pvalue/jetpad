@@ -8,9 +8,13 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 
+import { CoreModule } from './core'
+import { SiteModule } from './site'
+import { EditorModule } from './editor'
+
 import { App } from './app.component';
 
-import { HeaderComponent } from "./components/header";
+/*import { HeaderComponent } from "./components/header";
 import { LoginComponent } from "./components/login";
 import { ProfileComponent } from "./components/profile";
 import { RegisterComponent } from "./components/register";
@@ -27,12 +31,12 @@ import { ShareSettingsComponent } from "./components/share-settings";
 import { UserIconComponent } from "./components/user-icon";
 import { EditorOutline } from "./components/editor/outline.component";
 import { InlineAssessment } from "./components/inline-assessment/inline-assessment.component";
-import { CommentAssessment } from "./components/inline-assessment/comment-assessment.component";
+import { CommentAssessment } from "./components/inline-assessment/comment-assessment.component";*/
 
-import { DocumentService, ListenerService, UserService } from "./services";
+/*import { DocumentService, ListenerService, UserService } from "./services";
 import { LoggedUserGuard } from "./guards";
 import { SessionResolver } from "./resolver";
-import { OrderPipe, SearchPipe } from "./pipes";
+import { OrderPipe, SearchPipe } from "./pipes";*/
 
 import { AppState } from "./app.service";
 
@@ -46,26 +50,26 @@ import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
 import {ShareButtonsModule} from "ng2-sharebuttons";
 
 // New layout
-import { _SiteComponent } from "./components/_site";
+/*import { _SiteComponent } from "./components/_site";
 import { _SiteHeaderComponent } from "./components/_site-header";
 import { _SiteFooterComponent } from "./components/_site-footer";
 import { _LandingComponent } from "./components/_landing";
-import { _EditorComponent } from "./components/_editor";
+import { _EditorComponent } from "./components/_editor";*/
 
-const APP_PROVIDERS = [
+/*const APP_PROVIDERS = [
   AppState,
   DocumentService,
   ListenerService,
   UserService,
   SessionResolver,
   LoggedUserGuard
-];
+];*/
 
 @NgModule({
   bootstrap: [ App ],
   declarations: [
     App,
-    HeaderComponent,
+    /*HeaderComponent,
     LoginComponent,
     ProfileComponent,
     RegisterComponent,
@@ -84,14 +88,14 @@ const APP_PROVIDERS = [
     SearchPipe,
     InlineAssessment,
     CommentAssessment,
-    EditorOutline,
+    EditorOutline,*/
 
     // New layout
-    _SiteComponent,
+    /*_SiteComponent,
     _SiteHeaderComponent,
     _SiteFooterComponent,
     _LandingComponent,
-    _EditorComponent,
+    _EditorComponent,*/
 
     DROPDOWN_DIRECTIVES
   ],
@@ -105,16 +109,19 @@ const APP_PROVIDERS = [
     CarouselModule,
     TooltipModule,
     RouterModule.forRoot(ROUTES),
-    ShareButtonsModule
+    ShareButtonsModule,
+    CoreModule,
+    SiteModule,
+    EditorModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS,
-    APP_PROVIDERS
+    ENV_PROVIDERS
+    //APP_PROVIDERS
   ]
 })
 
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {}
+  /*constructor(public appRef: ApplicationRef, public appState: AppState) {}
   hmrOnInit(store) {
     if (!store || !store.state) return;
     console.log('HMR store', store);
@@ -133,5 +140,5 @@ export class AppModule {
     // display new elements
     store.disposeOldHosts();
     delete store.disposeOldHosts;
-  }
+  }*/
 }
