@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
             <div class="panel-body">
                 <div class="col-md-4 col-md-offset-4 login-container">
                   <i class="icon icon-edit"></i><span>Name of the document</span>
-                  <jp-login [customStyle]="'login-unauthorized'" [hiddenDescription]=true></jp-login>
+                  <jp-login [customStyle]="'login-unauthorized'" [unauthorized]=true></jp-login>
                   <label><hr class="line-decoration-left"> or <hr class="line-decoration-right"></label>
                   <p class="register-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                   <button class="btn btn-primary btn-lg btn-block btn-register mar-bottom-50" (click)="goToAuthenticationScreen()">Register</button>

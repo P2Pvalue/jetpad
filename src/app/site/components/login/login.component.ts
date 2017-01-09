@@ -7,8 +7,8 @@ import { UserService } from "../../../core/services/user.service";
     selector: 'jp-login',
     template: `
       <div [ngClass]="customStyle">
-        <h2  class="h2 text-center">{{title}}</h2>
-        <p *ngIf="!hiddenDescription" class="text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <!--<h2  class="h2 text-center">{{title}}</h2>-->
+        <p *ngIf="unauthorized" class="text text-center">Enter your nick and password to access the resource.</p>
         <form (ngSubmit)="login()">
           <div class="form-group">
             <label class="sr-only" for="loginNameInput">Name</label>
@@ -25,15 +25,17 @@ import { UserService } from "../../../core/services/user.service";
           -->
           <button class="btn btn-primary btn-lg btn-block mar-top-20">Login</button>
         </form>
+        <div class="goToRegister">
+          <p class="text text-center">Si aún no tiene cuenta haga click <a routerLink="/register">aquí</a></p>
+        </div>       
       </div>
     `
   })
 
 export class LoginComponent {
 
-  @Input() title: string;
-  @Input() hiddenDescription: boolean;
-  @Input() customStyle: string;
+  @Input() unauthorized: boolean;
+  @Input() customStyle: string = "not-logged";
 
   // Form fields
   nameInput: string;
