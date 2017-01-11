@@ -1,7 +1,7 @@
 import {Component, Input} from "@angular/core";
 
 @Component({
-    selector: 'editor-outline',
+    selector: 'jp-editor-outline',
     template: `
     <div class="panel" >
       <div class="panel-body">

@@ -1,7 +1,7 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SessionResolver } from "../core/resolver";
-import {EditorComponent} from './components/canvas/editor-canvas.component';
+import { EditorComponent } from './editor.component';
 
 
 const editorRoutes: Routes = [

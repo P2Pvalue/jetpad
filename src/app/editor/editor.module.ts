@@ -7,17 +7,23 @@ import { ShareButtonsModule } from "ng2-sharebuttons";
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { EditorRoutingModule } from './editor-routing.module'
 
-import {EditorComponent} from './components/canvas/editor-canvas.component';
+import {EditorCanvasComponent} from './components/canvas';
+import {EditorHeaderComponent} from './components/header';
+import {EditorToolbarComponent} from './components/toolbar';
 import {InlineAssessment} from './components/inline-assessment/inline-assessment.component';
 import {CommentAssessment} from './components/inline-assessment/comment-assessment.component';
 import {EditorOutline} from './components/outline/outline.component';
 import { UserIconComponent } from "./../core/components/user-icon";
 import { ShareSettingsComponent } from "./../core/components/share-settings";
+import {EditorComponent} from './editor.component'
 
 
 @NgModule({
   declarations: [
     EditorComponent,
+    EditorHeaderComponent,
+    EditorCanvasComponent,
+    EditorToolbarComponent,
     UserIconComponent,
     ShareSettingsComponent,
     EditorOutline,

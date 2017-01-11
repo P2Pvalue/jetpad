@@ -3,11 +3,11 @@ import {ActivatedRoute} from "@angular/router";
 import {DocumentService} from "../../../core/services";
 
 @Component({
-  selector: 'app-editor',
+  selector: 'jp-editor-canvas',
   templateUrl: 'editor-canvas.component.html'
 })
 
-export class EditorComponent implements OnInit, OnDestroy {
+export class EditorCanvasComponent implements OnInit, OnDestroy {
 
   _title: any;
   editor: any;
