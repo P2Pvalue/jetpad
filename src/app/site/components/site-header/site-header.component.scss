@@ -1,0 +1,57 @@
+jp-site-header {
+  .navbar {
+    background-color: $primary-color;
+    .container-fluid{
+      .navbar-header{
+        /*.glyphicon-menu-hamburger{
+          color: $white;
+        }*/
+        button {
+          span.icon-bar{
+            background-color: $white;
+          }
+        }
+      }
+      .navbar-collapse{
+        ul{
+          li{
+            a{
+              color: $white;
+              i {
+                font-size: 25px;
+              }
+              font-size: 18px;
+              &.active{
+                color: #8A8A8A;
+              }
+            }
+          }
+          .about {
+            a {
+              @media (min-width: 768px) {
+                padding-top: 18px;
+                padding-bottom: 15px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+.navbar-nav{
+  li{
+    a {
+      color: $white;
+    }
+  }
+}
+
+.navbar-brand {
+  vertical-align: middle;
+  padding-left: 15px;
+  padding-top: 4px;
+}
