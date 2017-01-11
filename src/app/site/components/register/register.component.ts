@@ -5,8 +5,6 @@ import { UserService } from "../../../core/services/user.service";
 @Component({
     selector: 'jp-register',
     template: `
-      <h2 class="h2 text-center">Register</h2>
-      <p class="text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       <form (ngSubmit)="register()">
         <div class="form-group">
           <label class="sr-only" for="registerMailInput">Mail</label>
@@ -20,16 +18,16 @@ import { UserService } from "../../../core/services/user.service";
           <label class="sr-only" for="registerPasswordInput">Password</label>
           <input class="form-control" id="registerPasswordInput" name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
         </div> 
-        <button class="btn btn-primary btn-lg btn-block mar-top-20">Register</button>
-        <!-- TODO: Terms screen not finished 
-        <div class="checkbox">
+        <button [disabled]="!acceptTermsInput" class="btn btn-primary btn-lg btn-block mar-top-20">Register</button>
+         
+        <div class="checkbox text-center">
           <label>
-            <input type="checkbox">
+            <input type="checkbox" [(ngModel)]="acceptTermsInput" name="acceptTerms">
             <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
             By clicking you accept <a [routerLink]=" ['/terms']">terms and conditions</a>
           </label>
         </div>
-        -->
+        
       </form>
     `
   })
@@ -40,7 +38,7 @@ export class RegisterComponent {
   nameInput: string;
   passwordInput: string;
   mailInput: string;
-
+  acceptTermsInput: boolean = false;
   constructor(private userService: UserService) {}
 
   register() {
