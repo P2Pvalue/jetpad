@@ -12,7 +12,7 @@ import {EditorHeaderComponent} from './components/header';
 import {EditorToolbarComponent} from './components/toolbar';
 import {InlineAssessment} from './components/inline-assessment/inline-assessment.component';
 import {CommentAssessment} from './components/inline-assessment/comment-assessment.component';
-import {EditorOutline} from './components/outline/outline.component';
+import {EditorOutlineComponent} from './components/outline';
 import { UserIconComponent } from "./../core/components/user-icon";
 import { ShareSettingsComponent } from "./../core/components/share-settings";
 import {EditorComponent} from './editor.component'
@@ -26,7 +26,7 @@ import {EditorComponent} from './editor.component'
     EditorToolbarComponent,
     UserIconComponent,
     ShareSettingsComponent,
-    EditorOutline,
+    EditorOutlineComponent,
     InlineAssessment,
     CommentAssessment
   ],
