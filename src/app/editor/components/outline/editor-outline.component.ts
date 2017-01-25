@@ -2,15 +2,7 @@ import {Component, Input} from "@angular/core";
 
 @Component({
     selector: 'jp-editor-outline',
-    template: `
-    <div class="panel" >
-      <div class="panel-body">
-        <ul>
-          <li *ngFor="let heading of outline" class="outline-{{heading.value}}"><a [href]="documentLink(heading.id)">{{heading.text}}</a></li>
-        </ul>
-      </div>
-    </div>
-    `,
+    templateUrl: './editor-outline.component.html',
     styles: [`
       .outline-h2 {
         margin-left: 15px
@@ -30,7 +22,7 @@ import {Component, Input} from "@angular/core";
     `],
 })
 
-export class EditorOutline {
+export class EditorOutlineComponent {
     @Input() outline: Array<any>;
     documentLink(hash) {
       let link:string = window.location.origin + window.location.pathname;

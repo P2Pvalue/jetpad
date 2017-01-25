@@ -1,0 +1,11 @@
+.editor-box-left {
+  position: fixed;
+  width: 20em;
+  top: 280px;
+  left: calc(((100vw - 980px) / 2) - 17em);
+  align-items: flex-end;
+  .btn-editor {
+    display: block;
+    margin-left: auto;
+  }
+}

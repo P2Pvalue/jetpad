@@ -1,1 +1,1 @@
-export * from './outline.component'
+export * from './editor-outline.component'
