@@ -1,4 +1,13 @@
 .jp-editor-canvas{
-  margin: 5px;
-
+  display: flex;
+  background-color: $white;
+  border: 1px solid $soft-gray;
+  /*min-height: 1200px;
+  padding: 60px 80px;
+  max-width: 1170px;
+  min-width: 800px;
+  width: 980px;*/
+  min-height: 1200px;
+  padding: 20px 40px;
+  margin: 0 auto;
 }

@@ -1,87 +1,88 @@
-<div id="editor-toolbar" class="row row-eq-height toolbox form">
-  <div class="col-sm toolbox-2">
-    <div class="input-select simple-select">
-      <select [(ngModel)]="currentTextType" class="form-control" (ngModelChange)="annotate('header', currentTextType)">
-        <option value="h1">Heading 1</option>
-        <option value="h2">Heading 2</option>
-        <option value="h3">Heading 3</option>
-        <option value="h4">Heading 4</option>
-        <option value="h5">Heading 5</option>
-        <option value="none">Normal text</option>
-      </select>
-      <i class="icon icon-caret" aria-hidden="true"></i>
-    </div>
+<div class="editor-toolbar">
+  <!-- Paragraph type -->
+  <div class="input-select simple-select">
+    <select class="form-control" >
+      <option value="h1">Heading 1</option>
+      <option value="h2">Heading 2</option>
+      <option value="h3">Heading 3</option>
+      <option value="h4">Heading 4</option>
+      <option value="h5">Heading 5</option>
+      <option value="none">Normal text</option>
+    </select>
   </div>
+
   <div class="divider"></div>
-  <div class="col-sm toolbox-4">
-    <div class="input-select simple-select">
-      <select [(ngModel)]="currentTextFamily" class="form-control" (focus)="loadFonts = true" (ngModelChange)="annotate('font-family', currentTextFamily)">
-        <option *ngFor="let fontFamily of fontFamilies" style="font-size: 20px" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
-      </select>
-      <i class="icon icon-caret" aria-hidden="true"></i>
-    </div>
+
+  <!--Font Family -->
+  <div class="input-select simple-select">
+    <select class="form-control" (focus)="loadFonts = true">
+      <option *ngFor="let fontFamily of fontFamilies" style="font-size: 20px" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
+    </select>
   </div>
+
   <div class="divider"></div>
-  <div class="col-sm">
-    <div class="input-select simple-select">
-      <select [(ngModel)]="currentTextSize" class="form-control" (ngModelChange)="annotate('font-size', currentTextSize)">
-        <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
-      </select>
-      <i class="icon icon-caret" aria-hidden="true"></i>
-    </div>
+
+  <!-- Font size -->
+  <div class="input-select simple-select">
+    <select class="form-control">
+      <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
+    </select>
   </div>
+
   <div class="divider"></div>
-  <div class="col-sm toolbox-5">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default" (click)="annotate('bold')" [class.active]="buttons['bold']"><i class="icon icon-text-bold icon-middle"></i></button>
-      <button type="button" class="btn btn-default" (click)="annotate('italic')" [class.active]="buttons['italic']"><i class="icon icon-text-italic icon-middle"></i></button>
-      <button type="button" class="btn btn-default" (click)="annotate('underline')" [class.active]="buttons['underline']"><i class="icon icon-text-underline icon-middle"></i></button>
-      <button type="button" class="btn btn-default" (click)="annotate('strike-through')" [class.active]="buttons['strike-through']"><i class="icon icon-text-strike-through icon-middle"></i></button>
-    </div>
+
+  <!-- Font style -->
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default" (click)="annotate('bold')" [class.active]="buttons['bold']"><i class="icon icon-text-bold icon-middle"></i></button>
+    <button type="button" class="btn btn-default" (click)="annotate('italic')" [class.active]="buttons['italic']"><i class="icon icon-text-italic icon-middle"></i></button>
+    <button type="button" class="btn btn-default" (click)="annotate('underline')" [class.active]="buttons['underline']"><i class="icon icon-text-underline icon-middle"></i></button>
+    <button type="button" class="btn btn-default" (click)="annotate('strike-through')" [class.active]="buttons['strike-through']"><i class="icon icon-text-strike-through icon-middle"></i></button>
   </div>
+
   <div class="divider"></div>
-  <div class="col-sm toolbox-2">
-    <!-- not supported by explorer and safari -->
+
+  <!-- text  and background color -->
+  <div class="input-color-wrapper">
     <div class="input-color">
-      <input type="color" id="text-color" [(ngModel)]="currentColor" (ngModelChange)="annotate('color', currentColor)">
+      <input type="color" id="text-color">
     </div>
     <label for="text-color" class="cursor-pointer btn">
       <i class="icon icon-text-decoration icon-middle input-btn" [style.color]="currentColor"></i>
       <i class="icon icon-caret" aria-hidden="true"></i>
     </label>
-    <!-- not supported by explorer and safari -->
     <div class="input-color">
-      <input type="color" id="background-text-color" [(ngModel)]="currentBgColor" (ngModelChange)="annotate('bg-color', currentBgColor)">
+      <input type="color" id="background-text-color">
     </div>
     <label for="background-text-color" class="cursor-pointer btn">
       <i class="icon icon-text-color icon-middle input-btn" [style.color]="currentBgColor"></i>
       <i class="icon icon-caret" aria-hidden="true"></i>
     </label>
   </div>
+
+
   <div class="divider"></div>
-  <div class="col-sm toolbox-4">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default" (click)="annotate('text-left')" [class.active]="buttons['text-left']"><i class="icon icon-text-left icon-middle"></i></button>
-      <button type="button" class="btn btn-default" (click)="annotate('text-center')" [class.active]="buttons['text-center']"><i class="icon icon-text-center icon-middle"></i></button>
-      <button type="button" class="btn btn-default" (click)="annotate('text-right')" [class.active]="buttons['text-right']"><i class="icon icon-text-right icon-middle"></i></button>
-      <button type="button" class="btn btn-default" (click)="annotate('text-justify')" [class.active]="buttons['text-justify']"><i class="icon icon-text-justify icon-middle"></i></button>
-    </div>
+
+  <!-- text position -->
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default" (click)="annotate('text-left')" [class.active]="buttons['text-left']"><i class="icon icon-text-left icon-middle"></i></button>
+    <button type="button" class="btn btn-default" (click)="annotate('text-center')" [class.active]="buttons['text-center']"><i class="icon icon-text-center icon-middle"></i></button>
+    <button type="button" class="btn btn-default" (click)="annotate('text-right')" [class.active]="buttons['text-right']"><i class="icon icon-text-right icon-middle"></i></button>
+    <button type="button" class="btn btn-default" (click)="annotate('text-justify')" [class.active]="buttons['text-justify']"><i class="icon icon-text-justify icon-middle"></i></button>
   </div>
+
   <div class="divider"></div>
-  <div class="col-sm">
+
+  <!-- Add link -->
+  <div>
     <button type="button" class="btn" (click)="addLink()">
       <i class="icon icon-link icon-middle"></i>
     </button>
   </div>
-  <!--<div class="divider"></div>
-  <div class="col-sm">
-    <button type="button" class="btn">
-      <i class="icon icon-text-sort icon-middle"></i>
-      <i class="icon icon-caret" aria-hidden="true"></i>
-    </button>
-  </div>-->
+
   <div class="divider"></div>
-  <div class="col-sm toolbox-2">
+
+  <!-- lists -->
+  <div>
     <button type="button" class="btn btn-default" (click)="annotate('text-dots')" [class.active]="buttons['text-dots']">
       <i class="icon icon-text-dots icon-middle"></i>
     </button>
@@ -89,41 +90,13 @@
       <i class="icon icon-text-number icon-middle"></i>
     </button>
   </div>
+
+
   <div class="divider"></div>
-  <div class="col-sm toolbox-2">
-    <!--<div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        <i class="icon icon-square-divider icon-middle"></i>
-        <i class="icon icon-caret" aria-hidden="true"></i>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-      </div>
-    </div>-->
-    <button type="button" class="btn btn-default" (click)="addImage()">
+
+  <!-- Add images -->
+  <div>
+    <button type="button" class="btn btn-default">
       <i class="icon icon-image icon-middle"></i>
       <i class="icon icon-caret" aria-hidden="true"></i>
     </button>
