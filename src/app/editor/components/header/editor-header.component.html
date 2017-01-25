@@ -1,1 +1,38 @@
+<div class="editor-header">
+  <div class="row">
+    <div class="col-md-2 visible-md-block visible-lg-block left-col">
+      <a class="navbar-brand">
+        <img alt="Jetpad" height=40 src="assets/img/jetpad-logo.png">
+      </a>
+    </div>
+    <div class="col-xs-12 col-md-10 main-col">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-8 title-col">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-pencil"></span>
+            <input id="document-title" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 participants-col">
+          <div class="header-document-right">
+            <div class="participants">
+              <div class="contributors" *ngFor="let participant of participants | slice:0:3">
+                <app-user-icon [user]="participant"></app-user-icon>
+              </div>
+              <div class="view-more" *ngIf="participants.length > 3">
+                <i class="icon icon-dots icon-middle cursor-pointer" aria-hidden="true"></i>
+                <div class="drowdown-box">
+                  <div class="contributors text-left" *ngFor="let participant of participants | slice:3">
+                    <app-user-icon [user]="participant"></app-user-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <share-settings class="clearfix"></share-settings>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 

@@ -1,0 +1,139 @@
+.editor-header{
+  //background-color: $primary-color;
+  /*.navbar-brand{
+    background-color: $primary-color;
+  }*/
+  .header-document-right {
+    /*display: flex;
+    align-items: center;*/
+    .participants {
+      /*display: flex;
+      align-items: center;
+      margin: 0;
+      justify-content: flex-end;*/
+      .not-avatar, .user-avatar {
+        margin-left: 8px;
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+      .not-avatar {
+        width: 40px;
+        height: 40px;
+        padding-top: 9px;
+        color: $text-color-blend;
+        font-size: 18px;
+        font-family: 'Rubik', sans-serif;
+        font-weight: 300;
+        text-align: center;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        background-color: lighten($primary-color, 55%);
+        @include border-radius(20px);
+      }
+      .user-avatar {
+        display: inline-block;
+        vertical-align: middle;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .contributors {
+        display: inline-block;
+        img {
+          margin-left: 10px !important;
+          z-index: 5;
+          position: relative;
+          &:first-child {
+            z-index: 10;
+          }
+          &:last-child {
+            z-index: 1;
+          }
+          &:hover {
+            z-index: 15;
+          }
+        }
+      }
+      .view-more {
+        display: inline-block;
+        margin-left: 10px;
+        position: relative;
+        .icon {
+          font-size: 20px;
+        }
+        .drowdown-box {
+          display: none;
+          text-align: left;
+          position: absolute;
+          top: -14px;
+          left: 0;
+          width: 150px;
+          background-color: $white;
+          padding: 10px 10px 0;
+          border: 1px solid $soft-gray;
+          z-index: 5;
+          img, .not-avatar {
+            margin: 0 10px 10px 0;
+          }
+        }
+        &:hover {
+          .drowdown-box {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.editor-header{
+  background-color: $primary-color;
+  .row{
+    //height: 55px;
+    overflow: hidden;
+    padding: 5px 2px;
+    .left-col{
+      .navbar-brand{
+        background-color: $primary-color;
+        img{
+          height: 50px;
+        }
+      }
+    }
+    .main-col{
+      .row{
+        .title-col{ //Title
+          .form-control {
+            margin-top: 2px;
+            border: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            height: 50px;
+            font-style: italic;
+            color: $text-color-blend;
+            font-size: 20px;
+            font-family: 'Rubik', sans-serif;
+            font-weight: 300;
+          }
+        }
+        .participants-col{
+          .header-document-right{
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            float: right;
+            .contributors{
+              margin-left: -5px;
+            }
+          }
+        }
+        share-settings{
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}
