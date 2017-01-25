@@ -29,7 +29,7 @@ import { NoContent } from './components/no-content';
 import { UnauthorizedComponent } from "./components/unauthorized";
 import { ShareSettingsComponent } from "./components/share-settings";
 import { UserIconComponent } from "./components/user-icon";
-import { EditorOutline } from "./components/editor/outline.component";
+import { EditorOutlineComponent } from "./components/editor/outline.component";
 import { InlineAssessment } from "./components/inline-assessment/inline-assessment.component";
 import { CommentAssessment } from "./components/inline-assessment/comment-assessment.component";*/
 
@@ -88,7 +88,7 @@ import { _EditorComponent } from "./components/_editor";*/
     SearchPipe,
     InlineAssessment,
     CommentAssessment,
-    EditorOutline,*/
+    EditorOutlineComponent,*/
 
     // New layout
     /*_SiteComponent,
