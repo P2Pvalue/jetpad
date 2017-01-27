@@ -47,7 +47,7 @@ import { UiSwitchModule } from 'angular2-ui-switch';
 import { ClipboardModule }  from 'angular2-clipboard';
 import { CarouselModule } from 'ng2-bootstrap/components/carousel';
 import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
-import {ShareButtonsModule} from "ng2-sharebuttons";
+//import {ShareButtonsModule} from "ng2-sharebuttons";
 
 // New layout
 /*import { _SiteComponent } from "./components/_site";
@@ -109,19 +109,20 @@ import { _EditorComponent } from "./components/_editor";*/
     CarouselModule,
     TooltipModule,
     RouterModule.forRoot(ROUTES),
-    ShareButtonsModule,
+    //ShareButtonsModule,
     CoreModule,
     SiteModule,
     EditorModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS
+    ENV_PROVIDERS,
+    AppState
     //APP_PROVIDERS
   ]
 })
 
 export class AppModule {
-  /*constructor(public appRef: ApplicationRef, public appState: AppState) {}
+  constructor(public appRef: ApplicationRef, public appState: AppState) {}
   hmrOnInit(store) {
     if (!store || !store.state) return;
     console.log('HMR store', store);
@@ -140,5 +141,5 @@ export class AppModule {
     // display new elements
     store.disposeOldHosts();
     delete store.disposeOldHosts;
-  }*/
+  }
 }

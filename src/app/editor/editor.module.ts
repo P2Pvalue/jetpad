@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from "ng2-modal";
 import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
-import { ShareButtonsModule } from "ng2-sharebuttons";
+//import { ShareButtonsModule } from "ng2-sharebuttons";
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { EditorRoutingModule } from './editor-routing.module'
 
@@ -14,7 +14,7 @@ import {InlineAssessment} from './components/inline-assessment/inline-assessment
 import {CommentAssessment} from './components/inline-assessment/comment-assessment.component';
 import {EditorOutlineComponent} from './components/outline';
 import { UserIconComponent } from "./../core/components/user-icon";
-import { ShareSettingsComponent } from "./../core/components/share-settings";
+//import { ShareSettingsComponent } from "./../core/components/share-settings";
 import {EditorComponent} from './editor.component'
 
 
@@ -25,7 +25,7 @@ import {EditorComponent} from './editor.component'
     EditorCanvasComponent,
     EditorToolbarComponent,
     UserIconComponent,
-    ShareSettingsComponent,
+    //ShareSettingsComponent,
     EditorOutlineComponent,
     InlineAssessment,
     CommentAssessment
@@ -36,7 +36,7 @@ import {EditorComponent} from './editor.component'
     FormsModule,
     TooltipModule,
     ModalModule,
-    ShareButtonsModule,
+    //ShareButtonsModule,
     UiSwitchModule
   ]
 })

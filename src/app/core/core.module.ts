@@ -4,6 +4,7 @@ import { DocumentService, ListenerService, UserService, AppState } from "./servi
 import { LoggedUserGuard } from "./guards";
 import { SessionResolver } from "./resolver";
 import { OrderPipe, SearchPipe } from "./pipes";
+//import { ShareButtonsModule } from "ng2-sharebuttons";
 
 const CORE_PROVIDERS = [
   AppState,
