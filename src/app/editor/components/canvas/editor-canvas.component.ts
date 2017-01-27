@@ -1,15 +1,15 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {DocumentService} from "../../../core/services";
+/*import {ActivatedRoute} from "@angular/router";
+import {DocumentService} from "../../../core/services";*/
 
 @Component({
   selector: 'jp-editor-canvas',
   templateUrl: 'editor-canvas.component.html'
 })
 
-export class EditorCanvasComponent implements OnInit, OnDestroy {
+export class EditorCanvasComponent  {
 
-  _title: any;
+  /*_title: any;
   editor: any;
 
   documentId: any;
@@ -253,5 +253,5 @@ export class EditorCanvasComponent implements OnInit, OnDestroy {
   onVoted(agreed: boolean) {
     agreed ? this.assessmentComment = ' de acuerdo?' : this.assessmentComment = ' en desacuerdo?';
     this.hasVoted = true;
-  }
+  }*/
 }

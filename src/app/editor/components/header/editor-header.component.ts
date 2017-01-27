@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
   selector: 'jp-editor-header',
@@ -6,6 +6,10 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 })
 
 export class EditorHeaderComponent {
+
+  //document title
+  @Input() title: string;
+
   participants = [{
     name: 'pepe'
   },{
