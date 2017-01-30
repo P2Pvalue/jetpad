@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { CarouselModule } from 'ng2-bootstrap/components/carousel';
+import { ShareModule } from '../share';
 import { SiteRoutingModule } from './site-routing.module'
 
 import { SiteComponent } from './site.component'
@@ -33,9 +31,7 @@ import {NoContent} from './components/no-content';
   ],
   imports: [
     SiteRoutingModule,
-    BrowserModule,
-    FormsModule,
-    CarouselModule
+    ShareModule
   ]
 })
 

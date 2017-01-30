@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { DocumentService, ListenerService, UserService, AppState } from "./services";
 import { LoggedUserGuard } from "./guards";
 import { SessionResolver } from "./resolver";
-import { OrderPipe, SearchPipe } from "./pipes";
-//import { ShareButtonsModule } from "ng2-sharebuttons";
+import { ShareModule } from '../share';
 
 const CORE_PROVIDERS = [
   AppState,
@@ -16,15 +15,9 @@ const CORE_PROVIDERS = [
 ];
 
 @NgModule({
-  declarations: [
-    OrderPipe,
-    SearchPipe
-  ],
-  exports: [
-    OrderPipe,
-    SearchPipe
-  ],
-  imports: [],
+  declarations: [],
+  exports: [],
+  imports: [ShareModule],
   providers: CORE_PROVIDERS
 })
 

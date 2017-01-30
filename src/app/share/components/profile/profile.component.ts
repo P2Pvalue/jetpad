@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild, Renderer} from "@angular/core";
-import { UserService } from "../../services";
+import { UserService } from "../../../core/services";
 
 @Component({
   selector: 'app-profile',

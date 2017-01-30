@@ -1,7 +1,6 @@
 import {Component, ElementRef, ViewChild, Renderer, Inject} from '@angular/core';
-import { UserService } from "../../services";
+import { UserService,DocumentService } from "../../../core/services";
 import {Router} from "@angular/router";
-import {DocumentService} from "../../services/document.service";
 
 
 @Component({
