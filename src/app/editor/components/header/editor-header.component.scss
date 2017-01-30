@@ -93,7 +93,7 @@
   .row{
     //height: 55px;
     overflow: hidden;
-    padding: 5px 2px;
+    padding: 5px 15px;
     .left-col{
       .navbar-brand{
         background-color: $primary-color;
@@ -104,8 +104,15 @@
     }
     .main-col{
       .row{
-        .title-col{ //Title
-          .form-control {
+        .title-col{
+          .title-text{
+            color: whitesmoke;
+            font-style: italic;
+            font-size: 35px;
+            font-family: 'Rubik', sans-serif;
+            font-weight: 300;
+          }
+          /*.form-control {
             margin-top: 2px;
             border: none;
             -webkit-box-shadow: none;
@@ -117,7 +124,7 @@
             font-size: 20px;
             font-family: 'Rubik', sans-serif;
             font-weight: 300;
-          }
+          }*/
         }
         .participants-col{
           .header-document-right{
