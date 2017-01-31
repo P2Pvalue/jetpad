@@ -28,13 +28,19 @@ export class App {
     // bind swellrt backend
     this.backend.bind(new Promise(
       (resolve, reject) => {
-        swellrt.onReady( (s) => {
+
+        swellrt.onReady( s => {
+          console.log("swellrt client ready");
           resolve(s);
         });
+
+        setTimeout(function () {
+            reject(new Error('Timeout error loading SwellRT client (15s)'));
+        }, 15000);
       }
     ));
 
-    // resume existing session
-    this.backend.resume();
+    // resume existing session or start anonymous one
+    this.backend.startDefaultSession();
   }
 }

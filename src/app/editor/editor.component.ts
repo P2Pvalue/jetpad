@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+import { BackendService } from "../core/services";
 
+declare let swellrt: any;
 
 @Component({
   selector: 'jp-editor',
@@ -9,14 +11,81 @@ import { ActivatedRoute } from "@angular/router";
 
 export class EditorComponent implements OnInit, OnDestroy {
 
+  docid: string;
+  doc: any;
 
-ngOnInit() {
+  editor: any;
 
-}
+  constructor(private backend: BackendService, private route: ActivatedRoute) {
 
-ngOnDestroy() {
-  
-}
+  }
+
+
+  ngOnInit() {
+
+    // don't do further actions in the editor component
+    // until swellrt's editor is loaded.
+
+    this.backend.createEditor('canvas-container')
+      .then( e => {
+        // keep the editor reference in the component
+        this.editor = e;
+        // listen to url parameters
+        this.route.params.subscribe((param: any) => {
+          this.open(param['id']);
+        });
+      });
+
+  }
+
+  ngOnDestroy() {
+    if (this.doc) {
+      this.backend.close(this.docid);
+    }
+    if (this.editor) {
+      this.editor.clean();
+    }
+  }
+
+
+  open(id: string) {
+
+    this.editor.clean();
+
+    this.backend.open(id)
+    .then( r => {
+
+      // 'r' is not the document's object, just a handy wrapper:
+      // r.controller -> full interface of the object
+      // r.object -> native JS interface, based on ES6 Proxies.
+      //
+      // we prefer to use the controller interface to avoid issues with
+      // old browsers not supporting Proxies. In any case, in jetpad
+      // there is not advantage by using native interface.
+
+
+      // Store references in the component
+      this.docid = id;
+      this.doc = r.controller;
+
+      // Initialize document object
+      BackendService.initDocObject(this.doc, this.docid);
+
+      // Bind document's text to the editor
+      this.editor.set(this.doc.get("text"));
+
+      // Enable interactive editing now!
+      this.editor.edit(true);
+
+    })
+    .catch( error => {
+      console.log(error);
+      // TODO handle severe error
+    });
+  }
+
+
+
 
 //
 // Below old implementation using SwellRT alpha

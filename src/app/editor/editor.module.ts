@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { EditorRoutingModule } from './editor-routing.module'
 
-import {EditorCanvasComponent} from './components/canvas';
-import {EditorHeaderComponent} from './components/header';
-import {EditorToolbarComponent} from './components/toolbar';
-import {InlineAssessment} from './components/inline-assessment/inline-assessment.component';
-import {CommentAssessment} from './components/inline-assessment/comment-assessment.component';
-import {EditorOutlineComponent} from './components/outline';
+import { EditorCanvasComponent } from './components/canvas';
+import { EditorHeaderComponent } from './components/header';
+import { EditorToolbarComponent } from './components/toolbar';
+import { InlineAssessment } from './components/inline-assessment/inline-assessment.component';
+import { CommentAssessment } from './components/inline-assessment/comment-assessment.component';
+import { EditorOutlineComponent } from './components/outline';
 import { ShareModule } from '../share';
-import {EditorComponent} from './editor.component';
+import { CoreModule } from '../core';
+import { EditorComponent } from './editor.component';
+
 
 
 
@@ -24,7 +26,8 @@ import {EditorComponent} from './editor.component';
   ],
   imports: [
     EditorRoutingModule,
-    ShareModule
+    ShareModule,
+    CoreModule
   ]
 })
 
