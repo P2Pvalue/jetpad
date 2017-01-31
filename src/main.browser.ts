@@ -18,34 +18,13 @@ export function main(): Promise<any> {
 
 }
 
+bootloader(main);
+
+/*
 document.addEventListener('DOMContentLoaded', () => {
 
-  (<any>window).SwellRT.ready(() => {
+  bootloader(main);
 
-    // Fine tunning the SwellRT server connection.
-    // Don't touch!
-    (<any>window).__atmosphere_config = {
-      logLevel: 'info', // info, debug
-      transport: 'websocket',
-      fallbackTransport: 'long-polling',
-      pollingInterval: 0,
-      trackMessageLength: true,
-      enableXDR: true,
-      readResponsesHeaders: false,
-      withCredentials: true,
-      dropHeaders: true,
-      timeout: 70000,
-
-      connectTimeout: -1,
-      reconnectInterval: 5000,
-      maxReconnectOnClose: 5,
-      reconnectOnServerError: true,
-
-      clientVersion: '1.0'
-    };
-
-    bootloader(main);
-
-  });
 
 });
+*/

@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 
-import { DocumentService, ListenerService, UserService, AppState } from "./services";
+import { BackendService, DocumentService, ListenerService, UserService, AppState } from "./services";
 import { LoggedUserGuard } from "./guards";
 import { SessionResolver } from "./resolver";
 import { ShareModule } from '../share';
 
 const CORE_PROVIDERS = [
   AppState,
-  DocumentService,
-  ListenerService,
-  UserService,
+  BackendService,
+  DocumentService, // deprecated
+  ListenerService, // deprecated
+  UserService, // deprecated
   SessionResolver,
   LoggedUserGuard
 ];

@@ -1,5 +1,7 @@
-import {Component, ViewEncapsulation} from "@angular/core";
-import {ListenerService, UserService} from "./core/services";
+import { Component, ViewEncapsulation } from "@angular/core";
+import { BackendService } from "./core/services";
+
+declare let swellrt: any;
 
 @Component({
   selector: 'app',
@@ -17,11 +19,22 @@ import {ListenerService, UserService} from "./core/services";
 
 export class App {
 
-  constructor(private listenerService: ListenerService, private userService: UserService) {
+
+  constructor(private backend: BackendService) {
   }
 
   ngOnInit() {
-    this.listenerService.bindListeners();
-    this.userService.resume();
+
+    // bind swellrt backend
+    this.backend.bind(new Promise(
+      (resolve, reject) => {
+        swellrt.onReady( (s) => {
+          resolve(s);
+        });
+      }
+    ));
+
+    // resume existing session
+    this.backend.resume();
   }
 }

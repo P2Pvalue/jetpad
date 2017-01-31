@@ -1,7 +1,6 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {DocumentService} from '../core/services';
-import {ListenerService, UserService} from "../core/services";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+
 
 @Component({
   selector: 'jp-editor',
@@ -10,6 +9,21 @@ import {ListenerService, UserService} from "../core/services";
 
 export class EditorComponent implements OnInit, OnDestroy {
 
+
+ngOnInit() {
+
+}
+
+ngOnDestroy() {
+  
+}
+
+//
+// Below old implementation using SwellRT alpha
+// To be removed
+//
+
+/*
   editor: any;
   title: any;
   documentId: any;
@@ -59,6 +73,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   currentTextSize = '14px';
   currentTextType = 'none';
   currentTextFamily = 'Liberation Serif';
+
+
 
   constructor(private documentService: DocumentService, private route: ActivatedRoute) {
     //this.disableEditorToolbar();
@@ -149,7 +165,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         } else {
           //this.hideAssessment = true;
         }
-        /*this.selectedRange = range;*/
+        // this.selectedRange = range;
         this.annotations = range.annotations;
         this.updateEditorToolbar();
       });
@@ -189,6 +205,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   get editorElement() {
     return (<HTMLElement>document.querySelector('#canvas-container > div'));
   }
+  */
+
 
 }
-
