@@ -21,6 +21,18 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
 
+  participants = [{
+    name: 'pepe'
+  },{
+    name: 'emilio'
+  },{
+    name: 'rodrigo'
+  },{
+    name: 'fernando'
+  },{
+    name: 'casamayor'
+  }];
+
   ngOnInit() {
 
     // don't do further actions in the editor component
@@ -95,7 +107,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   editor: any;
   title: any;
   documentId: any;
-  participants = [];
+  //participants = [];
   privateDocument: any;
 
   outline: any;
@@ -141,7 +153,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   currentTextSize = '14px';
   currentTextType = 'none';
   currentTextFamily = 'Liberation Serif';
-
 
 
   constructor(private documentService: DocumentService, private route: ActivatedRoute) {

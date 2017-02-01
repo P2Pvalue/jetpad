@@ -9,16 +9,7 @@ export class EditorHeaderComponent {
 
   //document title
   @Input() title: string;
+  @Input() participants: any;
 
-  participants = [{
-    name: 'pepe'
-  },{
-    name: 'emilio'
-  },{
-    name: 'rodrigo'
-  },{
-    name: 'fernando'
-  },{
-    name: 'casamayor'
-  }];
+
 }
