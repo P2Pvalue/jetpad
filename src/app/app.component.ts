@@ -28,7 +28,6 @@ export class App {
     // bind swellrt backend
     this.backend.bind(new Promise(
       (resolve, reject) => {
-
         swellrt.onReady( s => {
           console.log("swellrt client ready");
           resolve(s);

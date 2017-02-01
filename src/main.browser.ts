@@ -22,9 +22,6 @@ bootloader(main);
 
 /*
 document.addEventListener('DOMContentLoaded', () => {
-
   bootloader(main);
-
-
 });
 */

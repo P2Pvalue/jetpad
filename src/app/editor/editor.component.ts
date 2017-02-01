@@ -11,10 +11,10 @@ declare let swellrt: any;
 
 export class EditorComponent implements OnInit, OnDestroy {
 
-  docid: string;
-  doc: any;
+  docid: string; // document/object id
+  doc: any;      // document/object
 
-  editor: any;
+  editor: any;   // swellrt editor component
 
   constructor(private backend: BackendService, private route: ActivatedRoute) {
 
@@ -39,11 +39,13 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.doc) {
-      this.backend.close(this.docid);
-    }
+
     if (this.editor) {
       this.editor.clean();
+    }
+
+    if (this.doc) {
+      this.backend.close(this.docid);
     }
   }
 
@@ -63,17 +65,13 @@ export class EditorComponent implements OnInit, OnDestroy {
       // old browsers not supporting Proxies. In any case, in jetpad
       // there is not advantage by using native interface.
 
-
       // Store references in the component
       this.docid = id;
       this.doc = r.controller;
-
       // Initialize document object
       BackendService.initDocObject(this.doc, this.docid);
-
       // Bind document's text to the editor
       this.editor.set(this.doc.get("text"));
-
       // Enable interactive editing now!
       this.editor.edit(true);
 
@@ -83,6 +81,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       // TODO handle severe error
     });
   }
+
 
 
 

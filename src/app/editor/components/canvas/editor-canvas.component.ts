@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from "@angular/core";
+ import { Component, Input, Output } from "@angular/core";
 /*import {ActivatedRoute} from "@angular/router";
 import {DocumentService} from "../../../core/services";*/
 

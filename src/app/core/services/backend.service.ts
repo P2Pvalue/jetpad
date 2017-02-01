@@ -18,6 +18,9 @@ export class BackendService {
   }
 
 
+  startUserSession(id: string, password: string) {
+    //
+  }
 
   startDefaultSession() {
 
@@ -84,9 +87,9 @@ export class BackendService {
 
 
   close(id: string)  {
-      console.log("Closing document "+id);
-      this.service
-        .then( s => { return s.close(id); });
+    console.log("Closing document "+id);
+    this.service
+      .then( s => { return s.close(id); });
   }
 
   static initDocObject(doc: any, docid: string) {

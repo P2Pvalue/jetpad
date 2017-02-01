@@ -11,3 +11,13 @@
   padding: 20px 40px;
   margin: 0 auto;
 }
+
+.wave-editor-on {
+  width: 100%;
+}
+
+// avoid content editable grey border in chrome
+.wave-editor-on:active, .wave-editor-on:focus {
+  border:none;
+  outline:none;
+}
