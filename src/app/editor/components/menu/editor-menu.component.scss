@@ -1,0 +1,35 @@
+.editor-menu{
+  .menu-collapsed{
+    list-style-type: none;
+    float: left;
+    .main-entry{
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .outline-entries{
+      list-style-type: none;
+      .entry {
+        color: white;
+        &.first{
+          font-size: 16px;
+        }
+        &.second{
+          font-size: 14px;
+          margin-left: 5px;
+        }
+        &.third{
+          font-size: 14px;
+          margin-left: 10px;
+        }
+      }
+    }
+    .contributors{
+      display: inline-flex;
+      list-style-type: none;
+      .contributor{
+        margin-right: 10px;
+      }
+    }
+  }
+}
