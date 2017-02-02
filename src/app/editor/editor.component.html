@@ -5,7 +5,7 @@
   </div>
   <div class="col-md-8">
     <div class="canvas-container">
-      <jp-editor-toolbar></jp-editor-toolbar>
+      <jp-editor-toolbar [styles]="selectionStyles" (styleSet)="setStyle($event)" ></jp-editor-toolbar>
       <jp-editor-canvas></jp-editor-canvas>
     </div>
   </div>
