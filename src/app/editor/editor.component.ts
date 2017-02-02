@@ -16,6 +16,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   editor: any;   // swellrt editor component
 
+  selectionStyles: any = {}; // style annotations in current selection
+
   constructor(private backend: BackendService, private route: ActivatedRoute) {
 
   }
@@ -30,6 +32,14 @@ export class EditorComponent implements OnInit, OnDestroy {
       .then( e => {
         // keep the editor reference in the component
         this.editor = e;
+
+        // Listen for cursor and selection changes
+        this.editor.setSelectionHandler((range, editor) => {
+          this.selectionStyles = editor.getAnnotation(['paragraph/','style/'], range);
+          for (var s in this.selectionStyles)
+            console.log(s + " => "+this.selectionStyles[s].value);
+        });
+
         // listen to url parameters
         this.route.params.subscribe((param: any) => {
           this.open(param['id']);
@@ -82,7 +92,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     });
   }
 
-
+  setStyle(event: any) {
+    console.log("Style set from toolbar: "+event.name+" => "+event.value);
+    this.editor.setAnnotation(event.name, event.value);
+  }
 
 
 

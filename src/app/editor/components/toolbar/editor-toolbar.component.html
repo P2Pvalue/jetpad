@@ -1,13 +1,13 @@
 <div class="editor-toolbar">
   <!-- Paragraph type -->
   <div class="input-select simple-select">
-    <select class="form-control" >
+    <select class="form-control" [ngModel]="styles.header ? styles.header.value : defaultHeading" (ngModelChange)="setStyle('header', $event)">
+      <option value="">Normal text</option>
       <option value="h1">Heading 1</option>
       <option value="h2">Heading 2</option>
       <option value="h3">Heading 3</option>
       <option value="h4">Heading 4</option>
       <option value="h5">Heading 5</option>
-      <option value="none">Normal text</option>
     </select>
   </div>
 
@@ -15,8 +15,13 @@
 
   <!--Font Family -->
   <div class="input-select simple-select">
-    <select class="form-control" (focus)="loadFonts = true">
-      <option *ngFor="let fontFamily of fontFamilies" style="font-size: 20px" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
+    <select
+        class="form-control"
+        (focus)="loadFonts = true"
+        [ngModel]="styles.fontFamily ? styles.fontFamily.value : defaultFontFamily"
+        (ngModelChange)="setStyle('fontFamily', $event)">
+
+      <option *ngFor="let fontFamily of fontFamilies" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
     </select>
   </div>
 
