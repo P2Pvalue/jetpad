@@ -93,8 +93,14 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   setStyle(event: any) {
-    console.log("Style set from toolbar: "+event.name+" => "+event.value);
-    this.editor.setAnnotation(event.name, event.value);
+
+    if (event.value) {
+      console.log("set style: "+event.name+" => "+event.value);
+      this.editor.setAnnotation(event.name, event.value);
+    } else {
+      console.log("clear style: "+event.name);
+      this.editor.clearAnnotation(event.name);
+    }
   }
 
 
