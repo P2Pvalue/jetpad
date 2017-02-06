@@ -12,7 +12,8 @@ declare let window: any;
 export class EditorToolbarComponent implements OnInit {
 
   @Input() styles: any;
-  @Output() styleSet: EventEmitter<any> = new EventEmitter();
+  @Output() styleEvent: EventEmitter<any> = new EventEmitter();
+  @Output() linkEvent: EventEmitter<any> = new EventEmitter();
 
   readonly STYLE_HEADER: string = "header";
   readonly STYLE_FONT_FAMILY: string = "fontFamily";
@@ -58,8 +59,7 @@ export class EditorToolbarComponent implements OnInit {
   }
 
   setStyle(style: string, value: any) {
-    this.styles[style] = { value: value };
-    this.styleSet.emit({ name: style, value: value });
+    this.styleEvent.emit({ name: style, value: value });
   }
 
   toggleStyle(style, enableValue) {
@@ -71,7 +71,6 @@ export class EditorToolbarComponent implements OnInit {
   }
 
   toggleStyleMultiple(style, currentValue) {
-    console.log("Toggle style "+style + " => "+currentValue);
     if (this.styles[style] &&
         this.styles[style].value == currentValue) {
       this.setStyle(style, "");
@@ -82,6 +81,10 @@ export class EditorToolbarComponent implements OnInit {
 
   checkStyle(style, value) {
     return this.styles[style] && (this.styles[style].value == value);
+  }
+
+  editLink() {
+    this.linkEvent.emit();
   }
 
 }

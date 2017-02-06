@@ -10,6 +10,7 @@ import { EditorOutlineComponent } from './components/outline';
 import { ShareModule } from '../share';
 import { CoreModule } from '../core';
 import { EditorComponent } from './editor.component';
+import { LinkModalComponent } from './components/link-modal/link-modal.component';
 
 
 
@@ -20,6 +21,8 @@ import { EditorComponent } from './editor.component';
     EditorHeaderComponent,
     EditorCanvasComponent,
     EditorToolbarComponent,
+    LinkModalComponent,
+
     EditorOutlineComponent,
     InlineAssessment,
     CommentAssessment

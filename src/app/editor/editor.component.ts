@@ -11,6 +11,8 @@ declare let swellrt: any;
 
 export class EditorComponent implements OnInit, OnDestroy {
 
+  readonly STYLE_LINK: string = "link";
+
   docid: string; // document/object id
   doc: any;      // document/object
 
@@ -18,14 +20,25 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   selectionStyles: any = {}; // style annotations in current selection
 
+
+  // To handle Links
+  linkModalPos: any = { x: 100, y: 100 };
+  visibleLinkModal: boolean = false;
+  inputLinkModal: any;
+  linkRange: any;
+
+
   constructor(private backend: BackendService, private route: ActivatedRoute) {
 
   }
 
+  private static getSelectionAnnotations(editor: any, range: any) {
+      return editor.getAnnotation(['paragraph/','style/', 'link'], range);
+  }
 
   ngOnInit() {
 
-    // don't do further actions in the editor component
+    // don't perform further actions in the editor component
     // until swellrt's editor is loaded.
 
     this.backend.createEditor('canvas-container')
@@ -35,9 +48,11 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         // Listen for cursor and selection changes
         this.editor.setSelectionHandler((range, editor) => {
-          this.selectionStyles = editor.getAnnotation(['paragraph/','style/'], range);
+          this.selectionStyles = EditorComponent.getSelectionAnnotations(editor, range);
+          /*
           for (var s in this.selectionStyles)
             console.log(s + " => "+this.selectionStyles[s].value);
+          */
         });
 
         // listen to url parameters
@@ -92,18 +107,104 @@ export class EditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  setStyle(event: any) {
+  editStyle(event: any) {
+
+    let range = this.editor.getSelection();
+
+    // if current selection is caret,
+    // try to span operation range to the annotation
+    if (range.isCollapsed()) {
+      if (this.selectionStyles[event.name]) {
+        range = this.selectionStyles[event.name].range;
+      }
+    }
 
     if (event.value) {
-      console.log("set style: "+event.name+" => "+event.value);
-      this.editor.setAnnotation(event.name, event.value);
+      this.editor.setAnnotation(event.name, event.value, range);
     } else {
-      console.log("clear style: "+event.name);
-      this.editor.clearAnnotation(event.name);
+      this.editor.clearAnnotation(event.name, range);
     }
+
+    // refresh annotations
+    this.selectionStyles = EditorComponent.getSelectionAnnotations(this.editor, range);
   }
 
+  showModalLink() {
 
+    // sugar syntax
+    let selectionLink = this.selectionStyles[this.STYLE_LINK];
+
+    // There is a link annotation in current selection or caret..
+    if (selectionLink) {
+      this.linkRange = selectionLink.range;
+
+      this.inputLinkModal = {
+        text: this.selectionStyles[this.STYLE_LINK].text,
+        url: this.selectionStyles[this.STYLE_LINK].value
+      };
+
+    } else {
+
+      // to create a link, at least a non empty range must be selected
+      this.linkRange = this.editor.getSelection();
+      if (!this.linkRange || this.linkRange.isCollapsed()) {
+        return;
+      }
+
+      // No link annotation present => get text on current selection
+      let text = this.editor.getText(this.linkRange);
+      this.inputLinkModal = {
+        text: text ? text : '',
+        url: text ? text : ''
+      };
+    }
+
+    this.visibleLinkModal = true;
+  }
+
+  editLink(link: any) {
+
+    // hide modal
+    this.visibleLinkModal = false;
+
+    // sugar syntax
+    let selectionLink = this.selectionStyles[this.STYLE_LINK];
+
+    if (!link)
+      return;
+
+    // if there is no text, use the url
+    if (link.url && !link.text)
+      link.text = link.url;
+
+    let toDelete: boolean = !link.url;
+
+    if (selectionLink) {
+
+      if (toDelete) {
+        selectionLink.clear();
+        return;
+      }
+
+      if (selectionLink.value != link.url)
+        selectionLink.update(link.url);
+
+      if (selectionLink.text != link.text)
+        selectionLink.mutate(link.text);
+
+    } else {
+
+      if (link.url) {
+        this.editor.setAnnotation(this.STYLE_LINK, link.url, this.linkRange);
+      }
+
+    }
+
+    // clean modal's parameters
+    this.linkRange = null;
+    this.inputLinkModal = null;
+
+  }
 
 //
 // Below old implementation using SwellRT alpha

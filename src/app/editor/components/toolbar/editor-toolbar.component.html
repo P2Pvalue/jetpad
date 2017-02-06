@@ -139,21 +139,73 @@
 
   <div class="divider"></div>
 
-  <!-- Add link -->
+  <!-- indent -->
   <div>
-    <button type="button" class="btn" (click)="addLink()">
-      <i class="icon icon-link icon-middle"></i>
+
+    <button type="button" class="btn btn-default"
+      (click)="setStyle(STYLE_INDENT, 'outdent')">
+      <i class="icon icon-middle glyphicon glyphicon-indent-left"></i>
+    </button>
+
+    <button type="button" class="btn btn-default"
+      (click)="setStyle(STYLE_INDENT, 'indent')">
+      <i class="icon icon-middle  glyphicon glyphicon-indent-right"></i>
     </button>
   </div>
 
-
   <div class="divider"></div>
 
+  <!-- Add link -->
+  <div>
+    <button type="button" class="btn" (click)="editLink()">
+      <i class="icon icon-link icon-middle"></i>
+    </button>
+  </div>
   <!-- Add images -->
+  <!--
+  <div class="divider"></div>
   <div>
     <button type="button" class="btn btn-default">
       <i class="icon icon-image icon-middle"></i>
       <i class="icon icon-caret" aria-hidden="true"></i>
     </button>
   </div>
+  -->
+
+
+  <!-- Inspiration to show toolbox in small screens
+  <div class="col-sm toolbox-2">
+  <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="icon icon-square-divider icon-middle"></i>
+        <i class="icon icon-caret" aria-hidden="true"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+        <i class="icon icon-square icon-middle"></i>
+      </div>
+    </div>-->
+
 </div>
