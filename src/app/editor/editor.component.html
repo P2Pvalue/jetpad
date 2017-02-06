@@ -1,13 +1,15 @@
-<jp-editor-header [title]="doc?.get('title')" [participants]="participants"></jp-editor-header>
-<div class="row">
-  <div class="col-md-2 visible-md-block visible-lg-block">
-    <jp-editor-outline></jp-editor-outline>
-  </div>
-  <div class="col-md-8">
-    <div class="canvas-container">
-      <jp-editor-toolbar [styles]="selectionStyles" (styleSet)="setStyle($event)" ></jp-editor-toolbar>
-      <jp-editor-canvas></jp-editor-canvas>
+<div class="container-fluid">
+  <jp-editor-header [title]="doc?.get('title')" [participants]="participants"></jp-editor-header>
+  <jp-editor-toolbar></jp-editor-toolbar>
+  <div class="row">
+    <div class="col-md-2 visible-md-block visible-lg-block">
+      <jp-editor-outline></jp-editor-outline>
     </div>
+    <div class="col-md-8">
+      <div class="canvas-container">
+        <jp-editor-canvas></jp-editor-canvas>
+      </div>
+    </div>
+    <div class="col-md-2 visible-md-block visible-lg-block"></div>
   </div>
-  <div class="col-md-2 visible-md-block visible-lg-block"></div>
 </div>

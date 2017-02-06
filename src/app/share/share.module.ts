@@ -11,7 +11,14 @@ import { CarouselModule } from 'ng2-bootstrap/components/carousel';
 import { TooltipModule } from 'ng2-bootstrap/components/tooltip';
 //import { ShareButtonsModule } from "ng2-sharebuttons";
 import { OrderPipe, SearchPipe } from "./pipes";
-import { ProfileComponent, UserIconComponent, UserPanelComponent } from './components'
+import {
+  ProfileComponent,
+  UserIconComponent,
+  UserPanelComponent,
+  JetpadModalHeader,
+  JetpadModalContent,
+  JetpadModalFooter,
+  JetpadModalComponent } from './components'
 
 
 @NgModule({
@@ -26,7 +33,11 @@ import { ProfileComponent, UserIconComponent, UserPanelComponent } from './compo
     SearchPipe,
     ProfileComponent,
     UserIconComponent,
-    UserPanelComponent
+    UserPanelComponent,
+    JetpadModalHeader,
+    JetpadModalContent,
+    JetpadModalFooter,
+    JetpadModalComponent
   ],
   exports: [
     OrderPipe,
@@ -34,6 +45,10 @@ import { ProfileComponent, UserIconComponent, UserPanelComponent } from './compo
     ProfileComponent,
     UserIconComponent,
     UserPanelComponent,
+    JetpadModalHeader,
+    JetpadModalContent,
+    JetpadModalFooter,
+    JetpadModalComponent,
     CommonModule,
     FormsModule,
     BrowserModule,

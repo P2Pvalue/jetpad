@@ -1,42 +1,31 @@
 .editor-header {
   background-color: $primary-color;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 150;
   .row {
-    //height: 55px;
-    overflow: hidden;
-    padding: 5px 15px;
+    padding: 0 15px;
     .left-col {
       .navbar-brand {
         background-color: $primary-color;
-        img {
-          height: 50px;
-        }
       }
     }
     .main-col {
-      .menu-col-collapse {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-        float: right;
-        .contributors {
-          margin-left: -5px;
+      .navbar-header{
+        .title-text{
+          color: whitesmoke;
+          font-style: italic;
+          font-size: 25px;
+          font-family: 'Rubik', sans-serif;
+          font-weight: 300;
+          padding-top: 15px;
         }
-      }
-      .row {
-        .title-col {
-          .title-text {
-            color: whitesmoke;
-            font-style: italic;
-            font-size: 35px;
-            font-family: 'Rubik', sans-serif;
-            font-weight: 300;
-          }
-        }
-        .menu-col {
-          button {
-            border-color: white;
-            color: white;
-          }
+        button {
+          border-color: white;
+          color: white;
+          padding: 6px 10px;
         }
       }
     }

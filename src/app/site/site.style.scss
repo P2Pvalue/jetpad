@@ -4,3 +4,10 @@
 @import "components/register/register.component";
 @import "components/site-header/site-header.component";
 @import "components/site-footer/site-footer.component";
+
+jp-site{
+  .contenido{
+    margin-top: 50px;
+  }
+}
+
