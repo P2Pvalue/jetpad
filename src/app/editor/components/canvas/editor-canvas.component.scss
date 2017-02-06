@@ -7,10 +7,24 @@
   max-width: 1170px;
   min-width: 800px;
   width: 980px;*/
-  min-height: 1200px;
-  padding: 20px 40px;
+
+  max-width: 210mm; // A4 width
+  min-width: 320px; // small mobile device width
+
+  min-height: 297mm; // A4 height
+
+  @media screen and (min-width: 210mm)  {
+    padding: 2cm 2cm;
+  }
+
+  @media screen and (max-width: 210mm)  {
+    padding: 2em 2em;
+  }
+
   margin: 0 auto;
 }
+
+
 
 .wave-editor-on {
   width: 100%;
