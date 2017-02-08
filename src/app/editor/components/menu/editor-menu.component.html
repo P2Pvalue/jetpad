@@ -1,0 +1,19 @@
+<div class="editor-menu collapse navbar-collapse" id="jp-editor-menu">
+  <ul class="menu-collapsed nav navbar-nav navbar-right">
+    <li class="main-entry visible-xs visible-sm" (click)="toggleOutline()">Outline</li>
+    <ul #outline [@outlineState]="outlineState" class="outline-entries visible-xs">
+      <li class="entry" [ngClass]="{first: entry.type == 'h1', second : entry.type == 'h2', third : entry.type == 'h3'}" *ngFor="let entry of entries">{{entry.text}}</li>
+    </ul>
+    <li class="main-entry visible-xs">Participants</li>
+    <ul class="contributors">
+      <li class="contributor" *ngFor="let participant of participants">
+        <app-user-icon [user]="participant"></app-user-icon>
+      </li>
+    </ul>
+    <li class="main-entry visible-xs" (click)="popupExample.open()">Open popup</li>
+    <jetpad-modal #popupExample>
+      <jetpad-modal-header>hola header</jetpad-modal-header>
+      <jetpad-modal-content>Contenido</jetpad-modal-content>
+    </jetpad-modal>
+  </ul>
+</div>
