@@ -3,7 +3,7 @@
   overflow: hidden;
 }
 
-.jetpad-modal{
+/*.jetpad-modal{
   display: none;
   overflow: hidden;
   position: fixed;
@@ -41,7 +41,7 @@
 }
 
 .jetpad-modal-content {
-  position: relative;
+  position: absolute;
   background-color: #fff;
   border: 1px solid rgba(0,0,0,.2); //old browsers fallback (ie8 etc)
   border: 1px solid #999;
@@ -83,9 +83,9 @@
 .jetpad-modal-body {
   position: relative;
   padding: 15px;
-}
+}*/
 
-.jetpad-modal-footer {
+/*.jetpad-modal-footer {
   padding: 15px;
   text-align: right; // right align buttons
   border-top: 1px solid #e5e5e5;
@@ -104,5 +104,37 @@
   .btn-block + .btn-block {
     margin-left: 0;
   }
+}*/
+
+
+/*@media only screen and (min-width: 320px) {
+  .jetpad-modal{
+    width: 100%;
+    left: 0;
+    height: 100%;
+    top: 200%
+  }
 }
+@media only screen and (min-width: 768px) {
+  .jetpad-modal{
+    width: 80%;
+    left: 10%;
+    top: 120%;
+    height: 50%;
+  }
+}
+@media only screen and (min-width : 1200px) {
+  .jetpad-modal{
+    width: 70%;
+    left: 15%;
+    top: 120%;
+    height: 50%;
+  }
+}
+.jetpad-modal{
+  position: absolute;
+  background-color: #F3F3F3;
+  opacity: 1;
+  z-index: 1001;
+}*/
 

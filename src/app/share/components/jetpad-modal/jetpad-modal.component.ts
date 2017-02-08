@@ -1,8 +1,19 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef,trigger,
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  trigger,
   state,
   style,
   transition,
   animate } from '@angular/core';
+
+import { JetpadModalService, Modal } from '../../../core/services';
+import { ShareModule } from '../../index';
 
 @Component({
   selector: "jetpad-modal-header",
@@ -30,30 +41,91 @@ export class JetpadModalFooter {
 
 @Component({
   selector: 'jetpad-modal',
-  templateUrl: 'jetpad-modal.component.html',
+  template: `
+    <div class="jetpad-modal" [@modalState]="currentState"
+     #jetpadModalRoot
+     tabindex="-1"
+     role="dialog"
+     (keydown.esc)="closeOnEscape ? close() : 0"
+     [ngClass]="{ in: isOpened, fade: isOpened }"
+     [ngStyle]="{ display: isOpened ? 'block' : 'none' }">
+
+        <div [class]="'jetpad-modal-dialog ' + modalClass" (click)="preventClosing($event)">
+          <div class="jetpad-modal-content" tabindex="0" *ngIf="isOpened">
+            <div class="jetpad-modal-header">
+              <button type="button" class="close" [attr.aria-label]="cancelButtonLabel || 'Close'" (click)="close()"><span aria-hidden="true">&times;</span></button>
+              <h4 class="jetpad-modal-title" *ngIf="title">{{ title }}</h4>
+              <ng-content select="jetpad-modal-header"></ng-content>
+            </div>
+            <div class="jetpad-modal-body">
+              <ng-content select="jetpad-modal-content"></ng-content>
+            </div>
+            <div class="jetpad-modal-footer">
+              <ng-content select="jetpad-modal-footer"></ng-content>
+              <!--<button *ngIf="cancelButtonLabel" type="button" class="btn btn-default" data-dismiss="modal" (click)="close()">{{ cancelButtonLabel }}</button>
+              <button *ngIf="submitButtonLabel" type="button" class="btn btn-primary" (click)="onSubmit.emit(undefined)">{{ submitButtonLabel }}</button>-->
+            </div>
+          </div>
+        </div>
+    </div>
+  `,
   animations: [
     trigger('modalState',[
       state('inactive', style({
-        //backgroundColor: '#eee',
-        //transform: 'scale(1)'
-        transform: 'translateY(100%)'
+        transform: 'translateY(0)'
       })),
       state('active',   style({
-        //backgroundColor: '#cfd8dc',
-        //transform: 'scale(1.1)'
-        transform: 'translateY(3in)'
+        transform: 'translateY(-200%)'
       })),
-      transition('* => *', animate('.5s'))
-      /*transition('inactive => active',
-        [animate(600 ,style({transform: 'translateY(3in) scale(0)'}))]),
-      transition('active => inactive',[
-        style({transform: 'translateY(0) scale(0)'}),
-        animate(200)])*/
-    ])
-  ]
+      transition('* => *', animate('.2s'))
+    ])]
 })
 
-export class JetpadModalComponent {
+@Modal()
+export class JetpadModalComponent implements OnInit {
+
+  constructor(private modalService: JetpadModalService) {
+
+  }
+
+  ok: Function;
+  destroy: Function;
+  closeModal: Function;
+  parentHeight: number;
+  data: any;
+
+  private currentState: string = 'inactive';
+
+  ngOnInit(): void {
+    this.currentState = 'active';
+  }
+
+  onCancel(): void{
+    this.currentState = 'inactive';
+    console.log(this.parentHeight);
+    setTimeout(() => {
+      this.closeModal();
+    }, 150);
+  }
+
+  onOk(): void{
+    this.currentState = 'inactive';
+    setTimeout(() => {
+      this.closeModal();
+    }, 150);
+    this.ok(this.data);
+  }
+
+  open(...args: any[]){
+    let modal$ = this.modalService.create(ShareModule, JetpadModalComponent, args);
+    modal$.subscribe((ref) => {
+      setTimeout(() => {
+        // close the modal after 5 seconds
+        //ref.destroy();
+      }, 5000)
+    })
+  }
+
   // -------------------------------------------------------------------------
   // Inputs
   // -------------------------------------------------------------------------
@@ -77,23 +149,23 @@ export class JetpadModalComponent {
   // Public properties
   // -------------------------------------------------------------------------
 
-  public isOpened = false;
+  /*public isOpened = false;*/
 
-  @ViewChild("jetpadModalRoot")
-  public jetpadModalRoot: ElementRef;
+  /*@ViewChild("jetpadModalRoot")
+  public jetpadModalRoot: ElementRef;*/
 
   // -------------------------------------------------------------------------
   // Private properties
   // -------------------------------------------------------------------------
 
-  private backdropElement: HTMLElement;
-  private currentState: string = 'inactive';
+  /*private backdropElement: HTMLElement;
+  private currentState: string = 'inactive';*/
 
   // -------------------------------------------------------------------------
   // Constructor
   // -------------------------------------------------------------------------
 
-  constructor() {
+  /*constructor() {
     this.createBackDrop();
   }
 
@@ -102,23 +174,23 @@ export class JetpadModalComponent {
     this.backdropElement.classList.add("jetpad-modal-backdrop");
     this.backdropElement.classList.add("fade");
     this.backdropElement.classList.add("in");
-  }
+  }*/
 
   // -------------------------------------------------------------------------
   // Lifecycle Methods
   // -------------------------------------------------------------------------
 
-  ngOnDestroy() {
+  /*ngOnDestroy() {
     document.body.className = document.body.className.replace(/jetpad-modal-open\b/, "");
     if (this.backdropElement && this.backdropElement.parentNode === document.body)
       document.body.removeChild(this.backdropElement);
-  }
+  }*/
 
   // -------------------------------------------------------------------------
   // Public Methods
   // -------------------------------------------------------------------------
 
-  open(...args: any[]) {
+  /*open(...args: any[]) {
     if (this.isOpened)
       return;
 
@@ -143,5 +215,5 @@ export class JetpadModalComponent {
 
   public preventClosing(event: MouseEvent) {
     event.stopPropagation();
-  }
+  }*/
 }

@@ -47,6 +47,7 @@ export class JetpadModalService {
         this.activeInstances ++;
         this.parentElement.activated = true;
         this.parentElement.currentState = 'active';
+        this.parentElement.display = 'block';
         document.body.className += " jetpad-modal-open";
         componentRef.instance["componentIndex"] = this.activeInstances;
         componentRef.instance["parentHeight"] = this.parentElement.viewContainerRef._element.nativeElement.offsetTop;
@@ -55,6 +56,7 @@ export class JetpadModalService {
           if (this.activeInstances <= 1) {
             this.parentElement.activated = false;
             this.parentElement.currentState = 'inactive';
+            this.parentElement.display = 'none';
             document.body.className = document.body.className.replace(/jetpad-modal-open\b/, "");
           }
           componentRef.destroy();
@@ -89,7 +91,7 @@ export function Modal() {
          class="jetpad-modal-placeholder" 
          [ngClass]="{'jetpad-modal-backdrop-activate':activated}">         
     </div>
-    <div class="jetpad-modal" [@modalState]="currentState"><template #modal></template></div>`,
+    <div class="jetpad-modal" [ngStyle]="{'display':display}" [@modalState]="currentState"><template #modal></template></div>`,
   styles:[`
     .jetpad-modal-placeholder{
       height: 100%;
@@ -154,7 +156,7 @@ export class ModalPlaceholderComponent implements OnInit {
   viewWidth: number;
   activated: boolean = false;
   currentState: string = 'inactive';
-
+  display: string = 'none';
   @HostListener('window:resize', ['$event'])
   sizeWindow(event) {
     this.viewHeight = event.target.innerHeight;

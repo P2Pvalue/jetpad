@@ -31,7 +31,7 @@ export class EditorMenuComponent {
     {'text': 'titulo 2.2', 'type': 'h2'}
   ];
   @ViewChild('outline') outline:any;
-
+  @ViewChild('popupExample') modal: any;
 
   showOutline: boolean = false;
   outlineState: string = 'inactive';
@@ -42,6 +42,6 @@ export class EditorMenuComponent {
   };
 
   openPopup() {
-
+    this.modal.open(this.modal);
   }
 }
