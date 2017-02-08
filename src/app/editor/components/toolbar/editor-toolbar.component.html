@@ -1,7 +1,7 @@
 <div class="editor-toolbar">
   <!-- Paragraph type -->
-  <div class="input-select simple-select">
-    <select class="form-control" [ngModel]="styles.header ? styles.header.value : defaultHeading" (ngModelChange)="setStyle('header', $event)">
+  <div class="input-select simple-select visible-xs visible-sm visible-md visible-lg">
+    <select class="form-control"> <!--[ngModel]="styles.header ? styles.header.value : defaultHeading" (ngModelChange)="setStyle('header', $event)-->
       <option value="">Normal text</option>
       <option value="h1">Heading 1</option>
       <option value="h2">Heading 2</option>
@@ -11,15 +11,15 @@
     </select>
   </div>
 
-  <div class="divider"></div>
+  <div class="divider visible-xs visible-sm visible-md visible-lg"></div>
 
   <!--Font Family -->
-  <div class="input-select simple-select">
+  <div class="input-select simple-select visible-xs visible-sm visible-md visible-lg">
     <select
         class="form-control"
-        (focus)="loadFonts = true"
-        [ngModel]="styles.fontFamily ? styles.fontFamily.value : defaultFontFamily"
-        (ngModelChange)="setStyle('fontFamily', $event)">
+        (focus)="loadFonts = true">
+        <!--[ngModel]="styles.fontFamily ? styles.fontFamily.value : defaultFontFamily"
+        (ngModelChange)="setStyle('fontFamily', $event)">-->
 
       <option *ngFor="let fontFamily of fontFamilies" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
     </select>
@@ -38,7 +38,7 @@
     </select>
   </div>
 
-  <div class="divider"></div>
+  <div class="divider  visible-sm visible-md visible-lg"></div>
 
   <!-- Font style -->
   <div class="btn-group" role="group">
@@ -69,10 +69,10 @@
 
   </div>
 
-  <div class="divider"></div>
+  <div class="divider   visible-sm visible-md visible-lg"></div>
 
   <!-- text  and background color -->
-  <div class="input-color-wrapper">
+  <div class="input-color-wrapper   visible-sm visible-md visible-lg">
     <div class="input-color">
       <input type="color" id="text-color">
     </div>
@@ -90,7 +90,7 @@
   </div>
 
 
-  <div class="divider"></div>
+  <div class="divider visible-md visible-lg"></div>
 
   <!-- text position -->
   <div class="btn-group" role="group">
@@ -120,7 +120,7 @@
 
   </div>
 
-  <div class="divider"></div>
+  <div class="divider visible-md visible-lg"></div>
 
   <!-- lists -->
   <div>
@@ -153,7 +153,7 @@
     </button>
   </div>
 
-  <div class="divider"></div>
+  <div class="divider visible-lg"></div>
 
   <!-- Add link -->
   <div>
@@ -165,11 +165,15 @@
   <!--
   <div class="divider"></div>
   <div>
+=======
+  <div class="visible-lg">
+>>>>>>> Stashed changes
     <button type="button" class="btn btn-default">
       <i class="icon icon-image icon-middle"></i>
       <i class="icon icon-caret" aria-hidden="true"></i>
     </button>
   </div>
+<<<<<<< Updated upstream
   -->
 
 
@@ -208,4 +212,22 @@
       </div>
     </div>-->
 
+  <!-- Single button -->
+  <!--<div class="btn-group visible-xs visible-sm visible-md">
+    <button type="button" class="b tn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Action <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li class="input-select simple-select visible-xs">
+        <select class="form-control">
+          <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
+        </select>
+      </li>
+      <li><a href="#">Action</a></li>
+      <li><a href="#">Another action</a></li>
+      <li><a href="#">Something else here</a></li>
+      <li role="separator" class="divider"></li>
+      <li><a href="#">Separated link</a></li>
+    </ul>
+  </div>-->
 </div>

@@ -3,19 +3,17 @@ jp-site-header {
     background-color: $primary-color;
     .container-fluid{
       .navbar-header{
-        /*.glyphicon-menu-hamburger{
-          color: $white;
-        }*/
         button {
-          span.icon-bar{
-            background-color: $white;
-          }
+          border-color: white;
+          color: white;
+          padding: 6px 10px;
         }
       }
       .navbar-collapse{
         ul{
           li{
             a{
+              padding-top: 11px;
               color: $white;
               i {
                 font-size: 25px;
@@ -29,7 +27,7 @@ jp-site-header {
           .about {
             a {
               @media (min-width: 768px) {
-                padding-top: 18px;
+                padding-top: 13px;
                 padding-bottom: 15px;
               }
             }

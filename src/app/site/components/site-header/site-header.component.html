@@ -4,9 +4,6 @@
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
-        <!--<span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>-->
         <span class="glyphicon glyphicon-menu-hamburger"></span>
       </button>
       <a class="navbar-brand" href="#">
@@ -19,7 +16,12 @@
       <ul *ngIf="!isLogged" class="nav navbar-nav navbar-right">
         <li><a routerLink="/login" routerLinkActive="active"><i class="icon icon-lock icon-middle"></i>Login</a></li>
         <li><a routerLink="/register" routerLinkActive="active"><i class="icon icon-user icon-middle"></i>Register</a></li>
-        <li class="about"><a href="#">About</a></li>
+        <li class="about" (click)="popupExample.open()">
+          About
+          <jetpad-modal #popupExample>
+            <jetpad-modal-header>hola header</jetpad-modal-header>
+            <jetpad-modal-content>Contenido</jetpad-modal-content>
+          </jetpad-modal></li>
       </ul>
       <ul *ngIf="isLogged" class="nav navbar-nav navbar-right">
         <li><a href="#">About</a></li>
