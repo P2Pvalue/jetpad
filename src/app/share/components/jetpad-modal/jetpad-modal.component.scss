@@ -1,0 +1,108 @@
+// Kill the scroll on the body
+.jetpad-modal-open{
+  overflow: hidden;
+}
+
+.jetpad-modal{
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+
+  outline: 0;
+
+  // When fading in the modal, animate it to slide down
+  &.fade{
+    &.jetpad-modal-dialog {
+      transform: translate(0,25%);
+      transition: height 0.3s ease-out;
+    }
+  }
+  &.in .jetpad-modal-dialog {
+    transform: translate(0,0);
+  }
+}
+
+.jetpad-modal-open .jetpad-modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+.jetpad-modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+
+.jetpad-modal-content {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.2); //old browsers fallback (ie8 etc)
+  border: 1px solid #999;
+  border-radius: 6px;
+  box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  background-clip: padding-box;
+  // Remove focus outline from opened modal
+  outline: 0;
+}
+
+
+.jetpad-modal-backdrop{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 200;
+  background-color: #000;
+  // Fade for backdrop
+  &.fade { opacity: 0; }
+  &.in { opacity: 0.5; }
+}
+
+.jetpad-modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.jetpad-modal-header .close {
+  margin-top: -2px;
+}
+
+.jetpad-modal-title{
+  margin: 0;
+  line-height: 1.428571429;
+}
+
+.jetpad-modal-body {
+  position: relative;
+  padding: 15px;
+}
+
+.jetpad-modal-footer {
+  padding: 15px;
+  text-align: right; // right align buttons
+  border-top: 1px solid #e5e5e5;
+  //&:extend(.clearfix all); // clear it in case folks use .pull-* classes on buttons
+
+  // Properly space out buttons
+  .btn + .btn {
+    margin-left: 5px;
+    margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+  }
+  // but override that for button groups
+  .btn-group .btn + .btn {
+    margin-left: -1px;
+  }
+  // and override it for block buttons as well
+  .btn-block + .btn-block {
+    margin-left: 0;
+  }
+}
+
