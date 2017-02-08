@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { BackendService, DocumentService, ListenerService, UserService, AppState } from "./services";
+import { BackendService, DocumentService, ListenerService, UserService, AppState, JetpadModalService, ModalPlaceholderComponent } from "./services";
 import { LoggedUserGuard } from "./guards";
 import { ShareModule } from '../share';
 
@@ -10,12 +10,13 @@ const CORE_PROVIDERS = [
   DocumentService, // deprecated
   ListenerService, // deprecated
   UserService, // deprecated
-  LoggedUserGuard
+  LoggedUserGuard,
+  JetpadModalService
 ];
 
 @NgModule({
-  declarations: [],
-  exports: [],
+  declarations: [ModalPlaceholderComponent],
+  exports: [ModalPlaceholderComponent],
   imports: [ShareModule],
   providers: CORE_PROVIDERS
 })

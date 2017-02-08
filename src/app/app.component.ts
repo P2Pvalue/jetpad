@@ -12,8 +12,8 @@ declare let swellrt: any;
   template: `
     <main>
       <router-outlet></router-outlet>
+      <jetpad-modal-placeholder></jetpad-modal-placeholder>
     </main>
-
   `
 })
 
