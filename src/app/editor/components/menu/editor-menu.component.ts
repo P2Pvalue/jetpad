@@ -54,6 +54,9 @@ export class EditorMenuComponent {
     console.log(boton);
     let modal$ = this.modalService.create(EditorModule, MyCustomModalComponent, {
       capullo: this.entries,
+      select: (hola) => {
+        alert('Selected ' + hola);
+      },
       ok: (snacks) => {
         alert(snacks.join(', '));
       }
