@@ -51,15 +51,18 @@ export class JetpadModalService {
         document.body.className += " jetpad-modal-open";
         componentRef.instance["componentIndex"] = this.activeInstances;
         componentRef.instance["parentHeight"] = this.parentElement.viewContainerRef._element.nativeElement.offsetTop;
+        //TODO check delete logic when more than one modal is available
         componentRef.instance["destroy"] = () => {
           this.activeInstances --;
           if (this.activeInstances <= 1) {
-            this.parentElement.activated = false;
-            this.parentElement.currentState = 'inactive';
-            this.parentElement.display = 'none';
             document.body.className = document.body.className.replace(/jetpad-modal-open\b/, "");
           }
-          componentRef.destroy();
+          this.parentElement.activated = false;
+          this.parentElement.currentState = 'inactive';
+          setTimeout(() => {
+            this.parentElement.display = 'none';
+            componentRef.destroy();
+          }, 200);
         };
         componentRef$.next(componentRef);
         componentRef$.complete();
@@ -91,7 +94,7 @@ export function Modal() {
          class="jetpad-modal-placeholder" 
          [ngClass]="{'jetpad-modal-backdrop-activate':activated}">         
     </div>
-    <div class="jetpad-modal" [ngStyle]="{'display':display}" [@modalState]="currentState"><template #modal></template></div>`,
+    <div class="jetpad-modal" tabindex="-1" [ngStyle]="{'display':display}" [@modalState]="currentState"><template #modal></template></div>`,
   styles:[`
     .jetpad-modal-placeholder{
       height: 100%;
@@ -107,15 +110,15 @@ export function Modal() {
     .jetpad-modal-open{
       overflow: hidden;
     }
-    @media only screen and (min-width: 320px) {
+    @media only screen and (min-width: 250px) {
       .jetpad-modal{
         width: 100%;
         left: 0;
-        height: 100%;
-        top: 200%
+        top: 200%;
+        height: 100%;        
       }
     }
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 600px) {
       .jetpad-modal{
         width: 80%;
         left: 10%;
@@ -161,9 +164,6 @@ export class ModalPlaceholderComponent implements OnInit {
   sizeWindow(event) {
     this.viewHeight = event.target.innerHeight;
     this.viewWidth = event.target.innerWidth;
-    //this.sizeMenu(this.wt);
-    console.log('height =>', this.viewHeight);
-    console.log('width =>', this.viewWidth);
   }
 
   constructor(

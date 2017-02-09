@@ -1,4 +1,8 @@
 import { Component, Input, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
+import { MyCustomModalComponent } from "./custom-modal.component";
+import { EditorModule } from '../../index';
+import { JetpadModalService } from '../../../core/services';
+
 
 @Component({
   selector: 'jp-editor-menu',
@@ -35,13 +39,30 @@ export class EditorMenuComponent {
 
   showOutline: boolean = false;
   outlineState: string = 'inactive';
+
+  constructor(private modalService: JetpadModalService){
+
+  }
+
   toggleOutline() {
     console.log(this.outline);
     this.showOutline = !this.showOutline;
     this.outlineState = (this.outlineState == 'inactive') ? 'active': 'inactive';
   };
 
-  openPopup() {
-    this.modal.open(this.modal);
+  openModal(boton:any): void{
+    console.log(boton);
+    let modal$ = this.modalService.create(EditorModule, MyCustomModalComponent, {
+      capullo: this.entries,
+      ok: (snacks) => {
+        alert(snacks.join(', '));
+      }
+    });
+    modal$.subscribe((ref) => {
+      setTimeout(() => {
+        // close the modal after 5 seconds
+        //ref.destroy();
+      }, 5000)
+    })
   }
 }
