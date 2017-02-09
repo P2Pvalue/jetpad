@@ -124,6 +124,7 @@ export function Modal() {
         left: 10%;
         top: 120%;
         height: 50%;
+        border-radius: 5px;
       }
     }
     @media only screen and (min-width : 1200px) {
@@ -132,6 +133,7 @@ export function Modal() {
         left: 15%;
         top: 120%;
         height: 50%;
+        border-radius: 5px;
       }
     }
     .jetpad-modal{
@@ -149,7 +151,8 @@ export function Modal() {
       state('active',   style({
         transform: 'translateY(-200%)'
       })),
-      transition('* => *', animate('.2s'))
+      transition('inactive => active', animate('400ms ease-in')),
+      transition('active => inactive', animate('400ms ease-out'))
     ])]
 })
 export class ModalPlaceholderComponent implements OnInit {
