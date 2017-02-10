@@ -1,6 +1,5 @@
-<p> some lateral stuff </p>
-      <!--
-      <ul>
-        <li *ngFor="let heading of outline" class="outline-{{heading.value}}"><a [href]="documentLink(heading.id)">{{heading.text}}</a></li>
-      </ul>
-    -->
+<div>
+  <ul class="outline">
+    <li *ngFor="let h of headers" class="outline-{{h.value}}"><a [href]="getHeaderUrl(h.node?.getAttribute('hid'))">{{h.text}}</a></li>
+  </ul>
+</div>

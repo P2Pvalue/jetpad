@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { BackendService } from "../core/services";
 
 declare let swellrt: any;
+declare let window: any;
 
 @Component({
   selector: 'jp-editor',
@@ -20,6 +21,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   selectionStyles: any = {}; // style annotations in current selection
 
+  headers: Array<any> = new Array<any>();
 
   // To handle Links
   linkModalPos: any = { x: 100, y: 100 };
@@ -50,14 +52,12 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // don't perform further actions in the editor component
-    // until swellrt's editor is loaded.
-
     this.backend.createEditor('canvas-container')
       .then( e => {
+        // TO REMOVE -> FOR DEBUGGING
+        window.editor = e;
         // keep the editor reference in the component
         this.editor = e;
-
         // Listen for cursor and selection changes
         this.editor.setSelectionHandler((range, editor) => {
           this.selectionStyles = EditorComponent.getSelectionAnnotations(editor, range);
@@ -84,8 +84,12 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this.doc) {
       this.backend.close(this.docid);
     }
+
   }
 
+  updateHeaders() {
+    this.headers = this.editor.getAnnotation(["header"], swellrt.Editor.Range.ALL, true)["header"];
+  }
 
   open(id: string) {
 
@@ -111,6 +115,14 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.editor.set(this.doc.get("text"));
       // Enable interactive editing now!
       this.editor.edit(true);
+
+      let that = this;
+      swellrt.Annotation.Registry.setHandler("header", (type, annot, event) => {
+        console.log("header event -> "+type);
+        if (swellrt.Annotation.EVENT_MOUSE != type) {
+          that.updateHeaders();
+        }
+      });
 
     })
     .catch( error => {

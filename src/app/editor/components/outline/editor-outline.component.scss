@@ -1,11 +1,33 @@
-.editor-box-left {
-  position: fixed;
-  width: 20em;
-  top: 280px;
-  left: calc(((100vw - 980px) / 2) - 17em);
-  align-items: flex-end;
-  .btn-editor {
-    display: block;
-    margin-left: auto;
-  }
+// swellrt editor class
+.header-anchor {
+  top:-130px;
+}
+
+// jetpad classes
+.outline {
+
+}
+
+.outline-h1 {
+  margin-left: 0em
+}
+
+.outline-h2 {
+  margin-left: 1em
+}
+
+.outline-h3 {
+  margin-left: 2em
+}
+
+.outline-h4 {
+  margin-left: 3em
+}
+
+.outline-h5 {
+  margin-left: 4em
+}
+
+.outline-h6 {
+  margin-left: 5em
 }

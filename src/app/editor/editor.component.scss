@@ -1,0 +1,10 @@
+.editor {
+  background-color: #f1f1f1;
+
+  .floating-panel {
+    position: fixed;
+    top: 130px;
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
+}
