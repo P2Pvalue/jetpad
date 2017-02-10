@@ -27,10 +27,10 @@
     </select>
   </div>
 
-  <div class="divider"></div>
+  <div class="divider visible-xs visible-sm visible-md visible-lg"></div>
 
   <!-- Font size -->
-  <div class="input-select simple-select">
+  <div class="input-select simple-select  visible-sm visible-md visible-lg">
     <select
       class="form-control"
       [ngModel]="styles.fontSize ? styles.fontSize.value : defaultFontSize"
@@ -43,7 +43,7 @@
   <div class="divider  visible-sm visible-md visible-lg"></div>
 
   <!-- Font style -->
-  <div class="btn-group" role="group">
+  <div class="btn-group visible-sm visible-md visible-lg" role="group">
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
@@ -71,10 +71,10 @@
 
   </div>
 
-  <div class="divider   visible-sm visible-md visible-lg"></div>
+  <div class="divider visible-sm visible-md visible-lg"></div>
 
   <!-- text  and background color -->
-  <div class="input-color-wrapper   visible-sm visible-md visible-lg">
+  <div class="input-color-wrapper  visible-sm visible-md visible-lg">
     <div class="input-color">
       <input type="color" id="text-color">
     </div>
@@ -95,7 +95,7 @@
   <div class="divider visible-md visible-lg"></div>
 
   <!-- text position -->
-  <div class="btn-group" role="group">
+  <div class="btn-group visible-md visible-lg" role="group">
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignLeft)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignLeft)">
@@ -125,7 +125,7 @@
   <div class="divider visible-md visible-lg"></div>
 
   <!-- lists -->
-  <div>
+  <div class="btn-group visible-md visible-lg" role="group">
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_LIST, listUnordered)"
       [class.active]="checkStyle(STYLE_LIST, listUnordered)">
@@ -139,10 +139,10 @@
     </button>
   </div>
 
-  <div class="divider"></div>
+  <div class="divider visible-md visible-lg"></div>
 
   <!-- indent -->
-  <div>
+  <div class="btn-group visible-md visible-lg">
 
     <button type="button" class="btn btn-default"
       (click)="setStyle(STYLE_INDENT, 'outdent')">
@@ -158,61 +158,158 @@
   <div class="divider visible-lg"></div>
 
   <!-- Add link -->
-  <div>
+  <div class="btn-group visible-lg">
     <button type="button" class="btn" (click)="editLink()">
       <i class="icon icon-link icon-middle"></i>
     </button>
   </div>
-  <!-- Add images -->
-  <!--
-  <div class="divider"></div>
-  <div>
-=======
-  <div class="visible-lg">
->>>>>>> Stashed changes
-    <button type="button" class="btn btn-default">
-      <i class="icon icon-image icon-middle"></i>
+
+
+
+  <!-- Inspiration to show toolbox in small screens!-->
+  <div class="dropdown menu-editor-dropdown visible-xs visible-sm visible-md">
+    <button class="btn btn-default dropdown-toggle" type="button"
+            id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <i class="icon icon-square-divider icon-middle"></i>
       <i class="icon icon-caret" aria-hidden="true"></i>
     </button>
-  </div>
-<<<<<<< Updated upstream
-  -->
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 
+      <div class="input-select simple-select  visible-xs">
+        <select
+          class="form-control"
+          [ngModel]="styles.fontSize ? styles.fontSize.value : defaultFontSize"
+          (ngModelChange)="setStyle('fontSize', $event)">
 
-  <!-- Inspiration to show toolbox in small screens
-  <div class="col-sm toolbox-2">
-  <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        <i class="icon icon-square-divider icon-middle"></i>
-        <i class="icon icon-caret" aria-hidden="true"></i>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
-        <i class="icon icon-square icon-middle"></i>
+          <option *ngFor="let i of fontSizes" value="{{i}}px">{{i}}</option>
+        </select>
       </div>
-    </div>-->
+
+      <div class="divider visible-xs"></div>
+
+      <div class="btn-group visible-xs" role="group">
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
+                [class.active]="checkStyle(STYLE_FONT_WEIGHT, fontWeightBold)">
+          <i class="icon icon-text-bold icon-middle"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyle(STYLE_FONT_STYLE, fontStyleItalic)"
+                [class.active]="checkStyle(STYLE_FONT_STYLE, fontStyleItalic)">
+          <i class="icon icon-text-italic icon-middle"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationUnderline)"
+                [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationUnderline)">
+          <i class="icon icon-text-underline icon-middle"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationStrike)"
+                [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationStrike)">
+          <i class="icon icon-text-strike-through icon-middle"></i>
+        </button>
+
+      </div>
+
+      <div class="divider visible-xs"></div>
+
+      <div class="input-color-wrapper visible-xs">
+        <div class="input-color">
+          <input type="color">
+        </div>
+        <label for="text-color" class="cursor-pointer btn">
+          <i class="icon icon-text-decoration icon-middle input-btn" [style.color]="currentColor"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </label>
+        <div class="input-color">
+          <input type="color">
+        </div>
+        <label for="background-text-color" class="cursor-pointer btn">
+          <i class="icon icon-text-color icon-middle input-btn" [style.color]="currentBgColor"></i>
+          <i class="icon icon-caret" aria-hidden="true"></i>
+        </label>
+      </div>
+
+      <div class="divider visible-xs visible-sm"></div>
+
+      <!-- text position -->
+      <div class="btn-group visible-xs visible-sm" role="group">
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignLeft)"
+                [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignLeft)">
+          <i class="icon icon-text-left icon-middle"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignCenter)"
+                [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignCenter)">
+          <i class="icon icon-text-center icon-middle"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignRight)"
+                [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignRight)">
+          <i class="icon icon-text-right icon-middle"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignJustify)"
+                [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignJustify)">
+          <i class="icon icon-text-justify icon-middle"></i>
+        </button>
+
+      </div>
+
+      <div class="divider visible-xs visible-sm"></div>
+
+      <!-- lists -->
+      <div class="btn-group visible-xs visible-sm" role="group">
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_LIST, listUnordered)"
+                [class.active]="checkStyle(STYLE_LIST, listUnordered)">
+          <i class="icon icon-text-dots icon-middle"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="toggleStyleMultiple(STYLE_LIST, listDecimal)"
+                [class.active]="checkStyle(STYLE_LIST, listDecimal)">
+          <i class="icon icon-text-number icon-middle"></i>
+        </button>
+      </div>
+
+      <div class="divider visible-xs visible-sm"></div>
+
+      <!-- indent -->
+      <div class="btn-group visible-xs visible-sm">
+
+        <button type="button" class="btn btn-default"
+                (click)="setStyle(STYLE_INDENT, 'outdent')">
+          <i class="icon icon-middle glyphicon glyphicon-indent-left"></i>
+        </button>
+
+        <button type="button" class="btn btn-default"
+                (click)="setStyle(STYLE_INDENT, 'indent')">
+          <i class="icon icon-middle  glyphicon glyphicon-indent-right"></i>
+        </button>
+      </div>
+
+      <div class="divider visible-xs visible-sm visible-md"></div>
+
+      <!-- Add link -->
+      <div class="btn-group visible-xs visible-sm visible-md">
+        <button type="button" class="btn" (click)="editLink()">
+          <i class="icon icon-link icon-middle"></i>
+        </button>
+      </div>
+
+    </div>
+
+
+  </div>
 
   <!-- Single button -->
   <!--<div class="btn-group visible-xs visible-sm visible-md">

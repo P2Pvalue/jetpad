@@ -1,12 +1,14 @@
 .editor-toolbar{
+  background-color: #ababab;
   width: 100%;
-  //margin: 20px auto;
-  padding: 0 5px;
+  /* padding: 0 5px; */
   position: fixed;
-  margin-top: 60px;
+  margin-top: 36px;
   z-index: 100;
-  //overflow-x: auto;
-  //overflow-y: hidden;
+  padding-top: 20px;
+  margin-left: -15px;
+  padding-left: 10px;
+  /*overflow-y: hidden;*/
   div.divider {
     width: 1px;
     height: 35px;
@@ -72,6 +74,31 @@
     }
     .simple-select{
       height: 30px;
+    }
+  }
+}
+
+.menu-editor-dropdown{
+  .dropdown-toggle {
+    width: 55px;
+  }
+  .dropdown-menu-right{
+    min-width: 55px;
+  }
+  @media only screen and (min-width: 250px) {
+    .dropdown-menu-right{
+      max-width: 250px;
+      left: -290px;
+    }
+  }
+  @media only screen and (min-width: 600px) {
+    .dropdown-menu-right{
+      max-width: 250px;
+    }
+  }
+  @media only screen and (min-width : 1200px) {
+    .dropdown-menu-right{
+      max-widthh: 100px;
     }
   }
 }
