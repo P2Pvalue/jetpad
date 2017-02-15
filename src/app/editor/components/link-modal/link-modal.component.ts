@@ -4,7 +4,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   selector: 'link-modal',
   template: `
 
-        <div class="link-modal" [style.top.px]="pos.x">
+        <div class="link-modal" [style.top.px]="pos.y" [style.left.px]="pos.x">
 
             <div class="form-group">
               <label for="name" class="control-label">Text</label>
@@ -27,23 +27,13 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
     .link-modal {
 
       position: absolute;
-      z-index: 100;
-
-      width: 65%;
-      margin-left: 18%;
-
-      max-width: 450px;
-
+      float: right;
       background-color: linen;
-      padding: 0.8em;
+      font-size: 8pt;
+      z-index: 400;
+      padding: 10px;
 
-
-      font-size: 9pt;
-      font-weight: normal;
-      font-style: normal;
-      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-
-      border-radius: 7px;
+      border-radius: 5px;
 
     }
   `]
@@ -62,8 +52,6 @@ export class LinkModalComponent implements OnInit {
   url: string;
 
   ngOnInit() {
-    this.pos.x = 100;
-    this.pos.y = 100;
   }
 
   doOk() {

@@ -4,6 +4,7 @@ import { BackendService } from "../core/services";
 
 declare let swellrt: any;
 declare let window: any;
+declare let document: any;
 
 @Component({
   selector: 'jp-editor',
@@ -29,14 +30,24 @@ export class EditorComponent implements OnInit, OnDestroy {
   inputLinkModal: any;
   linkRange: any;
 
+  readonly linkModalHeight: number = 204; // px
+  readonly linkModalWidth: number = 216; // px
+
+  // Selected text contextual menu
+  selectionMenuPos: any = { x: 0, y: 0 };
+  visibleSelectionMenu: boolean = false;
+  selectionAnnotation: any;
+
+  readonly selectionMenuHeight: number = 53; // px
+  readonly selectionMenuWidth: number = 100; // px
+
+  caretPos: any = { x: 100, y: 100, width: 0 };
+
 
   constructor(private backend: BackendService, private route: ActivatedRoute) {
 
   }
 
-  private static getSelectionAnnotations(editor: any, range: any) {
-      return editor.getAnnotation(['paragraph/','style/', 'link'], range);
-  }
 
   participants = [{
     name: 'pepe'
@@ -50,21 +61,45 @@ export class EditorComponent implements OnInit, OnDestroy {
     name: 'casamayor'
   }];
 
+
+  private static getSelectionStyles(editor: any, range: any) {
+    return editor.getAnnotation(['paragraph/','style/', 'link'], range);
+  }
+
   ngOnInit() {
+
+    this.initAnnotations();
 
     this.backend.createEditor('canvas-container')
       .then( e => {
-        // TO REMOVE -> FOR DEBUGGING
+        // TO REMOVE, FOR DEBUGGING
         window.editor = e;
         // keep the editor reference in the component
         this.editor = e;
         // Listen for cursor and selection changes
-        this.editor.setSelectionHandler((range, editor) => {
-          this.selectionStyles = EditorComponent.getSelectionAnnotations(editor, range);
-          /*
-          for (var s in this.selectionStyles)
-            console.log(s + " => "+this.selectionStyles[s].value);
-          */
+        this.editor.setSelectionHandler((range, editor, node) => {
+
+          // update toolbar state
+          this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
+          window._node  = node;
+
+          // calculate caret coords
+          if (node) {
+            let container = node.parentElement;
+            this.caretPos.x = container.offsetLeft;
+            this.caretPos.y = container.offsetTop;
+            this.caretPos.width = container.offsetWidth;
+            window._caret = this.caretPos;
+          }
+
+
+          // show contextual menu by setting the @selection annotation
+          if (this.selectionAnnotation) {
+            this.selectionAnnotation.clear();
+            this.selectionAnnotation = null;
+          }
+          this.selectionAnnotation = editor.setAnnotation("@selection", "", range);
+
         });
 
         // listen to url parameters
@@ -87,7 +122,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   }
 
-  updateHeaders() {
+  refreshHeadings() {
     this.headers = this.editor.getAnnotation(["header"], swellrt.Editor.Range.ALL, true)["header"];
   }
 
@@ -116,19 +151,59 @@ export class EditorComponent implements OnInit, OnDestroy {
       // Enable interactive editing now!
       this.editor.edit(true);
 
-      let that = this;
-      swellrt.Annotation.Registry.setHandler("header", (type, annot, event) => {
-        console.log("header event -> "+type);
-        if (swellrt.Annotation.EVENT_MOUSE != type) {
-          that.updateHeaders();
-        }
-      });
-
     })
     .catch( error => {
       console.log(error);
       // TODO handle severe error
     });
+  }
+
+  initAnnotations() {
+
+    let that = this;
+
+    // ensure swellrt object is ready
+    this.backend.get()
+      .then( service =>{
+
+
+        swellrt.Annotation.Registry.setHandler("header", (type, annot, event) => {
+          if (swellrt.Annotation.EVENT_MOUSE != type) {
+            that.refreshHeadings();
+          }
+        });
+
+        // Note about the @selection Annotation:
+        //
+        // We define this annotation to show a contextual menú
+        // with text tools on a text is selected.
+        // We use the annotation handler to show and hide the menu
+        // at the same time the annotation is rendered or removed
+        //
+        // An alternative approach is to use the editor's selection handler
+        // (see editor.setSelectionHandler) and the node parameter.
+
+        swellrt.Annotation.Registry.define("@selection","selection");
+        swellrt.Annotation.Registry.setHandler("@selection", (type, annot, event) => {
+
+          if (type == swellrt.Annotation.EVENT_ADDED) {
+            var sel = annot.node;
+
+            if (sel) {
+              that.selectionMenuPos.x = sel.offsetLeft + ((sel.offsetWidth - that.selectionMenuWidth) / 2);
+              that.selectionMenuPos.y = sel.offsetTop - that.selectionMenuHeight;
+              that.visibleSelectionMenu = true;
+            }
+
+          } else if (type == swellrt.Annotation.EVENT_REMOVED) {
+            that.visibleSelectionMenu = false;
+          }
+        });
+
+      });
+
+
+
   }
 
   editStyle(event: any) {
@@ -150,10 +225,14 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     // refresh annotations
-    this.selectionStyles = EditorComponent.getSelectionAnnotations(this.editor, range);
+    this.selectionStyles = EditorComponent.getSelectionStyles(this.editor, range);
   }
 
   showModalLink() {
+
+    // calculate position of the modal according to the current caret pos.
+    this.linkModalPos.x = this.caretPos.x + ((this.caretPos.width - this.linkModalWidth) / 2);
+    this.linkModalPos.y = this.caretPos.y - this.linkModalHeight;
 
     // sugar syntax
     let selectionLink = this.selectionStyles[this.STYLE_LINK];
