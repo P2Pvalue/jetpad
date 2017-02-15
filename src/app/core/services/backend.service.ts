@@ -17,6 +17,9 @@ export class BackendService {
       this.service = service;
   }
 
+  get() {
+    return this.service;
+  }
 
   startUserSession(id: string, password: string) {
     //
