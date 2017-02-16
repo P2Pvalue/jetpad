@@ -70,18 +70,18 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.initAnnotations();
 
-    this.backend.createEditor('canvas-container')
-      .then( e => {
-        // TO REMOVE, FOR DEBUGGING
-        window.editor = e;
+    this.backend.get()
+      .then( s => {
+
         // keep the editor reference in the component
-        this.editor = e;
+        this.editor = swellrt.Editor.createWithId("canvas-container", s);
+
         // Listen for cursor and selection changes
         this.editor.setSelectionHandler((range, editor, node) => {
 
           // update toolbar state
           this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
-          window._node  = node;
+
 
           // calculate caret coords
           if (node) {
@@ -89,7 +89,6 @@ export class EditorComponent implements OnInit, OnDestroy {
             this.caretPos.x = container.offsetLeft;
             this.caretPos.y = container.offsetTop;
             this.caretPos.width = container.offsetWidth;
-            window._caret = this.caretPos;
           }
 
 

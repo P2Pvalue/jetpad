@@ -65,15 +65,6 @@ export class BackendService {
 
   }
 
-  createEditor(containerId: string) {
-    // wait to resolve the service's promise
-    // to ensure the swellrt.Editor is available
-    return this.service
-      .then( s => {
-          return swellrt.Editor.createWithId(containerId);
-      });
-  }
-
 
   open(id: string) {
     console.log("Opening document "+id);
