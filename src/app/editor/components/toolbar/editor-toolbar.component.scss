@@ -22,6 +22,7 @@
     float: left;
   }
   div.input-select{
+    height: 40px;
     .icon-caret {
       color: $caret-gray;
       display: inline-block;
@@ -31,18 +32,34 @@
       }
     }
   }
-  .btn {
-    padding: 0;
-    border: none;
-    background: none;
-    [class^="icon-"]:before, [class*=" icon-"]:before {
-      font-size: 30px;
-      vertical-align: middle;
-      margin-top: 8px;
-      display: inline-block;
+  .btn-group{
+    height: 40px;
+    padding-top: 10px;
+    .btn {
+      padding: 0;
+      border: none;
+      background: none;
+      /*[class^="icon-"]:before, [class*=" icon-"]:before {
+        font-size: 30px;
+        vertical-align: middle;
+        margin-top: 8px;
+        display: inline-block;
+      }*/
+      [class^="fa-"]:before, [class*=" fa-"]:before {
+        margin: 5px;
+      }
+      [class^="glyphicon-"]:before, [class*=" glyphicon-"]:before {
+        margin: 5px;
+      }
     }
   }
   .input-color-wrapper{
+    label{
+      margin-top: 10px;
+      margin-right: 5px;
+      font-size: 14px;
+      padding: 0;
+    }
     .input-color {
       width: 0.1px;
       height: 0.1px;
@@ -50,7 +67,8 @@
       overflow: hidden;
       position: absolute;
       z-index: -1;
-      & + .input-btn {
+
+      /*& + .input-btn {
         font-family: 'Roboto', sans-serif;
         font-size: 17px;
         font-weight: 400;
@@ -67,7 +85,7 @@
             font-size: 35px;
           }
         }
-      }
+      }*/
       &:focus + .input-btn, & + .input-btn:hover {
         color: $secondary-color-blend;
       }
@@ -80,25 +98,33 @@
 
 .menu-editor-dropdown{
   .dropdown-toggle {
-    width: 55px;
+    width: 35px;
+    height: 35px;
+    padding: 10px 0;
+    border: none;
+    background: none;
+    margin: 0px 5px 5px 0;
   }
   .dropdown-menu-right{
-    min-width: 55px;
+    position: fixed;
+    top: 100px;
+    //width: 90%;
+    margin: 0 auto;
+    left: 0;
   }
   @media only screen and (min-width: 250px) {
     .dropdown-menu-right{
-      max-width: 250px;
-      left: -290px;
+      max-width: 95%;
     }
   }
   @media only screen and (min-width: 600px) {
     .dropdown-menu-right{
-      max-width: 250px;
+      max-width: 265px;
     }
   }
   @media only screen and (min-width : 1200px) {
     .dropdown-menu-right{
-      max-widthh: 100px;
+      max-width: 55px;
     }
   }
 }

@@ -48,25 +48,26 @@
     <button type="button" class="btn btn-default"
       (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
       [class.active]="checkStyle(STYLE_FONT_WEIGHT, fontWeightBold)">
-      <i class="icon icon-text-bold icon-middle"></i>
+      <!--<i class="icon icon-text-bold icon-middle"></i>-->
+      <i class="fa fa-bold"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyle(STYLE_FONT_STYLE, fontStyleItalic)"
       [class.active]="checkStyle(STYLE_FONT_STYLE, fontStyleItalic)">
-      <i class="icon icon-text-italic icon-middle"></i>
+      <i class="fa fa-italic"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationUnderline)"
       [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationUnderline)">
-      <i class="icon icon-text-underline icon-middle"></i>
+      <i class="fa fa-underline"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationStrike)"
       [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationStrike)">
-      <i class="icon icon-text-strike-through icon-middle"></i>
+      <i class="fa fa-strikethrough"></i>
     </button>
 
   </div>
@@ -76,48 +77,47 @@
   <!-- text  and background color -->
   <div class="input-color-wrapper  visible-sm visible-md visible-lg">
     <div class="input-color">
-      <input type="color" id="text-color">
+      <input type="color" id="text-color" [(ngModel)]="currentColor">
     </div>
     <label for="text-color" class="cursor-pointer btn">
-      <i class="icon icon-text-decoration icon-middle input-btn" [style.color]="currentColor"></i>
-      <i class="icon icon-caret" aria-hidden="true"></i>
+      <i class="glyphicon glyphicon-text-color" [style.color]="currentColor"></i>
     </label>
     <div class="input-color">
-      <input type="color" id="background-text-color">
+      <input type="color" id="background-text-color" [(ngModel)]="currentBgColor">
     </div>
     <label for="background-text-color" class="cursor-pointer btn">
-      <i class="icon icon-text-color icon-middle input-btn" [style.color]="currentBgColor"></i>
-      <i class="icon icon-caret" aria-hidden="true"></i>
+      <i class="glyphicon glyphicon-text-background" [style.color]="currentBgColor"></i>
+      <!--<i class="icon icon-caret" aria-hidden="true"></i>-->
     </label>
   </div>
 
 
-  <div class="divider visible-md visible-lg"></div>
+  <div class="divider visible-sm  visible-md visible-lg"></div>
 
   <!-- text position -->
   <div class="btn-group visible-md visible-lg" role="group">
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignLeft)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignLeft)">
-      <i class="icon icon-text-left icon-middle"></i>
+      <i class="glyphicon glyphicon-align-left"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignCenter)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignCenter)">
-      <i class="icon icon-text-center icon-middle"></i>
+      <i class="glyphicon glyphicon-align-center"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignRight)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignRight)">
-      <i class="icon icon-text-right icon-middle"></i>
+      <i class="glyphicon glyphicon-align-right"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignJustify)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignJustify)">
-      <i class="icon icon-text-justify icon-middle"></i>
+      <i class="glyphicon glyphicon-align-justify"></i>
     </button>
 
   </div>
@@ -129,13 +129,13 @@
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_LIST, listUnordered)"
       [class.active]="checkStyle(STYLE_LIST, listUnordered)">
-      <i class="icon icon-text-dots icon-middle"></i>
+      <i class="fa fa-list-ul"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_LIST, listDecimal)"
       [class.active]="checkStyle(STYLE_LIST, listDecimal)">
-      <i class="icon icon-text-number icon-middle"></i>
+      <i class="fa fa-list-ol"></i>
     </button>
   </div>
 
@@ -146,32 +146,35 @@
 
     <button type="button" class="btn btn-default"
       (click)="setStyle(STYLE_INDENT, 'outdent')">
-      <i class="icon icon-middle glyphicon glyphicon-indent-left"></i>
+      <i class="glyphicon glyphicon-indent-left"></i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="setStyle(STYLE_INDENT, 'indent')">
-      <i class="icon icon-middle  glyphicon glyphicon-indent-right"></i>
+      <i class="glyphicon glyphicon-indent-right"></i>
     </button>
   </div>
 
-  <div class="divider visible-lg"></div>
+  <div class="divider visible-md  visible-lg"></div>
 
   <!-- Add link -->
   <div class="btn-group visible-lg">
     <button type="button" class="btn" (click)="editLink()">
-      <i class="icon icon-link icon-middle"></i>
+      <i class="fa fa-link"></i>
     </button>
   </div>
 
 
 
-  <!-- Inspiration to show toolbox in small screens!-->
+  <!--
+      DROPDOWN
+  -->
+
   <div class="dropdown menu-editor-dropdown visible-xs visible-sm visible-md">
     <button class="btn btn-default dropdown-toggle" type="button"
             id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-      <i class="icon icon-square-divider icon-middle"></i>
-      <i class="icon icon-caret" aria-hidden="true"></i>
+      <i class="fa fa-ellipsis-h"></i>
+      <!--<i class="icon icon-caret" aria-hidden="true"></i>-->
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 
@@ -192,25 +195,25 @@
         <button type="button" class="btn btn-default"
                 (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
                 [class.active]="checkStyle(STYLE_FONT_WEIGHT, fontWeightBold)">
-          <i class="icon icon-text-bold icon-middle"></i>
+          <i class="fa fa-bold"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="toggleStyle(STYLE_FONT_STYLE, fontStyleItalic)"
                 [class.active]="checkStyle(STYLE_FONT_STYLE, fontStyleItalic)">
-          <i class="icon icon-text-italic icon-middle"></i>
+          <i class="fa fa-italic"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationUnderline)"
                 [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationUnderline)">
-          <i class="icon icon-text-underline icon-middle"></i>
+          <i class="fa fa-underline"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationStrike)"
                 [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationStrike)">
-          <i class="icon icon-text-strike-through icon-middle"></i>
+          <i class="fa fa-strikethrough"></i>
         </button>
 
       </div>
@@ -219,18 +222,18 @@
 
       <div class="input-color-wrapper visible-xs">
         <div class="input-color">
-          <input type="color">
+          <input type="color" [(ngModel)]="currentColor">
         </div>
         <label for="text-color" class="cursor-pointer btn">
-          <i class="icon icon-text-decoration icon-middle input-btn" [style.color]="currentColor"></i>
-          <i class="icon icon-caret" aria-hidden="true"></i>
+          <i class="glyphicon glyphicon-text-color" [style.color]="currentColor"></i>
+          <!--<i class="icon icon-caret" aria-hidden="true"></i>-->
         </label>
         <div class="input-color">
-          <input type="color">
+          <input type="color" [(ngModel)]="currentBgColor">
         </div>
         <label for="background-text-color" class="cursor-pointer btn">
-          <i class="icon icon-text-color icon-middle input-btn" [style.color]="currentBgColor"></i>
-          <i class="icon icon-caret" aria-hidden="true"></i>
+          <i class="glyphicon glyphicon-text-background" [style.color]="currentBgColor"></i>
+          <!--<i class="icon icon-caret" aria-hidden="true"></i>-->
         </label>
       </div>
 
@@ -241,25 +244,25 @@
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignLeft)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignLeft)">
-          <i class="icon icon-text-left icon-middle"></i>
+          <i class="glyphicon glyphicon-align-left"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignCenter)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignCenter)">
-          <i class="icon icon-text-center icon-middle"></i>
+          <i class="glyphicon glyphicon-align-center"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignRight)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignRight)">
-          <i class="icon icon-text-right icon-middle"></i>
+          <i class="glyphicon glyphicon-align-right"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignJustify)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignJustify)">
-          <i class="icon icon-text-justify icon-middle"></i>
+          <i class="glyphicon glyphicon-align-justify"></i>
         </button>
 
       </div>
@@ -271,13 +274,13 @@
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_LIST, listUnordered)"
                 [class.active]="checkStyle(STYLE_LIST, listUnordered)">
-          <i class="icon icon-text-dots icon-middle"></i>
+          <i class="fa fa-list-ul"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="toggleStyleMultiple(STYLE_LIST, listDecimal)"
                 [class.active]="checkStyle(STYLE_LIST, listDecimal)">
-          <i class="icon icon-text-number icon-middle"></i>
+          <i class="fa fa-list-ol"></i>
         </button>
       </div>
 
@@ -288,12 +291,12 @@
 
         <button type="button" class="btn btn-default"
                 (click)="setStyle(STYLE_INDENT, 'outdent')">
-          <i class="icon icon-middle glyphicon glyphicon-indent-left"></i>
+          <i class="glyphicon glyphicon-indent-left"></i>
         </button>
 
         <button type="button" class="btn btn-default"
                 (click)="setStyle(STYLE_INDENT, 'indent')">
-          <i class="icon icon-middle  glyphicon glyphicon-indent-right"></i>
+          <i class="glyphicon glyphicon-indent-right"></i>
         </button>
       </div>
 
@@ -302,7 +305,7 @@
       <!-- Add link -->
       <div class="btn-group visible-xs visible-sm visible-md">
         <button type="button" class="btn" (click)="editLink()">
-          <i class="icon icon-link icon-middle"></i>
+          <i class="fa fa-link"></i>
         </button>
       </div>
 
@@ -310,23 +313,4 @@
 
 
   </div>
-
-  <!-- Single button -->
-  <!--<div class="btn-group visible-xs visible-sm visible-md">
-    <button type="button" class="b tn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Action <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li class="input-select simple-select visible-xs">
-        <select class="form-control">
-          <option *ngFor="let i of textSizes" value="{{i}}px">{{i}}</option>
-        </select>
-      </li>
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li role="separator" class="divider"></li>
-      <li><a href="#">Separated link</a></li>
-    </ul>
-  </div>-->
 </div>
