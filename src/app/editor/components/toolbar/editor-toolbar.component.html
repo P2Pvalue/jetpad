@@ -77,13 +77,15 @@
   <!-- text  and background color -->
   <div class="input-color-wrapper  visible-sm visible-md visible-lg">
     <div class="input-color">
-      <input type="color" id="text-color" [(ngModel)]="currentColor">
+      <input type="color" id="text-color"
+             [ngModel]="styles.color ? styles.color.value : defaultColor"
+             (ngModelChange)="setStyle(STYLE_COLOR, $event)">
     </div>
     <label for="text-color" class="cursor-pointer btn">
       <i class="glyphicon glyphicon-text-color" [style.color]="currentColor"></i>
     </label>
     <div class="input-color">
-      <input type="color" id="background-text-color" [(ngModel)]="currentBgColor">
+      <input type="color" id="background-text-color" [(ngModel)]="currentBgColor" (ngModelChange)="setStyle(STYLE_BG_COLOR, $event)">
     </div>
     <label for="background-text-color" class="cursor-pointer btn">
       <i class="glyphicon glyphicon-text-background" [style.color]="currentBgColor"></i>
@@ -158,7 +160,7 @@
   <div class="divider visible-md  visible-lg"></div>
 
   <!-- Add link -->
-  <div class="btn-group visible-lg">
+  <div class="btn-group visible-md  visible-lg">
     <button type="button" class="btn" (click)="editLink()">
       <i class="fa fa-link"></i>
     </button>
@@ -170,7 +172,7 @@
       DROPDOWN
   -->
 
-  <div class="dropdown menu-editor-dropdown visible-xs visible-sm visible-md">
+  <div class="dropdown menu-editor-dropdown visible-xs visible-sm">
     <button class="btn btn-default dropdown-toggle" type="button"
             id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
       <i class="fa fa-ellipsis-h"></i>
@@ -222,14 +224,14 @@
 
       <div class="input-color-wrapper visible-xs">
         <div class="input-color">
-          <input type="color" [(ngModel)]="currentColor">
+          <input type="color" [(ngModel)]="currentColor" (ngModelChange)="setStyle(STYLE_COLOR, $event)">
         </div>
         <label for="text-color" class="cursor-pointer btn">
           <i class="glyphicon glyphicon-text-color" [style.color]="currentColor"></i>
           <!--<i class="icon icon-caret" aria-hidden="true"></i>-->
         </label>
         <div class="input-color">
-          <input type="color" [(ngModel)]="currentBgColor">
+          <input type="color" [(ngModel)]="currentBgColor" (ngModelChange)="setStyle(STYLE_BG_COLOR, $event)">
         </div>
         <label for="background-text-color" class="cursor-pointer btn">
           <i class="glyphicon glyphicon-text-background" [style.color]="currentBgColor"></i>

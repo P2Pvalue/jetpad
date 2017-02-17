@@ -41,7 +41,7 @@ export class EditorToolbarComponent implements OnInit {
   readonly fontSizes = [10, 12, 14, 16, 18, 20, 22, 24, 28, 30, 32, 34, 36];
 
   readonly fontWeightBold = "bold";
-  readonly fontStyleItalic = "italic"
+  readonly fontStyleItalic = "italic";
 
   readonly textDecorationUnderline = "underline";
   readonly textDecorationStrike = "line-through";
@@ -52,7 +52,7 @@ export class EditorToolbarComponent implements OnInit {
   readonly textAlignJusity = "justify";
 
   readonly listDecimal = "decimal";
-  readonly listUnordered = "unordered"
+  readonly listUnordered = "unordered";
 
   ngOnInit() {
 
