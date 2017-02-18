@@ -17,7 +17,6 @@ export function main(): Promise<any> {
     .catch(err => console.error(err));
 
 }
-
 bootloader(main);
 
 /*
