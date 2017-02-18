@@ -1,4 +1,4 @@
-<div class="container-fluid editor">
+<div class="container-fluid editor" mode="full">
   <jp-editor-header [title]="doc?.get('title')" [participants]="participants"></jp-editor-header>
   <jp-editor-toolbar [styles]="selectionStyles" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
   <div class="row">

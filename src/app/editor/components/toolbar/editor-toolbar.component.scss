@@ -1,6 +1,8 @@
 .editor-toolbar{
-  background-color: #ababab;
+  background-color: white;
+  text-align: center;
   width: 100%;
+  box-shadow: 0 0 10px rgba(199,199,199,1);
   /* padding: 0 5px; */
   position: fixed;
   margin-top: 36px;
@@ -9,18 +11,25 @@
   margin-left: -15px;
   padding-left: 10px;
   /*overflow-y: hidden;*/
+
+  div {
+    display: inline-block;
+
+  div {
+    align-self: center;
+    margin: auto;
+    max-width: 150px;
+    display: inline;
+    float: left;
+  }
+
   div.divider {
     width: 1px;
     height: 35px;
     margin: 0 5px;
     background-color: $soft-gray;
   }
-  div{
-    align-self: center;
-    margin: auto;
-    max-width: 150px;
-    float: left;
-  }
+
   div.input-select{
     height: 40px;
     .icon-caret {
@@ -30,6 +39,10 @@
       &:before {
         margin-left: -11px;
       }
+    }
+    select {
+      font-size: 10pt;
+      background-image: none;
     }
   }
   .btn-group{
@@ -45,11 +58,10 @@
         margin-top: 8px;
         display: inline-block;
       }*/
-      [class^="fa-"]:before, [class*=" fa-"]:before {
-        margin: 5px;
-      }
-      [class^="glyphicon-"]:before, [class*=" glyphicon-"]:before {
-        margin: 5px;
+      i.material-icons {
+        font-size: 14pt;
+        margin-left: 5px;
+        margin-right: 5px;
       }
     }
   }
@@ -60,6 +72,15 @@
       font-size: 14px;
       padding: 0;
     }
+
+    .btn {
+      i.material-icons {
+        font-size: 14pt;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+
     .input-color {
       width: 0.1px;
       height: 0.1px;
@@ -67,6 +88,7 @@
       overflow: hidden;
       position: absolute;
       z-index: -1;
+
 
       /*& + .input-btn {
         font-family: 'Roboto', sans-serif;
@@ -94,6 +116,7 @@
       height: 30px;
     }
   }
+}
 }
 
 .menu-editor-dropdown{

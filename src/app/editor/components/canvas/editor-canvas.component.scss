@@ -25,6 +25,22 @@
   margin: 130px auto 0 auto;
 }
 
+.jp-editor-canvas[mode="full"]{
+  display: flex;
+  background-color: $white;
+  border: 0;
+
+  max-width: 160mm; //
+  min-width: 320px; // small mobile device width
+
+  min-height: 297mm; // A4 height
+
+  padding: 0 0;
+
+  margin: $top-full-mode auto 0 auto;
+}
+
+
 .wave-editor-on {
   width: 100%;
 }

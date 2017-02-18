@@ -1,4 +1,6 @@
 <div class="editor-toolbar">
+
+<div class="center-block">
   <!-- Paragraph type -->
   <div class="input-select simple-select visible-xs visible-sm visible-md visible-lg">
     <select class="form-control"
@@ -48,26 +50,25 @@
     <button type="button" class="btn btn-default"
       (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
       [class.active]="checkStyle(STYLE_FONT_WEIGHT, fontWeightBold)">
-      <!--<i class="icon icon-text-bold icon-middle"></i>-->
-      <i class="fa fa-bold"></i>
+      <i class="material-icons">format_bold</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyle(STYLE_FONT_STYLE, fontStyleItalic)"
       [class.active]="checkStyle(STYLE_FONT_STYLE, fontStyleItalic)">
-      <i class="fa fa-italic"></i>
+      <i class="material-icons">format_italic</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationUnderline)"
       [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationUnderline)">
-      <i class="fa fa-underline"></i>
+      <i class="material-icons">format_underlined</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationStrike)"
       [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationStrike)">
-      <i class="fa fa-strikethrough"></i>
+      <i class="material-icons">strikethrough_s</i>
     </button>
 
   </div>
@@ -80,14 +81,13 @@
       <input type="color" id="text-color" [(ngModel)]="currentColor">
     </div>
     <label for="text-color" class="cursor-pointer btn">
-      <i class="glyphicon glyphicon-text-color" [style.color]="currentColor"></i>
+      <i class="material-icons" [style.color]="currentColor">format_color_text</i>
     </label>
     <div class="input-color">
       <input type="color" id="background-text-color" [(ngModel)]="currentBgColor">
     </div>
     <label for="background-text-color" class="cursor-pointer btn">
-      <i class="glyphicon glyphicon-text-background" [style.color]="currentBgColor"></i>
-      <!--<i class="icon icon-caret" aria-hidden="true"></i>-->
+      <i class="material-icons" [style.background-color]="currentBgColor">format_color_fill</i>
     </label>
   </div>
 
@@ -99,25 +99,25 @@
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignLeft)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignLeft)">
-      <i class="glyphicon glyphicon-align-left"></i>
+      <i class="material-icons">format_align_left</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignCenter)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignCenter)">
-      <i class="glyphicon glyphicon-align-center"></i>
+      <i class="material-icons">format_align_center</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignRight)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignRight)">
-      <i class="glyphicon glyphicon-align-right"></i>
+      <i class="material-icons">format_align_right</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignJustify)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignJustify)">
-      <i class="glyphicon glyphicon-align-justify"></i>
+      <i class="material-icons">format_align_justify</i>
     </button>
 
   </div>
@@ -129,13 +129,13 @@
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_LIST, listUnordered)"
       [class.active]="checkStyle(STYLE_LIST, listUnordered)">
-      <i class="fa fa-list-ul"></i>
+      <i class="material-icons">format_list_bulleted</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyleMultiple(STYLE_LIST, listDecimal)"
       [class.active]="checkStyle(STYLE_LIST, listDecimal)">
-      <i class="fa fa-list-ol"></i>
+      <i class="material-icons">format_list_numbered</i>
     </button>
   </div>
 
@@ -146,26 +146,25 @@
 
     <button type="button" class="btn btn-default"
       (click)="setStyle(STYLE_INDENT, 'outdent')">
-      <i class="fa fa-outdent" aria-hidden="true"></i>
+      <i class="material-icons">format_indent_decrease</i>
     </button>
 
     <button type="button" class="btn btn-default"
       (click)="setStyle(STYLE_INDENT, 'indent')">
-      <i class="fa fa-indent" aria-hidden="true"></i>
+      <i class="material-icons">format_indent_increase</i>
     </button>
   </div>
 
-  <div class="divider visible-md  visible-lg"></div>
+  <div class="divider visible-md visible-lg"></div>
 
   <!-- Add link -->
-  <div class="btn-group visible-lg">
+  <div class="btn-group visible-md visible-lg">
     <button type="button" class="btn" (click)="editLink()">
-      <i class="fa fa-link"></i>
+      <i class="material-icons">insert_link</i>
     </button>
   </div>
 
-
-
+</div>
   <!--
       DROPDOWN
   -->
@@ -174,7 +173,6 @@
     <button class="btn btn-default dropdown-toggle" type="button"
             id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
       <i class="fa fa-ellipsis-h"></i>
-      <!--<i class="icon icon-caret" aria-hidden="true"></i>-->
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 
