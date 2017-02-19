@@ -1,5 +1,6 @@
-.editor-toolbar{
+.editor-toolbar {
   background-color: white;
+
   text-align: center;
   width: 100%;
   box-shadow: 0 0 10px rgba(199,199,199,1);
@@ -12,85 +13,84 @@
   padding-left: 10px;
   /*overflow-y: hidden;*/
 
-  div {
+
+
+  > div {   // to center elements en tool bar
+
     display: inline-block;
 
-  div {
-    align-self: center;
-    margin: auto;
-    max-width: 150px;
-    display: inline;
-    float: left;
-  }
+    div {
+      align-self: center;
+      margin: auto;
+      max-width: 150px;
+      float: left;
+    }
 
-  div.divider {
-    width: 1px;
-    height: 35px;
-    margin: 0 5px;
-    background-color: $soft-gray;
-  }
+    i.material-icons {
+        font-size: 14pt;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
 
-  div.input-select{
-    height: 40px;
-    .icon-caret {
-      color: $caret-gray;
-      display: inline-block;
-      width: 10px;
-      &:before {
-        margin-left: -11px;
+    div.divider {
+      width: 1px;
+      height: 35px;
+      margin: 0 5px;
+      background-color: $soft-gray;
+    }
+
+    div.input-select{
+      height: 40px;
+      .icon-caret {
+        color: $caret-gray;
+        display: inline-block;
+        width: 10px;
+        &:before {
+          margin-left: -11px;
+        }
+      }
+      select {
+        font-size: 10pt;
+        background-image: none;
       }
     }
-    select {
-      font-size: 10pt;
-      background-image: none;
+
+
+    .btn-group{
+      height: 40px;
+      padding-top: 10px;
     }
-  }
-  .btn-group{
-    height: 40px;
-    padding-top: 10px;
     .btn {
       padding: 0;
       border: none;
       background: none;
       /*[class^="icon-"]:before, [class*=" icon-"]:before {
-        font-size: 30px;
-        vertical-align: middle;
-        margin-top: 8px;
-        display: inline-block;
-      }*/
-      i.material-icons {
-        font-size: 14pt;
-        margin-left: 5px;
+      font-size: 30px;
+      vertical-align: middle;
+      margin-top: 8px;
+      display: inline-block;
+    }*/
+    }
+
+    .input-color-wrapper{
+
+      label{
+        margin-top: 10px;
         margin-right: 5px;
+        font-size: 14px;
+        padding: 0;
       }
-    }
-  }
-  .input-color-wrapper{
-    label{
-      margin-top: 10px;
-      margin-right: 5px;
-      font-size: 14px;
-      padding: 0;
-    }
-
-    .btn {
-      i.material-icons {
-        font-size: 14pt;
-        margin-left: 5px;
-        margin-right: 5px;
-      }
-    }
-
-    .input-color {
-      width: 0.1px;
-      height: 0.1px;
-      opacity: 0;
-      overflow: hidden;
-      position: absolute;
-      z-index: -1;
 
 
-      /*& + .input-btn {
+      .input-color {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+
+        /*& + .input-btn {
         font-family: 'Roboto', sans-serif;
         font-size: 17px;
         font-weight: 400;
@@ -99,55 +99,39 @@
         cursor: pointer;
         text-decoration: underline;
         .icon {
-          display: inline-block;
-          vertical-align: middle;
-          margin-right: 10px;
-          margin-top: 5px;
-          &:before {
-            font-size: 35px;
-          }
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        margin-top: 5px;
+        &:before {
+        font-size: 35px;
         }
-      }*/
-      &:focus + .input-btn, & + .input-btn:hover {
-        color: $secondary-color-blend;
+        }
+        }*/
+        &:focus + .input-btn, & + .input-btn:hover {
+          color: $secondary-color-blend;
+        }
+      }
+
+      .simple-select{
+        height: 30px;
       }
     }
-    .simple-select{
-      height: 30px;
-    }
-  }
-}
-}
 
-.menu-editor-dropdown{
-  .dropdown-toggle {
-    width: 35px;
-    height: 35px;
-    padding: 10px 0;
-    border: none;
-    background: none;
-    margin: 0px 5px 5px 0;
-  }
-  .dropdown-menu-right{
-    position: fixed;
-    top: 100px;
-    //width: 90%;
-    margin: 0 auto;
-    left: 0;
-  }
-  @media only screen and (min-width: 250px) {
-    .dropdown-menu-right{
+
+
+    .dropdown-menu-right {
+
+      position: fixed;
+      top: 100px;
+      //width: 90%;
+      margin: 0 auto;
+      left: 0;
       max-width: 95%;
+
     }
-  }
-  @media only screen and (min-width: 600px) {
-    .dropdown-menu-right{
-      max-width: 265px;
-    }
-  }
-  @media only screen and (min-width : 1200px) {
-    .dropdown-menu-right{
-      max-width: 55px;
-    }
+
+
+
   }
 }
