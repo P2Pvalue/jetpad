@@ -32,7 +32,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
       position: absolute;
       z-index: 1000;
 
-      left: calc(50vw - 125px);
+      left: calc(50vw - 249px);
       top: calc(50vh - 216px);
     }
   `]

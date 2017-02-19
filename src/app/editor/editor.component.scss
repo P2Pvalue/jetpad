@@ -11,6 +11,16 @@ $top-classic-mode: "130px";
     top: 130px;
     height: calc(100vh - 130px);
     overflow-y: auto;
+
+    .form-group {
+      margin: 0px 0px;
+
+      .form-control {
+        background: none;
+      }
+
+    }
+
   }
 }
 
