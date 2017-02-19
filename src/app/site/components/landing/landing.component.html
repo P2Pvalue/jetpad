@@ -1,200 +1,62 @@
-<div class="row">
-  <div class="col-md-12 text-center bg-blue-gradient" style="padding-bottom: 115px;">
-    <h2>Create documents and</h2>
-    <h2>edit simultaneously</h2>
-    <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
-      <div class="col-md-8 col-md-offset-2">
-        <div class="form-group">
-          <input [(ngModel)]="documentId" placeholder="Document name" name="documentId" #documentIdInput required class="form-control" id="documentIdInput">
-        </div>
-        <button class="btn btn-primary btn-lg no-margin" [disabled]="!documentIdForm.form.valid">Open or Create</button>
+<div class="row landing-panel">
+
+  <div class="row top-bar">
+
+    <div class="col-xs-offset-1 col-xs-2 col-md-offset-2 col-md-2 logo">
+      <img alt="Jetpad" height=40 src="assets/img/jetpad-logo.png">
+    </div>
+
+    <div class="col-xs-8 col-md-6 menu">
+      <div class="pull-right">
+        <button class="btn btn-link">About</button>
+        <button class="btn btn-link">Login</button>
       </div>
-    </form>
-    <p class="text-muted">No login required - Copy the URL to share</p>
-  </div>
-</div>
+    </div>
 
-<div class="row" style="margin-bottom: 15px;">
-  <carousel [interval]="3000">
-    <slide>
-      <div class="row" style="width: 100%;">
-        <div class="col-md-8">
-          <img class="center-block wrapped-img" src="assets/img/computer.png" alt="" style="margin-top: -115px; margin-left: 0;">
-        </div>
-        <div class="col-md-4 text-center" style="min-height: 200px;">
-          <h3>Edit<br/>rich-text<br/>documents<br/></h3>
-          <br/>
-          <h3>Auto-generated<br/>table of contents<br/></h3>
-        </div>
+    <div class="col-xs-1 col-md-2 menu">
+
+    </div>
+
+
+  </div>
+
+
+<div class="row claim">
+    <div class="col-xs-offset-3 col-xs-6 col-md-offset-3 col-md-6 text-center">
+
+      <h1>Create text documents in one click</h1>
+      <h3>
+        <span>Share the link and coauthor simultaneously</span>
+      </h3>
+
+      <div class="panel panel-default doc-input">
+        <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
+          <div class="form-group label-placeholder is-empty">
+              <div class="input-group">
+                <label for="documentIdInput" class="control-label">Document name</label>
+                <input [(ngModel)]="documentId" name="documentId" required #documentIdInput  id="documentIdInput" class="form-control" type="text">
+                <span class="input-group-btn">
+                  <button class="btn btn-raised btn-danger hidden-xs" [disabled]="!documentIdForm.form.valid">Open/Create</button>
+                </span>
+              </div>
+          </div>
+
+        </form>
       </div>
-    </slide>
-    <slide>
-      <div class="row" style="width: 100%;">
-        <div class="col-md-8">
-          <img class="center-block wrapped-img" src="assets/img/computer.png" alt="" style="margin-top: -115px;  margin-left: 0;">
-        </div>
-        <div class="col-md-4 text-center" style="min-height: 200px;">
-          <h3>Make<br/>comments,<br/><br/>discuss<br/>with your peers</h3>
-          <p>
-          </p>
-        </div>
-      </div>
-    </slide>
-    <slide>
-      <div class="row" style="width: 100%;">
-        <div class="col-md-8">
-          <img class="center-block wrapped-img" src="assets/img/computer.png" alt="" style="margin-top: -115px;  margin-left: 0;">
-        </div>
-        <div class="col-md-4 text-center" style="min-height: 200px;">
-          <h3>Add<br/>pictures<br/>and<br/>tables</h3>
-          <p>
-
-          </p>
-        </div>
-      </div>
-    </slide>
-  </carousel>
-</div>
-
-<div class="row" style="margin-bottom: 80px;">
-  <div class="col-xs-12 col-sm-12 col-md-6 bg-orange-gradient text-center">
-    <h3 class="text-normal">
-      <span class="icon-23 bottom-left"></span>
-      Create public documents<br/>on Internet
-    </h3>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-6 bg-orange-gradient text-center">
-    <h3 class="text-normal">
-      <span class="icon-share top-right"></span>
-      Manage private documents<br/>with sharing control
-    </h3>
-  </div>
-</div>
-
-<div class="row" style="margin-bottom: 80px;">
-  <div class="col-md-12 text-center">
-    <h3 class="text-muted text-uppercase">Why Jetpad?</h3>
-  </div>
-  <div class="col-xs-12 col-md-4 text-center">
-    <h4>
-      <span class="icon-tick-check"></span>
-      Privacy
-    </h4>
-    <p class="padding">
-      Jetpad.net respects your privacy:
-    </p>
-    <p class="padding">
-      Your content will be never used by or shared with other services.
-    </p>
-  </div>
-  <div class="col-xs-12 col-md-4 text-center">
-    <h4>
-      <span class="icon-tick-check"></span>
-      Internet Freedom
-    </h4>
-    <p class="padding">
-      Jetpad gives you the freedom to install it on your own server.
-    </p>
-    <p class="padding">
-      Connect your server with others to keep collaborating together.
-    </p>
-  </div>
-  <div class="col-xs-12 col-md-4 text-center">
-    <h4>
-      <span class="icon-tick-check"></span>
-      Open Source
-    </h4>
-    <p class="padding">
-      Jetpad is Open Source.
-    </p>
-    <p class="padding">
-      Anyone can extend, adapt or improve Jetpad.
-    </p>
-    <p class="padding">
-      Check out source code or contribute on <a href="https://github.com/P2Pvalue/swellrt-pad">GitHub</a>.
-    </p>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-12 text-center">
-    <h3 class="text-muted text-uppercase">Supported by</h3>
-  </div>
-</div>
-
-<div class="row" style="margin: 0 20px 80px 20px; ">
-  <div class="col-xs-6 col-sm-4 col-md-3 spaced-vertically">
-    <img class="wrapped-img" src="assets/img/grasia_logo.png" alt="">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 spaced-vertically">
-    <img class="wrapped-img" src="assets/img/medialab_prado_logo.png" alt="">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 spaced-vertically">
-    <img class="wrapped-img" src="assets/img/redecentralize_logo.png" alt="">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 spaced-vertically">
-    <img class="wrapped-img" src="assets/img/techhub_logo.png" alt="">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 visible-xs-block spaced-vertically">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 visible-xs-block spaced-vertically">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 spaced-vertically">
-    <img class="wrapped-img" src="assets/img/devialab_logo.png" alt="">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 spaced-vertically">
-    <img class="wrapped-img" src="assets/img/ucm_logo.png" alt="">
-  </div>
-  <div class="col-xs-6 col-sm-4 col-md-3 spaced-vertically">
-    <img class="wrapped-img" src="assets/img/p2pvalue_logo.png" alt="">
-  </div>
-</div>
-
-<div class="row" style="margin-bottom: 80px;">
-  <div class="col-md-12 text-center bg-blue-gradient">
-    <h3>Subscribe to our newsletter</h3>
-    <form class="panel-body" #emailForm="ngForm">
-      <div class="col-md-8 col-md-offset-2">
-        <div class="form-group">
-          <input [(ngModel)]="email" placeholder="E-mail" name="email" #emailInput required class="form-control" id="emailInput">
-        </div>
-        <button class="btn btn-primary btn-lg no-margin" [disabled]="!emailForm.form.valid">Subscribe</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="row" style="margin-bottom: 90px;">
-  <div class="col-xs-6 col-sm-3 text-center">
-    <h3>Built with</h3>
-    <!-- <a href="http://swellrt.org/"> -->
-    <img class="wrapped-img" src="assets/img/swellrt-logo-small-vertical.png" alt="">
-    <!-- </a> -->
-  </div>
-  <div class="col-xs-6 col-sm-3 text-center">
-    <h3>Get the code</h3>
-    <!-- <a href="https://github.com/P2Pvalue"> -->
-    <img class="wrapped-img" src="assets/img/github-mark.png" alt="">
-    <!-- </a> -->
-  </div>
-  <div class="col-xs-6 col col-sm-3 text-center">
-    <h3>Jetpad</h3>
-    <ul class="landing-links">
-      <li><a [routerLink]=" ['./'] ">Home</a></li>
+      <button class="btn btn-raised btn-danger visible-xs-inline-block center-block" [disabled]="!documentIdForm.form.valid">Open/Create</button>
       <!--
-      <li><a [routerLink]=" ['./vision'] ">Vision and History</a></li>
-      -->
-      <li><a [routerLink]=" ['./'] ">Login</a></li>
-      <li><a [routerLink]=" ['./'] ">Register</a></li>
-    </ul>
-  </div>
-  <div class="col-xs-6 col-sm-3 text-center">
-    <h3>Contact with us</h3>
-    <ul class="landing-links">
-      <li><a [routerLink]=" ['./'] ">@getjetpad</a></li>
-      <!--
-      <li><a [routerLink]=" ['./'] ">GitHub</a></li>
-      -->
-    </ul>
+      <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="form-group">
+            <input [(ngModel)]="documentId" placeholder="Document name" name="documentId" #documentIdInput required class="form-control" id="documentIdInput">
+          </div>
+          <button class="btn btn-primary btn-lg no-margin" [disabled]="!documentIdForm.form.valid">Open or Create</button>
+        </div>
+      </form>
+      <p class="text-muted">No login required - Copy the URL to share</p>
+    -->
+
+    </div>
+
   </div>
 </div>

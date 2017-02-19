@@ -5,9 +5,71 @@
 @import "components/site-header/site-header.component";
 @import "components/site-footer/site-footer.component";
 
-jp-site{
-  .contenido{
-    margin-top: 50px;
-  }
+jp-site {
+
 }
 
+.landing-panel {
+  background-image: url('assets/img/clouds-bg.jpg');
+  height: 100vh;
+
+
+  .top-bar {
+    margin-top: 20px;
+
+    display: flex;
+    align-items: center;
+
+    .logo {
+    }
+
+    .menu {
+
+      button {
+        color: white;
+        font-weight: bold;
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+
+    }
+
+  } // top-bar
+
+  .claim {
+    margin-top: 4em;
+
+    h1 {
+      color: white;
+      font-size: 38pt;
+    }
+
+    h3 {
+      color: white;
+      font-weight: initial;
+    }
+    
+    .doc-input {
+        margin-top: 7em;
+
+        .panel-body {
+          padding-bottom: 5px;
+        }
+
+        .form-group {
+          margin: 0 0;
+          padding: 0 0;
+        }
+
+        .input-group {
+          margin-right: auto;
+          margin-left: auto;
+        }
+
+        .input-group-btn {
+          padding-right: 0;
+        }
+
+    }
+  }
+}

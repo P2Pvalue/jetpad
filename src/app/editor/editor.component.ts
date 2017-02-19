@@ -25,16 +25,12 @@ export class EditorComponent implements OnInit, OnDestroy {
   headers: Array<any> = new Array<any>();
 
   // To handle Links
-  linkModalPos: any = { x: 100, y: 100 };
   visibleLinkModal: boolean = false;
   inputLinkModal: any;
   linkRange: any;
 
-  readonly linkModalHeight: number = 204; // px
-  readonly linkModalWidth: number = 216; // px
 
   // Selected text contextual menu
-  selectionMenuPos: any = { x: 0, y: 0 };
   visibleSelectionMenu: boolean = false;
   selectionAnnotation: any;
 
@@ -189,8 +185,8 @@ export class EditorComponent implements OnInit, OnDestroy {
             var sel = annot.node;
 
             if (sel) {
-              that.selectionMenuPos.x = sel.offsetLeft + ((sel.offsetWidth - that.selectionMenuWidth) / 2);
-              that.selectionMenuPos.y = sel.offsetTop - that.selectionMenuHeight;
+              that.caretPos.x = sel.offsetLeft;
+              that.caretPos.y = sel.offsetTop;
               that.visibleSelectionMenu = true;
             }
 
@@ -230,8 +226,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   showModalLink() {
 
     // calculate position of the modal according to the current caret pos.
+    /*
     this.linkModalPos.x = this.caretPos.x + ((this.caretPos.width - this.linkModalWidth) / 2);
     this.linkModalPos.y = this.caretPos.y - this.linkModalHeight;
+    */
 
     // sugar syntax
     let selectionLink = this.selectionStyles[this.STYLE_LINK];

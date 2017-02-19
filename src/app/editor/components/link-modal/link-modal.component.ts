@@ -5,27 +5,23 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   template: `
 
 
-          <div class="link-modal modal-dialog" [style.top.px]="pos.y" [style.left.px]="pos.x">
+          <div class="link-modal modal-dialog modal-dialog-sm">
             <div class="modal-content">
-              <div class="modal-header">
-                <button (click)="doCancel()" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Link properties</h4>
-              </div>
 
               <div class="modal-body">
-                <div class="form-group form-group-sm">
+                <div class="form-group">
                   <label for="name" class="control-label">Text</label>
                   <input type="text" [(ngModel)]="link.text" class="form-control" id="text" required>
                 </div>
-                <div class="form-group form-group-sm">
-                  <label for="linkurl" class="control-label">Link URL</label>
+                <div class="form-group">
+                  <label for="linkurl" class="control-label">URL</label>
                   <input type="url" [(ngModel)]="link.url" class="form-control" id="linkurl">
                 </div>
               </div>
 
               <div class="modal-footer">
-                <button (click)="doCancel()"  type="button" class="btn btn-default">Close</button>
-                <button (click)="doOk()" type="button" class="btn btn-primary">Save</button>
+                <button (click)="doCancel()"  type="button" class="btn btn-default">Cancel</button>
+                <button (click)="doOk()" type="button" class="btn btn-primary">Ok</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
@@ -34,8 +30,10 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   styles:[`
     .link-modal {
       position: absolute;
-      float: right;
-      z-index: 400;
+      z-index: 1000;
+
+      left: calc(50vw - 249px);
+      top: calc(50vh - 216px);
     }
   `]
 })

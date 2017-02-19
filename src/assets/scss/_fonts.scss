@@ -1,3 +1,7 @@
+
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+
 @font-face {
   font-family: "Rubik";
   src: url("~assets/fonts/Rubik/Rubik-Regular.ttf");
@@ -102,42 +106,4 @@
   src: url("~assets/fonts/Open_Sans/OpenSans-BoldItalic.ttf");
   font-weight: bold;
 	font-style: italic;
-}
-
-@font-face {
-  font-family: "Roboto Mono";
-  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Roboto Mono";
-  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Bold.ttf");
-  font-weight: bold;
-}
-@font-face {
-  font-family: "Roboto Mono";
-  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Italic.ttf");
-  font-style: italic;
-}
-@font-face {
-  font-family: "Roboto Mono";
-  src: url("~assets/fonts/Roboto_Mono/RobotoMono-BoldItalic.ttf");
-  font-weight: bold;
-	font-style: italic;
-}
-
-.h2 {
-	font-family: 'Rubik', sans-serif;
-	font-size: 60px;
-	font-weight: 300;
-	color: $white;
-	margin-bottom: 28px;
-}
-
-#editor-container {
-	font-family: 'Liberation Serif', serif;
-}
-
-.text-inverse {
-	color: $white;
 }

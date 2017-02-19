@@ -6,6 +6,18 @@
 // jetpad classes
 .outline {
 
+  a {
+      color: rgb(189, 189, 189);
+  }
+
+  li {
+    font-weight: 200; // TODO put as variable
+    font-size: 14px; // TODO put as variable
+    list-style-type: none;
+    margin-bottom: 1em;
+
+  }
+
 }
 
 .outline-h1 {
@@ -13,21 +25,21 @@
 }
 
 .outline-h2 {
-  margin-left: 1em
+  margin-left: 0.5em
 }
 
 .outline-h3 {
-  margin-left: 2em
+  margin-left: 1em
 }
 
 .outline-h4 {
-  margin-left: 3em
+  margin-left: 1.5em
 }
 
 .outline-h5 {
-  margin-left: 4em
+  margin-left: 2em
 }
 
 .outline-h6 {
-  margin-left: 5em
+  margin-left: 2.5em
 }

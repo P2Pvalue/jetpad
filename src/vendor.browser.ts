@@ -19,6 +19,15 @@ import '@angularclass/hmr';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
+// jQuery, Bootstrap and Material Design Bootstrap
+import 'jquery';
+import 'bootstrap-sass';
+import 'bootstrap-material-design';
+
+declare let jQuery: any;
+
+jQuery.material.init();
+
 if ('production' === ENV) {
   // Production
 

@@ -1,5 +1,32 @@
+
+$top-full-mode: "110px";
+$top-classic-mode: "130px";
+
+
 .editor {
   background-color: #f1f1f1;
+
+  .floating-panel {
+    position: fixed;
+    top: 130px;
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+
+    .form-group {
+      margin: 0px 0px;
+
+      .form-control {
+        background: none;
+      }
+
+    }
+
+  }
+}
+
+
+.editor[mode="full"] {
+  background-color: white;
 
   .floating-panel {
     position: fixed;

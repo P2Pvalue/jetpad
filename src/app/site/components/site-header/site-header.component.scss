@@ -3,10 +3,12 @@ jp-site-header {
     background-color: $primary-color;
     .container-fluid{
       .navbar-header{
+        .navbar-toggle {
+          margin-right: 10px;
+        }
         button {
-          border-color: white;
-          color: white;
-          padding: 6px 10px;
+          border-width: 0;
+          padding: 6px 6px;
         }
       }
       .navbar-collapse{
