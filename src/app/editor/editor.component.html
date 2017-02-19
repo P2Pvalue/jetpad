@@ -6,7 +6,7 @@
         <jp-editor-outline [headers]="headers" ></jp-editor-outline>
     </div>
     <div class="col-md-offset-2 col-md-8">
-        <link-modal *ngIf="visibleLinkModal" [link]="inputLinkModal" [pos]="linkModalPos" (modalEvent)="editLink($event)"></link-modal>
+        <link-modal *ngIf="visibleLinkModal" [link]="inputLinkModal" (modalEvent)="editLink($event)"></link-modal>
         <selection-menu *ngIf="visibleSelectionMenu" [pos]="selectionMenuPos"></selection-menu>
         <jp-editor-canvas></jp-editor-canvas>
     </div>

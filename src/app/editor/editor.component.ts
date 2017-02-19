@@ -230,8 +230,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   showModalLink() {
 
     // calculate position of the modal according to the current caret pos.
+    /*
     this.linkModalPos.x = this.caretPos.x + ((this.caretPos.width - this.linkModalWidth) / 2);
     this.linkModalPos.y = this.caretPos.y - this.linkModalHeight;
+    */
 
     // sugar syntax
     let selectionLink = this.selectionStyles[this.STYLE_LINK];

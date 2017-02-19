@@ -8,8 +8,28 @@ $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 @import "~bootstrap-material-design/sass/bootstrap-material-design.scss";
 @import "~bootstrap-material-design/sass/ripples.scss";
 
-
-
 @import "editor/editor.style";
 @import "site/site.style";
 @import "share/share.style";
+
+// Use this as additional class of .modal-dialog
+.modal-dialog-sm {
+
+  width: initial;
+
+  .modal-content {
+
+    .modal-body {
+
+      padding: 0px 24px 0px 24px;
+
+      .form-group {
+
+        margin-top: 10px;
+
+      }
+    }
+
+  }
+
+}
