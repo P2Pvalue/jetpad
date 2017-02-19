@@ -253,7 +253,20 @@ module.exports = {
      */
     new HtmlElementsPlugin({
       headTags: require('./head-config.common')
+    }),
+
+    /*
+     * Make jQuery accesible for other modules.
+     * Different ways to do it:
+     * http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
+     */
+
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      jquery: "jquery"
     })
+
 
   ],
 
