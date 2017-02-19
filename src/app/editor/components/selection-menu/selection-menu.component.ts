@@ -4,31 +4,55 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   selector: 'selection-menu',
   template: `
 
-        <div class="selection-menu" [style.top.px]="pos.y" [style.left.px]="pos.x">
+      <div class="selection-menu form-group" [style.top.px]="at.y - 40 - 20" [style.left.px]="at.x - 40">
 
-            <div class="btn-group" role="group" aria-label="Context toolbar">
-              <button type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-              </button>
-            </div>
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini">
+              <i class="material-icons">insert_link</i>
+            </button>
 
+            <button type="button" class="btn btn-fab btn-fab-mini">
+              <i class="material-icons">bookmark</i>
+            </button>
+
+            <button type="button" class="btn btn-fab btn-fab-mini">
+              <i class="material-icons">mode_comment</i>
+            </button>
+          </span>
         </div>
+
+      </div>
   `,
   styles:[`
     .selection-menu {
       position: absolute;
-      float: right;
       z-index: 400;
+      margin: 0px 0px;
     }
+
+    .selection-menu i.material-icons {
+      font-size: 14pt;
+    }
+
+    .selection-menu .input-group-btn {
+      width: initial;
+    }
+
+    .selection-menu .btn {
+      background-color: white;
+    }
+
+    .selection-menu .btn:hover {
+      background-color: white;
+    }
+
   `]
 })
 
 export class SelectionMenuComponent implements OnInit {
 
-  @Input() pos: any;
+  @Input() at: any;
 
   @Output() modalEvent: EventEmitter<any> = new EventEmitter();
 
