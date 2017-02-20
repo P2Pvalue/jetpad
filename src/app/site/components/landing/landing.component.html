@@ -44,20 +44,22 @@
   <div class="row claim-input">
     <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6 text-center">
 
-      <div class="panel panel-default claim-input">
-        <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
-          <div class="form-group label-placeholder is-empty">
-              <div class="input-group">
-                <label for="documentIdInput" class="control-label">Document name</label>
-                <input [(ngModel)]="documentId" name="documentId" required #documentIdInput  id="documentIdInput" class="form-control" type="text">
-                <span class="input-group-btn">
-                  <button class="btn btn-raised btn-danger hidden-xs" [disabled]="!documentIdForm.form.valid">Open/Create</button>
-                </span>
-              </div>
-          </div>
-        </form>
-      </div>
-      <button class="btn btn-raised btn-danger visible-xs-inline-block center-block" [disabled]="!documentIdForm.form.valid">Open/Create</button>
+      <form class="panel panel-default claim-input" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
+        <div class="panel-body">
+
+            <div class="form-group label-placeholder is-empty">
+                <div class="input-group">
+                  <label for="documentIdInput" class="control-label">Document name</label>
+                  <input [(ngModel)]="documentId" name="documentId" required #documentIdInput  id="documentIdInput" class="form-control" type="text">
+                  <span class="input-group-btn">
+                    <button class="btn btn-raised btn-danger hidden-xs" [disabled]="!documentIdForm.form.valid">Open/Create</button>
+                  </span>
+                </div>
+            </div>
+
+            <button class="btn btn-raised btn-danger visible-xs-inline-block center-block" [disabled]="!documentIdForm.form.valid">Open/Create</button>
+        </div>
+      </form>
 
     </div>
   </div>
