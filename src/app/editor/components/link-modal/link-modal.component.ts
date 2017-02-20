@@ -5,7 +5,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   template: `
 
 
-          <div class="link-modal modal-dialog modal-dialog-sm">
+          <div class="link-modal modal-dialog modal-dialog-sm" [style.top.px]="at.y - 40 - 10" [style.left.px]="at.x">
             <div class="modal-content">
 
               <div class="modal-body">
@@ -29,11 +29,8 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   `,
   styles:[`
     .link-modal {
-      position: absolute;
-      z-index: 1000;
-
-      left: calc(50vw - 249px);
-      top: calc(50vh - 216px);
+      position: fixed;
+      z-index: 400;
     }
   `]
 })
@@ -43,7 +40,7 @@ export class LinkModalComponent implements OnInit {
   @Input() link: any;
   @Input() visible: boolean;
 
-  @Input() pos: any;
+  @Input() at: any;
 
   @Output() modalEvent: EventEmitter<any> = new EventEmitter();
 

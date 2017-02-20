@@ -11,7 +11,7 @@ import { CoreModule } from '../core';
 import { EditorComponent } from './editor.component';
 import { LinkModalComponent } from './components/link-modal/link-modal.component';
 import { SelectionMenuComponent } from './components/selection-menu/selection-menu.component';
-
+import { LinkMenuComponent } from './components/link-menu/link-menu.component';
 
 
 @NgModule({
@@ -22,6 +22,7 @@ import { SelectionMenuComponent } from './components/selection-menu/selection-me
     EditorToolbarComponent,
     LinkModalComponent,
     SelectionMenuComponent,
+    LinkMenuComponent,
     MyCustomModalComponent,
     EditorOutlineComponent,
     EditorMenuComponent

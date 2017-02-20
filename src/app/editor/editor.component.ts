@@ -31,9 +31,12 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   // Selected text contextual menu
   visibleContextMenu: boolean = false;
-  contexMenuPos: any = { x: 0, y: 0 };
 
-  caretPos: any = { x: 100, y: 100 };
+  // Specific context menu for links
+  visibleLinkContextMenu: boolean = false;
+
+  // Absolute Coordinates in the screen
+  caretPos: any = { x: 0, y: 0 };
 
 
   constructor(private backend: BackendService, private route: ActivatedRoute) {
@@ -69,13 +72,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
 
         // Listen for cursor and selection changes
-        this.editor.setSelectionHandler((range, editor, node, x , y) => {
-
-          console.log("selection hanlder");
-          window._node = node;
-          window._x = x;
-          window._y = y;
-          window._range = range;
+        this.editor.setSelectionHandler((range, editor, node) => {
 
           // calculate caret coords
           if (node) {
@@ -85,27 +82,24 @@ export class EditorComponent implements OnInit, OnDestroy {
             r.selectNodeContents(node);
             let rects = r.getClientRects();
 
-            window._r = r;
-            window._rects = rects;
-
             this.caretPos.x = rects[0].left;
             this.caretPos.y = rects[0].top;
 
-            this.contexMenuPos.x = rects[0].left;
-            this.contexMenuPos.y = rects[0].top;
-
-            console.log("caret pos -> "+ this.caretPos.x + "," + this.caretPos.y);
           }
 
           // anytime seleciton changes, close link modal
           this.visibleLinkModal = false;
           this.visibleContextMenu = false;
+          this.visibleLinkContextMenu = false;
 
           if (range) {
             // update toolbar state
             this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
 
-            if (!range.isCollapsed())
+            if (this.selectionStyles.link) {
+              this.visibleLinkContextMenu = true;
+
+            } else  if (!range.isCollapsed())
               this.visibleContextMenu = true;
 
           }
