@@ -33,11 +33,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   // Selected text contextual menu
   visibleSelectionMenu: boolean = false;
   selectionAnnotation: any;
+  selectionPos: any = { x: 0, y: 0 };
+  selectionId: string;
 
-  readonly selectionMenuHeight: number = 53; // px
-  readonly selectionMenuWidth: number = 100; // px
-
-  caretPos: any = { x: 100, y: 100, width: 0 };
+  caretPos: any = { x: 100, y: 100 };
 
 
   constructor(private backend: BackendService, private route: ActivatedRoute) {
@@ -76,24 +75,31 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.editor.setSelectionHandler((range, editor, node) => {
 
           // update toolbar state
-          this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
-
+          if (range)
+            this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
 
           // calculate caret coords
           if (node) {
+            window._node = node;
             let container = node.parentElement;
             this.caretPos.x = container.offsetLeft;
             this.caretPos.y = container.offsetTop;
             this.caretPos.width = container.offsetWidth;
           }
 
+          // anytime seleciton changes, close link modal
+          this.visibleLinkModal = false;
+
+          // anytime selection changes, reset current selection
+          if (this.selectionAnnotation)
+            this.selectionAnnotation.clear();
+          this.selectionId = null;
+          this.visibleSelectionMenu = false;
+          this.selectionAnnotation = null;
 
           // show contextual menu by setting the @selection annotation
-          if (this.selectionAnnotation) {
-            this.selectionAnnotation.clear();
-            this.selectionAnnotation = null;
-          }
-          this.selectionAnnotation = editor.setAnnotation("@selection", "", range);
+          if (range && !range.isCollapsed())
+            this.selectionAnnotation = editor.setAnnotation("@selection", ""+Date.now(), range);
 
         });
 
@@ -184,15 +190,17 @@ export class EditorComponent implements OnInit, OnDestroy {
           if (type == swellrt.Annotation.EVENT_ADDED) {
             var sel = annot.node;
 
-            if (sel) {
-              that.caretPos.x = sel.offsetLeft;
-              that.caretPos.y = sel.offsetTop;
+            if (sel && that.selectionId != annot.value) {
+              window._sel = sel;
+
+              that.selectionId = annot.value;
+              that.selectionPos.x = sel.offsetLeft;
+              that.selectionPos.y = sel.offsetTop;
               that.visibleSelectionMenu = true;
             }
 
-          } else if (type == swellrt.Annotation.EVENT_REMOVED) {
-            that.visibleSelectionMenu = false;
           }
+
         });
 
       });
