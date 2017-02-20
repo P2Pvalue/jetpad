@@ -38,12 +38,12 @@ jp-site {
   } // top-bar
 
   .claim {
-    margin-top: 4em;
+    margin-top: 3em;
 
     .claim-text {
 
       color: white;
-      background-color: rgba(0, 0, 0, 0.3);
+      // background-color: rgba(0, 0, 0, 0.3);
       border-radius: 8px;
       padding: 10px;
 
@@ -57,29 +57,30 @@ jp-site {
 
     }
 
-    .claim-input {
-        margin-top: 7em;
-        border-radius: 8px;
+  }
 
-        .panel-body {
-          padding-bottom: 5px;
-        }
+  .claim-input {
+      margin-top: 1em;
+      border-radius: 8px;
 
-        .form-group {
-          margin: 0 0;
-          padding: 0 0;
-        }
+      .panel-body {
+        padding-bottom: 5px;
+      }
 
-        .input-group {
-          margin-right: auto;
-          margin-left: auto;
-        }
+      .form-group {
+        margin: 0 0;
+        padding: 0 0;
+      }
 
-        .input-group-btn {
-          padding-right: 0;
-        }
+      .input-group {
+        margin-right: auto;
+        margin-left: auto;
+      }
 
-    }
+      .input-group-btn {
+        padding-right: 0;
+      }
+
   }
 
   .footer {
@@ -89,6 +90,17 @@ jp-site {
     bottom: 10px;
     left: 0;
     right: 0;
+
+    .links {
+
+      margin-bottom: 15px;
+
+      a {
+        color: #333;
+        margin: 0px 1em 0px 1em;
+      }
+
+    }
 
     p {
       font-size: 10pt;

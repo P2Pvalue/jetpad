@@ -7,12 +7,20 @@
     </div>
 
     <div class="col-xs-8 col-md-6 menu">
-      <!--
+
+
       <div class="pull-right">
-        <button class="btn btn-link">About</button>
-        <button class="btn btn-link">Login</button>
+        <button class="btn btn-link">
+          <a href="https://github.com/P2Pvalue/jetpad" target="_blank">
+            GitHub
+          </a>
+        </button>
+        <button class="btn btn-link">
+          <a href="https://twitter.com/getjetpad" target="_blank">
+          Twitter
+          </a>
+        </button>
       </div>
-      -->
     </div>
 
     <div class="col-xs-1 col-md-2 menu">
@@ -22,9 +30,8 @@
   </div>
 
 
-<div class="row claim">
+  <div class="row claim">
     <div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8 text-center">
-
       <div class="claim-text hidden-sm hidden-xs">
         <h1>Create text documents in one click</h1>
         <h3>
@@ -32,7 +39,9 @@
         </h3>
       </div>
     </div>
+  </div>
 
+  <div class="row claim-input">
     <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6 text-center">
 
       <div class="panel panel-default claim-input">
@@ -46,30 +55,19 @@
                 </span>
               </div>
           </div>
-
         </form>
       </div>
       <button class="btn btn-raised btn-danger visible-xs-inline-block center-block" [disabled]="!documentIdForm.form.valid">Open/Create</button>
-      <!--
-      <form class="panel-body" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
-        <div class="col-md-8 col-md-offset-2">
-          <div class="form-group">
-            <input [(ngModel)]="documentId" placeholder="Document name" name="documentId" #documentIdInput required class="form-control" id="documentIdInput">
-          </div>
-          <button class="btn btn-primary btn-lg no-margin" [disabled]="!documentIdForm.form.valid">Open or Create</button>
-        </div>
-      </form>
-      <p class="text-muted">No login required - Copy the URL to share</p>
-    -->
 
     </div>
-
   </div>
 
+
   <div class="row">
-    <div class="footer col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8">
+    <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8 footer">
       <p>Copyright Pablo Ojanguren, Alejandro Garrido, David Llop and University Complutense of Madrid.</p>
       <p>Source code licensed under <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank">AGPL v3</a>. Documentation licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0.</a></p>
     </div>
   </div>
+
 </div>
