@@ -29,12 +29,9 @@ export class EditorComponent implements OnInit, OnDestroy {
   inputLinkModal: any;
   linkRange: any;
 
-
   // Selected text contextual menu
-  visibleSelectionMenu: boolean = false;
-  selectionAnnotation: any;
-  selectionPos: any = { x: 0, y: 0 };
-  selectionId: string;
+  visibleContextMenu: boolean = false;
+  contexMenuPos: any = { x: 0, y: 0 };
 
   caretPos: any = { x: 100, y: 100 };
 
@@ -72,39 +69,46 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
 
         // Listen for cursor and selection changes
-        this.editor.setSelectionHandler((range, editor, node) => {
+        this.editor.setSelectionHandler((range, editor, node, x , y) => {
+
+          console.log("selection hanlder");
+          window._node = node;
+          window._x = x;
+          window._y = y;
+          window._range = range;
 
           // calculate caret coords
           if (node) {
-            window._node = node;
-            let container = node.parentElement;
-            this.caretPos.x = container.offsetLeft;
-            this.caretPos.y = container.offsetTop;
-            this.caretPos.width = container.offsetWidth;
+            // http://stackoverflow.com/questions/16209153/how-to-get-the-position-and-size-of-a-html-text-node-using-javascript
+
+            let r = document.createRange();
+            r.selectNodeContents(node);
+            let rects = r.getClientRects();
+
+            window._r = r;
+            window._rects = rects;
+
+            this.caretPos.x = rects[0].left;
+            this.caretPos.y = rects[0].top;
+
+            this.contexMenuPos.x = rects[0].left;
+            this.contexMenuPos.y = rects[0].top;
+
+            console.log("caret pos -> "+ this.caretPos.x + "," + this.caretPos.y);
           }
 
           // anytime seleciton changes, close link modal
           this.visibleLinkModal = false;
-
-          // anytime selection changes, reset current selection
-          if (this.selectionAnnotation)
-            this.selectionAnnotation.clear();
-          this.selectionId = null;
-          this.visibleSelectionMenu = false;
-          this.selectionAnnotation = null;
-
+          this.visibleContextMenu = false;
 
           if (range) {
             // update toolbar state
             this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
 
-            // show contextual menu by setting the @selection annotation
             if (!range.isCollapsed())
-              this.selectionAnnotation = editor.setAnnotation("@selection", ""+Date.now(), range);
+              this.visibleContextMenu = true;
+
           }
-
-
-
 
         });
 
@@ -172,53 +176,20 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.backend.get()
       .then( service =>{
 
-
         swellrt.Annotation.Registry.setHandler("header", (type, annot, event) => {
           if (swellrt.Annotation.EVENT_MOUSE != type) {
             that.refreshHeadings();
           }
         });
 
-        // Note about the @selection Annotation:
-        //
-        // We define this annotation to show a contextual menú
-        // with text tools on a text is selected.
-        // We use the annotation handler to show and hide the menu
-        // at the same time the annotation is rendered or removed
-        //
-        // An alternative approach is to use the editor's selection handler
-        // (see editor.setSelectionHandler) and the node parameter.
-
-        swellrt.Annotation.Registry.define("@selection","selection");
-        swellrt.Annotation.Registry.setHandler("@selection", (type, annot, event) => {
-
-          if (type == swellrt.Annotation.EVENT_ADDED) {
-            var sel = annot.node;
-
-            if (sel && that.selectionId != annot.value) {
-              window._sel = sel;
-
-              that.selectionId = annot.value;
-              that.selectionPos.x = sel.offsetLeft;
-              that.selectionPos.y = sel.offsetTop;
-              that.visibleSelectionMenu = true;
-            }
-
-          }
-
-        });
-
       });
-
-
-
   }
 
   editStyle(event: any) {
 
     let range = this.editor.getSelection();
     if (!range) return;
-    
+
     // if current selection is caret,
     // try to span operation range to the annotation
     if (range.isCollapsed()) {
@@ -319,194 +290,5 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.inputLinkModal = null;
 
   }
-
-//
-// Below old implementation using SwellRT alpha
-// To be removed
-//
-
-/*
-  editor: any;
-  title: any;
-  documentId: any;
-  //participants = [];
-  privateDocument: any;
-
-  outline: any;
-  showOutline: boolean = false;
-
-  refreshOutline: Function;
-
-
-  formats: Array<Array<string>> = [
-    //['paragraph-type'],
-    //['font-family'],
-    //['text-size'],
-    ['bold', 'italic', 'underline', 'strike-through'],
-    //['color', 'background-color'],
-    ['text-left', 'text-center', 'text-right', 'text-justify'],
-    //['link'],
-    //['export'],
-    ['text-dots', 'text-number']
-    //['table', 'img']
-  ];
-
-  annotations: Array<any>;
-  annotationMap = {
-    'header': 'paragraph/header=*',
-    'font-family': 'style/fontFamily=*',
-    'font-size': 'style/fontSize=*',
-    'bold': 'style/fontWeight=bold',
-    'italic': 'style/fontStyle=italic',
-    'underline': 'style/textDecoration=underline',
-    'strike-through': 'style/textDecoration=line-through',
-    'color': 'style/color=*',
-    'bg-color': 'style/backgroundColor=*',
-    'text-left': 'paragraph/textAlign=left',
-    'text-center': 'paragraph/textAlign=center',
-    'text-right': 'paragraph/textAlign=right',
-    'text-justify': 'paragraph/textAlign=justify',
-    'text-dots': 'paragraph/listStyleType=unordered',
-    'text-number': 'paragraph/listStyleType=decimal'
-  };
-  buttons: Map<string, boolean> = new Map<string, boolean>();
-  currentColor = '#000000';
-  currentBgColor = '#FFFFFF';
-  currentTextSize = '14px';
-  currentTextType = 'none';
-  currentTextFamily = 'Liberation Serif';
-
-
-  constructor(private documentService: DocumentService, private route: ActivatedRoute) {
-    //this.disableEditorToolbar();
-    documentService.currentDocumentIsPrivate.subscribe(visibility => this.privateDocument = visibility);
-    documentService.myDocuments.subscribe(document => {
-      if(document.editorId === this.documentId) {
-        this.participants = document.participants.slice();
-        this.participants.unshift(document.author);
-      }
-    });
-  }
-
-  ngOnInit(){
-
-    this.refreshOutline = () => {
-      this.outline = this.editor.getAnnotationSet('paragraph/header');
-    };
-
-
-    let widgets = {
-      'img-link': {
-        onInit: (parentElement, state) => parentElement.innerHTML = `<img src="${state}">`,
-        onChangeState: (parentElement, before, state) => parentElement.innerHTML = `<img src="${state}">`
-      }
-    };
-
-    let annotations = {
-      'paragraph/header': {
-        onAdd: this.refreshOutline,
-        onChange: this.refreshOutline,
-        onRemove: this.refreshOutline
-      },
-      'link': {
-        onEvent: function(range, event) {
-          if (event.type === 'click') {
-            event.stopPropagation();
-            if(event.ctrlKey) {
-              let annotation = range ? this.editor.getAnnotationInRange(range, 'link') : null;
-              let link = annotation ? annotation.value : null;
-              if (link) {
-                let win = window.open(link, '_blank');
-                win.focus();
-              }
-            }
-          }
-        }
-      }
-    };
-    this.editor = DocumentService.editor('canvas-container', widgets, annotations);
-
-    this.route.params.subscribe((param: any) => {
-      this.documentId = param['id'];
-      this.openDocument().then(() => {
-        this.refreshOutline();
-      });
-    });
-  }
-
-  ngOnDestroy() {
-    this.participants = [];
-    this.documentId = undefined;
-    this.documentService.close();
-  }
-
-  openDocument() {
-
-    return this.documentService.open(this.documentId).then(cObject => {
-
-      // Initialize the doc
-      if (!cObject.root.get('doc')) {
-        cObject.root.put('doc', cObject.createText(''));
-      }
-
-      // Initialize the doc's title
-      if (!cObject.root.get('doc-title')) {
-        cObject.root.put('doc-title', cObject.createString('New document'));
-      }
-
-      // Open the doc in the editor
-      this.title = cObject.root.get('doc-title');
-      this.editor.edit(cObject.root.get('doc'));
-
-      this.editor.onSelectionChanged((range) => {
-        if (range.lenght > 10) {
-          //this.hideAssessment = false;
-          //this.assesmentTop = range.node.parentElement.offsetTop + range.node.parentElement.offsetHeight;
-
-        } else {
-          //this.hideAssessment = true;
-        }
-        // this.selectedRange = range;
-        this.annotations = range.annotations;
-        this.updateEditorToolbar();
-      });
-
-      this.editorElement.addEventListener('focus', () => this.updateEditorToolbar());
-      this.editorElement.addEventListener('blur', () => this.disableEditorToolbar());
-
-      this.privateDocument = !this.documentService.publicDocument();
-    })
-      .catch(error => {
-        console.log('Document doesn\'t exist or you don\'t have permission to open: ' + error);
-      });
-  }
-
-  updateEditorToolbar() {
-    for (let formatGroup of this.formats) {
-      for (let format of formatGroup) {
-        let [key, val] = this.annotationMap[format].split('=');
-        this.buttons[format] = this.annotations[key] === val;
-      }
-    }
-    this.currentColor = this.annotations['style/color'] || '#000000';
-    this.currentBgColor = this.annotations['style/backgroundColor'] || '#FFFFFF';
-    this.currentTextType = this.annotations['paragraph/header'] || 'none';
-    this.currentTextSize = this.annotations['style/fontSize'] || '14px';
-    this.currentTextFamily = this.annotations['style/fontFamily'] || 'Liberation Serif';
-  }
-
-  disableEditorToolbar() {
-    for (let formatGroup of this.formats) {
-      for (let format of formatGroup) {
-        this.buttons[format] = false;
-      }
-    }
-  }
-
-  get editorElement() {
-    return (<HTMLElement>document.querySelector('#canvas-container > div'));
-  }
-  */
-
 
 }
