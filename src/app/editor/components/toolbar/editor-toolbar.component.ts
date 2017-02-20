@@ -28,6 +28,13 @@ export class EditorToolbarComponent implements OnInit {
   readonly STYLE_LIST: string = "list";
   readonly STYLE_INDENT: string = "indent";
 
+  readonly CLEARABLE_STYLES = [
+    this.STYLE_HEADER, this.STYLE_FONT_FAMILY, this.STYLE_FONT_SIZE,
+    this.STYLE_FONT_WEIGHT, this.STYLE_FONT_STYLE, this.STYLE_TEXT_DECORATION,
+    this.STYLE_VERTICAL_ALIGN, this.STYLE_COLOR, this.STYLE_BG_COLOR, this.STYLE_TEXT_ALIGN,
+    this.STYLE_LIST
+  ]
+
   // Put here all constant and default values
   // instead of hardcoding them in the template
 
@@ -85,6 +92,12 @@ export class EditorToolbarComponent implements OnInit {
 
   editLink() {
     this.linkEvent.emit();
+  }
+
+  clearStyle() {
+    for (var s in this.CLEARABLE_STYLES) {
+      this.styleEvent.emit({ name: this.CLEARABLE_STYLES[s], value: null });
+    }
   }
 
 }

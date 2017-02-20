@@ -1,8 +1,19 @@
 <div class="editor-toolbar">
 
 <div class="center-block dropdown">
+
+  <!-- Clear format -->
+  <div class="btn-group">
+    <button type="button" class="btn btn-default"
+      (click)="clearStyle()">
+      <i class="material-icons">format_clear</i>
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
   <!-- Paragraph type -->
-  <div class="input-select simple-select visible-xs visible-sm visible-md visible-lg">
+  <div class="input-select simple-select">
     <select class="form-control"
       [ngModel]="styles.header ? styles.header.value : defaultHeading"
       (ngModelChange)="setStyle('header', $event)" >
@@ -15,7 +26,7 @@
     </select>
   </div>
 
-  <div class="divider visible-xs visible-sm visible-md visible-lg"></div>
+  <div class="divider"></div>
 
   <!--Font Family -->
   <div class="input-select simple-select visible-xs visible-sm visible-md visible-lg">
@@ -167,7 +178,7 @@
   </div>
 
 
-  <button class="btn dropdown-toggle" type="button"
+  <button class="btn dropdown-toggle visible-sm visible-xs" type="button"
           id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     <i class="material-icons">more_horiz</i>
   </button>
@@ -185,7 +196,7 @@
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 
-      <div class="input-select simple-select  visible-xs">
+      <div class="input-select simple-select visible-xs">
         <select
           class="form-control"
           [ngModel]="styles.fontSize ? styles.fontSize.value : defaultFontSize"
