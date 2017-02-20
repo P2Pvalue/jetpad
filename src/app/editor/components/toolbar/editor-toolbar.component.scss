@@ -56,20 +56,24 @@
     }
 
 
-    .btn-group{
+    .btn-group {
       height: 40px;
-      padding-top: 10px;
+      padding-top: 6px;
     }
+
     .btn {
-      padding: 0;
+      padding: 4px 0px 4px 0px;
       border: none;
       background: none;
-      /*[class^="icon-"]:before, [class*=" icon-"]:before {
-      font-size: 30px;
-      vertical-align: middle;
-      margin-top: 8px;
-      display: inline-block;
-    }*/
+    }
+
+    .btn.active {
+      background-color: #e5e5e5;
+    }
+
+    .btn.dropdown-toggle {
+      height: 40px;
+      margin: 0px 0px;
     }
 
     .input-color-wrapper{

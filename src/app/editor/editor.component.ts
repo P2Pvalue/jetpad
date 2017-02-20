@@ -74,10 +74,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         // Listen for cursor and selection changes
         this.editor.setSelectionHandler((range, editor, node) => {
 
-          // update toolbar state
-          if (range)
-            this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
-
           // calculate caret coords
           if (node) {
             window._node = node;
@@ -97,9 +93,18 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.visibleSelectionMenu = false;
           this.selectionAnnotation = null;
 
-          // show contextual menu by setting the @selection annotation
-          if (range && !range.isCollapsed())
-            this.selectionAnnotation = editor.setAnnotation("@selection", ""+Date.now(), range);
+
+          if (range) {
+            // update toolbar state
+            this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
+
+            // show contextual menu by setting the @selection annotation
+            if (!range.isCollapsed())
+              this.selectionAnnotation = editor.setAnnotation("@selection", ""+Date.now(), range);
+          }
+
+
+
 
         });
 
@@ -212,7 +217,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   editStyle(event: any) {
 
     let range = this.editor.getSelection();
-
+    if (!range) return;
+    
     // if current selection is caret,
     // try to span operation range to the annotation
     if (range.isCollapsed()) {
