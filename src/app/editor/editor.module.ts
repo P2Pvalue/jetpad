@@ -4,8 +4,6 @@ import { EditorRoutingModule } from './editor-routing.module';
 import { EditorCanvasComponent } from './components/canvas';
 import { EditorHeaderComponent } from './components/header';
 import { EditorToolbarComponent } from './components/toolbar';
-import { InlineAssessment } from './components/inline-assessment/inline-assessment.component';
-import { CommentAssessment } from './components/inline-assessment/comment-assessment.component';
 import { EditorOutlineComponent } from './components/outline';
 import { EditorMenuComponent,MyCustomModalComponent } from './components/menu';
 import { ShareModule } from '../share';
@@ -23,13 +21,11 @@ import { SelectionMenuComponent } from './components/selection-menu/selection-me
     EditorCanvasComponent,
     EditorToolbarComponent,
     LinkModalComponent,
-    SelectionMenuComponent,    
+    SelectionMenuComponent,
     MyCustomModalComponent,
     EditorOutlineComponent,
-    EditorMenuComponent,
-    InlineAssessment,
-    CommentAssessment
-  ],
+    EditorMenuComponent
+    ],
   imports: [
     EditorRoutingModule,
     ShareModule,
