@@ -37,6 +37,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   // Absolute Coordinates in the screen
   caretPos: any = { x: 0, y: 0 };
+  caretPosNode: any;
 
 
   constructor(private backend: BackendService, private route: ActivatedRoute) {
@@ -65,6 +66,10 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.initAnnotations();
 
+    window.onscroll = () => {
+      this.clearFloatingViews();
+    };
+
     this.backend.get()
       .then( s => {
 
@@ -74,33 +79,25 @@ export class EditorComponent implements OnInit, OnDestroy {
         // Listen for cursor and selection changes
         this.editor.setSelectionHandler((range, editor, node) => {
 
+          // anytime seleciton changes, close link modal
+          this.clearFloatingViews();
+
           // calculate caret coords
           if (node) {
-            // http://stackoverflow.com/questions/16209153/how-to-get-the-position-and-size-of-a-html-text-node-using-javascript
-
-            let r = document.createRange();
-            r.selectNodeContents(node);
-            let rects = r.getClientRects();
-
-            this.caretPos.x = rects[0].left;
-            this.caretPos.y = rects[0].top;
-
+            this.calculateCaretPos(node);
           }
-
-          // anytime seleciton changes, close link modal
-          this.visibleLinkModal = false;
-          this.visibleContextMenu = false;
-          this.visibleLinkContextMenu = false;
 
           if (range) {
             // update toolbar state
             this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
 
+            // show contextual menu
             if (this.selectionStyles.link) {
               this.visibleLinkContextMenu = true;
 
-            } else  if (!range.isCollapsed())
+            } else  if (!range.isCollapsed()) {
               this.visibleContextMenu = true;
+            }
 
           }
 
@@ -126,8 +123,31 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   }
 
+
+  calculateCaretPos(node) {
+    if (node)
+      this.caretPosNode = node;
+
+    if (!this.caretPosNode)
+      return;
+
+    // http://stackoverflow.com/questions/16209153/how-to-get-the-position-and-size-of-a-html-text-node-using-javascript
+    let r = document.createRange();
+    r.selectNodeContents(this.caretPosNode);
+    let rects = r.getClientRects();
+
+    this.caretPos.x = rects[0].left;
+    this.caretPos.y = rects[0].top;
+  }
+
   refreshHeadings() {
     this.headers = this.editor.getAnnotation(["header"], swellrt.Editor.Range.ALL, true)["header"];
+  }
+
+  clearFloatingViews() {
+    this.visibleLinkModal = false;
+    this.visibleContextMenu = false;
+    this.visibleLinkContextMenu = false;
   }
 
   open(id: string) {

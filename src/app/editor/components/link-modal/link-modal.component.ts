@@ -5,7 +5,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   template: `
 
 
-          <div class="link-modal modal-dialog modal-dialog-sm" [style.top.px]="at.y - 40 - 10" [style.left.px]="at.x">
+          <div class="link-modal modal-dialog modal-dialog-sm" [style.top.px]="at.y" [style.left.px]="at.x">
             <div class="modal-content">
 
               <div class="modal-body">
