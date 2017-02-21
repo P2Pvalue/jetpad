@@ -43,12 +43,17 @@ jp-site {
     .claim-text {
 
       color: white;
-      // background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
       padding: 10px;
+
+      .dark-bg {
+        background-color: rgba(0, 0, 0, 0.45);
+        display: inline;
+        line-height: initial;
+      }
 
       h1 {
         font-size: 38pt;
+
       }
 
       h3 {
