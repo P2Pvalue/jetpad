@@ -18,7 +18,7 @@
 
     <div class="col-md-offset-2 col-md-8" id="editor-panel">
         <link-modal *ngIf="visibleLinkModal" [at]="caretPos" [link]="inputLinkModal" (modalEvent)="editLink($event)"></link-modal>
-        <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos"></link-menu>
+        <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos" [link]="selectionStyles.link" (actionEvent)="linkContextAction($event)"></link-menu>
         <selection-menu *ngIf="visibleContextMenu" [at]="caretPos"></selection-menu>
         <jp-editor-canvas></jp-editor-canvas>
     </div>

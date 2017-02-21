@@ -224,12 +224,6 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   showModalLink() {
 
-    // calculate position of the modal according to the current caret pos.
-    /*
-    this.linkModalPos.x = this.caretPos.x + ((this.caretPos.width - this.linkModalWidth) / 2);
-    this.linkModalPos.y = this.caretPos.y - this.linkModalHeight;
-    */
-
     // sugar syntax
     let selectionLink = this.selectionStyles[this.STYLE_LINK];
 
@@ -261,6 +255,9 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.visibleLinkModal = true;
   }
 
+  /*
+  *
+  */
   editLink(link: any) {
 
     // hide modal
@@ -303,6 +300,19 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.linkRange = null;
     this.inputLinkModal = null;
 
+  }
+
+  linkContextAction(action: string) {
+
+    this.visibleLinkContextMenu = false;
+
+    if ("edit" == action) {
+      this.showModalLink();
+    }
+
+    if ("delete" == action) {
+      this.editLink({ text : "" });
+    }
   }
 
 }
