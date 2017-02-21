@@ -45,7 +45,7 @@
   -->
 
   <!-- Font size -->
-  <div class="input-select simple-select  visible-sm visible-md visible-lg">
+  <div class="input-select simple-select">
     <select
       class="form-control"
       [ngModel]="styles.fontSize ? styles.fontSize.value : defaultFontSize"
@@ -55,10 +55,10 @@
     </select>
   </div>
 
-  <div class="divider  visible-sm visible-md visible-lg"></div>
+  <div class="divider"></div>
 
   <!-- Font style -->
-  <div class="btn-group visible-sm visible-md visible-lg" role="group">
+  <div class="btn-group" role="group">
 
     <button type="button" class="btn btn-default"
       (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
