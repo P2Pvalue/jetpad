@@ -19,7 +19,7 @@ before_install:
   - sleep 3
 sudo: false
 install:
-  - npm clean
+  - npm run clean
   - npm i
 script:
   - npm run build
