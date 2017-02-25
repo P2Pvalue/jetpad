@@ -19,7 +19,7 @@ before_install:
   - sleep 3
 sudo: false
 install:
-  - npm i -g typings esformatter protractor webpack webpack-dev-server karma protractor typings typescript webpack-merge webpack copy-webpack-plugin html-webpack-plugin awesome-typescript-loader autoprefixer angular2-template-loader hmr-loader
+  - npm clean
   - npm i
 script:
   - npm run build
