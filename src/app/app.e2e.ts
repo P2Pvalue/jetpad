@@ -1,13 +1,14 @@
+import { browser, by, element } from 'protractor';
+
 describe('App', () => {
 
   beforeEach(() => {
     browser.get('/');
   });
 
-
   it('should have a title', () => {
     let subject = browser.getTitle();
-    let result  = 'SwellRT Editor';
+    let result  = 'Angular2 Webpack Starter by @gdi2290 from @AngularClass';
     expect(subject).toEqual(result);
   });
 
@@ -25,7 +26,7 @@ describe('App', () => {
 
   it('should have buttons', () => {
     let subject = element(by.css('button')).getText();
-    let result  = 'Index';
+    let result  = 'Submit Value';
     expect(subject).toEqual(result);
   });
 

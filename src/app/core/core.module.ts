@@ -1,7 +1,16 @@
 import { NgModule } from '@angular/core';
 
-import { BackendService, DocumentService, ListenerService, UserService, AppState, JetpadModalService, ModalPlaceholderComponent } from "./services";
-import { LoggedUserGuard } from "./guards";
+import {
+  BackendService,
+  DocumentService,
+  ListenerService,
+  UserService,
+  AppState,
+  JetpadModalService,
+  ModalPlaceholderComponent
+} from './services';
+
+import { LoggedUserGuard } from './guards';
 import { ShareModule } from '../share';
 
 const CORE_PROVIDERS = [

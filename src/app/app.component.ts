@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation } from "@angular/core";
-import { BackendService } from "./core/services";
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { BackendService } from './core/services';
 
 declare let swellrt: any;
 
@@ -17,23 +17,22 @@ declare let swellrt: any;
   `
 })
 
-export class App {
-
+export class App implements OnInit {
 
   constructor(private backend: BackendService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     // bind swellrt backend
     this.backend.bind(new Promise(
       (resolve, reject) => {
-        swellrt.onReady( s => {
-          console.log("swellrt client ready");
+        swellrt.onReady( (s) => {
+          console.log('swellrt client ready');
           resolve(s);
         });
 
-        setTimeout(function () {
+        setTimeout( () => {
             reject(new Error('Timeout error loading SwellRT client (15s)'));
         }, 15000);
       }

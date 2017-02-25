@@ -1,4 +1,3 @@
-
 function HtmlElementsPlugin(locations) {
   this.locations = locations;
 }
@@ -43,7 +42,9 @@ function createTag(tagName, attrMap, publicPath) {
   publicPath = publicPath || '';
 
   // add trailing slash if we have a publicPath and it doesn't have one.
-  if (publicPath && !RE_ENDS_WITH_BS.test(publicPath)) publicPath += '/';
+  if (publicPath && !RE_ENDS_WITH_BS.test(publicPath)) {
+    publicPath += '/';
+  }
 
   const attributes = Object.getOwnPropertyNames(attrMap)
     .filter(function(name) { return name[0] !== '='; } )
@@ -61,10 +62,12 @@ function createTag(tagName, attrMap, publicPath) {
         }
       }
 
-      return name + '="' + value + '"';
+      return `${name}="${value}"`;
     });
 
-  return '<' + tagName + ' ' + attributes.join(' ') + '>';
+  const closingTag = tagName === 'script' ? '</script>' : '';
+
+  return `<${tagName} ${attributes.join(' ')}>${closingTag}`;
 }
 
 /**

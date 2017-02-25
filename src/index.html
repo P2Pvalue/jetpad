@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="">
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= webpackConfig.metadata.title %>">
+  <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
 
-  <base href="<%= webpackConfig.metadata.baseUrl %>">
-  <title><%= webpackConfig.metadata.title %></title>
+  <base href="<%= htmlWebpackPlugin.options.metadata.baseUrl %>">
+  <title><%= htmlWebpackPlugin.options.title %></title>
 
   <% if (webpackConfig.htmlElements.headTags) { %>
   <!-- Configured Head Tags  -->
@@ -42,21 +42,15 @@
     // ga('create', 'UA-71073175-1', 'auto');
     // ga('send', 'pageview');
   </script>
-  <!-- SwellRT -->
-  <!--
-  <script src="//demo.swellrt.org/swellrt-beta.js"></script>
-  -->
+
+
+  <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
   <script src="http://localhost:9898/swellrt-beta.js"></script>
-
-
-
-  <% if (webpackConfig.metadata.isDevServer && webpackConfig.metadata.HMR !== true) { %>
   <!-- Webpack Dev Server reload -->
   <script src="/webpack-dev-server.js"></script>
+  <% } else { %>
+  <script src="/swellrt-beta.js"></script>
   <% } %>
-  <!--
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  -->
+
 </body>
 </html>
