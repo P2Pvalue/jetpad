@@ -52,9 +52,8 @@ SwellRT Pad uses Webpack 1.x (current version is 1.13.3). In order to manage pro
   npm install <dependency> --save
 ```
 
-The project's layout is initially based in [AngularClass starter](https://github.com/AngularClass/angular2-webpack-starter). The configuration is hosted completely under ```config``` folder of the project. There are three types of configuration: *dev*, *prod* and *test*. Also there is a configuration for unit test managed by *Karma* and E2E tests based in protractor.
+The project's layout is based in [AngularClass starter](https://github.com/AngularClass/angular2-webpack-starter). The configuration is hosted completely under ```config``` folder of the project. There are three types of configuration: *dev*, *prod* and *test*. Also there is a configuration for unit test managed by *Karma* and E2E tests based in protractor.
 
-(TODO: upgrade project layout)
 
 ### Bootstrap
 
