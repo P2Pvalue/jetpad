@@ -21,6 +21,7 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 /*
  * Webpack Constants
@@ -363,7 +364,13 @@ module.exports = function (options) {
         jQuery: 'jquery',
         $: 'jquery',
         jquery: 'jquery'
-      })
+      }),
+
+      new WebpackShellPlugin({
+        safe: true,
+        // Workaround bug https://github.com/FezVrasta/bootstrap-material-design/issues/859
+        onBuildStart:['echo > node_modules/bootstrap-material-design/sass/_import-bs-sass.scss'],
+        onBuildEnd:[]})
 
     ],
 
