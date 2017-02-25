@@ -36,17 +36,28 @@ For production ready build, do:
 npm run build:prod
 ```
 
+Output files will be placed in '/dist' folder.
+
 ## SwellRT Server
 
-JetPad requires SwellRT as backend server. By default, it is expected at localhost:9898 for dev mode builds.
-To change this configuration check out the script tag in `src/index.html`.
+JetPad requires SwellRT as backend server. To setup a SwellRT server, please visit the [SwellRT Readme](https://github.com/p2pvalue/swellrt).
 
-To install your own SwellRT server, please visit the [SwellRT Readme](https://github.com/p2pvalue/swellrt).
+If you run JetPad in dev mode (`npm start`) the index file
+`index.html` will point to `localhost:9898`, the default SwellRT development endpoint.
+
+If JetPad is built in prod mode, the index file `index.html` will point to its own context (`/`)
+to reach the SwellRT client. In this case, you can deploy JetPad files together with the SwellRT server adding the following config option to the `application.conf`:
+
+```
+core {
+	resource_bases : ["./war", "<path to JetPad webapp files>"]
+}
+```
 
 
 ## Dependencies
 
-SwellRT Pad uses Webpack 1.x (current version is 1.13.3). In order to manage project dependencies you should use npm system or add directly the new dependency in *package.json* file:
+SwellRT Pad uses Webpack 2. In order to manage project dependencies you should use npm system or add directly the new dependency in *package.json* file:
 
 ```
   npm install <dependency> --save
