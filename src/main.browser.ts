@@ -11,7 +11,6 @@ import { bootloader } from '@angularclass/hmr';
  */
 import { AppModule } from './app';
 
-
 // jQuery, Bootstrap and Material Design Bootstrap
 import 'jquery';
 import 'bootstrap-sass';
