@@ -1,7 +1,7 @@
 {
-  "name": "swellrt-pad",
+  "name": "JetPad",
   "version": "0.0.1",
-  "description": "Descentralized collaborative editor",
+  "description": "Open Source text editor for collaboration",
   "keywords": [
     "angular2",
     "webpack",
@@ -87,6 +87,7 @@
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
     "jasmine-core": "^2.5.2",
+    "jquery": "^3.1.1",
     "ng2-bootstrap": "^1.3.3",
     "ngx-clipboard": "^3.0.5",
     "ngx-modal": "0.0.29",
