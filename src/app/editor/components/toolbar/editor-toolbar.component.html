@@ -89,7 +89,7 @@
   <div class="divider visible-sm visible-md visible-lg"></div>
 
   <!-- text  and background color -->
-  <div class="input-color-wrapper  visible-sm visible-md visible-lg">
+  <div class="input-color-wrapper visible-sm visible-md visible-lg">
     <div class="input-color">
       <input type="color" id="text-color"
              [ngModel]="styles.color ? styles.color.value : defaultColor"
@@ -107,7 +107,13 @@
   </div>
 
 
-  <div class="divider visible-sm  visible-md visible-lg"></div>
+  <div class="divider visible-sm visible-md visible-lg"></div>
+
+
+  <button class="btn dropdown-toggle visible-sm visible-xs" type="button"
+          id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <i class="material-icons">more_horiz</i>
+  </button>
 
   <!-- text position -->
   <div class="btn-group visible-md visible-lg" role="group">
@@ -178,15 +184,6 @@
       <i class="material-icons">insert_link</i>
     </button>
   </div>
-
-
-  <button class="btn dropdown-toggle visible-sm visible-xs" type="button"
-          id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    <i class="material-icons">more_horiz</i>
-  </button>
-
-
-
 
 
   <!--
