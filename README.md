@@ -43,16 +43,8 @@ Output files will be placed in '/dist' folder.
 JetPad requires SwellRT as backend server. To setup a SwellRT server, please visit the [SwellRT Readme](https://github.com/p2pvalue/swellrt).
 
 If you run JetPad in dev mode (`npm start`) the index file
-`index.html` will point to `localhost:9898`, the default SwellRT development endpoint.
-
-If JetPad is built in prod mode, the index file `index.html` will point to its own context (`/`)
-to reach the SwellRT client. In this case, you can deploy JetPad files together with the SwellRT server adding the following config option to file `application.conf`:
-
-```
-core {
-	resource_bases : ["./war", "<path to JetPad webapp files>"]
-}
-```
+`index.html` will point to `localhost:9898`, the default SwellRT development endpoint. For other scenarios
+edit `index.html` to adjust the endpoint to `swellrt.js`.
 
 
 ## Dependencies
