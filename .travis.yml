@@ -23,7 +23,6 @@ before_install:
 
 
 install:
-  - npm run clean
   - npm i
 
 script:
