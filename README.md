@@ -46,7 +46,7 @@ If you run JetPad in dev mode (`npm start`) the index file
 `index.html` will point to `localhost:9898`, the default SwellRT development endpoint.
 
 If JetPad is built in prod mode, the index file `index.html` will point to its own context (`/`)
-to reach the SwellRT client. In this case, you can deploy JetPad files together with the SwellRT server adding the following config option to the `application.conf`:
+to reach the SwellRT client. In this case, you can deploy JetPad files together with the SwellRT server adding the following config option to file `application.conf`:
 
 ```
 core {
@@ -57,7 +57,7 @@ core {
 
 ## Dependencies
 
-SwellRT Pad uses Webpack 2. In order to manage project dependencies you should use npm system or add directly the new dependency in *package.json* file:
+JetPad uses Webpack 2. In order to manage project dependencies you should use npm system or add directly the new dependency in *package.json* file:
 
 ```
   npm install <dependency> --save
