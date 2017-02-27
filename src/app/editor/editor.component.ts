@@ -190,7 +190,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.backend.get()
       .then( service =>{
 
-        swellrt.Annotation.Registry.setHandler("header", (type, annot, event) => {
+        swellrt.Editor.AnnotationRegistry.setHandler("header", (type, annot, event) => {
           if (swellrt.Annotation.EVENT_MOUSE != type) {
             that.refreshHeadings();
           }
