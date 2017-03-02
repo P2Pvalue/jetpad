@@ -4,7 +4,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   selector: 'link-menu',
   template: `
 
-      <div class="selection-menu form-group" [style.top.px]="at.y - 40 - 10" [style.left.px]="at.x">
+      <div class="selection-menu form-group" [style.top.px]="at.y - 40 - 10" [style.left.px]="at.x - 14">
 
         <div class="input-group">
           <span class="input-group-btn">
@@ -26,7 +26,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   `,
   styles:[`
     .selection-menu {
-      position: fixed;
+      position: absolute;
       z-index: 400;
       margin: 0px 0px;
     }

@@ -77,14 +77,17 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
 
         // Listen for cursor and selection changes
-        this.editor.setSelectionHandler((range, editor, node) => {
+        this.editor.setSelectionHandler((range, editor, selection) => {
 
           // anytime seleciton changes, close link modal
           this.clearFloatingViews();
 
           // calculate caret coords
-          if (node) {
-            this.calculateCaretPos(node);
+          window._sel = selection;
+
+          if (selection.anchorPosition) {
+            this.caretPos.x = selection.anchorPosition.left;
+            this.caretPos.y = selection.anchorPosition.top;
           }
 
           if (range) {
@@ -123,22 +126,6 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   }
 
-
-  calculateCaretPos(node) {
-    if (node)
-      this.caretPosNode = node;
-
-    if (!this.caretPosNode)
-      return;
-
-    // http://stackoverflow.com/questions/16209153/how-to-get-the-position-and-size-of-a-html-text-node-using-javascript
-    let r = document.createRange();
-    r.selectNodeContents(this.caretPosNode);
-    let rects = r.getClientRects();
-
-    this.caretPos.x = rects[0].left;
-    this.caretPos.y = rects[0].top;
-  }
 
   refreshHeadings() {
     this.headers = this.editor.getAnnotation(["header"], swellrt.Editor.Range.ALL, true)["header"];
