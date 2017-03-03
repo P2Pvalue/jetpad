@@ -93,6 +93,7 @@
     "ngx-modal": "0.0.29",
     "reflect-metadata": "^0.1.9",
     "rxjs": "5.0.2",
+    "snackbarjs": "^1.1.0",
     "zone.js": "0.7.6"
   },
   "devDependencies": {
