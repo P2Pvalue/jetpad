@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HmrState } from 'angular2-hmr';
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class AppState {
-  _state = { };
+
+  private _state = { };
+  private _stateSubject = new Subject<any>();
 
   constructor() {
 
@@ -27,9 +30,14 @@ export class AppState {
 
   set(prop: string, value: any) {
     // internally mutate our state
-    return this._state[prop] = value;
+    let newValue = this._state[prop] = value;
+    this._stateSubject.next(this.state);
+    return newValue;
   }
 
+  get subject() {
+    return this._stateSubject;
+  }
 
   _clone(object) {
     // simple document clone
