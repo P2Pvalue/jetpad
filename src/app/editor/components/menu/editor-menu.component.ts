@@ -34,8 +34,6 @@ export class EditorMenuComponent {
     {'text': 'titulo 2.1', 'type': 'h2'},
     {'text': 'titulo 2.2', 'type': 'h2'}
   ];
-  @ViewChild('outline') outline:any;
-  @ViewChild('popupExample') modal: any;
 
   showOutline: boolean = false;
   outlineState: string = 'inactive';
@@ -45,7 +43,6 @@ export class EditorMenuComponent {
   }
 
   toggleOutline() {
-    console.log(this.outline);
     this.showOutline = !this.showOutline;
     this.outlineState = (this.outlineState == 'inactive') ? 'active': 'inactive';
   };
