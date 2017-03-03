@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { EditorRoutingModule } from './editor-routing.module';
 
 import { EditorCanvasComponent } from './components/canvas';
@@ -12,7 +12,8 @@ import { EditorComponent } from './editor.component';
 import { LinkModalComponent } from './components/link-modal/link-modal.component';
 import { SelectionMenuComponent } from './components/selection-menu/selection-menu.component';
 import { LinkMenuComponent } from './components/link-menu/link-menu.component';
-
+import { EditorErrorHandler } from './editor.errorhandler';
+import { ErrorModalComponent } from './editor.errormodal.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +26,16 @@ import { LinkMenuComponent } from './components/link-menu/link-menu.component';
     LinkMenuComponent,
     MyCustomModalComponent,
     EditorOutlineComponent,
-    EditorMenuComponent
+    EditorMenuComponent,
+    ErrorModalComponent,
     ],
   imports: [
     EditorRoutingModule,
     ShareModule,
     CoreModule
+  ],
+  providers: [
+    { provide: ErrorHandler, useClass: EditorErrorHandler }
   ]
 })
 

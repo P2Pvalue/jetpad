@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { BackendService } from "../core/services";
+import { ActivatedRoute } from '@angular/router';
+import { BackendService, AppState, JetpadModalService } from '../core/services';
+import { ErrorModalComponent } from "./editor.errormodal.component";
+import { EditorModule } from './index';
+
 
 declare let swellrt: any;
 declare let window: any;
@@ -13,34 +16,39 @@ declare let document: any;
 
 export class EditorComponent implements OnInit, OnDestroy {
 
-  readonly STYLE_LINK: string = "link";
+  private appStateSubscription: any;
 
-  docid: string; // document/object id
-  doc: any;      // document/object
+  private readonly STYLE_LINK: string = "link";
 
-  editor: any;   // swellrt editor component
+  private docid: string; // document/object id
+  private doc: any;      // document/object
 
-  selectionStyles: any = {}; // style annotations in current selection
+  private editor: any;   // swellrt editor component
 
-  headers: Array<any> = new Array<any>();
+  private selectionStyles: any = {}; // style annotations in current selection
+
+  private headers: Array<any> = new Array<any>();
 
   // To handle Links
-  visibleLinkModal: boolean = false;
-  inputLinkModal: any;
-  linkRange: any;
+  private visibleLinkModal: boolean = false;
+  private inputLinkModal: any;
+  private linkRange: any;
 
   // Selected text contextual menu
-  visibleContextMenu: boolean = false;
+  private visibleContextMenu: boolean = false;
 
   // Specific context menu for links
-  visibleLinkContextMenu: boolean = false;
+  private visibleLinkContextMenu: boolean = false;
 
   // Absolute Coordinates in the screen
-  caretPos: any = { x: 0, y: 0 };
-  caretPosNode: any;
+  private caretPos: any = { x: 0, y: 0 };
+  private caretPosNode: any;
 
+  // Network Connection status
+  private connectionHandler: Function;
+  private status: string;
 
-  constructor(private backend: BackendService, private route: ActivatedRoute) {
+  constructor(private appState: AppState, private backend: BackendService, private modalService: JetpadModalService, private route: ActivatedRoute) {
 
   }
 
@@ -62,7 +70,32 @@ export class EditorComponent implements OnInit, OnDestroy {
     return editor.getAnnotation(['paragraph/','style/', 'link'], range);
   }
 
-  ngOnInit() {
+  private showModalError(error) {
+
+    let modal$ = this.modalService.create(EditorModule, ErrorModalComponent, {
+      message: error,
+      ok: () => {
+        console.log("Error modal")
+      }
+    });
+
+    modal$.subscribe((modal) => {
+      setTimeout(() => {
+        // close the modal after 5 seconds
+        //modal.destroy();
+      }, 5000)
+    });
+
+  }
+
+  public ngOnInit() {
+
+
+    this.appStateSubscription = this.appState.subject.subscribe( (state) => {
+      if (state.error) {
+        this.showModalError(state.error);
+      }
+    });
 
     this.initAnnotations();
 
@@ -72,6 +105,19 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.backend.get()
       .then( s => {
+
+        // attach connection status handler
+        this.connectionHandler = (status, error) => {
+          this.status = status;
+          if (status == "ERROR") {
+            let errorInfo = "Network error";
+            if (error)
+              errorInfo += ": "+error.statusMessage;
+            this.appState.set("error", errorInfo);
+          }
+
+        };
+        s.addConnectionHandler(this.connectionHandler);
 
         // keep the editor reference in the component
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
@@ -83,8 +129,6 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.clearFloatingViews();
 
           // calculate caret coords
-          window._sel = selection;
-
           if (selection.anchorPosition) {
             this.caretPos.x = selection.anchorPosition.left;
             this.caretPos.y = selection.anchorPosition.top;
@@ -114,7 +158,14 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
+
+    this.appStateSubscription.dispose();
+
+    this.backend.get()
+      .then( s => {
+        s.removeConnectionHandler(this.connectionHandler);
+      });
 
     if (this.editor) {
       this.editor.clean();
@@ -161,11 +212,11 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.editor.set(this.doc.get("text"));
       // Enable interactive editing now!
       this.editor.edit(true);
-
+      // Needed in some browsers
+      this.refreshHeadings();
     })
     .catch( error => {
-      console.log(error);
-      // TODO handle severe error
+      this.appState.set("error", "Error opening document "+id);
     });
   }
 
