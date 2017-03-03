@@ -8,7 +8,10 @@
     </div>
     <div class="col-xs-12 col-md-10 main-col">
       <div class="navbar-header">
-        <span class="navbar-brand title-text">{{title}}</span>
+       <span class="navbar-brand title-text">{{title}}</span>
+       <span class="navbar-brand">
+         <span style="color:black" *ngIf="status != 'CONNECTED'"><i class="material-icons">cloud_off</i></span>         
+        </span>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#jp-editor-menu">
           <span class="sr-only">Toggle navigation</span>
           <span><i class="material-icons">more_vert</i></span>
