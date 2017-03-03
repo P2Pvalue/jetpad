@@ -90,9 +90,9 @@ export function Modal() {
 @Component({
   selector: "jetpad-modal-placeholder",
   template: `
-    <div #modalplaceholder 
-         class="jetpad-modal-placeholder" 
-         [ngClass]="{'jetpad-modal-backdrop-activate':activated}">         
+    <div #modalplaceholder
+         class="jetpad-modal-placeholder"
+         [ngClass]="{'jetpad-modal-backdrop-activate':activated}">
     </div>
     <div class="jetpad-modal" tabindex="-1" [ngStyle]="{'display':display}" [@modalState]="currentState"><template #modal></template></div>`,
   styles:[`
@@ -115,7 +115,7 @@ export function Modal() {
         width: 100%;
         left: 0;
         top: 200%;
-        height: 100%;        
+        height: 100%;
       }
     }
     @media only screen and (min-width: 600px) {
@@ -137,9 +137,7 @@ export function Modal() {
       }
     }
     .jetpad-modal{
-      position: absolute;
-      background-color: #F3F3F3;
-      opacity: 1;
+      position: absolute;      
       z-index: 1001;
     }
   `],
@@ -182,4 +180,3 @@ export class ModalPlaceholderComponent implements OnInit {
   }
 
 }
-
