@@ -48,6 +48,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   private connectionHandler: Function;
   private status: string;
 
+  // The canvas cover shows help in new documents
+  // or other stuff in future
+  private showCanvasCover: boolean = false;
+
   constructor(private appState: AppState, private backend: BackendService, private modalService: JetpadModalService, private route: ActivatedRoute) {
 
   }
@@ -89,7 +93,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-
 
     this.appStateSubscription = this.appState.subject.subscribe( (state) => {
       if (state.error) {
@@ -208,6 +211,8 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.doc = r.controller;
       // Initialize document object
       BackendService.initDocObject(this.doc, this.docid);
+      // Show a welcome message in the doc canvas doc is empty
+      this.showCanvasCover = this.doc.get("text").isEmpty();
       // Bind document's text to the editor
       this.editor.set(this.doc.get("text"));
       // Enable interactive editing now!
@@ -351,6 +356,9 @@ export class EditorComponent implements OnInit, OnDestroy {
     if ("delete" == action) {
       this.editLink({ text : "" });
     }
+  }
+
+  private onCoverEvent(event) {
   }
 
 }

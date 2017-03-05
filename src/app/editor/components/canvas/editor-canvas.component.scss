@@ -1,16 +1,15 @@
+.canvas-cover {
+  font-size: $canvas-cover-font-size;
+  font-style: $canvas-cover-font-style;
+  color: $canvas-cover-color;
+}
+
 .jp-editor-canvas{
   display: flex;
   background-color: $white;
   border: 1px solid $soft-gray;
-  /*min-height: 1200px;
-  padding: 60px 80px;
-  max-width: 1170px;
-  min-width: 800px;
-  width: 980px;*/
-
   max-width: 210mm; // A4 width
   min-width: 320px; // small mobile device width
-
   min-height: 297mm; // A4 height
 
   @media screen and (min-width: 210mm)  {
@@ -22,10 +21,10 @@
   }
 
   //margin: 0 auto;
-  margin: 130px auto 0 auto;
+  margin: $canvas-margin-top auto 0 auto;
 }
 
-.jp-editor-canvas[mode="full"]{
+.jp-editor-canvas[mode="full"] {
   display: flex;
   background-color: $white;
   border: 0;

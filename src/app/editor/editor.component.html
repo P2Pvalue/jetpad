@@ -20,7 +20,7 @@
         <link-modal *ngIf="visibleLinkModal" [at]="caretPos" [link]="inputLinkModal" (modalEvent)="editLink($event)"></link-modal>
         <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos" [link]="selectionStyles.link" (actionEvent)="linkContextAction($event)"></link-menu>
         <selection-menu *ngIf="visibleContextMenu" [at]="caretPos"></selection-menu>
-        <jp-editor-canvas></jp-editor-canvas>
+        <jp-editor-canvas [showCover]="showCanvasCover" (coverEvent)="onCoverEvent($event)"></jp-editor-canvas>
     </div>
 
     <div class="col-md-2 visible-md-block visible-lg-block"></div>
