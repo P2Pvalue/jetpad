@@ -8,9 +8,9 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 
         <div class="input-group">
           <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini">
+            <div class="btn btn-fab btn-fab-mini">
               <a [href]="link.value" target="_blank"><i class="material-icons">launch</i></a>
-            </button>
+            </div>
 
             <button type="button" class="btn btn-fab btn-fab-mini" (click)="actionEvent.emit('edit')">
               <i class="material-icons">mode_edit</i>

@@ -301,15 +301,14 @@ export class EditorComponent implements OnInit, OnDestroy {
 
       // to create a link, at least a non empty range must be selected
       this.linkRange = this.editor.getSelection();
-      if (!this.linkRange || this.linkRange.isCollapsed()) {
-        return;
-      }
+      let isText = this.linkRange && !this.linkRange.isCollapsed();
 
       // No link annotation present => get text on current selection
-      let text = this.editor.getText(this.linkRange);
+      let text = isText ? this.editor.getText(this.linkRange) : "";
+      let url = text.startsWith("http") ? text : "http://" + text ;
       this.inputLinkModal = {
-        text: text ? text : '',
-        url: text ? text : ''
+        text: text,
+        url: url
       };
     }
 
@@ -349,12 +348,13 @@ export class EditorComponent implements OnInit, OnDestroy {
       if (selectionLink.text != link.text)
         selectionLink.mutate(link.text);
 
-    } else {
+    } else if (this.linkRange) {
 
-      if (link.url) {
-        this.editor.setAnnotation(this.STYLE_LINK, link.url, this.linkRange);
+      if (link.text.length > 0 && link.url) {
+        let newRange = this.doc.get("text").replace(this.linkRange, link.text);
+        if (newRange)
+          this.editor.setAnnotation(this.STYLE_LINK, link.url, newRange);
       }
-
     }
 
     // clean modal's parameters
