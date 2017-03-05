@@ -4,7 +4,7 @@
 
   <div class="row">
 
-    <div class="col-md-2 floating-panel visible-md-block visible-lg-block">
+    <div class="floating-panel col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block">
 
         <div class="form-group">
           <select id="tools-panel-left" class="form-control">
@@ -16,14 +16,14 @@
         <jp-editor-outline [headers]="headers" ></jp-editor-outline>
     </div>
 
-    <div class="col-md-offset-2 col-md-8" id="editor-panel">
+    <div class="col-md-offset-2 col-lg-offset-3 col-sm-offset-1 col-md-8 col-lg-6 col-sm-10 col-xs-10" id="editor-panel" class="editor-panel">
         <link-modal *ngIf="visibleLinkModal" [at]="caretPos" [link]="inputLinkModal" (modalEvent)="editLink($event)"></link-modal>
         <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos" [link]="selectionStyles.link" (actionEvent)="linkContextAction($event)"></link-menu>
         <selection-menu *ngIf="visibleContextMenu" [at]="caretPos"></selection-menu>
         <jp-editor-canvas [showCover]="showCanvasCover" (coverEvent)="onCoverEvent($event)"></jp-editor-canvas>
     </div>
 
-    <div class="col-md-2 visible-md-block visible-lg-block"></div>
+    <div class="col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block"></div>
 
   </div>
 </div>

@@ -11,6 +11,8 @@
   max-width: 210mm; // A4 width
   min-width: 320px; // small mobile device width
   min-height: 297mm; // A4 height
+  margin: $canvas-margin-top auto 0 auto;
+
 
   @media screen and (min-width: 210mm)  {
     padding: 2cm 2cm;
@@ -20,23 +22,22 @@
     padding: 2em 2em;
   }
 
-  //margin: 0 auto;
-  margin: $canvas-margin-top auto 0 auto;
 }
 
 .jp-editor-canvas[mode="full"] {
   display: flex;
   background-color: $white;
   border: 0;
-
   max-width: 160mm; //
   min-width: 320px; // small mobile device width
-
   min-height: 297mm; // A4 height
 
   padding: 0 0;
-
   margin: $top-full-mode auto 0 auto;
+
+  @media screen and (max-width: 768px)  {
+    padding: 2em 2em;
+  }
 }
 
 
