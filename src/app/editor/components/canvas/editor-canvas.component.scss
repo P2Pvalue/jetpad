@@ -45,6 +45,10 @@
   width: 100%;
 }
 
+.wave-editor-off {
+  width: 100%;
+}
+
 // avoid content editable grey border in chrome
 .wave-editor-on:active, .wave-editor-on:focus {
   border:none;
