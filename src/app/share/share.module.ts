@@ -16,7 +16,9 @@ import {
   JetpadModalHeader,
   JetpadModalContent,
   JetpadModalFooter,
-  JetpadModalComponent } from './components';
+  JetpadModalComponent,
+  ErrorModalComponent,
+  AlertModalComponent } from './components';
 
 @NgModule({
   imports: [
@@ -34,7 +36,9 @@ import {
     JetpadModalHeader,
     JetpadModalContent,
     JetpadModalFooter,
-    JetpadModalComponent
+    JetpadModalComponent,
+    ErrorModalComponent,
+    AlertModalComponent
   ],
   exports: [
     OrderPipe,
@@ -46,6 +50,8 @@ import {
     JetpadModalContent,
     JetpadModalFooter,
     JetpadModalComponent,
+    ErrorModalComponent,
+    AlertModalComponent,
     CommonModule,
     FormsModule,
     BrowserModule,

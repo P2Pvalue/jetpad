@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BackendService, AppState, JetpadModalService } from '../core/services';
-import { ErrorModalComponent } from "./editor.errormodal.component";
+import { ErrorModalComponent, AlertModalComponent } from "../share/components";
 import { EditorModule } from './index';
 
 
@@ -79,7 +79,23 @@ export class EditorComponent implements OnInit, OnDestroy {
     let modal$ = this.modalService.create(EditorModule, ErrorModalComponent, {
       message: error,
       ok: () => {
-        console.log("Error modal")
+      }
+    });
+
+    modal$.subscribe((modal) => {
+      setTimeout(() => {
+        // close the modal after 5 seconds
+        //modal.destroy();
+      }, 5000)
+    });
+
+  }
+
+  private showModalNotAvailable(msg: string) {
+
+    let modal$ = this.modalService.create(EditorModule, AlertModalComponent, {
+      message: msg,
+      ok: () => {
       }
     });
 
@@ -103,7 +119,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.initAnnotations();
 
     window.onscroll = () => {
-      this.clearFloatingViews();
+      this.closeFloatingViews();
     };
 
     this.backend.get()
@@ -129,7 +145,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.editor.setSelectionHandler((range, editor, selection) => {
 
           // anytime seleciton changes, close link modal
-          this.clearFloatingViews();
+          this.closeFloatingViews();
 
           // calculate caret coords
           if (selection.anchorPosition) {
@@ -185,7 +201,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.headers = this.editor.getAnnotation(["header"], swellrt.Editor.Range.ALL, true)["header"];
   }
 
-  clearFloatingViews() {
+  closeFloatingViews() {
     this.visibleLinkModal = false;
     this.visibleContextMenu = false;
     this.visibleLinkContextMenu = false;
@@ -266,6 +282,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   showModalLink() {
+    // Hide contextual menus
+    this.closeFloatingViews();
 
     // sugar syntax
     let selectionLink = this.selectionStyles[this.STYLE_LINK];
@@ -345,7 +363,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   }
 
-  linkContextAction(action: string) {
+  private linkContextAction(action: string) {
 
     this.visibleLinkContextMenu = false;
 
@@ -356,6 +374,24 @@ export class EditorComponent implements OnInit, OnDestroy {
     if ("delete" == action) {
       this.editLink({ text : "" });
     }
+  }
+
+  private contextAction(action: string) {
+
+    this.visibleContextMenu = false;
+
+    if ("link" == action) {
+      this.showModalLink();
+    }
+
+    if ("bookmark" == action) {
+      this.showModalNotAvailable("Bookmarks will be available very soon.");
+    }
+
+    if ("comment" == action) {
+      this.showModalNotAvailable("Comments will be available very soon.");
+    }
+
   }
 
   private onCoverEvent(event) {

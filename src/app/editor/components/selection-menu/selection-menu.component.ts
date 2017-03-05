@@ -8,15 +8,15 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 
         <div class="input-group">
           <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini">
+            <button type="button" class="btn btn-fab btn-fab-mini" (click)="actionEvent.emit('link')">
               <i class="material-icons">insert_link</i>
             </button>
 
-            <button type="button" class="btn btn-fab btn-fab-mini">
+            <button type="button" class="btn btn-fab btn-fab-mini" (click)="actionEvent.emit('bookmark')">
               <i class="material-icons">bookmark</i>
             </button>
 
-            <button type="button" class="btn btn-fab btn-fab-mini">
+            <button type="button" class="btn btn-fab btn-fab-mini" (click)="actionEvent.emit('comment')">
               <i class="material-icons">mode_comment</i>
             </button>
           </span>
@@ -54,9 +54,10 @@ export class SelectionMenuComponent implements OnInit {
 
   @Input() at: any;
 
-  @Output() modalEvent: EventEmitter<any> = new EventEmitter();
+  @Output() actionEvent: EventEmitter<any> = new EventEmitter();
 
   ngOnInit() {
 
   }
+
 }

@@ -13,7 +13,6 @@ import { LinkModalComponent } from './components/link-modal/link-modal.component
 import { SelectionMenuComponent } from './components/selection-menu/selection-menu.component';
 import { LinkMenuComponent } from './components/link-menu/link-menu.component';
 import { EditorErrorHandler } from './editor.errorhandler';
-import { ErrorModalComponent } from './editor.errormodal.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +25,7 @@ import { ErrorModalComponent } from './editor.errormodal.component';
     LinkMenuComponent,
     MyCustomModalComponent,
     EditorOutlineComponent,
-    EditorMenuComponent,
-    ErrorModalComponent,
+    EditorMenuComponent
     ],
   imports: [
     EditorRoutingModule,
