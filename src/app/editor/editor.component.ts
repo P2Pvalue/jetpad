@@ -52,6 +52,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   // or other stuff in future
   private showCanvasCover: boolean = false;
 
+  private errorModal: any = null;
+
   constructor(private appState: AppState, private backend: BackendService, private modalService: JetpadModalService, private route: ActivatedRoute) {
 
   }
@@ -76,6 +78,11 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private showModalError(error) {
 
+    if (this.errorModal) {
+      this.errorModal.destroy();
+      this.errorModal = null;
+    }
+
     let modal$ = this.modalService.create(EditorModule, ErrorModalComponent, {
       message: error,
       ok: () => {
@@ -84,8 +91,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     modal$.subscribe((modal) => {
       setTimeout(() => {
-        // close the modal after 5 seconds
-        //modal.destroy();
+        this.errorModal = modal;
+          // close the modal after 5 seconds
+          //modal.destroy();
       }, 5000)
     });
 
@@ -148,7 +156,7 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.closeFloatingViews();
 
           // calculate caret coords
-          if (selection.anchorPosition) {
+          if (selection && selection.anchorPosition) {
             this.caretPos.x = selection.anchorPosition.left;
             this.caretPos.y = selection.anchorPosition.top;
           }
