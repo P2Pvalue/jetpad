@@ -13,10 +13,6 @@ import {
   ProfileComponent,
   UserIconComponent,
   UserPanelComponent,
-  JetpadModalHeader,
-  JetpadModalContent,
-  JetpadModalFooter,
-  JetpadModalComponent,
   ErrorModalComponent,
   AlertModalComponent } from './components';
 
@@ -33,10 +29,6 @@ import {
     ProfileComponent,
     UserIconComponent,
     UserPanelComponent,
-    JetpadModalHeader,
-    JetpadModalContent,
-    JetpadModalFooter,
-    JetpadModalComponent,
     ErrorModalComponent,
     AlertModalComponent
   ],
@@ -46,10 +38,6 @@ import {
     ProfileComponent,
     UserIconComponent,
     UserPanelComponent,
-    JetpadModalHeader,
-    JetpadModalContent,
-    JetpadModalFooter,
-    JetpadModalComponent,
     ErrorModalComponent,
     AlertModalComponent,
     CommonModule,
