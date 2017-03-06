@@ -5,7 +5,7 @@ import { EditorCanvasComponent } from './components/canvas';
 import { EditorHeaderComponent } from './components/header';
 import { EditorToolbarComponent } from './components/toolbar';
 import { EditorOutlineComponent } from './components/outline';
-import { EditorMenuComponent,MyCustomModalComponent } from './components/menu';
+import { EditorMenuComponent, MyCustomModalComponent, ParticipantsModalComponent } from './components/menu';
 import { ShareModule } from '../share';
 import { CoreModule } from '../core';
 import { EditorComponent } from './editor.component';
@@ -24,6 +24,7 @@ import { EditorErrorHandler } from './editor.errorhandler';
     SelectionMenuComponent,
     LinkMenuComponent,
     MyCustomModalComponent,
+    ParticipantsModalComponent,
     EditorOutlineComponent,
     EditorMenuComponent
     ],

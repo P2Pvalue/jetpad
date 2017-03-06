@@ -8,6 +8,6 @@
     <li class="contributor visible-sm visible-md visible-lg" *ngFor="let participant of participants | slice:0:3 ">
       <app-user-icon [user]="participant"></app-user-icon>
     </li>
-    <li class="view-more" *ngIf="participants.length > 3"><button class="material-icons" (click)="openModal()">more_horiz</button></li>
+    <li class="view-more" *ngIf="participants.length > 3"><button class="material-icons" (click)="openParticipantsModal()">more_horiz</button></li>
   </ul>
 </div>
