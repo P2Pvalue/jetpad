@@ -93,8 +93,9 @@ export function Modal() {
     <div #modalplaceholder
          class="jetpad-modal-placeholder"
          [ngClass]="{'jetpad-modal-backdrop-activate':activated}">
+         <div class="jetpad-modal" tabindex="-1" [ngStyle]="{'display':display}" [@modalState]="currentState"><template #modal></template></div>
     </div>
-    <div class="jetpad-modal" tabindex="-1" [ngStyle]="{'display':display}" [@modalState]="currentState"><template #modal></template></div>`,
+    `,
   styles:[`
     .jetpad-modal-placeholder{
       height: 100%;
@@ -104,11 +105,17 @@ export function Modal() {
       width: 100%;
       z-index: 1000;
       top: 0;
-      position: absolute;
+      position: fixed;
       background: rgba(0, 0, 0, 0.4);
     }
     .jetpad-modal-open{
       overflow: hidden;
+    }
+    .jetpad-modal-open{
+      overflow: hidden;
+    }
+    .jetpad-modal{
+      background-color: white;
     }
     @media only screen and (min-width: 250px) {
       .jetpad-modal{

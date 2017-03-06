@@ -10,6 +10,7 @@ $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 @import "~assets/scss/_colors";
 // TODO import roboto font with sass
 @import "~assets/scss/_fonts";
+@import "~assets/scss/_mixins";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap-sprockets.scss";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // the module below fails if following file is processed
