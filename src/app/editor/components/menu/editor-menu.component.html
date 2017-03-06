@@ -5,8 +5,9 @@
     <li class="main-entry visible-xs" (click)="openModal()">Participants</li>
     <!--horizontal menu for other devices -->
     <li class="main-entry visible-sm" (click)="openModal()">Outline</li>
-    <li class="contributor visible-sm visible-md visible-lg" *ngFor="let participant of participants">
+    <li class="contributor visible-sm visible-md visible-lg" *ngFor="let participant of participants | slice:0:3 ">
       <app-user-icon [user]="participant"></app-user-icon>
     </li>
+    <li class="view-more" *ngIf="participants.length > 3"><button class="material-icons" (click)="openModal()">more_horiz</button></li>
   </ul>
 </div>

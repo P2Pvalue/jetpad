@@ -47,6 +47,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   // Network Connection status
   private connectionHandler: Function;
   private status: string;
+  profileManager: any;
 
   // The canvas cover shows help in new documents
   // or other stuff in future
@@ -59,17 +60,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
 
-  participants = [{
-    name: 'pepe'
-  },{
-    name: 'emilio'
-  },{
-    name: 'rodrigo'
-  },{
-    name: 'fernando'
-  },{
-    name: 'casamayor'
-  }];
+  participants :Array<any> = [];
 
 
   private static getSelectionStyles(editor: any, range: any) {
@@ -148,6 +139,35 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         // keep the editor reference in the component
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
+        console.log(s.profilesManager);
+        this.profileManager = s.profilesManager;
+        this.profileManager.addStatusHandler({
+            onUpdate: (profile) => {
+                console.log('update ' + profile);
+                debugger;
+            },
+            onOffline: (profileSession) => {
+                console.log('update offline' + profileSession)
+                debugger;
+            },
+            onOnline: (profileSession) => {
+                console.log('update online ' + this.participants);
+                debugger;
+                let nuevo = this.participants.filter((elem)=>{
+                        return elem.sessionId === profileSession.sessionId;
+                    });
+                if (this.participants.filter((elem)=>{
+                        return elem.sessionId === profileSession.sessionId;
+                    }).length === 0) {
+                    this.participants.push({
+                        sessionId: profileSession.sessionId,
+                        name: profileSession.profile.name
+                    });
+                    console.log(this.participants);
+                    debugger;
+                }
+            }
+        });
 
         // Listen for cursor and selection changes
         this.editor.setSelectionHandler((range, editor, selection) => {
