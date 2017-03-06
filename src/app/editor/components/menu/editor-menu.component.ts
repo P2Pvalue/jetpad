@@ -1,5 +1,6 @@
 import { Component, Input, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { MyCustomModalComponent } from "./custom-modal.component";
+import { ParticipantsModalComponent } from "./participants-modal.component";
 import { EditorModule } from '../../index';
 import { JetpadModalService } from '../../../core/services';
 
@@ -63,5 +64,11 @@ export class EditorMenuComponent {
         //ref.destroy();
       }, 5000)
     })
+  }
+
+  openParticipantsModal():void {
+      this.modalService.create(EditorModule,ParticipantsModalComponent, {
+          participants: this.participants
+      });
   }
 }
