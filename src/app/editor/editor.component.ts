@@ -131,8 +131,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         // keep the editor reference in the component
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
-        console.log(s.profiles);
-        this.profileManager = s.profiles;
+        console.log(s.profilesManager);
+        this.profileManager = s.profilesManager;
         this.profileManager.addStatusHandler({
             onUpdate: (profile) => {
                 console.log('update ' + profile);
