@@ -1,13 +1,28 @@
-<div class="editor-menu collapse navbar-collapse" id="jp-editor-menu">
-  <ul class="menu-collapsed nav navbar-nav navbar-right">
-    <!-- vertical menu for mobiles -->
-    <li class="main-entry visible-xs" (click)="openModal()">Outline</li>
-    <li class="main-entry visible-xs" (click)="openModal()">Participants</li>
-    <!--horizontal menu for other devices -->
-    <li class="main-entry visible-sm" (click)="openModal()">Outline</li>
-    <li class="contributor visible-sm visible-md visible-lg" *ngFor="let participant of participants | slice:0:3 ">
-      <app-user-icon [user]="participant"></app-user-icon>
-    </li>
-    <li class="view-more" *ngIf="participants.length > 3"><button class="material-icons" (click)="openParticipantsModal()">more_horiz</button></li>
-  </ul>
+<div id="jp-editor-menu" class="editor-menu">
+
+  <div class="dropdown visible-xs-block visible-sm-block">
+      <button class="btn btn-default dropdown-toggle" type="button" id="editorDropwdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="material-icons">more_vert</i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="editorDropwdownMenu">
+         <li><a href="#">Comments</a></li>
+         <li><a href="#">Bookmarks</a></li>
+        <li role="separator" class="divider"></li>
+         <li><a href="#">Participants</a></li>
+         <li><a href="#">Versions</a></li>
+      </ul>
+  </div>
+
+
+  <!--
+  <button type="button"
+          class="navbar-toggle collapsed"
+          data-toggle="collapse"
+          data-target="#jp-editor-menu"
+          aria-expanded="false">
+
+    <span class="sr-only">Toggle navigation</span>
+    <span><i class="material-icons">more_vert</i></span>
+  </button>
+-->
 </div>

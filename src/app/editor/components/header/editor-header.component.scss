@@ -6,40 +6,106 @@
   width: 100%;
   z-index: 150;
   .row {
+
     padding: 0 15px;
+
     .left-col {
       .navbar-brand {
         background-color: $primary-color;
       }
     }
+
     .main-col {
       padding-right: 0;
-      .navbar-header{
+    }
 
-        .navbar-brand {
-          padding-right: 0px;
-          padding-top: 16px;
-        }
+    .right-col {
+      margin-top: 4px;
 
-        .material-icons {
-          font-size: 18px;
-        }
+      .navbar-col-right {
 
-        .title-text{
-          color: whitesmoke;
-          font-size: 20px;
-          padding-top: 15px;
-        }
-        .navbar-toggle {
-          margin-right: 10px;
-          margin-bottom: 0px;
-          color: $white;
-        }
-        button {
-          border-width: 0;
-          padding: 6px 6px;
+        > ul {
+          list-style-type: none;
+          margin: 0px 0px;
+
+          li {
+            display: inline-block;
+          }
         }
       }
+
+      .participants {
+
+        display: block;
+        float: right  ;
+
+        max-width: 80%;
+        height: 40px;
+        overflow: hidden;
+
+        padding-right: 20px;
+
+        .view-more {
+          margin-left: 16px;
+          padding-top: 12px;
+
+          .material-icons {
+            color: white;
+            font-size: 16px;
+          }
+
+        }
+
+      }
+
     }
+
+    .title-text{
+      color: whitesmoke;
+      font-size: 20px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;;
+      width: 90%;
+    }
+
+    .online-status {
+      color: black;
+      margin-left: 4px;
+      display: inline-block;
+    }
+
+    .navbar-header{
+
+      width: 100%;
+      display:block;
+      white-space: nowrap;
+      overflow: hidden;
+
+      .navbar-brand {
+        width: 100%;
+        display: inline-block;
+
+        padding-right: 0px;
+        padding-top: 16px;
+      }
+
+      .material-icons {
+        font-size: 18px;
+      }
+    }
+
+    .navbar-toggle {
+      margin-right: 10px;
+      margin-bottom: 0px;
+      padding: 0px 0px;
+      color: $white;
+    }
+    button {
+      border-width: 0;
+    }
+
   }
 }

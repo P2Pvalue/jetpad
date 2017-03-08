@@ -47,7 +47,11 @@ export class EditorComponent implements OnInit, OnDestroy {
   // Network Connection status
   private connectionHandler: Function;
   private status: string;
-  profileManager: any;
+
+  // Manage profiles and their online status
+  private profilesManager: any;
+  private profilesHandler: any;
+  private participantSessions :Array<any> = [];
 
   // The canvas cover shows help in new documents
   // or other stuff in future
@@ -58,10 +62,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   constructor(private appState: AppState, private backend: BackendService, private modalService: JetpadModalService, private route: ActivatedRoute) {
 
   }
-
-
-  participants :Array<any> = [];
-
 
   private static getSelectionStyles(editor: any, range: any) {
     return editor.getAnnotation(['paragraph/','style/', 'link'], range);
@@ -129,7 +129,7 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.status = status;
           if (status == "ERROR") {
             let errorInfo = "Network error";
-            if (error)
+            if (error && error.statusMessange)
               errorInfo += ": "+error.statusMessage;
             this.appState.set("error", errorInfo);
           }
@@ -137,37 +137,10 @@ export class EditorComponent implements OnInit, OnDestroy {
         };
         s.addConnectionHandler(this.connectionHandler);
 
+        this.initProfilesHandler(s.profilesManager);
+
         // keep the editor reference in the component
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
-        console.log(s.profilesManager);
-        this.profileManager = s.profilesManager;
-        this.profileManager.addStatusHandler({
-            onUpdate: (profile) => {
-                console.log('update ' + profile);
-                debugger;
-            },
-            onOffline: (profileSession) => {
-                console.log('update offline' + profileSession)
-                debugger;
-            },
-            onOnline: (profileSession) => {
-                console.log('update online ' + this.participants);
-                debugger;
-                let nuevo = this.participants.filter((elem)=>{
-                        return elem.sessionId === profileSession.sessionId;
-                    });
-                if (this.participants.filter((elem)=>{
-                        return elem.sessionId === profileSession.sessionId;
-                    }).length === 0) {
-                    this.participants.push({
-                        sessionId: profileSession.sessionId,
-                        name: profileSession.profile.name
-                    });
-                    console.log(this.participants);
-                    debugger;
-                }
-            }
-        });
 
         // Listen for cursor and selection changes
         this.editor.setSelectionHandler((range, editor, selection) => {
@@ -261,8 +234,12 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.editor.set(this.doc.get("text"));
       // Enable interactive editing now!
       this.editor.edit(true);
-      // Needed in some browsers
+      //
       this.refreshHeadings();
+      // Track online participants
+      this.profilesManager.addStatusHandler(this.profilesHandler);
+      //this.profilesManager.autoRefresh(true); // check online status automatically
+      window._pm = this.profilesManager;
     })
     .catch( error => {
       this.appState.set("error", "Error opening document "+id);
@@ -284,6 +261,51 @@ export class EditorComponent implements OnInit, OnDestroy {
         });
 
       });
+  }
+
+
+  private lookupParticipantSession(profileSession) {
+    for (let i in this.participantSessions) {
+      let p = this.participantSessions[i];
+      if (p.session.id == profileSession.id) {
+        return p;
+      }
+    }
+    return null;
+  }
+
+
+  private initProfilesHandler(profilesManager: any) {
+
+    this.profilesManager = profilesManager;
+
+    this.profilesHandler = {
+
+        onUpdated: (profile) => {
+          // Nothing to do, angular2 binding will check for updates
+        },
+
+        onOffline: (profileSession) => {
+          // Nothing to do, angular2 binding will check for updates
+        },
+
+        onOnline: (profileSession) => {
+
+          if (profileSession.profile.isCurrentSessionProfile())
+            return;
+
+          let participantSession = this.lookupParticipantSession(profileSession);
+          if (!participantSession) {
+            participantSession = {
+              session: profileSession,
+              profile: profileSession.profile
+            }
+            this.participantSessions.push(participantSession);
+          }
+
+        }
+    }
+
   }
 
   editStyle(event: any) {

@@ -27,7 +27,6 @@ import { JetpadModalService } from '../../../core/services';
 export class EditorMenuComponent {
 
   @Input() collapsed: boolean;
-  @Input() participants:any;
   @Input() entries:any = [
     {'text': 'titulo 1', 'type': 'h1'},
     {'text': 'titulo 1.1', 'type': 'h2'},
@@ -66,9 +65,4 @@ export class EditorMenuComponent {
     })
   }
 
-  openParticipantsModal():void {
-      this.modalService.create(EditorModule,ParticipantsModalComponent, {
-          participants: this.participants
-      });
-  }
 }

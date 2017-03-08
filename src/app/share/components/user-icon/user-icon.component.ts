@@ -4,11 +4,12 @@ import { Component, Input } from '@angular/core';
 @Component({
     selector: 'app-user-icon',
     template: `
-      <div class="user-icon" tooltip="{{ this.getUserName(user) }}" tooltipPlacement="bottom">
+      <div class="user-icon" tooltip="{{user.profile.name}}" placement="bottom">
         <div class="avatar">
-          <img  *ngIf="user.avatarUrl" src="{{user.avatarUrl}}" alt="{{ this.getUserName(user) }}" class="img-circle user-avatar"/>
+          <img  *ngIf="image()" src="{{image()}}" alt="{{user.profile.name}}" class="img-circle user-avatar"/>
         </div>
-        <span *ngIf="!user.avatarUrl" class="not-avatar">{{this.getUserInitials(user)}}</span>
+        <span *ngIf="!image()" class="not-avatar" [ngStyle]="{ 'background-color' : user.session.color.cssColor }">{{this.getInitial()}}</span>
+        <span *ngIf="user.session.online" [ngStyle]="{ 'background-color' : user.session.color.cssColor }" class="online-mark"></span>
       </div>
     `
   })
@@ -17,13 +18,19 @@ export class UserIconComponent {
 
   @Input() user: any;
 
-  getUserName(user) {
-    return user.name ? user.name : user.id.slice(0, user.id.indexOf('@'));
+  private image() {
+    if (this.user.profile.shortName.charAt(0) == '_') {
+      return "assets/img/anonymous.png";
+    } else if (this.user.profile.imageUrl) {
+      return this.user.profile.imageUrl;
+    }
+
+    return false;
   }
 
-  getUserInitials(user) {
+  private getInitial() {
     let initials = "";
-    let name = this.getUserName(user);
+    let name = this.user.profile.name;
     name.split(" ").forEach(function (word) {
       initials = initials.concat(word.charAt(0))
     });

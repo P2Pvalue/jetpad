@@ -1,29 +1,20 @@
-.editor-menu{
-  .menu-collapsed{
-    list-style-type: none;
-    margin-top: 5px;
-    .main-entry{
+.editor-menu {
+
+  display: block;
+  max-width: 20%;
+  float: right;
+
+  button {
+    margin: 0px 0px;
+    padding: 9px 0px;
+
+    .material-icons {
       color: white;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    li{
-      &.visible-sm{
-        margin: 0 5px;
-        &.main-entry{
-          margin-top: 5px;
-          margin-right: 10px;
-        }
-      }
+      font-size: 22px;
     }
   }
-}
-.view-more {
-  .material-icons{
-    color: white;
-    margin-top: 5px;
-    margin-right: 5px;
-    background: none;
-    border: none;
+
+  .dropdown-menu {
+    margin-top: 8px;
   }
 }
