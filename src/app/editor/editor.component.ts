@@ -67,6 +67,39 @@ export class EditorComponent implements OnInit, OnDestroy {
     return editor.getAnnotation(['paragraph/','style/', 'link'], range);
   }
 
+  private setProfilesHandler() {
+
+    this.profilesHandler = {
+
+        onUpdated: (profile) => {
+          // Nothing to do, angular2 binding will check for updates
+        },
+
+        onOffline: (profileSession) => {
+          // Nothing to do, angular2 binding will check for updates
+        },
+
+        onOnline: (profileSession) => {
+
+          if (profileSession.profile.isCurrentSessionProfile())
+            return;
+
+          let participantSession = this.lookupParticipantSession(profileSession);
+          if (!participantSession) {
+            participantSession = {
+              session: profileSession,
+              profile: profileSession.profile
+            }
+            this.participantSessions.push(participantSession);
+          }
+
+        }
+    }
+
+    this.profilesManager.addStatusHandler(this.profilesHandler);
+
+  }
+
   private showModalError(error) {
 
     if (this.errorModal) {
@@ -137,7 +170,9 @@ export class EditorComponent implements OnInit, OnDestroy {
         };
         s.addConnectionHandler(this.connectionHandler);
 
-        this.initProfilesHandler(s.profilesManager);
+        // Track online participants
+        this.profilesManager = s.profilesManager;
+        this.setProfilesHandler();
 
         // keep the editor reference in the component
         this.editor = swellrt.Editor.createWithId("canvas-container", s);
@@ -236,10 +271,6 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.editor.edit(true);
       //
       this.refreshHeadings();
-      // Track online participants
-      this.profilesManager.addStatusHandler(this.profilesHandler);
-      //this.profilesManager.autoRefresh(true); // check online status automatically
-      window._pm = this.profilesManager;
     })
     .catch( error => {
       this.appState.set("error", "Error opening document "+id);
@@ -272,40 +303,6 @@ export class EditorComponent implements OnInit, OnDestroy {
       }
     }
     return null;
-  }
-
-
-  private initProfilesHandler(profilesManager: any) {
-
-    this.profilesManager = profilesManager;
-
-    this.profilesHandler = {
-
-        onUpdated: (profile) => {
-          // Nothing to do, angular2 binding will check for updates
-        },
-
-        onOffline: (profileSession) => {
-          // Nothing to do, angular2 binding will check for updates
-        },
-
-        onOnline: (profileSession) => {
-
-          if (profileSession.profile.isCurrentSessionProfile())
-            return;
-
-          let participantSession = this.lookupParticipantSession(profileSession);
-          if (!participantSession) {
-            participantSession = {
-              session: profileSession,
-              profile: profileSession.profile
-            }
-            this.participantSessions.push(participantSession);
-          }
-
-        }
-    }
-
   }
 
   editStyle(event: any) {
