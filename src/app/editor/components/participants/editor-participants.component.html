@@ -7,8 +7,8 @@
 
 <div class="list-group participants">
 
-  <div *ngIf="!showEditNameForm && me.session.id" class="title">
-    You
+  <div class="title">
+    Online contributors
   </div>
 
   <div  *ngIf="!showEditNameForm && me.session.id" class="list-group-item">
@@ -17,7 +17,7 @@
     </div>
     <div class="row-content">
       <div class="least-content" (click)="displayEditNameForm(true)"><i class="material-icons">mode_edit</i></div>
-      <p class="list-group-item-heading">{{me.profile.name}}</p>
+      <p class="list-group-item-heading">{{me.profile.name}} (You)</p>
       <p *ngIf="isNotRegistered(me.profile)" class="list-group-item-text">Not registered</p>
     </div>
     <!--
@@ -34,12 +34,9 @@
     </div>
   </div>
 
-  <div class="title title-in">
-    Online contributors
-  </div>
 
   <div *ngIf="participantsRecent?.length == 0" class="list-group-item">
-      <p style="font-style:italic; font-size:12px">No contributors connected now</p>
+      <p style="font-style:italic; font-size:12px">No more contributors online now</p>
   </div>
 
   <div class="list-group-item" *ngFor="let participant of participantsRecent">
