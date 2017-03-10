@@ -35,7 +35,11 @@
   </div>
 
   <div class="title title-in">
-    Online
+    Online contributors
+  </div>
+
+  <div *ngIf="participantsRecent?.length == 0" class="list-group-item">
+      <p style="font-style:italic; font-size:12px">No contributors connected now</p>
   </div>
 
   <div class="list-group-item" *ngFor="let participant of participantsRecent">
@@ -55,25 +59,29 @@
     -->
   </div>
 
-  <div class="title title-in ">
-    Offline
+  <div class="title title-in" (click)="toggleParticipantPastList()">
+    Offline contributors
+    <i *ngIf="!showParticipantsPastList" class="material-icons">arrow_drop_down</i>
+    <i *ngIf="showParticipantsPastList" class="material-icons">arrow_drop_up</i>
   </div>
 
-  <div class="list-group-item" *ngFor="let participant of participantsPast">
-    <div class="row-picture">
-        <app-user-icon  [user]="participant"></app-user-icon>
-    </div>
-    <div class="row-content">
-      <div class="least-content">{{getMomentFromNow(participant.session.lastActivityTime)}}</div>
-      <p class="list-group-item-heading">{{participant.profile.name}}</p>
-      <p *ngIf="isNotRegistered(participant.profile)" class="list-group-item-text">Not registered</p>
+  <div *ngIf="showParticipantsPastList">
+    <div class="list-group-item" *ngFor="let participant of participantsPast">
+      <div class="row-picture">
+          <app-user-icon  [user]="participant"></app-user-icon>
+      </div>
+      <div class="row-content">
+        <div class="least-content">{{getMomentFromNow(participant.session.lastActivityTime)}}</div>
+        <p class="list-group-item-heading">{{participant.profile.name}}</p>
+        <p *ngIf="isNotRegistered(participant.profile)" class="list-group-item-text">Not registered</p>
+        <!--
+        <p class="list-group-item-text">{{participant.profile.name}}@jetpad.net</p>
+        -->
+      </div>
       <!--
-      <p class="list-group-item-text">{{participant.profile.name}}@jetpad.net</p>
+      <div class="list-group-separator"></div>
       -->
     </div>
-    <!--
-    <div class="list-group-separator"></div>
-    -->
   </div>
 
 </div>

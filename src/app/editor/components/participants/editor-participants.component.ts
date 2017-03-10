@@ -17,6 +17,8 @@ export class EditorParticipantsComponent {
 
   private name: string;
   private showEditNameForm: boolean = false;
+  private showParticipantsPastList: boolean = false;
+
 
 
   private saveEditNameForm() {
@@ -44,6 +46,9 @@ export class EditorParticipantsComponent {
     return profile.anonymous && profile.name != "Anonymous";
   }
 
+  private toggleParticipantPastList() {
+    this.showParticipantsPastList = !this.showParticipantsPastList;
+  }
 
 
 }
