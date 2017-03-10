@@ -51,7 +51,26 @@ export class EditorComponent implements OnInit, OnDestroy {
   // Manage profiles and their online status
   private profilesManager: any;
   private profilesHandler: any;
-  private participantSessions :Array<any> = [];
+
+  private participantSessionsRecent: Array<any> = [];
+  private participantSessionsPast: Array<any> = [];
+  private participantSessionMe : any = {
+      session: {
+        id: "no-id",
+        online: false,
+        color: {
+          cssColor: "rgb(0, 0, 0)"
+        }
+      },
+      profile: {
+        name: "Not provided",
+        shortName: "Not provided",
+        imageUrl: null,
+        setName: function(n) {
+          this.name = n;
+        }
+      }
+  };
 
   // The canvas cover shows help in new documents
   // or other stuff in future
@@ -69,34 +88,84 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private setProfilesHandler() {
 
+    /*
+    this.participantSessionsRecent.push({
+        session: {
+          id: "session-x-01",
+          online: true,
+          color: {
+            cssColor: "rgb(20, 0, 0)"
+          }
+        },
+        profile: {
+          name: "Natalie",
+          shortName: "Nat",
+          imageUrl: null
+        }
+    });
+    */
+
+
     this.profilesHandler = {
 
-        onUpdated: (profile) => {
-          // Nothing to do, angular2 binding will check for updates
-        },
+      onLoaded: (profileSession) => {
 
-        onOffline: (profileSession) => {
-          // Nothing to do, angular2 binding will check for updates
-        },
+        //console.log("loaded "+profileSession.id+ " : "+profileSession.profile.name);
 
-        onOnline: (profileSession) => {
+        if (profileSession.profile.isCurrentSessionProfile())
+          return;
 
-          if (profileSession.profile.isCurrentSessionProfile())
-            return;
-
-          let participantSession = this.lookupParticipantSession(profileSession);
-          if (!participantSession) {
-            participantSession = {
-              session: profileSession,
-              profile: profileSession.profile
-            }
-            this.participantSessions.push(participantSession);
-          }
-
+        let participantSession = {
+          session: profileSession,
+          profile: profileSession.profile
         }
-    }
+
+        if (profileSession.online)
+          this.participantSessionsRecent.unshift(participantSession);
+        else
+          this.participantSessionsPast.unshift(participantSession);
+
+      },
+
+      onUpdated: (profile) => {
+      },
+
+      onOffline: (profileSession) => {
+        //console.log("offline "+profileSession.id+ " : "+profileSession.profile.name);
+        let participantSessionIndex = this.participantSessionsRecent.findIndex((item: any) => {
+          return item.session.id == profileSession.id;
+        });
+
+        if (participantSessionIndex >= 0) {
+          this.participantSessionsRecent.splice(participantSessionIndex, 1);
+
+          this.participantSessionsPast.unshift({
+            session: profileSession,
+            profile: profileSession.profile
+          });
+        }
+      },
+
+      onOnline: (profileSession) => {
+        //console.log("online "+profileSession.id+ " : "+profileSession.profile.name);
+        let participantSessionIndex = this.participantSessionsPast.findIndex((item: any) => {
+          return item.session.id == profileSession.id;
+        });
+
+        if (participantSessionIndex >= 0) {
+          this.participantSessionsPast.splice(participantSessionIndex, 1);
+
+          this.participantSessionsRecent.unshift({
+            session: profileSession,
+            profile: profileSession.profile
+          });
+        }
+      }
+
+    };
 
     this.profilesManager.addStatusHandler(this.profilesHandler);
+    this.profilesManager.enableStatusEvents(true);
 
   }
 
@@ -172,6 +241,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         // Track online participants
         this.profilesManager = s.profilesManager;
+        // Register handler before opening the doc/editor
+        // to get notified of all previous participants
         this.setProfilesHandler();
 
         // keep the editor reference in the component
@@ -271,6 +342,12 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.editor.edit(true);
       //
       this.refreshHeadings();
+      // Load current user session to ensure login has been done
+      this.participantSessionMe = {
+          session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
+                                                this.profilesManager.getCurrentParticipantId()),
+          profile: this.profilesManager.getCurrentProfile()
+      };
     })
     .catch( error => {
       this.appState.set("error", "Error opening document "+id);
@@ -292,17 +369,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         });
 
       });
-  }
-
-
-  private lookupParticipantSession(profileSession) {
-    for (let i in this.participantSessions) {
-      let p = this.participantSessions[i];
-      if (p.session.id == profileSession.id) {
-        return p;
-      }
-    }
-    return null;
   }
 
   editStyle(event: any) {

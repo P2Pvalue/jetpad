@@ -29,7 +29,8 @@
           margin: 0px 0px;
 
           li {
-            display: inline-block;
+            display: block;
+            float: right;
           }
         }
       }
@@ -44,7 +45,7 @@
         overflow: hidden;
 
         padding-right: 20px;
-        padding-top: 2px;
+        padding-top: 4px;
 
         .view-more {
           margin-left: 16px;

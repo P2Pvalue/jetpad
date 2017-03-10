@@ -27,7 +27,7 @@
           <!--horizontal menu for other devices -->
           <li *ngFor="let participant of participants">
             <!-- | slice:0:6 -->
-            <app-user-icon  [user]="participant"></app-user-icon>
+            <app-user-icon *ngIf="participant.session.online"  [user]="participant"></app-user-icon>
           </li>
         </ul>
 

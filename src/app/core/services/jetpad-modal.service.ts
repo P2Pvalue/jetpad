@@ -115,7 +115,6 @@ export function Modal() {
       overflow: hidden;
     }
     .jetpad-modal{
-      background-color: white;
     }
     @media only screen and (min-width: 250px) {
       .jetpad-modal{
@@ -144,7 +143,7 @@ export function Modal() {
       }
     }
     .jetpad-modal{
-      position: absolute;      
+      position: absolute;
       z-index: 1001;
     }
   `],

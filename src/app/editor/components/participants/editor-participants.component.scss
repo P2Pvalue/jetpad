@@ -1,0 +1,57 @@
+ .list-group {
+
+  &.participants {
+
+    display: block;
+    min-width: 290px;
+    overflow-x: hidden;
+
+    .title {
+      margin-bottom: 14px;
+      font-size: 12px;
+    }
+
+      .title-in {
+      margin-top: 20px;
+    }
+
+    .list-group-separator {
+      margin-top: 0px;
+    }
+
+    .list-group-item {
+      // margin-bottom: 2px;
+
+      .row-picture {
+        vertical-align: top;
+      }
+
+      .row-content {
+
+        min-height: 50px;
+
+        .least-content {
+          font-size: 12px;
+
+          .material-icons {
+            font-size: 18px;
+          }
+        }
+
+        .list-group-item-heading {
+          font-size: 14px;
+          font-weight: 400; // TODO extract to var
+          line-height: normal;
+        }
+
+        .list-group-item-text {
+          font-size: 12px;
+        }
+
+      }
+
+    }
+
+  }
+
+}

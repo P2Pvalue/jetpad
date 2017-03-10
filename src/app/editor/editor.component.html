@@ -1,10 +1,10 @@
 <div class="container-fluid editor" mode="full">
-  <jp-editor-header [title]="doc?.get('title')" [participants]="participantSessions" [status]="status"></jp-editor-header>
+  <jp-editor-header [title]="doc?.get('title')" [participants]="participantSessionsRecent" [status]="status"></jp-editor-header>
   <jp-editor-toolbar [styles]="selectionStyles" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
 
   <div class="row">
 
-    <div class="floating-panel col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block">
+    <div class="floating-panel-left col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block">
 
         <div class="form-group">
           <select id="tools-panel-left" class="form-control">
@@ -23,7 +23,13 @@
         <jp-editor-canvas [showCover]="showCanvasCover" (coverEvent)="onCoverEvent($event)"></jp-editor-canvas>
     </div>
 
-    <div class="col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block"></div>
+    <div class="floating-panel-right col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block">
+      <jp-editor-participants
+          [me]="participantSessionMe"
+          [participantsRecent]="participantSessionsRecent"
+          [participantsPast]="participantSessionsPast">
+      </jp-editor-participants>
+    </div>
 
   </div>
 </div>
