@@ -56,15 +56,15 @@ export class EditorComponent implements OnInit, OnDestroy {
   private participantSessionsPast: Array<any> = [];
   private participantSessionMe : any = {
       session: {
-        id: "no-id",
+        id: null,
         online: false,
         color: {
-          cssColor: "rgb(0, 0, 0)"
+          cssColor: "rgb(255, 255, 255)"
         }
       },
       profile: {
-        name: "Not provided",
-        shortName: "Not provided",
+        name: "(Loading...)",
+        shortName: "(Loading...)",
         imageUrl: null,
         setName: function(n) {
           this.name = n;

@@ -7,11 +7,11 @@
 
 <div class="list-group participants">
 
-  <div *ngIf="!showEditNameForm" class="title">
+  <div *ngIf="!showEditNameForm && me.session.id" class="title">
     You
   </div>
 
-  <div  *ngIf="!showEditNameForm" class="list-group-item">
+  <div  *ngIf="!showEditNameForm && me.session.id" class="list-group-item">
     <div class="row-picture">
         <app-user-icon  [user]="me"></app-user-icon>
     </div>

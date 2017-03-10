@@ -17,6 +17,16 @@ $top-classic-mode: "130px";
 
   .floating-panel-right {
 
+    position: fixed;
+    top: 130px;
+    right: 0px;
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+
+  }
+
+  .panel-frame {
+
   }
 
 }
@@ -38,6 +48,10 @@ $top-classic-mode: "130px";
     right: 0px;
     height: calc(100vh - 130px);
     overflow-y: auto;
+
+    border-left-style: solid;
+    border-left-color: lightgray;
+    border-left-width: 1px;
   }
 
 
