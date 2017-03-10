@@ -40,33 +40,6 @@ export class EditorParticipantsComponent {
     return Moment(timestamp).fromNow();
   }
 
-  private getParticipantsRecent() {
-    return this.participantsRecent.sort((a, b) => {
-      return b.session.lastActivityTime - a.session.lastActivityTime;
-    });
-  }
-
-  private getParticipantsPast() {
-    return this.participantsPast.sort((a, b) => {
-
-      if (a.profile.anonymous && b.profile.anonymous) {
-
-        if (a.profile.name == b.profile.name)
-          return b.session.lastActivityTime - a.session.lastActivityTime;
-
-       if (a.profile.name != "Anonymous")
-        return -1;
-
-        return 1;
-      }
-
-      if (a.profile.anonymous) {
-        return 1;
-      }
-      return -1;
-    });
-  }
-
   private isNotRegistered(profile) {
     return profile.anonymous && profile.name != "Anonymous";
   }

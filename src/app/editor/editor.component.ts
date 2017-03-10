@@ -86,6 +86,16 @@ export class EditorComponent implements OnInit, OnDestroy {
     return editor.getAnnotation(['paragraph/','style/', 'link'], range);
   }
 
+
+  private sortParticipantSessions() {
+
+    this.participantSessionsPast =
+      this.participantSessionsPast.sort((a, b) => {
+        return b.session.lastActivityTime - a.session.lastActivityTime;
+      });
+
+  }
+
   private setProfilesHandler() {
 
     /*
@@ -144,6 +154,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             profile: profileSession.profile
           });
         }
+
       },
 
       onOnline: (profileSession) => {
@@ -160,6 +171,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             profile: profileSession.profile
           });
         }
+
       }
 
     };
@@ -348,6 +360,7 @@ export class EditorComponent implements OnInit, OnDestroy {
                                                 this.profilesManager.getCurrentParticipantId()),
           profile: this.profilesManager.getCurrentProfile()
       };
+      this.sortParticipantSessions();
     })
     .catch( error => {
       this.appState.set("error", "Error opening document "+id);

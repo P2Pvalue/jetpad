@@ -38,7 +38,7 @@
     Online
   </div>
 
-  <div class="list-group-item" *ngFor="let participant of getParticipantsRecent()">
+  <div class="list-group-item" *ngFor="let participant of participantsRecent">
     <div class="row-picture">
         <app-user-icon  [user]="participant"></app-user-icon>
     </div>
@@ -59,7 +59,7 @@
     Offline
   </div>
 
-  <div class="list-group-item" *ngFor="let participant of getParticipantsPast()">
+  <div class="list-group-item" *ngFor="let participant of participantsPast">
     <div class="row-picture">
         <app-user-icon  [user]="participant"></app-user-icon>
     </div>
