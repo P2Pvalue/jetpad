@@ -34,9 +34,8 @@
     </div>
   </div>
 
-
   <div *ngIf="participantsRecent?.length == 0" class="list-group-item">
-      <p style="font-style:italic; font-size:12px">No more contributors online now</p>
+      <p style="font-style:italic; font-size:12px; text-align:center;">No contributors online now</p>
   </div>
 
   <div class="list-group-item" *ngFor="let participant of participantsRecent">
