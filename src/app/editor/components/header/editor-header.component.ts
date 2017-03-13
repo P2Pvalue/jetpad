@@ -11,5 +11,7 @@ export class EditorHeaderComponent {
   //document title
   @Input() title: string;
   @Input() participants: any;
+  @Input() participantsPast: any;
+  @Input() me: any;
 
 }

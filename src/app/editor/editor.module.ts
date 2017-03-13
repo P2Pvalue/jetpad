@@ -14,6 +14,7 @@ import { SelectionMenuComponent } from './components/selection-menu/selection-me
 import { LinkMenuComponent } from './components/link-menu/link-menu.component';
 import { EditorErrorHandler } from './editor.errorhandler';
 import { EditorParticipantsComponent } from './components/participants';
+import { EditorParticipantsModalComponent } from './components/participants';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EditorParticipantsComponent } from './components/participants';
     LinkMenuComponent,
     EditorOutlineComponent,
     EditorMenuComponent,
-    EditorParticipantsComponent    
+    EditorParticipantsComponent,
+    EditorParticipantsModalComponent   
     ],
   imports: [
     EditorRoutingModule,

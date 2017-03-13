@@ -21,7 +21,12 @@
 
     <div class="col-xs-6 col-sm-4 col-md-4 right-col">
       <div class="navbar-col-right">
-        <jp-editor-menu></jp-editor-menu>
+        
+        <jp-editor-menu
+            [participantsRecent]="participants"
+            [participantsPast]="participantsPast"
+            [me]="me">
+        </jp-editor-menu>
 
         <ul class="participants">
           <!--horizontal menu for other devices -->
