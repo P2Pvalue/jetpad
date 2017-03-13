@@ -128,8 +128,8 @@ export function Modal() {
       .jetpad-modal{
         width: 80%;
         left: 10%;
-        top: 120%;
-        height: 50%;
+        top: 200%;
+        height: 100%;
         border-radius: 5px;
       }
     }
@@ -137,8 +137,8 @@ export function Modal() {
       .jetpad-modal{
         width: 70%;
         left: 15%;
-        top: 120%;
-        height: 50%;
+        top: 200%;
+        height: 100%;
         border-radius: 5px;
       }
     }

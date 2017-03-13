@@ -40,11 +40,29 @@ export class EditorToolbarComponent implements OnInit {
 
   readonly defaultHeading = "";
 
-  readonly defaultFontFamily = "Open Sans";
-  readonly fontFamilies = ["Open Sans", "Droid Serif", "Liberation Sans", "Liberation Serif", "Roboto Mono"];
+  readonly defaultFontFamily = {
+        name: "Serif",
+        css: "Georgia, serif"
+      };
+
+  readonly fontFamilies = [
+    {
+      name: "Serif",
+      css: "Georgia, serif"
+    },
+    {
+      name: "Sans",
+      css: "'Open Sans', sans-serif"
+    },
+    {
+      name: "Monospace",
+      css: "'Roboto Mono', monospace"
+    }
+  ];
+
 
   // TODO to consider screen size, density... to set this and default size
-  readonly defaultFontSize = "14px";
+  readonly defaultFontSize = "16px";
   readonly fontSizes = [10, 12, 14, 16, 18, 20, 22, 24, 28, 30, 32, 34, 36];
 
   readonly fontWeightBold = "bold";

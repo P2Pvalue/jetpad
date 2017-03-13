@@ -5,6 +5,7 @@ import { EditorCanvasComponent } from './components/canvas';
 import { EditorHeaderComponent } from './components/header';
 import { EditorToolbarComponent } from './components/toolbar';
 import { EditorOutlineComponent } from './components/outline';
+import { EditorOutlineModalComponent } from './components/outline';
 import { EditorMenuComponent } from './components/menu';
 import { ShareModule } from '../share';
 import { CoreModule } from '../core';
@@ -14,6 +15,8 @@ import { SelectionMenuComponent } from './components/selection-menu/selection-me
 import { LinkMenuComponent } from './components/link-menu/link-menu.component';
 import { EditorErrorHandler } from './editor.errorhandler';
 import { EditorParticipantsComponent } from './components/participants';
+import { EditorParticipantsModalComponent } from './components/participants';
+import { ShareModalComponent } from './components/share-modal';
 
 @NgModule({
   declarations: [
@@ -25,8 +28,11 @@ import { EditorParticipantsComponent } from './components/participants';
     SelectionMenuComponent,
     LinkMenuComponent,
     EditorOutlineComponent,
+    EditorOutlineModalComponent,
     EditorMenuComponent,
-    EditorParticipantsComponent    
+    EditorParticipantsComponent,
+    EditorParticipantsModalComponent,
+    ShareModalComponent
     ],
   imports: [
     EditorRoutingModule,

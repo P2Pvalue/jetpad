@@ -40,6 +40,10 @@
   }
 }
 
+#canvas-container > div {
+  font-family: $canvas-default-font;
+  font-size: $canvas-default-font-size;
+}
 
 .wave-editor-on {
   width: 100%;

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BackendService, AppState, JetpadModalService } from '../core/services';
 import { ErrorModalComponent, AlertModalComponent } from "../share/components";
 import { EditorModule } from './index';
-
+import { ShareModalComponent } from './components/share-modal';
 
 declare let swellrt: any;
 declare let window: any;
@@ -77,6 +77,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   private showCanvasCover: boolean = false;
 
   private errorModal: any = null;
+  private shareModal: any = null;
 
   constructor(private appState: AppState, private backend: BackendService, private modalService: JetpadModalService, private route: ActivatedRoute) {
 
@@ -120,10 +121,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
       onLoaded: (profileSession) => {
 
-        //console.log("loaded "+profileSession.id+ " : "+profileSession.profile.name);
-
-        if (profileSession.profile.isCurrentSessionProfile())
+        if (profileSession.profile.isCurrentSessionProfile()) {
           return;
+        }
 
         let participantSession = {
           session: profileSession,
@@ -178,6 +178,28 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.profilesManager.addStatusHandler(this.profilesHandler);
     this.profilesManager.enableStatusEvents(true);
+
+  }
+
+  private showShareModal() {
+
+    if (this.shareModal) {
+      this.shareModal.destroy();
+      this.shareModal = null;
+    }
+
+    let modal$ = this.modalService.create(EditorModule, ShareModalComponent, {
+      ok: () => {
+      }
+    });
+
+    modal$.subscribe((modal) => {
+      setTimeout(() => {
+        this.shareModal = modal;
+          // close the modal after 5 seconds
+          //modal.destroy();
+      }, 5000)
+    });
 
   }
 
@@ -408,6 +430,13 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   showModalLink() {
+
+    this.linkRange = this.editor.getSelection();
+
+    // don't show modal if not selection nor carte positioned
+    if (!this.linkRange)
+      return;
+
     // Hide contextual menus
     this.closeFloatingViews();
 
@@ -426,8 +455,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     } else {
 
       // to create a link, at least a non empty range must be selected
-      this.linkRange = this.editor.getSelection();
-      let isText = this.linkRange && !this.linkRange.isCollapsed();
+      let isText = !this.linkRange.isCollapsed();
 
       // No link annotation present => get text on current selection
       let text = isText ? this.editor.getText(this.linkRange) : "";

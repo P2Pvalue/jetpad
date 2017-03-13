@@ -4,8 +4,13 @@ $canvas-cover-color: lightgray;
 
 $canvas-margin-top: 130px;
 
+$canvas-default-font: "Georgia, serif";
+$canvas-default-font-size: 16px;
+
 // Required by bootstrap
 $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
+
+
 
 @import "~assets/scss/_colors";
 // TODO import roboto font with sass
