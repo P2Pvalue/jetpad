@@ -5,7 +5,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   template: `
 
 
-          <div class="link-modal modal-dialog modal-dialog-sm" [style.top.px]="at.y - 155" [style.left.px]="at.x - 113">
+          <div class="link-modal modal-dialog modal-dialog-sm" [style.top.px]="at.y - 155">
             <div class="modal-content">
 
               <div class="modal-body">
@@ -29,8 +29,10 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   `,
   styles:[`
     .link-modal {
+      width: 330px;
       position: absolute;
       z-index: 400;
+      left: calc( (100vw / 2) - 170px );
     }
   `]
 })
