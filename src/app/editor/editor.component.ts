@@ -120,10 +120,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
       onLoaded: (profileSession) => {
 
-        //console.log("loaded "+profileSession.id+ " : "+profileSession.profile.name);
-
-        if (profileSession.profile.isCurrentSessionProfile())
+        if (profileSession.profile.isCurrentSessionProfile()) {
           return;
+        }
 
         let participantSession = {
           session: profileSession,
@@ -408,6 +407,13 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   showModalLink() {
+
+    this.linkRange = this.editor.getSelection();
+
+    // don't show modal if not selection nor carte positioned
+    if (!this.linkRange)
+      return;
+
     // Hide contextual menus
     this.closeFloatingViews();
 
@@ -426,8 +432,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     } else {
 
       // to create a link, at least a non empty range must be selected
-      this.linkRange = this.editor.getSelection();
-      let isText = this.linkRange && !this.linkRange.isCollapsed();
+      let isText = !this.linkRange.isCollapsed();
 
       // No link annotation present => get text on current selection
       let text = isText ? this.editor.getText(this.linkRange) : "";
