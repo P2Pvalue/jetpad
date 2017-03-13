@@ -1,8 +1,6 @@
 import { Modal } from '../../../core/services';
 import { Component, OnInit } from '@angular/core';
 
-declare let window: any;
-
 @Component({
   selector: "participants-modal",
   template: `

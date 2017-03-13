@@ -8,10 +8,12 @@ import { Component, Input } from "@angular/core";
 export class EditorHeaderComponent {
 
   @Input() status: string;
-  //document title
+
   @Input() title: string;
+
   @Input() participants: any;
   @Input() participantsPast: any;
   @Input() me: any;
 
+  @Input() headers: any;
 }

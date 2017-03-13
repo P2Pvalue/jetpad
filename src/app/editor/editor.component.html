@@ -1,11 +1,16 @@
 <div class="container-fluid editor" mode="full">
+
   <jp-editor-header
     [title]="doc?.get('title')"
     [status]="status"
+
     [me]="participantSessionMe"
     [participants]="participantSessionsRecent"
-    [participantsPast]="participantSessionsPast">
+    [participantsPast]="participantSessionsPast"
+
+    [headers]="headers">
     </jp-editor-header>
+
   <jp-editor-toolbar [styles]="selectionStyles" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
 
   <div class="row">
