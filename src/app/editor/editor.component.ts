@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BackendService, AppState, JetpadModalService } from '../core/services';
 import { ErrorModalComponent, AlertModalComponent } from "../share/components";
 import { EditorModule } from './index';
-
+import { ShareModalComponent } from './components/share-modal';
 
 declare let swellrt: any;
 declare let window: any;
@@ -77,6 +77,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   private showCanvasCover: boolean = false;
 
   private errorModal: any = null;
+  private shareModal: any = null;
 
   constructor(private appState: AppState, private backend: BackendService, private modalService: JetpadModalService, private route: ActivatedRoute) {
 
@@ -177,6 +178,28 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.profilesManager.addStatusHandler(this.profilesHandler);
     this.profilesManager.enableStatusEvents(true);
+
+  }
+
+  private showShareModal() {
+
+    if (this.shareModal) {
+      this.shareModal.destroy();
+      this.shareModal = null;
+    }
+
+    let modal$ = this.modalService.create(EditorModule, ShareModalComponent, {
+      ok: () => {
+      }
+    });
+
+    modal$.subscribe((modal) => {
+      setTimeout(() => {
+        this.shareModal = modal;
+          // close the modal after 5 seconds
+          //modal.destroy();
+      }, 5000)
+    });
 
   }
 

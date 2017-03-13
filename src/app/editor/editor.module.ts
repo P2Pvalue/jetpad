@@ -16,6 +16,7 @@ import { LinkMenuComponent } from './components/link-menu/link-menu.component';
 import { EditorErrorHandler } from './editor.errorhandler';
 import { EditorParticipantsComponent } from './components/participants';
 import { EditorParticipantsModalComponent } from './components/participants';
+import { ShareModalComponent } from './components/share-modal';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { EditorParticipantsModalComponent } from './components/participants';
     EditorOutlineModalComponent,
     EditorMenuComponent,
     EditorParticipantsComponent,
-    EditorParticipantsModalComponent
+    EditorParticipantsModalComponent,
+    ShareModalComponent
     ],
   imports: [
     EditorRoutingModule,

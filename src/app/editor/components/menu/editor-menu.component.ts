@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { JetpadModalService } from '../../../core/services';
 import { EditorModule } from '../../index';
 import { EditorParticipantsModalComponent } from '../participants';
@@ -21,6 +21,8 @@ export class EditorMenuComponent {
   // For Outline modal
   @Input() headers: any;
   private outlineModal: any = null;
+
+  @Output() shareEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private modalService: JetpadModalService) {
   }

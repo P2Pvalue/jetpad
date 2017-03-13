@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
   selector: 'jp-editor-header',
@@ -16,4 +16,6 @@ export class EditorHeaderComponent {
   @Input() me: any;
 
   @Input() headers: any;
+
+  @Output() shareEvent: EventEmitter<any> = new EventEmitter();
 }

@@ -8,7 +8,9 @@
     [participants]="participantSessionsRecent"
     [participantsPast]="participantSessionsPast"
 
-    [headers]="headers">
+    [headers]="headers"
+
+    (shareEvent)="showShareModal()">
     </jp-editor-header>
 
   <jp-editor-toolbar [styles]="selectionStyles" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
