@@ -29,20 +29,18 @@
   <div class="divider"></div>
 
   <!--Font Family -->
-  <!--
   <div class="input-select simple-select visible-xs visible-sm visible-md visible-lg">
     <select
         class="form-control"
         (focus)="loadFonts = true"
-        [ngModel]="styles.fontFamily ? styles.fontFamily.value : defaultFontFamily"
+        [ngModel]="styles.fontFamily ? styles.fontFamily.value : defaultFontFamily.css"
         (ngModelChange)="setStyle('fontFamily', $event)">
 
-      <option *ngFor="let fontFamily of fontFamilies" [style.fontFamily]="loadFonts ? fontFamily : 'inherit'" [value]="fontFamily">{{fontFamily}}</option>
+      <option *ngFor="let fontFamily of fontFamilies" [style.fontFamily]="loadFonts ? fontFamily.css : 'inherit'" [value]="fontFamily.css">{{fontFamily.name}}</option>
     </select>
   </div>
 
   <div class="divider visible-xs visible-sm visible-md visible-lg"></div>
-  -->
 
   <!-- Font size -->
   <div class="input-select simple-select">
