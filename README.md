@@ -46,6 +46,39 @@ If you run JetPad in dev mode (`npm start`) the index file
 `index.html` will point to `localhost:9898`, the default SwellRT development endpoint. For other scenarios
 edit `index.html` to adjust the endpoint to `swellrt.js`.
 
+## Nginx  
+
+When using Nginx as fronted server for JetPad, use following configuration to cache resources properly:
+
+```
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name     jetpad.local.net;
+
+        root /var/www/jetpad;
+        index index.html;
+
+        location / {
+                try_files $uri$args $uri$args/ $uri/ /index.html =404;
+                add_header Cache-Control must-revalidate;
+        }
+
+        location /assets {
+                etag on;        
+        }
+
+        location ~ \.bundle\.js$ {
+                add_header Cache-Control public;
+                etag off;
+                expires max;
+                gzip on;
+                gzip_types application/javascript;
+        }
+}
+
+```
 
 ## Dependencies
 
