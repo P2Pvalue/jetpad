@@ -427,6 +427,10 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     // refresh annotations
     this.selectionStyles = EditorComponent.getSelectionStyles(this.editor, range);
+
+    if (event.name === 'header') {
+        this.refreshHeadings();
+    }
   }
 
   showModalLink() {
