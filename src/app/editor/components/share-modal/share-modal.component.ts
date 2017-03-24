@@ -63,7 +63,10 @@ export class ShareModalComponent implements OnInit {
 
   private getShareLink() {
     let url = window.document.location.href;
-    url = url.slice(0, url.lastIndexOf("#"))
+    let endUrl = url.lastIndexOf("#");
+    if (endUrl > -1) {
+        url = url.slice(0, url.lastIndexOf("#"));
+    }
     return url;
   }
 
