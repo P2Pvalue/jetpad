@@ -12,7 +12,7 @@ declare let window: any;
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCancel()">×</button>
             <h3 class="modal-title">
-              Oops...
+              Warning
             </h3>
           </div>
           <div class="modal-body">
