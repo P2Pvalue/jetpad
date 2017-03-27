@@ -226,7 +226,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   }
 
-  private showModalNotAvailable(msg: string) {
+  private showModalAlert(msg: string) {
 
     let modal$ = this.modalService.create(EditorModule, AlertModalComponent, {
       message: msg,
@@ -314,6 +314,16 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.route.params.subscribe((param: any) => {
           this.open(param['id']);
         });
+
+        // Check editor compat
+        if (this.editor.checkBrowserCompat() == "readonly") {
+          this.showModalAlert("Sorry, this browser is not fully compatible yet. You can keep using Jetpad in read only mode.");
+        }
+
+        if (this.editor.checkBrowserCompat() == "none") {
+          this.showModalAlert("Sorry, this browser is not compatible.");
+        }
+
       });
 
   }
@@ -372,7 +382,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.showCanvasCover = this.doc.get("text").isEmpty();
       // Bind document's text to the editor
       this.editor.set(this.doc.get("text"));
-      // Enable interactive editing now!
+      // Enable interactive editing now!      
       this.editor.edit(true);
       //
       this.refreshHeadings();
@@ -427,10 +437,6 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     // refresh annotations
     this.selectionStyles = EditorComponent.getSelectionStyles(this.editor, range);
-
-    if (event.name === 'header') {
-        this.refreshHeadings();
-    }
   }
 
   showModalLink() {
@@ -543,11 +549,11 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     if ("bookmark" == action) {
-      this.showModalNotAvailable("Bookmarks will be available very soon.");
+      this.showModalAlert("Bookmarks will be available very soon.");
     }
 
     if ("comment" == action) {
-      this.showModalNotAvailable("Comments will be available very soon.");
+      this.showModalAlert("Comments will be available very soon.");
     }
 
   }
