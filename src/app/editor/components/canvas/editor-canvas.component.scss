@@ -22,6 +22,20 @@
     padding: 2em 2em;
   }
 
+  //
+  // Annotations CSS
+  //
+
+  .mark.comment {
+    background-color: $comment-highlight-bg-color !important;
+    padding: 0.1em;
+  }
+
+  .comment {
+    background-color: $comment-normal-bg-color;
+  }
+
+
 }
 
 .jp-editor-canvas[mode="full"] {

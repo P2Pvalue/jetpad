@@ -1,0 +1,115 @@
+.comments {
+
+  display: block;
+  min-width: 290px;
+  overflow-x: hidden;
+
+
+  .title {
+    font-size: $panel-title-font-size;
+    margin-bottom: 1.5em;
+    a {
+      margin: 0px;
+      padding: 0px;
+      float: right;
+    }
+  }
+
+  .form-group {
+
+    height: auto;
+    margin: 0px;
+
+    .control-label {
+      margin: 0px;
+    }
+
+    .form-control {
+      height: auto;
+      padding: 0px;
+      margin: 0px;
+    }
+  }
+
+  .navigator {
+
+    .form-control {
+      background: none;
+    }
+
+    .text {
+      font-family: $comment-font-family;
+      font-size: 14px;
+      background-color: $comment-highlight-bg-color;
+      padding: 0.1em;
+    }
+
+  }
+
+  .actions {
+    margin-top: 1.5em;
+    margin-bottom: 2em;
+  }
+
+  .reply {
+    margin-top: 20px;
+  }
+
+  .list-group {
+
+    margin-top: 10px;
+
+    textarea {
+      font-size: 14px;
+    }
+
+    .comment {
+      margin-top: 1.2em;
+    }
+
+    .list-group-item {
+
+      padding: 0px;
+      margin-bottom: 4px;
+
+      .row-picture {
+        vertical-align: top;
+        padding-right: 6px;
+
+        img {
+          height: 36px;
+          width: 36px;
+        }
+      }
+
+      .row-content {
+
+        min-height: auto;
+
+        .least-content {
+          font-size: 12px;
+
+          .material-icons {
+            font-size: 18px;
+          }
+        }
+
+        .list-group-item-heading {
+          margin: 0px;
+
+          font-size: 14px;
+          font-weight: 400; // TODO extract to var
+          line-height: normal;
+        }
+
+        .list-group-item-text {
+          font-size: 12px;
+        }
+
+      }
+
+    }
+
+  }
+
+}

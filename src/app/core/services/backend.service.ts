@@ -106,6 +106,13 @@ export class BackendService {
       doc.setPublic(true);
     }
 
+    // init comments
+    let comments = doc.get("comments");
+
+    if (!comments) {
+      doc.put("comments", swellrt.Map.create());      
+    }
+
   }
 
   static docNameToId(name: string) {

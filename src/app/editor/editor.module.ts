@@ -17,6 +17,7 @@ import { EditorErrorHandler } from './editor.errorhandler';
 import { EditorParticipantsComponent } from './components/participants';
 import { EditorParticipantsModalComponent } from './components/participants';
 import { ShareModalComponent } from './components/share-modal';
+import { CommentsComponent } from './components/comments';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ShareModalComponent } from './components/share-modal';
     EditorMenuComponent,
     EditorParticipantsComponent,
     EditorParticipantsModalComponent,
-    ShareModalComponent
+    ShareModalComponent,
+    CommentsComponent
     ],
   imports: [
     EditorRoutingModule,
