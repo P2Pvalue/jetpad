@@ -245,9 +245,11 @@ export class EditorComponent implements OnInit, OnDestroy {
       if (actionEvent.event == "share") {
         this.showModalShare();
       } else if (actionEvent.event == "comments") {
-        this.rightPanelContent = actionEvent.event;
-        this.refreshComments;
-        this.pickComment(this.comments[0]);        
+        this.refreshComments();
+        if (this.comments && this.comments.length > 0) {
+          this.pickComment(this.comments[0]);
+          this.rightPanelContent = actionEvent.event;
+        }
       } else if (actionEvent.event == "contributors") {
         this.rightPanelContent = actionEvent.event;
       }
@@ -700,29 +702,35 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     } else if (event.type == "next") {
 
+      let halt = false;
       let commentId = this.comments[this.selectedCommentIndex].value;
       if (!commentId)
         return;
 
-      while (commentId == this.comments[this.selectedCommentIndex].value) {
+      while (commentId == this.comments[this.selectedCommentIndex].value && !halt) {
         this.selectedCommentIndex++;
-        if (this.selectedCommentIndex >= this.comments.length)
+        if (this.selectedCommentIndex >= this.comments.length) {
           this.selectedCommentIndex = 0;
+          halt = true;
+        }
       }
 
       this.pickComment(this.comments[this.selectedCommentIndex]);
 
     } else if (event.type == "prev") {
 
+      let halt = false;
       let commentId = this.comments[this.selectedCommentIndex].value;
       if (!commentId)
         return;
 
       // Avoid issues with spread annotations having same id
-      while (commentId == this.comments[this.selectedCommentIndex].value) {
+      while (commentId == this.comments[this.selectedCommentIndex].value && !halt) {
         this.selectedCommentIndex--;
-        if (this.selectedCommentIndex < 0 )
+        if (this.selectedCommentIndex < 0 ) {
           this.selectedCommentIndex = this.comments.length-1;
+          halt = true;
+        }
       }
 
       this.pickComment(this.comments[this.selectedCommentIndex]);
