@@ -31,12 +31,12 @@
 
             [headers]="headers"
 
-            (shareEvent)="shareEvent.emit()">
+            (menuActionEvent)="menuActionEvent.emit($event)">
         </jp-editor-menu>
 
 
         <div class="share hidden-xs">
-          <a href="javascript:void(0)" class="" (click)="shareEvent.emit();" >Share</a>
+          <a href="javascript:void(0)" class="" (click)="menuActionEvent.emit({  event: 'share'  });" >Share</a>
         </div>
 
 
@@ -44,7 +44,7 @@
           <!--horizontal menu for other devices -->
           <li *ngFor="let participant of participants">
             <!-- | slice:0:6 -->
-            <app-user-icon *ngIf="participant.session.online"  [user]="participant"></app-user-icon>
+            <app-user-icon *ngIf="participant.session.online"  [participantSession]="participant"></app-user-icon>
           </li>
         </ul>
 

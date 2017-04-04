@@ -4,8 +4,17 @@ $canvas-cover-color: lightgray;
 
 $canvas-margin-top: 130px;
 
+$top-full-mode: "110px";
+$top-classic-mode: "130px";
+
 $canvas-default-font: "Georgia, serif";
 $canvas-default-font-size: 16px;
+
+$panel-title-font-size: 12px;
+
+$comment-normal-bg-color: #fff59d;
+$comment-highlight-bg-color: #ffeb3b;
+$comment-font-family: "Georgia, serif"; // see editor toolbar
 
 // Required by bootstrap
 $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;

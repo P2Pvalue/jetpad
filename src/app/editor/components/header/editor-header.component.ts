@@ -17,5 +17,5 @@ export class EditorHeaderComponent {
 
   @Input() headers: any;
 
-  @Output() shareEvent: EventEmitter<any> = new EventEmitter();
+  @Output() menuActionEvent: EventEmitter<any> = new EventEmitter();
 }

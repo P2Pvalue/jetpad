@@ -10,7 +10,7 @@
 
     [headers]="headers"
 
-    (shareEvent)="showShareModal()">
+    (menuActionEvent)="onMenuAction($event)">
     </jp-editor-header>
 
   <jp-editor-toolbar [styles]="selectionStyles" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
@@ -31,11 +31,23 @@
     </div>
 
     <div class="floating-panel-right col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block">
+
       <jp-editor-participants
+          *ngIf="rightPanelContent == 'contributors'"
           [me]="participantSessionMe"
           [participantsRecent]="participantSessionsRecent"
           [participantsPast]="participantSessionsPast">
       </jp-editor-participants>
+
+      <jp-editor-comments
+          *ngIf="rightPanelContent == 'comments'"
+          [action]="commentsAction"
+          [me]="participantSessionMe"
+          [comment]="selectedComment"
+          [selection]="currentSelection"
+          (commentEvent)="onCommentEvent($event)">
+        </jp-editor-comments>
+
     </div>
 
   </div>

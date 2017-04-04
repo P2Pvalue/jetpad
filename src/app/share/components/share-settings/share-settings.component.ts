@@ -47,7 +47,7 @@ import {Router} from "@angular/router";
             <div class="participants-container col-xs-12" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
               <div *ngFor="let participant of participants; let first = first" class="col-xs-12 participant">
                  <div class="icon col-xs-1 no-padding">
-                  <app-user-icon [user]="participant"></app-user-icon>
+                  <app-user-icon [participantSession]="participant"></app-user-icon>
                  </div>
                  <div class="name col-xs-8">
                   <span [ngClass]="{'bold': first}">{{participant.name}}</span>

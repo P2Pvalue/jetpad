@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
             <span class="navbar-brand" dropdown-open>
               <div class="user-info clearfix">
                 <div class="header-icon">
-                  <app-user-icon [user]="currentUser"></app-user-icon>
+                  <app-user-icon [participantSession]="currentUser"></app-user-icon>
                 </div>
                 <div class="name-icon">{{currentUser.name}}</div>
               </div>
