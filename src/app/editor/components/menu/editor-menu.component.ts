@@ -22,7 +22,7 @@ export class EditorMenuComponent {
   @Input() headers: any;
   private outlineModal: any = null;
 
-  @Output() shareEvent: EventEmitter<any> = new EventEmitter();
+  @Output() menuActionEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private modalService: JetpadModalService) {
   }
@@ -75,4 +75,21 @@ export class EditorMenuComponent {
     });
   }
 
+  public showShareModal() {
+    this.menuActionEvent.emit({
+      event: "share"
+    });
+  }
+
+  public showContributorsPanel() {
+    this.menuActionEvent.emit({
+      event: "contributors"
+    });
+  }
+
+  public showCommentsPanel() {
+    this.menuActionEvent.emit({
+      event: "comments"
+    });
+  }
 }

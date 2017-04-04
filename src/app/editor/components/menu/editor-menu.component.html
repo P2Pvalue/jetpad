@@ -1,13 +1,24 @@
 <div id="jp-editor-menu" class="editor-menu">
 
   <div class="dropdown visible-xs-block visible-sm-block">
-      <button class="btn btn-default dropdown-toggle" type="button" id="editorDropwdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <button class="btn btn-default dropdown-toggle" type="button" id="editorDropwdownMenuSm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <i class="material-icons">more_vert</i>
       </button>
-      <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="editorDropwdownMenu">
-         <li><a href="javascript:void(0)" (click)="shareEvent.emit()">Share</a></li>
+      <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="editorDropwdownMenuSm">
+         <li><a href="javascript:void(0)" (click)="showShareModal()">Share</a></li>
          <li><a href="javascript:void(0)" (click)="showOutlineModal()">Outline</a></li>
          <li><a href="javascript:void(0)" (click)="showContributorsModal()">Contributors</a></li>
+         <li><a href="javascript:void(0)" (click)="showCommentsModal()">Comments</a></li>
+      </ul>
+  </div>
+
+  <div class="dropdown visible-md-block visible-lg-block">
+      <button class="btn btn-default dropdown-toggle" type="button" id="editorDropwdownMenuLg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="material-icons">more_vert</i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="editorDropwdownMenuLg">
+         <li><a href="javascript:void(0)" (click)="showContributorsPanel()">Contributors</a></li>
+         <li><a href="javascript:void(0)" (click)="showCommentsPanel()">Comments</a></li>
       </ul>
   </div>
 
