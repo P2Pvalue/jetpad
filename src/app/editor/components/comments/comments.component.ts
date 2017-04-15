@@ -51,10 +51,6 @@ export class CommentsComponent {
     return this.action == "new" && this.selection;
   }
 
-  private getMomentFromNow(timestamp) {
-    return Moment(timestamp).fromNow();
-  }
-
   public getParticipantSession(participantId) {
     // A safe value
     if (!this.profilesManager) {

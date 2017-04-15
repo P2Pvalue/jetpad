@@ -38,10 +38,6 @@ export class EditorParticipantsComponent {
     this.showEditNameForm = display;
   }
 
-  private getMomentFromNow(timestamp) {
-    return Moment(timestamp).fromNow();
-  }
-
   private isNotRegistered(profile) {
     return profile.anonymous && profile.name != "Anonymous";
   }

@@ -58,7 +58,7 @@
           <div class="row-content">
             <div *ngIf="item.participantId == me.profile.participantId.address" (click)="comment.deleteItem(i)" class="least-content"><i class="material-icons">delete</i></div>
             <p class="list-group-item-heading">{{getParticipantSession(item.participantId).profile.name}}</p>
-            <p class="list-group-item-text">{{getMomentFromNow(item.time)}}</p>
+            <p class="list-group-item-text">{{item.time | moment}}</p>
           </div>
 
         </div>

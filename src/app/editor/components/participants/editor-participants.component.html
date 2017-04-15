@@ -43,7 +43,7 @@
         <app-user-icon  [participantSession]="participant"></app-user-icon>
     </div>
     <div class="row-content">
-      <div class="least-content">{{getMomentFromNow(participant.session.lastActivityTime)}}</div>
+        <div class="least-content">{{participant.session.lastActivityTime | moment}}</div>
       <p class="list-group-item-heading">{{participant.profile.name}}</p>
       <p *ngIf="isNotRegistered(participant.profile)" class="list-group-item-text">Not registered</p>
       <!--
@@ -67,7 +67,7 @@
           <app-user-icon  [participantSession]="participant"></app-user-icon>
       </div>
       <div class="row-content">
-        <div class="least-content">{{getMomentFromNow(participant.session.lastActivityTime)}}</div>
+        <div class="least-content">{{participant.session.lastActivityTime | moment}}</div>
         <p class="list-group-item-heading">{{participant.profile.name}}</p>
         <p *ngIf="isNotRegistered(participant.profile)" class="list-group-item-text">Not registered</p>
         <!--
