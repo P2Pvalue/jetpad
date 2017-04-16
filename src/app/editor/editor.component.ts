@@ -20,6 +20,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   private appStateSubscription: any;
 
   private readonly STYLE_LINK: string = "link";
+  private readonly TOP_BAR_OFFSET: number = 114;
 
   private docid: string; // document/object id
   private doc: any;      // document/object
@@ -369,6 +370,17 @@ export class EditorComponent implements OnInit, OnDestroy {
           if (selection && selection.anchorPosition) {
             this.caretPos.x = selection.anchorPosition.left;
             this.caretPos.y = selection.anchorPosition.top;
+          }
+
+          // ensure cursor is visible
+          if (selection && selection.focusNode) {
+            let focusParent = selection.focusNode.parentElement;
+            if (focusParent.getBoundingClientRect) {
+              let rect = focusParent.getBoundingClientRect();
+              if (rect.top > (window.innerHeight - this.TOP_BAR_OFFSET)) {
+                focusParent.scrollIntoView();
+              }
+            }
           }
 
           if (range) {

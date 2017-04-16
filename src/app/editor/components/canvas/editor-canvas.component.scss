@@ -26,9 +26,15 @@
   // Annotations CSS
   //
 
+  // .mark is defined in bootstrap originally
+  // of text, force to remove padding by default.
+  .mark {
+    padding: 0;
+  }
+
   .mark.comment {
     background-color: $comment-highlight-bg-color !important;
-    padding: 0.1em;
+    padding: 0;
   }
 
   .comment {
@@ -61,10 +67,12 @@
 
 .wave-editor-on {
   width: 100%;
+  padding-bottom: 50px;
 }
 
 .wave-editor-off {
   width: 100%;
+  padding-bottom: 50px;
 }
 
 // avoid content editable grey border in chrome
