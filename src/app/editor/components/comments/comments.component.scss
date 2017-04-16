@@ -1,13 +1,21 @@
 .comments {
 
   display: block;
-  min-width: 290px;
+  min-width: 164px;
+  margin-left: 1em;
+  margin-right: 1em;
   overflow-x: hidden;
 
 
   .title {
     font-size: $panel-title-font-size;
-    margin-bottom: 1.5em;
+
+    border-bottom-color: $panel-separator-line-color;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 10px;
+
+    margin-bottom: 1em;
     a {
       margin: 0px;
       padding: 0px;
@@ -49,6 +57,10 @@
   .actions {
     margin-top: 1.5em;
     margin-bottom: 2em;
+
+    a {
+      font-size: 12px;
+    }
   }
 
   .reply {
@@ -64,7 +76,12 @@
     }
 
     .comment {
-      margin-top: 1.2em;
+      margin-top: 2.2em;
+
+      .text {
+        font-style: italic;
+        font-size: 14px;
+      }
     }
 
     .list-group-item {
@@ -84,21 +101,25 @@
 
       .row-content {
 
-        min-height: auto;
+        min-height: 0;
+        border-left-width: 2px;
+        // border-left-color: #bdbdbd; set by component
+        border-left-style: solid;
+        padding-left: 10px;
 
         .least-content {
           font-size: 12px;
 
           .material-icons {
-            font-size: 18px;
+            font-size: 14px;
           }
         }
 
         .list-group-item-heading {
           margin: 0px;
 
-          font-size: 14px;
-          font-weight: 400; // TODO extract to var
+          font-size: 12px;
+          font-weight: bolder;
           line-height: normal;
         }
 

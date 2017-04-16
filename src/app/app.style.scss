@@ -11,11 +11,15 @@ $top-classic-mode: "130px";
 $canvas-default-font: "Georgia, serif";
 $canvas-default-font-size: 16px;
 
-$panel-title-font-size: 12px;
+$panel-separator-line-color: #bdbdbd;
+
+$panel-title-font-size: 14px;
 
 $comment-normal-bg-color: #fff59d;
 $comment-highlight-bg-color: #ffeb3b;
 $comment-font-family: "Georgia, serif"; // see editor toolbar
+
+
 
 // Required by bootstrap
 $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;

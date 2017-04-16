@@ -63,11 +63,12 @@ export class CommentsComponent {
             shortName: "(Unknown)",
             imageUrl: null,
             color: {
-              cssColor: "rgb(255, 255, 255)"
+              cssColor: "#bdbdbd"
             }
           }
       };
     }
+
 
     let profile = this.profilesManager.getProfile(swellrt.Participant.of(participantId));
     let participantSession = {
@@ -80,6 +81,17 @@ export class CommentsComponent {
 
     return participantSession;
   }
+
+  public getParticipantColor(participantId) {
+    let participantSession = this.getParticipantSession(participantId);
+    if (participantSession.profile.anonymous) {
+      if (participantSession.profile.name != "Anonymous")
+        return participantSession.profile.color.cssColor;
+      else
+        return "#bdbdbd";
+    }
+  }
+
 
   private create(textarea: any) {
     this.action = "none";
