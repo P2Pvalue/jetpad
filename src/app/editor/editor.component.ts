@@ -138,8 +138,13 @@ export class EditorComponent implements OnInit, OnDestroy {
         });
 
         swellrt.Editor.AnnotationRegistry.setHandler("comment", (type, annot, event) => {
-          if (swellrt.Annotation.EVENT_ADDED == type ||
-              swellrt.Annotation.EVENT_REMOVED == type) {
+          if (swellrt.Annotation.EVENT_ADDED == type) {
+            // set as open here
+            // to ensure annotation is open again on undo.
+            Comment.setOpen(annot.value, that.commentsData);
+            that.refreshComments();
+          }
+          if (swellrt.Annotation.EVENT_REMOVED == type) {
             that.refreshComments();
           }
         });

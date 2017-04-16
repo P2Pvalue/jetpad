@@ -32,6 +32,27 @@ export class Comment {
       annotationParts[Comment.ANNOTATION_KEY][last].range.end);
   }
 
+  public static setResolved(id: string, commentsData: any, participantId: string) {
+    let commentState = commentsData.get(id+Comment.STATE_SUFFIX);
+
+    if (commentState.state != "resolved") {
+      commentState.state = "resolved";
+      commentState.participantId = participantId;
+      commentsData.put(id+Comment.STATE_SUFFIX, commentState);
+    }
+  }
+
+  public static setOpen(id: string, commentsData: any) {
+    let commentState = commentsData.get(id+Comment.STATE_SUFFIX);
+    if (!commentState)
+      commentState = {};
+
+    if (!commentState.state || commentState.state != "open") {
+      commentState.state = "open";
+      commentsData.put(id+Comment.STATE_SUFFIX, commentState);
+    }
+  }
+
   public static create(range: any, commentText: string, user: any, editor: any, commentsData: any) {
 
     // generate id
@@ -39,15 +60,11 @@ export class Comment {
     let sessionId = user.session.id;
     let id = sessionId.slice(-5)+ (""+timestamp).slice(-5);
 
-    // set annotation
-    // let anot = editor.setAnnotation(Comment.ANNOTATION_KEY, id, range);
+    // create data slot before annotation
+    commentsData.put(id, swellrt.List.create());
+    Comment.setOpen(id, commentsData);
     editor.setTextAnnotationOverlap(Comment.ANNOTATION_KEY, id, range);
     let annotationParts = editor.seekTextAnnotationsByValue(Comment.ANNOTATION_KEY, id, range);
-
-    commentsData.put(id, swellrt.List.create());
-    commentsData.put(id+Comment.STATE_SUFFIX, {
-      state: "open"
-    })
 
     let comment = new Comment(id, user, editor, commentsData)
     comment.containerRange = Comment.calculateContainerRange(annotationParts);;
@@ -127,10 +144,7 @@ export class Comment {
   }
 
   public resolve() {
-    this.commentsData.put(this.id+Comment.STATE_SUFFIX, {
-      state: "resolved",
-      participantId: this.user.profile.address
-    });
+    Comment.setResolved(this.id, this.commentsData, this.user.profile.address);
     this.highlight(false);
     this.editor.clearTextAnnotationOverlap(Comment.ANNOTATION_KEY, this.id, this.containerRange);
   }
