@@ -9,19 +9,19 @@
   .floating-panel-left {
 
     position: fixed;
-    top: 130px;
-    height: calc(100vh - 130px);
+    top: $canvas-margin-top;
+    height: calc(100vh - 130px); // $canvas-margin-top
+    width: calc( (100vw - 210mm) / 2 );
     overflow-y: auto;
-
   }
 
   .floating-panel-right {
 
     position: fixed;
-    top: 130px;
+    top: $canvas-margin-top;
     right: 0px;
-    height: calc(100vh - 130px);
-    width: calc( (100vw - 210mm) / 2 ); 
+    height: calc(100vh - 130px); // $canvas-margin-top
+    width: calc( (100vw - 210mm) / 2 );
     overflow-y: auto;
 
   }
@@ -38,16 +38,16 @@
 
   .floating-panel-left {
     position: fixed;
-    top: 130px;
-    height: calc(100vh - 130px);
+    top: $canvas-margin-top;
+    height: calc(100vh - 130px); // $canvas-margin-top
     overflow-y: auto;
   }
 
   .floating-panel-right {
     position: fixed;
-    top: 130px;
+    top: $canvas-margin-top;
     right: 0px;
-    height: calc(100vh - 130px);
+    height: calc(100vh - 130px); // $canvas-margin-top
     overflow-y: auto;
 
     border-left-style: solid;
