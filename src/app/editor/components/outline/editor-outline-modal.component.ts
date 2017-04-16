@@ -15,7 +15,10 @@ import { Component, OnInit } from '@angular/core';
           </div>
 
           <div class="modal-body scrollable-body">
-            <jp-editor-outline [headers]="headers"></jp-editor-outline>
+            <jp-editor-outline
+              [showInDialog]="true"
+              [headers]="headers">
+            </jp-editor-outline>
           </div>
 
           <div class="modal-footer">

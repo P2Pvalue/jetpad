@@ -1,45 +1,66 @@
 // swellrt editor class
 .header-anchor {
-  top:-130px;
+  top:-$canvas-margin-top;
 }
 
-// jetpad classes
-.outline {
+.outline-content {
 
-  a {
-      color: rgb(189, 189, 189);
-  }
+  min-width: 164px;
+  margin-left: 1em;
+  margin-right: 1em;
 
-  li {
-    font-weight: 200; // TODO put as variable
-    font-size: 14px; // TODO put as variable
-    list-style-type: none;
+
+  .title {
+    font-size: $panel-title-font-size;
+
+    border-bottom-color: $panel-separator-line-color;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 10px;
     margin-bottom: 1em;
 
   }
 
-}
+  .outline {
 
-.outline-h1 {
-  margin-left: 0em
-}
+    padding-left: 0px;
+    
+    a {
+      color: rgb(189, 189, 189);
+    }
 
-.outline-h2 {
-  margin-left: 0.5em
-}
+    li {
+      font-weight: 200; // TODO put as variable
+      font-size: 14px; // TODO put as variable
+      list-style-type: none;
+      margin-bottom: 1em;
 
-.outline-h3 {
-  margin-left: 1em
-}
+    }
 
-.outline-h4 {
-  margin-left: 1.5em
-}
+  }
 
-.outline-h5 {
-  margin-left: 2em
-}
+  .outline-h1 {
+    margin-left: 0em
+  }
 
-.outline-h6 {
-  margin-left: 2.5em
+  .outline-h2 {
+    margin-left: 0.5em
+  }
+
+  .outline-h3 {
+    margin-left: 1em
+  }
+
+  .outline-h4 {
+    margin-left: 1.5em
+  }
+
+  .outline-h5 {
+    margin-left: 2em
+  }
+
+  .outline-h6 {
+    margin-left: 2.5em
+  }
+
 }
