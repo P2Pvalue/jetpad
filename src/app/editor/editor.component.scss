@@ -21,6 +21,7 @@
     top: 130px;
     right: 0px;
     height: calc(100vh - 130px);
+    width: calc( (100vw - 210mm) / 2 ); 
     overflow-y: auto;
 
   }
