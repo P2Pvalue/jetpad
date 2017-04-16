@@ -15,6 +15,8 @@ export class EditorParticipantsComponent {
 
   @Input() me: any;
 
+  @Input() showInDialog: boolean = false;
+
   private name: string;
   private showEditNameForm: boolean = false;
   private showParticipantsPastList: boolean = false;
