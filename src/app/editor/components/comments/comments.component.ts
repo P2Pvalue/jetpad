@@ -128,9 +128,10 @@ export class CommentsComponent {
   }
 
   public resolve() {
-    this.action = "none";
     this.comment.resolve();
-    this.comment = undefined;
+    this.commentEvent.emit({
+      type: "close"
+    });
   }
 
   public cancel() {

@@ -75,6 +75,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   };
 
   // Comments
+  private newCommentSelection: any;
   private selectedComment: Comment;
   private commentsAction: string = "none";
   // reference to swellrt's to doc.comments,
@@ -364,7 +365,14 @@ export class EditorComponent implements OnInit, OnDestroy {
           // anytime seleciton changes, close link modal
           this.closeFloatingViews();
           // clear cached selection
-          this.currentSelection = undefined;
+          if (selection) {
+            this.currentSelection = selection;
+            window._selection = this.currentSelection; // TODO remove
+          } else {
+            this.currentSelection = undefined;
+          }
+
+          this.newCommentSelection = undefined;
 
           // calculate caret coords
           if (selection && selection.anchorPosition) {
@@ -383,28 +391,20 @@ export class EditorComponent implements OnInit, OnDestroy {
             }
           }
 
-          if (range) {
-
-            this.currentSelection = {
-              range: range,
-              selection: selection
-            };
-
-            window._selection = this.currentSelection; // TODO remove
-
+          if (selection.range) {
             // update toolbar state
-            this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
+            this.selectionStyles = EditorComponent.getSelectionStyles(editor, selection.range);
 
             // show contextual menu
             if (this.selectionStyles.link) {
               this.visibleLinkContextMenu = true;
 
-            } else if (!range.isCollapsed()) {
+            } else if (!selection.range.isCollapsed()) {
               this.visibleContextMenu = true;
             }
 
             // check if there is a comment in the cursor position
-            this.pickComment(EditorComponent.getCommentAnnotation(this.editor, this.currentSelection.range));
+            this.pickComment(EditorComponent.getCommentAnnotation(this.editor, selection.range));
           }
 
 
@@ -514,7 +514,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   editStyle(event: any) {
 
-    let range = this.editor.getSelection();
+    let range = this.editor.getSelection().range;
     if (!range) return;
 
     // if current selection is caret,
@@ -537,7 +537,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   showModalLink() {
 
-    this.linkRange = this.editor.getSelection();
+    this.linkRange = this.editor.getSelection().range;
 
     // don't show modal if not selection nor carte positioned
     if (!this.linkRange)
@@ -659,9 +659,15 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private createComment() {
     this.selectedComment = undefined;
-    this.currentSelection.text  = this.editor.getText(this.currentSelection.range);
-    this.commentsAction = "new";
-    this.rightPanelContent = "comments";
+    let selection = this.editor.getSelection();
+    let text = this.editor.getText(selection.range);
+    // check whether the selection is empty
+    if (text.replace(" ","").length > 0) {
+      this.newCommentSelection = selection;
+      this.newCommentSelection.text  = text;
+      this.commentsAction = "new";
+      this.rightPanelContent = "comments";
+    }
   }
 
   private pickComment(commentAnnotation) {
