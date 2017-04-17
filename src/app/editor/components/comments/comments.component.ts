@@ -27,6 +27,8 @@ export class CommentsComponent {
   // array of comment annotations
   @Input() comments: Array<any>;
 
+  @Input() showInDialog: boolean;
+
     // notify actions to editor: new/delete comment
   @Output() commentEvent: EventEmitter<any> = new EventEmitter();
 

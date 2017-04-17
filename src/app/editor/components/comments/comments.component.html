@@ -3,7 +3,7 @@
 
   <div class="new" *ngIf="isNewComment()">
 
-    <div class="title">New comment</div>
+    <div *ngIf="!showInDialog" class="title">New comment</div>
 
     <div class="navigator">
         <span class="text">
@@ -24,7 +24,7 @@
 
   <div class="edit" *ngIf="isEditComment()">
 
-    <div class="title">
+    <div *ngIf="!showInDialog" class="title">
       <span>Comments</span>
       <a href="javascript:void(0)" class="btn btn-primary" (click)="next()"><i class="material-icons">chevron_right</i></a>
       <a href="javascript:void(0)" class="btn btn-primary" (click)="prev()"><i class="material-icons">chevron_left</i></a>
@@ -37,7 +37,7 @@
     </div>
 
     <div *ngIf="!comment.isResolved()" class="actions text-center">
-      <a [href]="getAnchorHref('replyText')" style="margin-right:1em;">Add reply</a>
+      <a href="javascript:void(0)" style="margin-right:1em;">Add reply</a>
       <a href="javascript:void(0)" (click)="resolve()">Mark as resolved</a>
     </div>
 

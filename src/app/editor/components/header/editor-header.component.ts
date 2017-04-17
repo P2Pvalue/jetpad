@@ -17,5 +17,9 @@ export class EditorHeaderComponent {
 
   @Input() headers: any;
 
+  @Input() commentAction: string;
+  @Input() comment: any;
+  @Input() commentSelection: any;
+
   @Output() menuActionEvent: EventEmitter<any> = new EventEmitter();
 }

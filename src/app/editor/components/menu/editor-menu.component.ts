@@ -3,6 +3,7 @@ import { JetpadModalService } from '../../../core/services';
 import { EditorModule } from '../../index';
 import { EditorParticipantsModalComponent } from '../participants';
 import { EditorOutlineModalComponent } from '../outline'
+import { CommentsModalComponent } from '../comments'
 
 @Component({
   selector: 'jp-editor-menu',
@@ -22,6 +23,12 @@ export class EditorMenuComponent {
   @Input() headers: any;
   private outlineModal: any = null;
 
+  // For Comments modal
+  private commentsModal: any = null;
+  @Input() commentAction: string;
+  @Input() comment: any;
+  @Input() commentSelection: any;
+
   @Output() menuActionEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private modalService: JetpadModalService) {
@@ -32,7 +39,7 @@ export class EditorMenuComponent {
 
     if (this.contributorsModal) {
       this.contributorsModal.destroy();
-      this.contributorsModal = null;
+      this.contributorsModal = undefined;
     }
 
     let modal$ = this.modalService.create(EditorModule, EditorParticipantsModalComponent, {
@@ -40,15 +47,13 @@ export class EditorMenuComponent {
       participantsPast: this.participantsPast,
       me: this.me,
       ok: () => {
+        this.contributorsModal.destroy();
+        this.contributorsModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
         this.contributorsModal = modal;
-          // close the modal after 5 seconds
-          //modal.destroy();
-      }, 5000)
     });
   }
 
@@ -57,23 +62,61 @@ export class EditorMenuComponent {
 
     if (this.outlineModal) {
       this.outlineModal.destroy();
-      this.outlineModal = null;
+      this.outlineModal = undefined;
     }
 
     let modal$ = this.modalService.create(EditorModule, EditorOutlineModalComponent, {
       headers: this.headers,
       ok: () => {
+        this.outlineModal.destroy();
+        this.outlineModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
         this.outlineModal = modal;
-          // close the modal after 5 seconds
-          //modal.destroy();
-      }, 5000)
     });
   }
+
+
+  public showCommentsModal() {
+
+    if (this.commentsModal) {
+      this.commentsModal.destroy();
+      this.commentsModal = undefined;
+    }
+
+    if (this.commentAction == "none" || (!this.comment && !this.commentSelection))
+      return;
+
+    let modal$ = this.modalService.create(EditorModule, CommentsModalComponent, {
+      action: this.commentAction,
+      me: this.me,
+      comment: this.comment,
+      selection: this.commentSelection,
+      ok: (event) => {
+
+        if (!event || (event && event.type == "close")) {
+          this.commentsModal.destroy();
+          this.commentsModal = undefined;
+        }
+
+        if (event) {
+          this.menuActionEvent.emit({
+            event: "comment-event",
+            data: event
+          });
+        }
+      }
+    });
+
+    modal$.subscribe((modal) => {
+        this.commentsModal = modal;
+    });
+
+
+  }
+
 
   public showShareModal() {
     this.menuActionEvent.emit({

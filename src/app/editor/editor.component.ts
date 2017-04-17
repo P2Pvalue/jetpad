@@ -92,6 +92,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private errorModal: any = null;
   private shareModal: any = null;
+  private alertModal: any = null;
 
   private rightPanelContent: string = "contributors";
 
@@ -251,14 +252,19 @@ export class EditorComponent implements OnInit, OnDestroy {
   private onMenuAction(actionEvent)  {
       if (actionEvent.event == "share") {
         this.showModalShare();
+
       } else if (actionEvent.event == "comments") {
         this.refreshComments();
         if (this.comments && this.comments.length > 0) {
           this.pickComment(this.comments[0]);
           this.rightPanelContent = actionEvent.event;
         }
+
       } else if (actionEvent.event == "contributors") {
         this.rightPanelContent = actionEvent.event;
+
+      } else if (actionEvent.event == "comment-event") {
+        this.onCommentEvent(actionEvent.data);
       }
   }
 
@@ -266,20 +272,18 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     if (this.shareModal) {
       this.shareModal.destroy();
-      this.shareModal = null;
+      this.shareModal = undefined;
     }
 
     let modal$ = this.modalService.create(EditorModule, ShareModalComponent, {
       ok: () => {
+        this.shareModal.destroy();
+        this.shareModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
         this.shareModal = modal;
-          // close the modal after 5 seconds
-          //modal.destroy();
-      }, 5000)
     });
 
   }
@@ -288,38 +292,40 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     if (this.errorModal) {
       this.errorModal.destroy();
-      this.errorModal = null;
+      this.errorModal = undefined;
     }
 
     let modal$ = this.modalService.create(EditorModule, ErrorModalComponent, {
       message: error,
       ok: () => {
+        this.errorModal.destroy();
+        this.errorModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
         this.errorModal = modal;
-          // close the modal after 5 seconds
-          //modal.destroy();
-      }, 5000)
     });
 
   }
 
   private showModalAlert(msg: string) {
 
+    if (this.alertModal) {
+      this.alertModal.destroy();
+      this.alertModal = undefined;
+    }
+
     let modal$ = this.modalService.create(EditorModule, AlertModalComponent, {
       message: msg,
       ok: () => {
+        this.alertModal.destroy();
+        this.alertModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
-        // close the modal after 5 seconds
-        //modal.destroy();
-      }, 5000)
+      this.alertModal = modal;
     });
 
   }
@@ -518,10 +524,11 @@ export class EditorComponent implements OnInit, OnDestroy {
 
 
   editStyle(event: any) {
+    let selection = this.editor.getSelection();
+    if (!selection || !selection.range)
+      return;
 
-    let range = this.editor.getSelection().range;
-    if (!range) return;
-
+    let range = selection.range;
     // if current selection is caret,
     // try to span operation range to the annotation
     if (range.isCollapsed()) {
