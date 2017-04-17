@@ -20,6 +20,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   private appStateSubscription: any;
 
   private readonly STYLE_LINK: string = "link";
+  private readonly TOP_BAR_OFFSET: number = 114;
 
   private docid: string; // document/object id
   private doc: any;      // document/object
@@ -58,15 +59,15 @@ export class EditorComponent implements OnInit, OnDestroy {
   private participantSessionMe : any = {
       session: {
         id: null,
-        online: false,
-        color: {
-          cssColor: "rgb(255, 255, 255)"
-        }
+        online: false
       },
       profile: {
         name: "(Loading...)",
         shortName: "(Loading...)",
         imageUrl: null,
+        color: {
+          cssColor: "rgb(255, 255, 255)"
+        },
         setName: function(n) {
           this.name = n;
         }
@@ -74,6 +75,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   };
 
   // Comments
+  private newCommentSelection: any;
   private selectedComment: Comment;
   private commentsAction: string = "none";
   // reference to swellrt's to doc.comments,
@@ -90,6 +92,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private errorModal: any = null;
   private shareModal: any = null;
+  private alertModal: any = null;
 
   private rightPanelContent: string = "contributors";
 
@@ -136,8 +139,13 @@ export class EditorComponent implements OnInit, OnDestroy {
         });
 
         swellrt.Editor.AnnotationRegistry.setHandler("comment", (type, annot, event) => {
-          if (swellrt.Annotation.EVENT_ADDED == type ||
-              swellrt.Annotation.EVENT_REMOVED == type) {
+          if (swellrt.Annotation.EVENT_ADDED == type) {
+            // set as open here
+            // to ensure annotation is open again on undo.
+            Comment.setOpen(annot.value, that.commentsData);
+            that.refreshComments();
+          }
+          if (swellrt.Annotation.EVENT_REMOVED == type) {
             that.refreshComments();
           }
         });
@@ -244,14 +252,19 @@ export class EditorComponent implements OnInit, OnDestroy {
   private onMenuAction(actionEvent)  {
       if (actionEvent.event == "share") {
         this.showModalShare();
+
       } else if (actionEvent.event == "comments") {
         this.refreshComments();
         if (this.comments && this.comments.length > 0) {
           this.pickComment(this.comments[0]);
           this.rightPanelContent = actionEvent.event;
         }
+
       } else if (actionEvent.event == "contributors") {
         this.rightPanelContent = actionEvent.event;
+
+      } else if (actionEvent.event == "comment-event") {
+        this.onCommentEvent(actionEvent.data);
       }
   }
 
@@ -259,20 +272,18 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     if (this.shareModal) {
       this.shareModal.destroy();
-      this.shareModal = null;
+      this.shareModal = undefined;
     }
 
     let modal$ = this.modalService.create(EditorModule, ShareModalComponent, {
       ok: () => {
+        this.shareModal.destroy();
+        this.shareModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
         this.shareModal = modal;
-          // close the modal after 5 seconds
-          //modal.destroy();
-      }, 5000)
     });
 
   }
@@ -281,38 +292,40 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     if (this.errorModal) {
       this.errorModal.destroy();
-      this.errorModal = null;
+      this.errorModal = undefined;
     }
 
     let modal$ = this.modalService.create(EditorModule, ErrorModalComponent, {
       message: error,
       ok: () => {
+        this.errorModal.destroy();
+        this.errorModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
         this.errorModal = modal;
-          // close the modal after 5 seconds
-          //modal.destroy();
-      }, 5000)
     });
 
   }
 
   private showModalAlert(msg: string) {
 
+    if (this.alertModal) {
+      this.alertModal.destroy();
+      this.alertModal = undefined;
+    }
+
     let modal$ = this.modalService.create(EditorModule, AlertModalComponent, {
       message: msg,
       ok: () => {
+        this.alertModal.destroy();
+        this.alertModal = undefined;
       }
     });
 
     modal$.subscribe((modal) => {
-      setTimeout(() => {
-        // close the modal after 5 seconds
-        //modal.destroy();
-      }, 5000)
+      this.alertModal = modal;
     });
 
   }
@@ -363,7 +376,14 @@ export class EditorComponent implements OnInit, OnDestroy {
           // anytime seleciton changes, close link modal
           this.closeFloatingViews();
           // clear cached selection
-          this.currentSelection = undefined;
+          if (selection) {
+            this.currentSelection = selection;
+            window._selection = this.currentSelection; // TODO remove
+          } else {
+            this.currentSelection = undefined;
+          }
+
+          this.newCommentSelection = undefined;
 
           // calculate caret coords
           if (selection && selection.anchorPosition) {
@@ -371,28 +391,31 @@ export class EditorComponent implements OnInit, OnDestroy {
             this.caretPos.y = selection.anchorPosition.top;
           }
 
-          if (range) {
+          // ensure cursor is visible
+          if (selection && selection.focusNode) {
+            let focusParent = selection.focusNode.parentElement;
+            if (focusParent.getBoundingClientRect) {
+              let rect = focusParent.getBoundingClientRect();
+              if (rect.top > (window.innerHeight - this.TOP_BAR_OFFSET)) {
+                focusParent.scrollIntoView();
+              }
+            }
+          }
 
-            this.currentSelection = {
-              range: range,
-              selection: selection
-            };
-
-            window._selection = this.currentSelection; // TODO remove
-
+          if (selection.range) {
             // update toolbar state
-            this.selectionStyles = EditorComponent.getSelectionStyles(editor, range);
+            this.selectionStyles = EditorComponent.getSelectionStyles(editor, selection.range);
 
             // show contextual menu
             if (this.selectionStyles.link) {
               this.visibleLinkContextMenu = true;
 
-            } else if (!range.isCollapsed()) {
+            } else if (!selection.range.isCollapsed()) {
               this.visibleContextMenu = true;
             }
 
             // check if there is a comment in the cursor position
-            this.pickComment(EditorComponent.getCommentAnnotation(this.editor, this.currentSelection.range));
+            this.pickComment(EditorComponent.getCommentAnnotation(this.editor, selection.range));
           }
 
 
@@ -501,10 +524,11 @@ export class EditorComponent implements OnInit, OnDestroy {
 
 
   editStyle(event: any) {
+    let selection = this.editor.getSelection();
+    if (!selection || !selection.range)
+      return;
 
-    let range = this.editor.getSelection();
-    if (!range) return;
-
+    let range = selection.range;
     // if current selection is caret,
     // try to span operation range to the annotation
     if (range.isCollapsed()) {
@@ -525,7 +549,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   showModalLink() {
 
-    this.linkRange = this.editor.getSelection();
+    this.linkRange = this.editor.getSelection().range;
 
     // don't show modal if not selection nor carte positioned
     if (!this.linkRange)
@@ -647,9 +671,15 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private createComment() {
     this.selectedComment = undefined;
-    this.currentSelection.text  = this.editor.getText(this.currentSelection.range);
-    this.commentsAction = "new";
-    this.rightPanelContent = "comments";
+    let selection = this.editor.getSelection();
+    let text = this.editor.getText(selection.range);
+    // check whether the selection is empty
+    if (text.replace(" ","").length > 0) {
+      this.newCommentSelection = selection;
+      this.newCommentSelection.text  = text;
+      this.commentsAction = "new";
+      this.rightPanelContent = "comments";
+    }
   }
 
   private pickComment(commentAnnotation) {

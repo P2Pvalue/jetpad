@@ -1,4 +1,9 @@
-<div>
+<div class="outline-content">
+
+  <div *ngIf="!showInDialog" class="title">
+    Outline
+  </div>
+
   <ul class="outline">
     <li *ngFor="let h of headers" class="outline-{{h.value}}"><a [href]="getHeaderUrl(h.node?.getAttribute('hid'))">{{h.text}}</a></li>
   </ul>

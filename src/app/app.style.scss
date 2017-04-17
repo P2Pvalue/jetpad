@@ -3,6 +3,7 @@ $canvas-cover-font-style: italic;
 $canvas-cover-color: lightgray;
 
 $canvas-margin-top: 130px;
+$canvas-margin-bottom: 30px;
 
 $top-full-mode: "110px";
 $top-classic-mode: "130px";
@@ -10,11 +11,19 @@ $top-classic-mode: "130px";
 $canvas-default-font: "Georgia, serif";
 $canvas-default-font-size: 16px;
 
-$panel-title-font-size: 12px;
+$panel-separator-line-color: #bdbdbd;
+
+$panel-title-font-size: 14px;
+$panel-title-in-font-size: 12px;
+
+$panel-right-min-width: 164px;
+$panel-title-in-font-size: 12px;
 
 $comment-normal-bg-color: #fff59d;
 $comment-highlight-bg-color: #ffeb3b;
 $comment-font-family: "Georgia, serif"; // see editor toolbar
+
+
 
 // Required by bootstrap
 $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;

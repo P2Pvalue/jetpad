@@ -15,6 +15,8 @@ export class EditorParticipantsComponent {
 
   @Input() me: any;
 
+  @Input() showInDialog: boolean = false;
+
   private name: string;
   private showEditNameForm: boolean = false;
   private showParticipantsPastList: boolean = false;
@@ -36,10 +38,6 @@ export class EditorParticipantsComponent {
     if (display)
       this.name = this.me.profile.name;
     this.showEditNameForm = display;
-  }
-
-  private getMomentFromNow(timestamp) {
-    return Moment(timestamp).fromNow();
   }
 
   private isNotRegistered(profile) {

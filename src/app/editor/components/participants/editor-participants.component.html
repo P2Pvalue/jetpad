@@ -7,8 +7,8 @@
 
 <div class="list-group participants">
 
-  <div class="title">
-    Online contributors
+  <div *ngIf="!showInDialog" class="title">
+    Contributors
   </div>
 
   <div  *ngIf="!showEditNameForm && me.session.id" class="list-group-item">
@@ -17,8 +17,8 @@
     </div>
     <div class="row-content">
       <div class="least-content" (click)="displayEditNameForm(true)"><i class="material-icons">mode_edit</i></div>
-      <p class="list-group-item-heading">{{me.profile.name}} (You)</p>
-      <p *ngIf="isNotRegistered(me.profile)" class="list-group-item-text">Not registered</p>
+      <p class="list-group-item-heading">{{me.profile.name}}</p>
+      <p class="list-group-item-text">(You)</p>
     </div>
     <!--
     <div class="list-group-separator"></div>
@@ -29,23 +29,27 @@
     <label class="control-label" for="nameInput">Edit your name</label>
     <input [(ngModel)]="name" class="form-control" id="nameInput" type="text">
     <div style="text-align: center">
-      <a href="javascript:void(0)" class="btn" (click)="displayEditNameForm(false)">Cancel</a>
-      <a href="javascript:void(0)" class="btn btn-primary" (click)="saveEditNameForm()">Save</a>
+      <a href="javascript:void(0)" class="btn btn-sm" (click)="displayEditNameForm(false)">Cancel</a>
+      <a href="javascript:void(0)" class="btn btn-sm btn-primary" (click)="saveEditNameForm()">Save</a>
     </div>
   </div>
 
+  <!--
   <div *ngIf="participantsRecent?.length == 0" class="list-group-item">
       <p style="font-style:italic; font-size:12px; text-align:center;">No contributors online now</p>
   </div>
+ -->
 
   <div class="list-group-item" *ngFor="let participant of participantsRecent">
     <div class="row-picture">
         <app-user-icon  [participantSession]="participant"></app-user-icon>
     </div>
     <div class="row-content">
-      <div class="least-content">{{getMomentFromNow(participant.session.lastActivityTime)}}</div>
+      <!--
+      <div class="least-content"></div>
+    -->
       <p class="list-group-item-heading">{{participant.profile.name}}</p>
-      <p *ngIf="isNotRegistered(participant.profile)" class="list-group-item-text">Not registered</p>
+      <p class="list-group-item-text">{{participant.session.lastActivityTime | moment}}</p>
       <!--
       <p class="list-group-item-text">{{participant.profile.name}}@jetpad.net</p>
       -->
@@ -55,8 +59,8 @@
     -->
   </div>
 
-  <div class="title title-in" (click)="toggleParticipantPastList()">
-    Offline contributors
+  <div class="title-in" (click)="toggleParticipantPastList()">
+    View all
     <i *ngIf="!showParticipantsPastList" class="material-icons">arrow_drop_down</i>
     <i *ngIf="showParticipantsPastList" class="material-icons">arrow_drop_up</i>
   </div>
@@ -67,9 +71,11 @@
           <app-user-icon  [participantSession]="participant"></app-user-icon>
       </div>
       <div class="row-content">
-        <div class="least-content">{{getMomentFromNow(participant.session.lastActivityTime)}}</div>
+        <!--
+        <div class="least-content"></div>
+        -->
         <p class="list-group-item-heading">{{participant.profile.name}}</p>
-        <p *ngIf="isNotRegistered(participant.profile)" class="list-group-item-text">Not registered</p>
+        <p class="list-group-item-text">{{participant.session.lastActivityTime | moment}}</p>
         <!--
         <p class="list-group-item-text">{{participant.profile.name}}@jetpad.net</p>
         -->

@@ -5,17 +5,23 @@
 }
 
 .jp-editor-canvas{
+
   display: flex;
+
   background-color: $white;
+  box-shadow: 0px 4px 14px -4px #919191;
+
   border: 1px solid $soft-gray;
+
   max-width: 210mm; // A4 width
   min-width: 320px; // small mobile device width
   min-height: 297mm; // A4 height
-  margin: $canvas-margin-top auto 0 auto;
+
+  margin: $canvas-margin-top auto $canvas-margin-bottom auto;
 
 
   @media screen and (min-width: 210mm)  {
-    padding: 2cm 2cm;
+    padding: 1.5cm 2cm 1.5cm 2cm;
   }
 
   @media screen and (max-width: 210mm)  {
@@ -26,9 +32,15 @@
   // Annotations CSS
   //
 
+  // .mark is defined in bootstrap originally
+  // of text, force to remove padding by default.
+  .mark {
+    padding: 0;
+  }
+
   .mark.comment {
     background-color: $comment-highlight-bg-color !important;
-    padding: 0.1em;
+    padding: 0;
   }
 
   .comment {
@@ -47,7 +59,7 @@
   min-height: 297mm; // A4 height
 
   padding: 0 0;
-  margin: $top-full-mode auto 0 auto;
+  margin: $top-full-mode auto 30px auto;
 
   @media screen and (max-width: 768px)  {
     padding: 2em 2em;

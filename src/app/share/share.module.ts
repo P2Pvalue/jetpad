@@ -8,7 +8,7 @@ import { ModalModule } from 'ngx-modal';
 import { ClipboardModule }  from 'ngx-clipboard';
 import { CarouselModule } from 'ng2-bootstrap/carousel';
 import { TooltipModule } from 'ng2-bootstrap/tooltip';
-import { OrderPipe, SearchPipe } from './pipes';
+import { OrderPipe, SearchPipe, MomentPipe } from './pipes';
 import {
   ProfileComponent,
   UserIconComponent,
@@ -26,6 +26,7 @@ import {
   declarations: [
     OrderPipe,
     SearchPipe,
+    MomentPipe,
     ProfileComponent,
     UserIconComponent,
     UserPanelComponent,
@@ -35,6 +36,7 @@ import {
   exports: [
     OrderPipe,
     SearchPipe,
+    MomentPipe,
     ProfileComponent,
     UserIconComponent,
     UserPanelComponent,

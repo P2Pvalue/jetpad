@@ -17,6 +17,7 @@ import { Component, OnInit } from '@angular/core';
           <div class="modal-body scrollable-body">
 
             <jp-editor-participants
+                [showInDialog]="true"
                 [me]="me"
                 [participantsRecent]="participantsRecent"
                 [participantsPast]="participantsPast">

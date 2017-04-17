@@ -27,6 +27,8 @@ export class CommentsComponent {
   // array of comment annotations
   @Input() comments: Array<any>;
 
+  @Input() showInDialog: boolean;
+
     // notify actions to editor: new/delete comment
   @Output() commentEvent: EventEmitter<any> = new EventEmitter();
 
@@ -51,10 +53,6 @@ export class CommentsComponent {
     return this.action == "new" && this.selection;
   }
 
-  private getMomentFromNow(timestamp) {
-    return Moment(timestamp).fromNow();
-  }
-
   public getParticipantSession(participantId) {
     // A safe value
     if (!this.profilesManager) {
@@ -67,11 +65,12 @@ export class CommentsComponent {
             shortName: "(Unknown)",
             imageUrl: null,
             color: {
-              cssColor: "rgb(255, 255, 255)"
+              cssColor: "#bdbdbd"
             }
           }
       };
     }
+
 
     let profile = this.profilesManager.getProfile(swellrt.Participant.of(participantId));
     let participantSession = {
@@ -84,6 +83,17 @@ export class CommentsComponent {
 
     return participantSession;
   }
+
+  public getParticipantColor(participantId) {
+    let participantSession = this.getParticipantSession(participantId);
+    if (participantSession.profile.anonymous) {
+      if (participantSession.profile.name != "Anonymous")
+        return participantSession.profile.color.cssColor;
+      else
+        return "#bdbdbd";
+    }
+  }
+
 
   private create(textarea: any) {
     this.action = "none";
@@ -120,9 +130,10 @@ export class CommentsComponent {
   }
 
   public resolve() {
-    this.action = "none";
     this.comment.resolve();
-    this.comment = undefined;
+    this.commentEvent.emit({
+      type: "close"
+    });
   }
 
   public cancel() {

@@ -3,7 +3,7 @@
 
   <div class="new" *ngIf="isNewComment()">
 
-    <div class="title">New comment</div>
+    <div *ngIf="!showInDialog" class="title">New comment</div>
 
     <div class="navigator">
         <span class="text">
@@ -14,7 +14,7 @@
     <div class="form-group reply">
       <label class="control-label" for="commentText">Comment:</label>
       <textarea #commentText id="commentText" class="form-control" rows="4"></textarea>
-      <div style="text-align: center">
+      <div style="text-align: center" class="actions">
         <a href="javascript:void(0)" class="btn btn-default" (click)="cancel()">Cancel</a>
         <a href="javascript:void(0)" class="btn btn-primary" (click)="create(commentText)">Add</a>
       </div>
@@ -24,7 +24,7 @@
 
   <div class="edit" *ngIf="isEditComment()">
 
-    <div class="title">
+    <div *ngIf="!showInDialog" class="title">
       <span>Comments</span>
       <a href="javascript:void(0)" class="btn btn-primary" (click)="next()"><i class="material-icons">chevron_right</i></a>
       <a href="javascript:void(0)" class="btn btn-primary" (click)="prev()"><i class="material-icons">chevron_left</i></a>
@@ -37,7 +37,7 @@
     </div>
 
     <div *ngIf="!comment.isResolved()" class="actions text-center">
-      <a [href]="getAnchorHref('replyText')" style="margin-right:1em;">Add reply</a>
+      <a href="javascript:void(0)" style="margin-right:1em;">Add reply</a>
       <a href="javascript:void(0)" (click)="resolve()">Mark as resolved</a>
     </div>
 
@@ -50,19 +50,20 @@
 
       <div *ngFor="let item of comment.getItems(); let i = index;" class="comment">
         <div class="list-group-item">
-
+          <!--
           <div class="row-picture">
             <app-user-icon  [participantSession]="getParticipantSession(item.participantId)"></app-user-icon>
           </div>
+        -->
 
-          <div class="row-content">
+          <div class="row-content" [style.border-left-color]="getParticipantColor(item.participantId)">
             <div *ngIf="item.participantId == me.profile.participantId.address" (click)="comment.deleteItem(i)" class="least-content"><i class="material-icons">delete</i></div>
             <p class="list-group-item-heading">{{getParticipantSession(item.participantId).profile.name}}</p>
-            <p class="list-group-item-text">{{getMomentFromNow(item.time)}}</p>
+            <p class="list-group-item-text">{{item.time | moment}}</p>
           </div>
 
         </div>
-        <div>
+        <div class="text">
           {{item.text}}
         </div>
       </div>
@@ -71,8 +72,8 @@
         <label class="control-label" for="replyText">Reply:</label>
         <textarea #replyText id="replyText" class="form-control" rows="4"></textarea>
         <div style="text-align: center">
-          <a [href]="getAnchorHref('comments')"class="btn btn-default" (click)="cancelReply(replyText)">Cancel</a>
-          <a href="javascript:void(0)" class="btn btn-primary" (click)="reply(replyText)">Reply</a>
+          <a [href]="getAnchorHref('comments')"class="btn btn-default btn-sm" (click)="cancelReply(replyText)">Cancel</a>
+          <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="reply(replyText)">Reply</a>
         </div>
       </div>
 

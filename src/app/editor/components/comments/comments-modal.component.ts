@@ -2,7 +2,7 @@ import { Modal } from '../../../core/services';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "outline-modal",
+  selector: "comments-modal",
   template: `
     <div class="modal show">
       <div class="modal-dialog">
@@ -10,15 +10,21 @@ import { Component, OnInit } from '@angular/core';
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCancel()">×</button>
             <h3 class="modal-title">
-              Outline
+              Comments
             </h3>
           </div>
 
           <div class="modal-body scrollable-body">
-            <jp-editor-outline
+
+          <jp-editor-comments
               [showInDialog]="true"
-              [headers]="headers">
-            </jp-editor-outline>
+              [action]="action"
+              [me]="me"
+              [comment]="comment"
+              [selection]="selection"
+              (commentEvent)="onCommentEvent($event)">
+            </jp-editor-comments>
+
           </div>
 
           <div class="modal-footer">
@@ -44,10 +50,13 @@ styles:[`
 })
 
 @Modal()
-export class EditorOutlineModalComponent implements OnInit {
+export class CommentsModalComponent implements OnInit {
 
   // data
-  headers: any;
+  action: string;
+  me: any;
+  comment: any;
+  selection: any;
 
   ok: Function;
 
@@ -62,11 +71,22 @@ export class EditorOutlineModalComponent implements OnInit {
     this.onOk();
   }
 
-  onOk(): void{
+  onOk(): void {
     setTimeout(() => {
       this.closeModal();
     }, 150);
     this.ok();
+  }
+
+  onCommentEvent(event) {
+
+    if (event.type == "close") {
+      setTimeout(() => {
+        this.closeModal();
+      }, 150);
+    }
+    this.ok(event);
+
   }
 
 }

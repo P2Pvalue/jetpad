@@ -1,4 +1,4 @@
-<div class="container-fluid editor" mode="full">
+<div class="container-fluid editor"><!-- mode="full" -->
 
   <jp-editor-header
     [title]="doc?.get('title')"
@@ -9,6 +9,10 @@
     [participantsPast]="participantSessionsPast"
 
     [headers]="headers"
+
+    [commentAction]="commentsAction"
+    [comment]="selectedComment"
+    [commentSelection]="newCommentSelection"
 
     (menuActionEvent)="onMenuAction($event)">
     </jp-editor-header>
@@ -44,7 +48,7 @@
           [action]="commentsAction"
           [me]="participantSessionMe"
           [comment]="selectedComment"
-          [selection]="currentSelection"
+          [selection]="newCommentSelection"
           (commentEvent)="onCommentEvent($event)">
         </jp-editor-comments>
 

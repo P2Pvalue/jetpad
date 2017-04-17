@@ -10,7 +10,7 @@ declare let window: any;
 export class EditorOutlineComponent {
 
   @Input() headers: Array<any>;
-
+  @Input() showInDialog: boolean = false;
 
   getHeaderUrl(id: string) {
     let link:string = window.location.origin + window.location.pathname;

@@ -3,12 +3,20 @@
   &.participants {
 
     display: block;
-    min-width: 290px;
+    min-width: $panel-right-min-width;
+    margin-left: 1em;
+    margin-right: 1em;
     overflow-x: hidden;
 
     .title {
-      margin-bottom: 14px;
+
       font-size: $panel-title-font-size;
+
+      border-bottom-color: $panel-separator-line-color;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      padding-bottom: 10px;
+      margin-bottom: 1em;
 
       .material-icons {
         vertical-align: bottom;
@@ -18,7 +26,13 @@
     }
 
     .title-in {
-      margin-top: 20px;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      font-size: $panel-title-in-font-size;
+
+      .material-icons {
+        font-size: 14px;
+      }
     }
 
     .list-group-separator {
@@ -26,21 +40,22 @@
     }
 
     .list-group-item {
-      // margin-bottom: 2px;
-      height: 65px;
+      padding: 0px;
+      margin-bottom: 1em;
+
       .row-picture {
         vertical-align: top;
       }
 
       .row-content {
 
-        min-height: 50px;
+        min-height: 0px;
 
         .least-content {
           font-size: 12px;
 
           .material-icons {
-            font-size: 18px;
+            font-size: 16px;
           }
         }
 
