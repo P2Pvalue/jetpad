@@ -402,7 +402,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             }
           }
 
-          if (selection.range) {
+          if (selection && selection.range) {
             // update toolbar state
             this.selectionStyles = EditorComponent.getSelectionStyles(editor, selection.range);
 
@@ -548,8 +548,11 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   showModalLink() {
-
-    this.linkRange = this.editor.getSelection().range;
+    let selection = this.editor.getSelection();
+    if (selection)
+      this.linkRange = selection.range;
+    else
+      return;
 
     // don't show modal if not selection nor carte positioned
     if (!this.linkRange)
