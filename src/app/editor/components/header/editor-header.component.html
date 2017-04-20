@@ -11,11 +11,21 @@
     <div class="col-xs-6 col-sm-8 col-md-6 main-col">
       <div class="navbar-header">
         <span class="navbar-brand">
-          <span class="title-text">
+
+          <span class="title-text" *ngIf="status == 'CONNECTED'">
             {{title}}
           </span>
-          <i class="online-status material-icons" *ngIf="status != 'CONNECTED'" >cloud_off</i>
+
+          <span *ngIf="status == 'DISCONNECTED' || status == 'CONNECTING' || status == 'TURBULENCE'"
+            class="label label-warning">Disconnected (trying to reconnect...)</span>
+
+          <span *ngIf="status == 'ERROR'"
+            class="label label-default">Disconnected (Unable to reconnect)</span>
+
         </span>
+
+
+
       </div>
     </div>
 
