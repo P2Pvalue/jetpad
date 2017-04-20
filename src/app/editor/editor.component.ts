@@ -351,10 +351,20 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.connectionHandler = (status, error) => {
           this.status = status;
           if (status == "ERROR") {
-            let errorInfo = "Network error";
+            let errorInfo = "Server Disconnected";
             if (error && error.statusMessange)
               errorInfo += ": "+error.statusMessage;
             this.appState.set("error", errorInfo);
+          }
+
+          if (status == "ERROR" ||
+              status == "TURBULENCE" ||
+              status == "DISCONNECTED") {
+            // show editor canvas cover
+          }
+
+          if (status == "CONNECTED") {
+            // remove editor canvas cover
           }
 
         };
