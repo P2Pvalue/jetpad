@@ -35,6 +35,26 @@
       }
     }
 
+
+
+    .togglebutton {
+
+      margin-bottom: 1em;
+      border-bottom-color: $panel-separator-line-color;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      padding-bottom: 10px;
+      margin-bottom: 1em;
+
+      label {
+        font-size: 14px;
+
+        .toggle {
+          margin-left: 3em;
+        }
+      }
+    }
+
     .list-group-separator {
       margin-top: 0px;
     }

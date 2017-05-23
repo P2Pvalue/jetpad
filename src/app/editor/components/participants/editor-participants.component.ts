@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import * as Moment from "moment";
 
 declare let window: any;
@@ -21,7 +21,9 @@ export class EditorParticipantsComponent {
   private showEditNameForm: boolean = false;
   private showParticipantsPastList: boolean = false;
 
+  private diffHighlight: boolean = false;
 
+  @Output() diffHighlightEvent: EventEmitter<any> = new EventEmitter();
 
   private saveEditNameForm() {
     this.showEditNameForm = false;
@@ -46,6 +48,11 @@ export class EditorParticipantsComponent {
 
   private toggleParticipantPastList() {
     this.showParticipantsPastList = !this.showParticipantsPastList;
+  }
+
+  private switchDiffHighlight() {
+    this.diffHighlight = !this.diffHighlight;
+    this.diffHighlightEvent.emit(this.diffHighlight);
   }
 
 

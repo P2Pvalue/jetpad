@@ -11,6 +11,16 @@
     Contributors
   </div>
 
+
+
+  <div class="togglebutton text-center">
+      <label>
+        Highlight contributions
+        <input (click)="switchDiffHighlight()" value="showHighlight" type="checkbox">
+        <span class="toggle"></span>
+      </label>
+    </div>
+
   <div  *ngIf="!showEditNameForm && me.session.id" class="list-group-item">
     <div class="row-picture">
         <app-user-icon  [participantSession]="me"></app-user-icon>

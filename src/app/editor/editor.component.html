@@ -40,7 +40,8 @@
           *ngIf="rightPanelContent == 'contributors'"
           [me]="participantSessionMe"
           [participantsRecent]="participantSessionsRecent"
-          [participantsPast]="participantSessionsPast">
+          [participantsPast]="participantSessionsPast"
+          (diffHighlightEvent)="onSwitchDiffHighlight($event)">
       </jp-editor-participants>
 
       <jp-editor-comments

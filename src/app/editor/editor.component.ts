@@ -791,4 +791,13 @@ export class EditorComponent implements OnInit, OnDestroy {
   private onCoverEvent(event) {
   }
 
+  private onSwitchDiffHighlight(event) {
+    if (event) {
+      this.doc.get("text").showDiffHighlight();
+    } else {
+      this.doc.get("text").hideDiffHighlight();
+    }
+
+  }
+
 }
