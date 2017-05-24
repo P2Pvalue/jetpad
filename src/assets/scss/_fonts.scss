@@ -1,94 +1,45 @@
+//
+// Material Design Icons
+//
 
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-/*
 @font-face {
-  font-family: "Rubik";
-  src: url("~assets/fonts/Rubik/Rubik-Regular.ttf");
+  font-family: 'Material Icons';
+  font-style: normal;
   font-weight: 400;
-}
-@font-face {
-  font-family: "Rubik";
-  src: url("~assets/fonts/Rubik/Rubik-Light.ttf");
-  font-weight: 300;
-}
-@font-face {
-  font-family: "Rubik";
-  src: url("~assets/fonts/Rubik/Rubik-Bold.ttf");
-  font-weight: 700;
+  src: url("~assets/fonts/Material_Icons/MaterialIcons-Regular.eot"); /* For IE6-8 */
+  src: url("~assets/fonts/Material_Icons/MaterialIcons-Regular.woff2") format('woff2'),
+       url("~assets/fonts/Material_Icons/MaterialIcons-Regular.woff") format('woff'),
+       url("~assets/fonts/Material_Icons/MaterialIcons-Regular.ttf") format('truetype');
 }
 
-@font-face {
-  font-family: "Droid Serif";
-  src: url("~assets/fonts/Droid_Serif/DroidSerif.ttf");
+.material-icons {
+  font-family: 'Material Icons';
   font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-  font-family: "Droid Serif";
-  src: url("~assets/fonts/Droid_Serif/DroidSerif-Bold.ttf");
-  font-weight: bold;
-	font-style: normal;
-}
-@font-face {
-  font-family: "Droid Serif";
-  src: url("~assets/fonts/Droid_Serif/DroidSerif-Italic.ttf");
-  font-style: italic;
-}
-@font-face {
-  font-family: "Droid Serif";
-  src: url("~assets/fonts/Droid_Serif/DroidSerif-BoldItalic.ttf");
-  font-weight: bold;
-	font-style: italic;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }
 
-@font-face {
-  font-family: "Liberation Sans";
-  src: url("~assets/fonts/Liberation_Sans/LiberationSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Liberation Sans";
-  src: url("~assets/fonts/Liberation_Sans/LiberationSans-Bold.ttf");
-  font-weight: bold;
-}
-@font-face {
-  font-family: "Liberation Sans";
-  src: url("~assets/fonts/Liberation_Sans/LiberationSans-Italic.ttf");
-  font-style: italic;
-}
-@font-face {
-  font-family: "Liberation Sans";
-  src: url("~assets/fonts/Liberation_Sans/LiberationSans-BoldItalic.ttf");
-  font-weight: bold;
-	font-style: italic;
-}
-
-@font-face {
-  font-family: "Liberation Serif";
-  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Liberation Serif";
-  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-Bold.ttf");
-  font-weight: bold;
-}
-@font-face {
-  font-family: "Liberation Serif";
-  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-Italic.ttf");
-  font-style: italic;
-}
-@font-face {
-  font-family: "Liberation Serif";
-  src: url("~assets/fonts/Liberation_Serif/LiberationSerif-BoldItalic.ttf");
-  font-weight: bold;
-	font-style: italic;
-}
+//
+// Open Sans
+//
 
 @font-face {
   font-family: "Open Sans";
@@ -111,4 +62,94 @@
   font-weight: bold;
 	font-style: italic;
 }
-*/
+
+//
+// Roboto
+//
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-Thin.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-Bold.ttf");
+  font-weight: 700;
+}
+
+
+//
+// Roboto italic
+//
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-Italic.ttf");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-ThinItalic.ttf");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-MediumItalic.ttf");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("~assets/fonts/Roboto/Roboto-BoldItalic.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+//
+// Roboto Mono
+//
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Regular.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Bold.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-Italic.ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("~assets/fonts/Roboto_Mono/RobotoMono-BoldItalic.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
