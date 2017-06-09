@@ -7,11 +7,15 @@ import {
   UserService,
   AppState,
   JetpadModalService,
-  ModalPlaceholderComponent
+  ModalPlaceholderComponent,
+  // New
+  SwellService,
+  SessionService
 } from './services';
 
 import { LoggedUserGuard } from './guards';
 import { ShareModule } from '../share';
+
 
 const CORE_PROVIDERS = [
   AppState,
@@ -20,7 +24,9 @@ const CORE_PROVIDERS = [
   ListenerService, // deprecated
   UserService, // deprecated
   LoggedUserGuard,
-  JetpadModalService
+  JetpadModalService,
+  SwellService,
+  SessionService
 ];
 
 @NgModule({

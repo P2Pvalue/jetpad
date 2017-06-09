@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { BackendService } from './core/services';
+import { BackendService, SwellService } from './core/services';
+
 
 declare let swellrt: any;
 
@@ -20,10 +21,41 @@ declare let swellrt: any;
 
 export class App implements OnInit {
 
+
+  //
+  // VERSION REFACTOR
+  //
+
+  constructor(private swell: SwellService) {
+  }
+
+  public ngOnInit() {
+
+    this.swell.readySubject.subscribe( (isReady) => {
+      if (isReady) {
+        console.log('SwellRT client is ready');
+      } else {
+        console.log('SwellRT couldnt load');
+      }
+    });
+
+
+    this.swell.startUp(15000);
+  }
+
+
+  //
+  // VERSION EN PRODUCCION
+  //
+
+
+  /*
   constructor(private backend: BackendService) {
   }
 
   public ngOnInit() {
+
+    
 
     // bind swellrt backend
     this.backend.bind(new Promise(
@@ -42,4 +74,6 @@ export class App implements OnInit {
     // resume existing session or start anonymous one
     this.backend.startDefaultSession();
   }
+  */
+
 }
