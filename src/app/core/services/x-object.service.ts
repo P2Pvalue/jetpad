@@ -3,6 +3,9 @@ import { Injectable, } from '@angular/core';
 import { SwellService } from '.';
 import { ReplaySubject } from 'rxjs';
 
+/**
+ * Wraps SwellRT operations related with objects.
+ */
 @Injectable()
 export class ObjectService {
 

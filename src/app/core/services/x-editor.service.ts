@@ -8,7 +8,7 @@ declare let swellrt: any;
  * Wrap an unique SwellRT editor instance associated with the
  * current client instance.
  *
- * TODO ensure editor DOM container is set after wiew is ready. 
+ * TODO ensure editor DOM container is set after wiew is ready.
  * SwellRT should be fixed.
  */
 @Injectable()
@@ -27,7 +27,7 @@ export class EditorService {
                                     editorRef: any,
                                     selection: any) {
 
-        serviceRef.caretStylesSubject
+        serviceRef.stylesSubject
             .next(editorRef.getAnnotation(['paragraph/', 'style/', 'link'], selection.range));
 
         serviceRef.selectionSubject.next(selection);

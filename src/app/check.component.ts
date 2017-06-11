@@ -122,7 +122,7 @@ export class CheckComponent implements OnInit {
         //
         // Listen changes in caret styles
         //
-        this.editorSrv.caretStylesSubject.subscribe( (styles) => {
+        this.editorSrv.stylesSubject.subscribe( (styles) => {
             for (let s in styles) {
                 if (styles[s]) {
                     console.log(styles[s].name + '=' + styles[s].value);
