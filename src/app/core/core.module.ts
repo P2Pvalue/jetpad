@@ -10,7 +10,9 @@ import {
   ModalPlaceholderComponent,
   // New
   SwellService,
-  SessionService
+  SessionService,
+  ObjectService,
+  EditorService
 } from './services';
 
 import { LoggedUserGuard } from './guards';
@@ -26,7 +28,9 @@ const CORE_PROVIDERS = [
   LoggedUserGuard,
   JetpadModalService,
   SwellService,
-  SessionService
+  SessionService,
+  ObjectService,
+  EditorService
 ];
 
 @NgModule({

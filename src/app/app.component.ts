@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { BackendService, SwellService } from './core/services';
+import { SwellService, SessionService } from './core/services';
 
 
 declare let swellrt: any;
@@ -26,16 +26,17 @@ export class App implements OnInit {
   // VERSION REFACTOR
   //
 
-  constructor(private swell: SwellService) {
+  constructor(private swell: SwellService, private sessionSrv: SessionService) {
   }
 
   public ngOnInit() {
 
     this.swell.readySubject.subscribe( (isReady) => {
       if (isReady) {
-        console.log('SwellRT client is ready');
+        console.log('swellrt is ready');
+        // this.sessionSrv.startDefaultSession();
       } else {
-        console.log('SwellRT couldnt load');
+        console.log('swellrt error!');
       }
     });
 

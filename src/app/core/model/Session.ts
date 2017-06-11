@@ -1,4 +1,4 @@
 
-export class Session {
+export interface Session {
 
 }

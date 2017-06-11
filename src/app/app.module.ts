@@ -32,6 +32,10 @@ import { EditorModule } from './editor';
 import { App } from './app.component';
 import { AppState, InternalStateType } from './app.service';
 
+/** Playground component for refactoring process  */
+import  { CheckComponent } from './check.component';
+
+
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
@@ -47,7 +51,8 @@ type StoreType = {
 @NgModule({
   bootstrap: [ App ],
   declarations: [
-    App
+    App,
+    CheckComponent
   ],
   imports: [ // import Angular's modules
     RouterModule.forRoot(ROUTES),

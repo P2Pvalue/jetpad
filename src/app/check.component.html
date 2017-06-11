@@ -1,0 +1,118 @@
+   <div class="container">
+   
+   <div class="row">
+
+        <!-- Controls -->
+        <div class="col-md-5 col-md-offset-1">
+
+            <!-- **************************************** -->
+
+            <div *ngIf="state == State.New">
+                <p>Component created, waiting for SwellRT...</p>
+            </div>
+
+            <!-- **************************************** -->
+
+            <div *ngIf="state == State.Ready">
+                <form #loginForm="ngForm">
+                    
+                    <div class="form-group">
+                        <label for="useridInput">User</label>
+                        <input type="text" class="form-control" 
+                               id="useridInput"                         
+                               [(ngModel)]="loginFormUserid" 
+                               name="userid" />                        
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordInput">Password</label>
+                        <input type="password" class="form-control" 
+                               id="passwordInput"                                
+                               [(ngModel)]="loginFormPassword"
+                               name="password" />                        
+                    </div>
+
+                    <button type="submit" 
+                            class="btn btn-default" 
+                            (click)="login()">Login</button>
+
+                    <button type="submit" 
+                            class="btn btn-warning" 
+                            (click)="resume()">Resume</button>
+
+                </form>                
+            </div>
+
+            <!-- **************************************** -->
+
+            <div *ngIf="state == State.Authenticated">
+                            
+                <button type="submit" 
+                class="btn btn-default" 
+                (click)="logout()">Logout</button>
+
+            </div> 
+
+            <!-- **************************************** -->
+
+            
+            <div *ngIf="state == State.Authenticated">
+                <form #loadForm="ngForm">
+                    
+                    <div class="form-group">
+                        <label for="objectidInput">Object Id</label>
+                        <input type="text" class="form-control" 
+                               id="objectidInput"                         
+                               [(ngModel)]="loadFormObjectId" 
+                               name="objectid" />                        
+                    </div>
+
+                    <button type="submit" 
+                            class="btn btn-default" 
+                            (click)="open()">Open or Create Object</button>
+
+                </form>                
+            </div>   
+
+
+            <!-- **************************************** -->
+
+            <div *ngIf="state == State.ObjectLoaded">
+                            
+                <button type="submit" 
+                class="btn btn-default" 
+                (click)="close()">Close Object</button>
+
+            </div>   
+
+            <div *ngIf="state == State.ObjectLoaded">
+                            
+                <button type="submit" 
+                class="btn btn-default" 
+                (click)="edit()">Edit</button>
+
+            </div>       
+
+        </div>
+
+
+        <!-- Data -->
+        <div class="col-md-5">    
+
+            <div *ngIf="showResultToast" 
+                class="alert alert-success" 
+                role="alert">{{resultToastText}}</div>
+        
+            <!-- **************************************** -->
+
+            <div #editorContainer id="editor-container">
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+    </div>

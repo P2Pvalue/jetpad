@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, ReplaySubject } from 'rxjs';
 import { ConnectionStatus } from '../model';
 
 declare let swellrt: any;
@@ -12,10 +12,10 @@ declare let swellrt: any;
 @Injectable()
 export class SwellService {
 
-    /** Emits event on Swell is ready */
-    public readySubject: Subject<boolean> = new Subject<boolean>();
+    /** Emits events on Swell is ready, allow lazy subscription */
+    public readySubject: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
-    /** Emits event when connection status changes */
+    /** Emits events when connection status changes */
     public connectionSubject: Subject<ConnectionStatus> = new Subject<ConnectionStatus>();
 
     /** Reference to SwellRT API client instance */
@@ -43,6 +43,7 @@ export class SwellService {
 
        loadPromise.then( (instance) => {
 
+           // Initialize
            this.swellClientInstance = instance;
            this.swellClientInstance.addConnectionHandler((s, e) => {
             this.connectionSubject.next({
@@ -55,6 +56,7 @@ export class SwellService {
 
         }).catch( (error) => {
             this.readySubject.next(false);
+            console.log('Timeout loading SwellRT');
         });
 
     }

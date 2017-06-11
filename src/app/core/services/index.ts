@@ -7,3 +7,5 @@ export * from './jetpad-modal.service'
 
 export * from './x-swell.service';
 export * from './x-session.service';
+export * from './x-object.service';
+export * from './x-editor.service';
