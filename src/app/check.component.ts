@@ -28,7 +28,6 @@ export class CheckComponent implements OnInit {
     public State = State; // make enum visible to template
     public state: State = State.New;
 
-
     public swellClient: any;
     public swellSession: any;
     public swellObject: any;
@@ -46,7 +45,6 @@ export class CheckComponent implements OnInit {
 
     private text: any;
 
-
     constructor(private swellSrv: SwellService,
                 private sessionSrv: SessionService,
                 private objectSrv: ObjectService,
@@ -55,12 +53,10 @@ export class CheckComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.swellSrv.readySubject.subscribe( (isReady) => {
-            if (isReady) {
-                this.swellClient = this.swellSrv.getClient();
-                this.changeState(State.Ready);
-                this.init();
-            }
+        this.swellSrv.getClient().subscribe( (service) => {
+            this.swellClient = service;
+            this.changeState(State.Ready);
+            this.init();
         });
     }
 
@@ -77,14 +73,14 @@ export class CheckComponent implements OnInit {
     }
 
     public open(): void {
-        this.objectSrv.open(this.loadFormObjectId)
+        /*this.objectSrv.open(this.loadFormObjectId)
         .then( (o) => {
             this.swellObject = o.controller;
             this.changeState(State.ObjectLoaded);
         }).catch( (e) => {
             this.swellObject = undefined;
             this.changeState(State.Authenticated, 'Error opening object ' + e);
-        });
+        });*/
     }
 
     public close(): void {
@@ -109,7 +105,7 @@ export class CheckComponent implements OnInit {
         //
         // Listen for changes in session
         //
-        this.sessionSrv.sessionSubject.subscribe( (status) => {
+        this.sessionSrv.subject.subscribe( (status) => {
             if (status.state === SessionState.login) {
                 this.changeState(State.Authenticated);
                 this.swellSession = status.session;
