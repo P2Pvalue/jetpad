@@ -475,20 +475,22 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 
   public ngOnDestroy() {
 
-    this.appStateSubscription.dispose();
+    this.appStateSubscription.unsubscribe();
 
-    this.backend.get()
-      .then( s => {
-        s.removeConnectionHandler(this.connectionHandler);
-      });
+    this.swell.getClient().subscribe(service => {
+        service.removeConnectionHandler(this.connectionHandler);
+        if (this.doc) {
+            console.log("Closing document "+ this.docid);
+            service.close(this.docid);
+        }
+    });
+
 
     if (this.editor) {
       this.editor.clean();
     }
 
-    if (this.doc) {
-      this.backend.close(this.docid);
-    }
+
 
   }
 
