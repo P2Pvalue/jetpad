@@ -1,49 +1,56 @@
 
 import { Injectable, } from '@angular/core';
 import { SwellService } from '.';
-import { ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { SessionService } from "./x-session.service";
 
 /**
- * Wraps SwellRT operations related with objects.
+ * Wraps SwellRT operations related with objects as open and close in an observable.
  */
 @Injectable()
 export class ObjectService {
 
-    /** Get the active SwellRT object in the application */
-    public objectSubject: ReplaySubject<any> = new ReplaySubject(1);
-
-    constructor(private swell: SwellService) {
-
+    /**
+     * Creates an observable that subcription executes the open method of
+     * swell service instance.
+     *
+     * @param objectid the object identifier.
+     * @return Observable of open execution.
+     */
+    public open(objectid: string): Observable<any> {
+        let that = this;
+        return Observable.create(function subscribe (observer) {
+            that.session.subject.subscribe({
+                next: (session) => {
+                    that.swell.getClient().subscribe({
+                        next: (service) => {
+                            service.open({id:objectid})
+                                .then( obj => {
+                                    observer.next(obj.controller);
+                                    observer.complete();
+                                })
+                                .catch( err => {
+                                    observer.error(err);
+                                    observer.complete();
+                                })
+                        }
+                    });
+                }
+            })
+        });
     }
 
     /**
-     * Open or create a SwellRT object with the provided id.
-     *
-     * @param objectid the object identifier.
-     * @return promise to the object.
+     * Close an object with objectid.
+     * TODO: review if it is neccessary ensure the session before execute close method.
+     * @param objectid the object indentifier
+     * @returns void
      */
-    public open(objectid: string): Promise<any> {
-
-        let openPromise: Promise<any> = new Promise<any>(
-            (resolve, reject) => {
-
-                this.swell.getClient().open({
-                    id: objectid
-                }).then( (object) => {
-                    this.objectSubject.next(object);
-                    resolve(object);
-                }).catch( (error) => {
-                    reject(error);
-                });
-
-            });
-
-        return openPromise;
-    }
-
     public close(objectid: string): void {
-        return this.swell.getClient().close(objectid);
+        return this.swell.getClient().subscribe((service) => {
+            service.close(objectid);
+        })
     }
 
-
+    constructor(private swell: SwellService, private session: SessionService) {    }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { ConnectionStatus } from '../model';
 
+//the global swellrt library
 declare let swellrt: any;
 
 /**
@@ -12,58 +13,66 @@ declare let swellrt: any;
 @Injectable()
 export class SwellService {
 
-    /** Emits events on Swell is ready, allow lazy subscription */
-    public readySubject: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-
     /** Emits events when connection status changes */
     public connectionSubject: Subject<ConnectionStatus> = new Subject<ConnectionStatus>();
 
-    /** Reference to SwellRT API client instance */
-    private swellClientInstance: any;
+    /**
+     * Kickoff the instance of swell service subscripting to swellInstanceObservable$. Set up the connection handle
+     * mechanism that notifies its changes via connectionSubject.
+     *
+     * @returns void
+     */
+    public startUp(): void {
+        this.swellInstanceObservable$.subscribe({
+            next: (service) => {
+                service.addConnectionHandler((s,e) => this.connectionSubject.next({state:s,error:e}))
+            },
+            error: (e) => {
+                console.log('Timeout loading SwellRT');
+            }
+        });
+    }
 
     /**
-     * Wait for the SwellRT's client script to load, then
-     * populate the service's instance.
-     *
-     * @param timeout in miliseconds
+     * @returns swellInstanceObservable$
      */
-    public startUp(timeout: number): void {
-
-       let loadPromise: Promise<any> = new Promise(
-            (resolve, reject) => {
-                swellrt.onReady( (s) => {
-                resolve(s);
-                });
-
-                setTimeout( () => {
-                    reject(new Error('Timeout error loading SwellRT client (' + timeout + ')'));
-                }, timeout);
-            }
-        );
-
-       loadPromise.then( (instance) => {
-
-           // Initialize
-           this.swellClientInstance = instance;
-           this.swellClientInstance.addConnectionHandler((s, e) => {
-            this.connectionSubject.next({
-                state: s,
-                error: e
-            });
-           });
-
-           this.readySubject.next(true);
-
-        }).catch( (error) => {
-            this.readySubject.next(false);
-            console.log('Timeout loading SwellRT');
-        });
-
-    }
-
     public getClient(): any {
-        return this.swellClientInstance;
+        return this.swellInstanceObservable$;
     }
 
+    /**
+     * @returns Swellrt sdk object
+     */
+    public getSdk(): any {
+        return swellrt;
+    }
 
+    /** Reference to SwellRT API client instance */
+    private swellClientInstance: any = null;
+
+    /**
+     * Observable that its subscriptions ensures the existence of swell service instance client creating
+     * a new one if nothing exists or returning the existed one. Wait for the SwellRT's client script to load, then
+     * populate the service's instance.
+     */
+    private swellInstanceObservable$ = Observable.create(function subscribe(observer) {
+        if (!this.swellClientInstance) {
+            setTimeout( () => {
+                observer.error(new Error('Timeout error loading SwellRT client'));
+                observer.complete()
+            }, 15000);
+            swellrt.onReady( (s) => {
+                this.swellClientInstance = s;
+                observer.next(s);
+                observer.complete();
+            });
+        } else {
+            observer.next(this.swellClientInstance);
+            observer.complete();
+        }
+    });
+}
+
+export function swellServiceInitializerFactory(swellService: SwellService) {
+    return () => swellService.startUp();
 }
