@@ -26,22 +26,14 @@ export class App implements OnInit {
   // VERSION REFACTOR
   //
 
-  constructor(private swell: SwellService, private sessionSrv: SessionService) {
+  constructor(private sessionSrv: SessionService) {
   }
 
   public ngOnInit() {
-
-    this.swell.readySubject.subscribe( (isReady) => {
-      if (isReady) {
-        console.log('swellrt is ready');
-        // this.sessionSrv.startDefaultSession();
-      } else {
-        console.log('swellrt error!');
-      }
+    //TODO: remove in production
+    this.sessionSrv.startDefaultSession().subscribe(() => {
+      console.debug('session initialized')
     });
-
-
-    this.swell.startUp(15000);
   }
 
 
