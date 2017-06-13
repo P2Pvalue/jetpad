@@ -129,38 +129,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     return ants ? ants.comment : undefined;
   }
 
-  initAnnotations() {
-
-    let that = this;
-
-    // ensure swellrt object is ready
-    this.backend.get()
-      .then( service =>{
-
-        swellrt.Editor.AnnotationRegistry.define("@mark", "mark", { });
-        swellrt.Editor.AnnotationRegistry.define("comment", "comment", { });
-
-        swellrt.Editor.AnnotationRegistry.setHandler("header", (type, annot, event) => {
-          if (swellrt.Annotation.EVENT_MOUSE != type) {
-            that.refreshHeadings();
-          }
-        });
-
-        swellrt.Editor.AnnotationRegistry.setHandler("comment", (type, annot, event) => {
-          if (swellrt.Annotation.EVENT_ADDED == type) {
-            // set as open here
-            // to ensure annotation is open again on undo.
-            Comment.setOpen(annot.value, that.commentsData);
-            that.refreshComments();
-          }
-          if (swellrt.Annotation.EVENT_REMOVED == type) {
-            that.refreshComments();
-          }
-        });
-
-      });
-
-  }
 
   //
   // Init / Util methods
@@ -343,150 +311,167 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
    * SwellRT should be fixed.
    */
   public ngAfterViewInit() {
-      let that = this;
+      this.appStateSubscription = this.appState.subject.subscribe( (state) => {
+          if (state.error) {
+              this.showModalError(state.error);
+          }
+      });
+
+      window.onscroll = () => {
+          this.closeFloatingViews();
+      };
+
       this.session.subject.subscribe((ses) => {
           this.route.params.subscribe((param: any) => {
               this.swell.getClient().subscribe((service) => {
-                  this.editorService.init('canvas-container')
-                      .flatMap(() => this.objectSrv.open(param['id']))
-                      .subscribe({
-                          next: (v) => {
-                              v.setPublic(true);
-                              console.log(v)
-                          },
-                          error: (e) => {
-                              console.error(e)
+                  this.swell.getSdk().Editor.AnnotationRegistry.define("@mark", "mark", { });
+                  this.swell.getSdk().Editor.AnnotationRegistry.define("comment", "comment", { });
+
+                  this.swell.getSdk().Editor.AnnotationRegistry.setHandler("header", (type, annot, event) => {
+                      if (this.swell.getSdk().Annotation.EVENT_MOUSE != type) {
+                          this.refreshHeadings();
+                      }
+                  });
+
+                  this.swell.getSdk().Editor.AnnotationRegistry.setHandler("comment", (type, annot, event) => {
+                      if (swellrt.Annotation.EVENT_ADDED == type) {
+                          // set as open here
+                          // to ensure annotation is open again on undo.
+                          Comment.setOpen(annot.value, this.commentsData);
+                          this.refreshComments();
+                      }
+                      if (swellrt.Annotation.EVENT_REMOVED == type) {
+                          this.refreshComments();
+                      }
+                  });
+
+                  this.connectionHandler = (status, error) => {
+                      this.status = status;
+                      if (status == "ERROR") {
+                          let errorInfo = "Server Disconnected";
+                          if (error && error.statusMessange)
+                              errorInfo += ": "+error.statusMessage;
+                          this.appState.set("error", errorInfo);
+                      }
+
+                      if (status == "ERROR" ||
+                          status == "TURBULENCE" ||
+                          status == "DISCONNECTED") {
+                          // show editor canvas cover
+                      }
+
+                      if (status == "CONNECTED") {
+                          // remove editor canvas cover
+                      }
+
+                  };
+                  service.addConnectionHandler(this.connectionHandler);
+
+                  // Track online participants
+                  this.profilesManager = service.profilesManager;
+                  // Register handler before opening the doc/editor
+                  // to get notified of all previous participants
+                  this.setProfilesHandler();
+
+                  this.editorService.init('canvas-container').subscribe((ed) => {
+                      this.editor = ed;
+                      window._editor = this.editor;
+                      // Check editor compat
+                      if (this.editor.checkBrowserCompat() == "readonly") {
+                          this.showModalAlert("Sorry, this browser is not fully compatible yet. You can keep using Jetpad in read only mode.");
+                      }
+
+                      if (this.editor.checkBrowserCompat() == "none") {
+                          this.showModalAlert("Sorry, this browser is not compatible.");
+                      }
+                      this.editor.setSelectionHandler((range, editor, selection) => {
+                          // anytime seleciton changes, close link modal
+                          this.closeFloatingViews();
+                          // clear cached selection
+                          if (selection) {
+                              this.currentSelection = selection;
+                              window._selection = this.currentSelection; // TODO remove
+                          } else {
+                              this.currentSelection = undefined;
+                          }
+
+                          this.newCommentSelection = undefined;
+
+                          // calculate caret coords
+                          if (selection && selection.anchorPosition) {
+                              this.caretPos.x = selection.anchorPosition.left;
+                              this.caretPos.y = selection.anchorPosition.top;
+                          }
+
+                          // ensure cursor is visible
+                          if (selection && selection.focusNode) {
+                              let focusParent = selection.focusNode.parentElement;
+                              if (focusParent.getBoundingClientRect) {
+                                  let rect = focusParent.getBoundingClientRect();
+                                  if (rect.top > (window.innerHeight - this.TOP_BAR_OFFSET)) {
+                                      focusParent.scrollIntoView();
+                                  }
+                              }
+                          }
+
+                          if (selection && selection.range) {
+                              // update toolbar state
+                              this.selectionStyles = EditorComponent.getSelectionStyles(editor, selection.range);
+
+                              // show contextual menu
+                              if (this.selectionStyles.link) {
+                                  this.visibleLinkContextMenu = true;
+
+                              } else if (!selection.range.isCollapsed()) {
+                                  this.visibleContextMenu = true;
+                              }
+
+                              // check if there is a comment in the cursor position
+                              this.pickComment(EditorComponent.getCommentAnnotation(this.editor, selection.range));
                           }
                       });
+
+                      this.objectSrv.open(param['id']).subscribe({
+                          next: (v) => {
+                              // Store references in the component
+                              this.docid = param['id'];
+                              this.doc = v;
+                              // Initialize document object
+                              this.editorService.initDocObject(this.doc, this.docid);
+                              // Get reference to comments
+                              this.commentsData = this.doc.get("comments");
+                              // Show a welcome message in the doc canvas doc is empty
+                              this.showCanvasCover = this.doc.get("text").isEmpty();
+                              // Bind document's text to the editor
+                              this.editor.set(this.doc.get("text"));
+                              // Enable interactive editing now!
+                              this.editor.edit(true);
+
+                              this.refreshHeadings();
+                              this.refreshComments();
+
+                              // Load current user session to ensure login has been done
+                              this.participantSessionMe = {
+                                  session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
+                                      this.profilesManager.getCurrentParticipantId()),
+                                  profile: this.profilesManager.getCurrentProfile()
+                              };
+                              this.sortParticipantSessions();
+
+                              window._doc = this.doc;
+
+                              console.log(v)
+                          },
+                          error: () => {
+                              this.appState.set("error", "Error opening document "+ param['id']);
+                          }
+                      });
+                  });
               })
           })
       });
   }
 
-  public ngOnInit() {
-
-    this.appStateSubscription = this.appState.subject.subscribe( (state) => {
-      if (state.error) {
-        this.showModalError(state.error);
-      }
-    });
-
-    //this.initAnnotations();
-
-
-
-    window.onscroll = () => {
-      this.closeFloatingViews();
-    };
-
-      // listen to url parameters
-
-
-    /*this.backend.get()
-      .then( s => {
-
-        // attach connection status handler
-        this.connectionHandler = (status, error) => {
-          this.status = status;
-          if (status == "ERROR") {
-            let errorInfo = "Server Disconnected";
-            if (error && error.statusMessange)
-              errorInfo += ": "+error.statusMessage;
-            this.appState.set("error", errorInfo);
-          }
-
-          if (status == "ERROR" ||
-              status == "TURBULENCE" ||
-              status == "DISCONNECTED") {
-            // show editor canvas cover
-          }
-
-          if (status == "CONNECTED") {
-            // remove editor canvas cover
-          }
-
-        };
-        s.addConnectionHandler(this.connectionHandler);
-
-        // Track online participants
-        this.profilesManager = s.profilesManager;
-        // Register handler before opening the doc/editor
-        // to get notified of all previous participants
-        this.setProfilesHandler();
-
-        // keep the editor reference in the component
-        this.editor = swellrt.Editor.createWithId("canvas-container", s);
-        window._editor = this.editor;
-
-        // Listen for cursor and selection changes
-        this.editor.setSelectionHandler((range, editor, selection) => {
-
-          // anytime seleciton changes, close link modal
-          this.closeFloatingViews();
-          // clear cached selection
-          if (selection) {
-            this.currentSelection = selection;
-            window._selection = this.currentSelection; // TODO remove
-          } else {
-            this.currentSelection = undefined;
-          }
-
-          this.newCommentSelection = undefined;
-
-          // calculate caret coords
-          if (selection && selection.anchorPosition) {
-            this.caretPos.x = selection.anchorPosition.left;
-            this.caretPos.y = selection.anchorPosition.top;
-          }
-
-          // ensure cursor is visible
-          if (selection && selection.focusNode) {
-            let focusParent = selection.focusNode.parentElement;
-            if (focusParent.getBoundingClientRect) {
-              let rect = focusParent.getBoundingClientRect();
-              if (rect.top > (window.innerHeight - this.TOP_BAR_OFFSET)) {
-                focusParent.scrollIntoView();
-              }
-            }
-          }
-
-          if (selection && selection.range) {
-            // update toolbar state
-            this.selectionStyles = EditorComponent.getSelectionStyles(editor, selection.range);
-
-            // show contextual menu
-            if (this.selectionStyles.link) {
-              this.visibleLinkContextMenu = true;
-
-            } else if (!selection.range.isCollapsed()) {
-              this.visibleContextMenu = true;
-            }
-
-            // check if there is a comment in the cursor position
-            this.pickComment(EditorComponent.getCommentAnnotation(this.editor, selection.range));
-          }
-
-
-
-        });
-
-        // listen to url parameters
-        this.route.params.subscribe((param: any) => {
-          this.open(param['id']);
-        });
-
-        // Check editor compat
-        if (this.editor.checkBrowserCompat() == "readonly") {
-          this.showModalAlert("Sorry, this browser is not fully compatible yet. You can keep using Jetpad in read only mode.");
-        }
-
-        if (this.editor.checkBrowserCompat() == "none") {
-          this.showModalAlert("Sorry, this browser is not compatible.");
-        }
-
-      });*/
-
-  }
 
   public ngOnDestroy() {
 
@@ -521,59 +506,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     this.visibleContextMenu = false;
     this.visibleLinkContextMenu = false;
   }
-
-  open(id: string) {
-
-    //this.editor.clean();
-
-    /*this.editorService.open(id)
-        .then(r => {
-            console.log(r)
-        })*/
-    /*this.backend.open(id)
-    .then( r => {
-
-      // 'r' is not the document's object, just a handy wrapper:
-      // r.controller -> full interface of the object
-      // r.object -> native JS interface, based on ES6 Proxies.
-      //
-      // we prefer to use the controller interface to avoid issues with
-      // old browsers not supporting Proxies. In any case, in jetpad
-      // there is not advantage by using native interface.
-
-      // Store references in the component
-      this.docid = id;
-      this.doc = r.controller;
-
-      // Initialize document object
-      BackendService.initDocObject(this.doc, this.docid);
-      // Get reference to comments
-      this.commentsData = this.doc.get("comments");
-      // Show a welcome message in the doc canvas doc is empty
-      this.showCanvasCover = this.doc.get("text").isEmpty();
-      // Bind document's text to the editor
-      this.editor.set(this.doc.get("text"));
-      // Enable interactive editing now!
-      this.editor.edit(true);
-
-      this.refreshHeadings();
-      this.refreshComments();
-
-      // Load current user session to ensure login has been done
-      this.participantSessionMe = {
-          session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
-                                                this.profilesManager.getCurrentParticipantId()),
-          profile: this.profilesManager.getCurrentProfile()
-      };
-      this.sortParticipantSessions();
-
-      window._doc = this.doc;
-    })*/
-    /*.catch( error => {
-      this.appState.set("error", "Error opening document "+id);
-    });*/
-  }
-
 
   editStyle(event: any) {
     let selection = this.editor.getSelection();

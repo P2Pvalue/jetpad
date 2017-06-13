@@ -19,17 +19,46 @@ export class EditorService {
     /**
      * Initialize dom element with swell service instance.
      * @param elemId dom element identifier
-     * @returns Observable boolean when ready
+     * @returns Observable
      */
-    public init(elemId): Observable<boolean> {
+    public init(elemId): Observable<any> {
         let that = this;
         return Observable.create(function subscribe(observer) {
             that.swell.getClient().subscribe( (service) => {
                 that.editor = that.swell.getSdk().Editor.createWithId(elemId, service);
-                observer.next(true);
+                observer.next(that.editor);
                 observer.complete();
             });
         });
+    }
+
+    public initDocObject(doc: any, docid: string) {
+
+
+        let title = doc.get("title");
+        let text = doc.get("text");
+
+        let isNew = !title || !text;
+
+        if (!title) {
+            doc.put("title", this.docIdToTitle(docid));
+        }
+
+        if (!text) {
+            doc.put("text", this.swell.getSdk().Text.create(""));
+        }
+
+        if (isNew) {
+            doc.setPublic(true);
+        }
+
+        // init comments
+        let comments = doc.get("comments");
+
+        if (!comments) {
+            doc.put("comments", this.swell.getSdk().Map.create());
+        }
+
     }
 
     public attachText(text: any): void {
@@ -66,6 +95,11 @@ export class EditorService {
         this.editor.setSelectionHandler((range, editorRef, selection) => {
             return EditorService.selectionHandler(this, range, editorRef, selection);
         });
+    }
+
+    private docIdToTitle(id: string) {
+        let s = id.replace('-',' ');
+        return s.charAt(0).toUpperCase() + s.slice(1);
     }
 
 
