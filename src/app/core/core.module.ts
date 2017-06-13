@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule, APP_INITIALIZER} from '@angular/core';
 
 import {
   BackendService,
@@ -17,20 +17,27 @@ import {
 
 import { LoggedUserGuard } from './guards';
 import { ShareModule } from '../share';
+import { swellServiceInitializerFactory } from "./services/x-swell.service";
 
 
 const CORE_PROVIDERS = [
   AppState,
   BackendService,
-  DocumentService, // deprecated
-  ListenerService, // deprecated
-  UserService, // deprecated
+  DocumentService, // TODO: deprecated
+  ListenerService, // TODO: deprecated
+  UserService, // TODO: deprecated
   LoggedUserGuard,
   JetpadModalService,
   SwellService,
   SessionService,
   ObjectService,
-  EditorService
+  EditorService,
+  {
+    provide: APP_INITIALIZER,
+    useFactory: swellServiceInitializerFactory,
+    deps: [SwellService],
+    multi: true
+  }
 ];
 
 @NgModule({
