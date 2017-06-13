@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ReplaySubject, Observable} from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 import { SessionStatus, SessionState, Session } from '../model';
 import { SwellService } from '.';
 
@@ -14,6 +14,12 @@ export class SessionService {
      * Emits events when a session is started or stopped
      */
     public subject: ReplaySubject<SessionStatus> = new ReplaySubject(1);
+
+    private session: Session;
+
+    constructor(private swell: SwellService) {
+        this.session = undefined;
+    }
 
     /**
      * Return the session object if it exists. Undefined otherwise.
@@ -30,7 +36,7 @@ export class SessionService {
      */
     public startDefaultSession(): Observable<any> {
         let that = this;
-        return Observable.create(function subscribe(observer) {
+        return Observable.create((observer) => {
             that.swell.getClient().subscribe({
                 next: (service) => {
                     service.resume({})
@@ -39,7 +45,7 @@ export class SessionService {
                             observer.next(s);
                             observer.complete();
                         })
-                        .catch((e) => {
+                        .catch(() => {
                             service.login({
                                 id: that.swell.getSdk().Service.ANONYMOUS_USER_ID,
                                 password: ''
@@ -68,9 +74,9 @@ export class SessionService {
      */
     public startSession(userid: string, pass: string): Observable<any> {
         let that = this;
-        return Observable.create(function subscribe(observer) {
-            that.swell.getClient().subscribe(service => {
-                service.login({id: userid,password: pass})
+        return Observable.create((observer) => {
+            that.swell.getClient().subscribe((service) => {
+                service.login({id: userid, password: pass})
                     .then( (s) => {
                         that.setSession(s);
                         observer.next(s);
@@ -79,7 +85,7 @@ export class SessionService {
                         that.setNotAllowed();
                         observer.error();
                         observer.complete();
-                    })
+                    });
             });
         });
     }
@@ -90,8 +96,8 @@ export class SessionService {
      */
     public stopSession(): Observable<any> {
         let that = this;
-        return Observable.create(function subscribe(observer) {
-            that.swell.getClient().subscribe(service => {
+        return Observable.create((observer) => {
+            that.swell.getClient().subscribe((service) => {
                 service.logout({})
                     .then( () => {
                         that.clearSession();
@@ -100,16 +106,10 @@ export class SessionService {
                         that.clearSession();
                         observer.error();
                         observer.complete();
-                    })
+                    });
             });
-        })
+        });
     }
-
-    constructor(private swell: SwellService) {
-        this.session = undefined;
-    }
-
-    private session: Session;
 
     private setSession(newSession: any) {
         this.session = newSession;

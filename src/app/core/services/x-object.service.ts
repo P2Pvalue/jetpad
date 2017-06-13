@@ -2,13 +2,15 @@
 import { Injectable, } from '@angular/core';
 import { SwellService } from '.';
 import { Observable } from 'rxjs';
-import { SessionService } from "./x-session.service";
+import { SessionService } from './x-session.service';
 
 /**
  * Wraps SwellRT operations related with objects as open and close in an observable.
  */
 @Injectable()
 export class ObjectService {
+
+    constructor(private swell: SwellService, private session: SessionService) {    }
 
     /**
      * Creates an observable that subcription executes the open method of
@@ -19,24 +21,24 @@ export class ObjectService {
      */
     public open(objectid: string): Observable<any> {
         let that = this;
-        return Observable.create(function subscribe (observer) {
+        return Observable.create((observer) => {
             that.session.subject.subscribe({
-                next: (session) => {
+                next: () => {
                     that.swell.getClient().subscribe({
                         next: (service) => {
-                            service.open({id:objectid})
-                                .then( obj => {
+                            service.open({id: objectid})
+                                .then( (obj) => {
                                     observer.next(obj.controller);
                                     observer.complete();
                                 })
-                                .catch( err => {
+                                .catch( (err) => {
                                     observer.error(err);
                                     observer.complete();
-                                })
+                                });
                         }
                     });
                 }
-            })
+            });
         });
     }
 
@@ -49,8 +51,6 @@ export class ObjectService {
     public close(objectid: string): void {
         return this.swell.getClient().subscribe((service) => {
             service.close(objectid);
-        })
+        });
     }
-
-    constructor(private swell: SwellService, private session: SessionService) {    }
 }
