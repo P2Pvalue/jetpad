@@ -1,10 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BackendService, AppState, JetpadModalService } from '../core/services';
 import { ErrorModalComponent, AlertModalComponent } from "../share/components";
 import { EditorModule } from './index';
 import { ShareModalComponent } from './components/share-modal';
 import { Comment } from './comment';
+import {EditorService} from "../core/services/x-editor.service";
+import {ObjectService} from "../core/services/x-object.service";
+import {SwellService} from "../core/services/x-swell.service";
+import {Observable} from "rxjs";
+import {SessionService} from "../core/services/x-session.service";
 
 declare let swellrt: any;
 declare let window: any;
@@ -15,7 +20,7 @@ declare let document: any;
   templateUrl: 'editor.component.html'
 })
 
-export class EditorComponent implements OnInit, OnDestroy {
+export class EditorComponent implements AfterViewInit, OnDestroy {
 
   private appStateSubscription: any;
 
@@ -104,7 +109,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   //    selection: ... ,
   // }
 
-  constructor(private appState: AppState, private backend: BackendService, private modalService: JetpadModalService, private route: ActivatedRoute) {
+  constructor(private appState: AppState, private backend: BackendService,
+              private editorService:EditorService, private modalService: JetpadModalService,
+              private route: ActivatedRoute, private objectSrv: ObjectService,
+              private swell: SwellService, private session: SessionService) {
 
   }
 
@@ -330,6 +338,31 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   }
 
+  /*
+   * TODO ensure editor DOM container is set after wiew is ready.
+   * SwellRT should be fixed.
+   */
+  public ngAfterViewInit() {
+      let that = this;
+      this.session.subject.subscribe((ses) => {
+          this.route.params.subscribe((param: any) => {
+              this.swell.getClient().subscribe((service) => {
+                  this.editorService.init('canvas-container')
+                      .flatMap(() => this.objectSrv.open(param['id']))
+                      .subscribe({
+                          next: (v) => {
+                              v.setPublic(true);
+                              console.log(v)
+                          },
+                          error: (e) => {
+                              console.error(e)
+                          }
+                      });
+              })
+          })
+      });
+  }
+
   public ngOnInit() {
 
     this.appStateSubscription = this.appState.subject.subscribe( (state) => {
@@ -338,13 +371,18 @@ export class EditorComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.initAnnotations();
+    //this.initAnnotations();
+
+
 
     window.onscroll = () => {
       this.closeFloatingViews();
     };
 
-    this.backend.get()
+      // listen to url parameters
+
+
+    /*this.backend.get()
       .then( s => {
 
         // attach connection status handler
@@ -446,7 +484,7 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.showModalAlert("Sorry, this browser is not compatible.");
         }
 
-      });
+      });*/
 
   }
 
@@ -486,9 +524,13 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   open(id: string) {
 
-    this.editor.clean();
+    //this.editor.clean();
 
-    this.backend.open(id)
+    /*this.editorService.open(id)
+        .then(r => {
+            console.log(r)
+        })*/
+    /*this.backend.open(id)
     .then( r => {
 
       // 'r' is not the document's object, just a handy wrapper:
@@ -526,10 +568,10 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.sortParticipantSessions();
 
       window._doc = this.doc;
-    })
-    .catch( error => {
+    })*/
+    /*.catch( error => {
       this.appState.set("error", "Error opening document "+id);
-    });
+    });*/
   }
 
 
