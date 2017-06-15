@@ -1,8 +1,8 @@
 <div class="container-fluid editor"><!-- mode="full" -->
 
   <jp-editor-header
-    [title]="doc?.get('title')"
-    [status]="status"
+    [title]="title$ | async"
+    [status]="status$ | async"
 
     [me]="participantSessionMe"
     [participants]="participantSessionsRecent"
@@ -17,20 +17,20 @@
     (menuActionEvent)="onMenuAction($event)">
     </jp-editor-header>
 
-  <jp-editor-toolbar [styles]="selectionStyles" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
+  <jp-editor-toolbar [styles]="selectionStyles$ | async" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
 
   <div class="row">
 
     <div class="floating-panel-left col-md-2 col-lg-3 col-sm-1 col-xs-1 visible-md-block visible-lg-block">
         <div class="panel-frame">
-          <jp-editor-outline [headers]="headers"></jp-editor-outline>
+          <jp-editor-outline [headers]="headers$ | async"></jp-editor-outline>
         </div>
     </div>
 
     <div class="col-md-offset-2 col-lg-offset-3 col-sm-offset-1 col-md-8 col-lg-6 col-sm-10 col-xs-10" id="editor-panel" class="editor-panel">
-        <link-modal *ngIf="visibleLinkModal" [at]="caretPos" [link]="inputLinkModal" (modalEvent)="editLink($event)"></link-modal>
-        <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos" [link]="selectionStyles.link" (actionEvent)="linkContextAction($event)"></link-menu>
-        <selection-menu *ngIf="visibleContextMenu" [at]="caretPos" (actionEvent)="contextAction($event)"></selection-menu>
+        <link-modal *ngIf="visibleLinkModal" [at]="caretPos$ | async" [link]="inputLinkModal" (modalEvent)="editLink($event)"></link-modal>
+        <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos$ | async" [link]="selectionStyles.link" (actionEvent)="linkContextAction($event)"></link-menu>
+        <selection-menu *ngIf="visibleContextMenu$ | async" [at]="caretPos$ | async" (actionEvent)="contextAction($event)"></selection-menu>
         <jp-editor-canvas [showCover]="showCanvasCover" (coverEvent)="onCoverEvent($event)"></jp-editor-canvas>
     </div>
 

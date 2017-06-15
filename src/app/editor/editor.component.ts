@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterContentInit, ChangeDetectionStrategy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppState, JetpadModalService } from '../core/services';
 import { ErrorModalComponent, AlertModalComponent } from '../share/components';
@@ -9,7 +9,7 @@ import { EditorService } from '../core/services/x-editor.service';
 import { ObjectService } from '../core/services/x-object.service';
 import { SwellService } from '../core/services/x-swell.service';
 import { SessionService } from '../core/services/x-session.service';
-import { Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 declare let swellrt: any;
 declare let window: any;
@@ -17,31 +17,38 @@ declare let document: any;
 
 @Component({
     selector: 'jp-editor',
-    templateUrl: 'editor.component.html'
+    templateUrl: 'editor.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class EditorComponent implements AfterViewInit, OnDestroy {
+export class EditorComponent implements AfterContentInit, OnDestroy {
     public title: 'Conectando...';
+    public title$: Observable<any>;
 
     public inputLinkModal: any;
 
     public headers: any[] = new Array<any>(); // array of annotations
+    public headers$: Observable<any>;
 
     public caretPos: any = {x: 0, y: 0};
+    public caretPos$: Observable<any>;
 
     public rightPanelContent: string = 'contributors';
 
     public visibleContextMenu: boolean = false;
+    public visibleContextMenu$: Observable<boolean>;
 
     public visibleLinkModal: boolean = false;
 
     public visibleLinkContextMenu: boolean = false;
 
     public selectionStyles: any = {}; // style annotations in current selection
+    public selectionStyles$: Observable<any>;
 
     public newCommentSelection: any;
 
     public status: string = 'DISCONNECTED';
+    public status$: Observable<string>;
 
     public selectedComment: Comment;
 
@@ -118,16 +125,22 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
                 private editorService: EditorService, private modalService: JetpadModalService,
                 private route: ActivatedRoute, private objectSrv: ObjectService,
                 private swell: SwellService, private session: SessionService) {
-
-        /*this.status$ = this.store.select(fromRoot.getHeaderStatus);
-        this.title$ = this.store.select(fromRoot.getHeaderTitle);*/
+        this.title$ = this.editorService.title$;
+        this.status$ = this.editorService.status$;
+        this.selectionStyles$ = this.editorService.stylesSubject;
+        this.headers$ = this.editorService.headers$.asObservable();
+        this.visibleContextMenu$ = this.editorService.visibleContextMenu$;
+        this.caretPos$ = this.editorService.caretPos$;
+        /*this.editorService.stylesSubject.subscribe((v) => {
+            this.documentReady = true;
+            console.log(v);
+        });*/
     }
-
     /*
      * TODO ensure editor DOM container is set after wiew is ready.
      * SwellRT should be fixed.
      */
-    public ngAfterViewInit() {
+    public ngAfterContentInit() {
         this.appStateSubscription = this.appState.subject.subscribe((state) => {
             if (state.error) {
                 this.showModalError(state.error);
@@ -158,27 +171,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     }
 
     public editStyle(event: any) {
-        let selection = this.editor.getSelection();
-        if (!selection || !selection.range) {
-            return;
-        }
-        let range = selection.range;
-        // if current selection is caret,
-        // try to span operation range to the annotation
-        if (range.isCollapsed()) {
-            if (this.selectionStyles[event.name]) {
-                range = this.selectionStyles[event.name].range;
-            }
-        }
-
-        if (event.value) {
-            this.editor.setAnnotation(event.name, event.value, range);
-        } else {
-            this.editor.clearAnnotation(event.name, range);
-        }
-
-        // refresh annotations
-        this.selectionStyles = EditorService.getSelectionStyles(this.editor, range);
+        this.editorService.editStyle(event);
     }
 
     public showModalLink() {
@@ -336,12 +329,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     }
 
     public onSwitchDiffHighlight(event) {
-        if (event) {
-            this.doc.get('text').showDiffHighlight();
-        } else {
-            this.doc.get('text').hideDiffHighlight();
-        }
-
+        this.editorService.onSwitchDiffHighlight(event);
     }
 
     public onMenuAction(actionEvent) {
