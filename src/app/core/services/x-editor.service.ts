@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { SwellService } from '.';
 import { AppState } from '../../app.service';
 import { ObjectService } from './x-object.service';
@@ -21,15 +21,18 @@ export class EditorService {
      * @param editorRef
      * @param selection
      */
-    public static selectionHandler(
+    /*public static selectionHandler(
         serviceRef: EditorService, range: any,
         editorRef: any, selection: any) {
 
-        serviceRef.stylesSubject
-            .next(editorRef.getAnnotation(['paragraph/', 'style/', 'link'], selection.range));
-
+        if (selection.range) {
+            // TODO fix double next launched... find out where
+            console.log(editorRef.getAnnotation(['paragraph/', 'style/', 'link'], selection.range));
+            serviceRef.stylesSubject
+                .next(editorRef.getAnnotation(['paragraph/', 'style/', 'link'], selection.range));
+        }
         serviceRef.selectionSubject.next(selection);
-    }
+    }*/
 
     public static getSelectionStyles(editor: any, range: any) {
         return editor.getAnnotation(['paragraph/', 'style/', 'link'], range);
@@ -41,11 +44,20 @@ export class EditorService {
     }
 
     /** Styles at the current caret position. */
-    public stylesSubject: Subject<any> = new Subject<any>();
+    public stylesSubject: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
     /** Selection has changed */
-    public selectionSubject: Subject<any> = new Subject<any>();
+    public selectionSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+    public title$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+
+    public status$: BehaviorSubject<string> = new BehaviorSubject<string>('DISCONNECTED');
+
+    public headers$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
+    public visibleContextMenu$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+    public caretPos$: BehaviorSubject<any> = new BehaviorSubject<any>({x: 0, y: 0});
     /** Reference to the swellrt editor instance */
     private editor: any;
     private status: any;
@@ -57,7 +69,6 @@ export class EditorService {
     private selectionStyles: any;
     private visibleLinkContextMenu: any;
     private visibleContextMenu: any;
-    private pickComment: any;
     private showCanvasCover: any;
     private document: any;
     private documentId: any;
@@ -67,6 +78,7 @@ export class EditorService {
     private comments: any;
     private headers: any;
     private connectionHandler: any;
+    private selectionHandler: any;
 
     private readonly TOP_BAR_OFFSET: number = 114;
 
@@ -81,22 +93,28 @@ export class EditorService {
         return Observable.create((observer) => {
              that.sessionService.subject.subscribe(() => {
                  that.swell.getClient().subscribe((service) => {
-                     that.initAnnotation();
-                     that.initConnectionHandler(service);
-                     that.initProfilesHandler(service);
-                     that.objectService.open(documentId).subscribe({
-                         next: (controller) => {
-                             that.initInternalEditor(service, controller, divId, documentId);
-                             observer.next(that.editor);
-                             observer.complete();
-                         },
-                         error: () => {
-                             // TODO observable error
-                             that.appState.set('error', 'Error opening document ' + documentId);
-                             observer.error('Error opening document ' + documentId);
-                             observer.complete();
-                         }
-                     });
+                     if (that.editor) {
+                         observer.next(that.editor);
+                         observer.complete();
+                     } else {
+                         that.initAnnotation();
+                         that.initConnectionHandler(service);
+                         that.initProfilesHandler(service);
+                         that.objectService.open(documentId).subscribe({
+                             next: (controller) => {
+                                 that.initInternalEditor(service, controller, divId, documentId);
+                                 that.title$.next(documentId); // TODO update when user change title
+                                 observer.next(that.editor);
+                                 observer.complete();
+                             },
+                             error: () => {
+                                 // TODO observable error
+                                 that.appState.set('error', 'Error opening document ' + documentId);
+                                 observer.error('Error opening document ' + documentId);
+                                 observer.complete();
+                             }
+                         });
+                     }
                  });
              });
         });
@@ -120,8 +138,44 @@ export class EditorService {
 
     public attachText(text: any): void {
         this.editor.set(text);
-        this.startInteractive();
+        // this.startInteractive(); // TODO to remove?
         this.editor.edit(true);
+    }
+
+    public editStyle(event: any) {
+        let selection = this.editor.getSelection();
+        if (!selection || !selection.range) {
+            return;
+        }
+        let range = selection.range;
+        // if current selection is caret,
+        // try to span operation range to the annotation
+        if (range.isCollapsed()) {
+            if (this.selectionStyles[event.name]) {
+                range = this.selectionStyles[event.name].range;
+            }
+        }
+
+        if (event.value) {
+            this.editor.setAnnotation(event.name, event.value, range);
+        } else {
+            this.editor.clearAnnotation(event.name, range);
+        }
+        console.log('notify from editStyle');
+        console.log(selection);
+        this.notifySelection(selection);
+        this.refreshHeadings();
+    }
+
+    public onSwitchDiffHighlight(event) {
+        if (event) {
+            this.document.get('text').showDiffHighlight();
+            this.visibleContextMenu$.next(true);
+        } else {
+            this.document.get('text').hideDiffHighlight();
+            this.visibleContextMenu$.next(false);
+        }
+
     }
 
     // Toolbar
@@ -144,7 +198,7 @@ export class EditorService {
          // TODO update via observable -> comments observable needed
                     // this.refreshComments();
                 }
-                if (this.swell.getSdk().Annotation.EVENT_REMOVED == type) {
+                if (this.swell.getSdk().Annotation.EVENT_REMOVED === type) {
                     // this.refreshComments();
                 }
             });
@@ -153,9 +207,9 @@ export class EditorService {
     private initConnectionHandler(service) {
         let that = this;
         this.connectionHandler = (status, error) => {
-            // TODO status observable
             // TODO error observable
             that.status = status;
+            that.status$.next(that.status);
             if (status === 'ERROR') {
                 let errorInfo = 'Server Disconnected';
                 if (error && error.statusMessange) {
@@ -169,11 +223,11 @@ export class EditorService {
                 status === 'DISCONNECTED') {
                 // show editor canvas cover
                 let errorInfo = 'Server Disconnected';
-                this.appState.set('error', errorInfo);
+                that.appState.set('error', errorInfo);
             }
 
             if (status === 'CONNECTED') {
-                this.appState.set('error', null);
+                that.appState.set('error', null);
             }
         };
         service.addConnectionHandler(this.connectionHandler);
@@ -261,7 +315,6 @@ export class EditorService {
         this.editor = this.swell.getSdk().Editor.createWithId(divId, service);
         let compatible = this.checkBrowserComptability(this.editor);
         // TODO observable error
-        this.initSelectionHandler(this.editor);
         this.documentId = docid;
         this.document = controller;
         let title = this.document.get('title');
@@ -286,8 +339,9 @@ export class EditorService {
         this.editor.set(this.document.get('text'));
         this.editor.edit(true);
         this.status = 'CONNECTED';
+        this.initSelectionHandler(this.editor);
         this.refreshHeadings();
-        this.refreshComments();
+        //this.refreshComments(); //TODO enable comments
         this.participantSessionMe = {
             session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
                 this.profilesManager.getCurrentParticipantId()),
@@ -301,7 +355,7 @@ export class EditorService {
 
     private initSelectionHandler(swellEditor) {
         let that = this;
-        let handler = (range, editor, selection) => {
+        this.selectionHandler = (range, editor, selection) => {
             // TODO observable with current selection
             if (selection) {
                 that.currentSelection = selection;
@@ -312,6 +366,7 @@ export class EditorService {
             if (selection && selection.anchorPosition) {
                 that.caretPos.x = selection.anchorPosition.left;
                 that.caretPos.y = selection.anchorPosition.top;
+                that.caretPos$.next(that.caretPos);
             }
             // ensure cursor is visible
             if (selection && selection.focusNode) {
@@ -325,9 +380,7 @@ export class EditorService {
             }
             if (selection && selection.range) {
                 // update toolbar state
-                // TODO update style observable
-                this.selectionStyles = EditorService.getSelectionStyles(editor, selection.range);
-
+                that.selectionStyles = EditorService.getSelectionStyles(editor, selection.range);
                 // show contextual menu
                 // TODO update visibleLinkMenu, visibleContextMenu, visibleLinkModal observable
                 if (this.selectionStyles.link) {
@@ -335,20 +388,27 @@ export class EditorService {
 
                 } else if (!selection.range.isCollapsed()) {
                     this.visibleContextMenu = true;
+                    this.visibleContextMenu$.next(true);
                 }
 
                 // check if there is a comment in the cursor position
                 // TODO update comment view observable
-                this.pickComment(
-                    EditorService.getCommentAnnotation(this.editor, selection.range));
+                // that.pickComment(
+                //     EditorService.getCommentAnnotation(this.editor, selection.range));
             }
+            // EditorService.selectionHandler(that, range, editor, selection);
+            console.log('notify from selectionHandler');
+            console.log(selection);
+            this.notifySelection(selection);
+            this.refreshHeadings();
         };
-        swellEditor.setSelectionHandler(handler);
+        swellEditor.setSelectionHandler(this.selectionHandler);
     }
 
     private refreshHeadings() {
         this.headers = this.editor.getAnnotation(['header'],
             this.swell.getSdk().Editor.Range.ALL, true)['header'];
+        this.headers$.next(this.headers);
     }
 
     private refreshComments() {
@@ -356,14 +416,24 @@ export class EditorService {
             this.swell.getSdk().Editor.Range.ALL)['comment'];
     }
 
-    private startInteractive(): void {
+    /*private startInteractive(): void {
         this.editor.setSelectionHandler((range, editorRef, selection) => {
             return EditorService.selectionHandler(this, range, editorRef, selection);
         });
-    }
+    }*/
 
     private docIdToTitle(id: string) {
         let s = id.replace('-', ' ');
         return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    private notifySelection(selection) {
+        if (selection.range) {
+            // TODO fix double next launched... find out where
+            let currentSel =
+                this.editor.getAnnotation(['paragraph/', 'style/', 'link'], selection.range);
+            this.stylesSubject.next(currentSel);
+        }
+        this.selectionSubject.next(selection);
     }
 }
