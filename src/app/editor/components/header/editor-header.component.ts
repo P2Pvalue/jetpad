@@ -1,25 +1,26 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'jp-editor-header',
   templateUrl: 'editor-header.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class EditorHeaderComponent {
 
-  @Input() status: string;
+  @Input() public status: string = 'DISCONNECTED';
 
-  @Input() title: string;
+  @Input() public title: string;
 
-  @Input() participants: any;
-  @Input() participantsPast: any;
-  @Input() me: any;
+  @Input() public participants: any;
+  @Input() public participantsPast: any;
+  @Input() public me: any;
 
-  @Input() headers: any;
+  @Input() public headers: any;
 
-  @Input() commentAction: string;
-  @Input() comment: any;
-  @Input() commentSelection: any;
+  @Input() public commentAction: string;
+  @Input() public comment: any;
+  @Input() public commentSelection: any;
 
-  @Output() menuActionEvent: EventEmitter<any> = new EventEmitter();
+  @Output() public menuActionEvent: EventEmitter<any> = new EventEmitter();
 }

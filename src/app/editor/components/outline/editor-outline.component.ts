@@ -1,19 +1,20 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 declare let window: any;
 
 @Component({
     selector: 'jp-editor-outline',
-    templateUrl: './editor-outline.component.html'
+    templateUrl: './editor-outline.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class EditorOutlineComponent {
 
-  @Input() headers: Array<any>;
-  @Input() showInDialog: boolean = false;
+  @Input() public headers: any[];
+  @Input() public showInDialog: boolean = false;
 
-  getHeaderUrl(id: string) {
-    let link:string = window.location.origin + window.location.pathname;
+  public getHeaderUrl(id: string) {
+    let link: string = window.location.origin + window.location.pathname;
     return link + (id ? '#' + id : '');
   }
 

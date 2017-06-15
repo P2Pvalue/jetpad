@@ -15,7 +15,7 @@
   <!-- Paragraph type -->
   <div class="input-select simple-select">
     <select class="form-control"
-      [ngModel]="styles.header ? styles.header.value : defaultHeading"
+      [ngModel]="styles && styles.header ? styles.header.value : defaultHeading"
       (ngModelChange)="setStyle('header', $event)" >
       <option value="">Normal text</option>
       <option value="h1">Heading 1</option>
@@ -33,7 +33,7 @@
     <select
         class="form-control"
         (focus)="loadFonts = true"
-        [ngModel]="styles.fontFamily ? styles.fontFamily.value : defaultFontFamily.css"
+        [ngModel]="styles && styles.fontFamily ? styles.fontFamily.value : defaultFontFamily.css"
         (ngModelChange)="setStyle('fontFamily', $event)">
 
       <option *ngFor="let fontFamily of fontFamilies" [style.fontFamily]="loadFonts ? fontFamily.css : 'inherit'" [value]="fontFamily.css">{{fontFamily.name}}</option>
@@ -46,7 +46,7 @@
   <div class="input-select simple-select">
     <select
       class="form-control"
-      [ngModel]="styles.fontSize ? styles.fontSize.value : defaultFontSize"
+      [ngModel]="styles && styles.fontSize ? styles.fontSize.value : defaultFontSize"
       (ngModelChange)="setStyle('fontSize', $event)">
 
       <option *ngFor="let i of fontSizes" value="{{i}}px">{{i}}</option>
@@ -327,8 +327,6 @@
       </div>
 
     </div> <!-- dropdown-menu -->
-
-
 
   </div><!-- center block -->
 
