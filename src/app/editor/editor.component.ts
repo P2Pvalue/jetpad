@@ -77,6 +77,11 @@ export class EditorComponent implements OnInit, OnDestroy {
             }
         }
     };
+    public participantSessionMe$: Observable<any>;
+
+    public participantSessionsRecent$: Observable<any>;
+
+    public participantSessionsPast$: Observable<any>;
 
     private docid: string;
 
@@ -131,6 +136,9 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.headers$ = this.editorService.headers$.asObservable();
         this.visibleContextMenu$ = this.editorService.visibleContextMenu$;
         this.caretPos$ = this.editorService.caretPos$;
+        this.participantSessionMe$ = this.editorService.participantSessionMe$;
+        this.participantSessionsRecent$ = this.editorService.participantSessionRecent$;
+        this.participantSessionsPast$ = this.editorService.participantSessionPast$;
         /*this.editorService.stylesSubject.subscribe((v) => {
             this.documentReady = true;
             console.log(v);

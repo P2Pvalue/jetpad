@@ -38,6 +38,25 @@ export class EditorService {
 
     public caretPos$: BehaviorSubject<any> = new BehaviorSubject<any>({x: 0, y: 0});
 
+    public participantSessionMe$: BehaviorSubject<any> = new BehaviorSubject<any>({
+        session: {
+            id: null,
+            online: false
+        },
+        profile: {
+            name: '(Loading...)',
+            shortName: '(Loading...)',
+            imageUrl: null,
+            color: {
+                cssColor: 'rgb(255, 255, 255)'
+            }
+        }
+    });
+
+    public participantSessionRecent$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
+    public participantSessionPast$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
     private editor: any;
     private status: any;
     private profilesManager: any;
@@ -53,7 +72,6 @@ export class EditorService {
     private documentId: any;
     private documentTitle: any;
     private commentsData: any;
-    private participantSessionMe: any;
     private comments: any;
     private headers: any;
     private connectionHandler: any;
@@ -222,9 +240,23 @@ export class EditorService {
         // TODO user profile observble
         // TODO participant profile observable
         // TODO decouple user form participants
+        let notifyParticipants  = () => {
+            that.participantSessionMe$.next({
+                session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
+                    this.profilesManager.getCurrentParticipantId()),
+                profile: this.profilesManager.getCurrentProfile()
+            });
+            that.participantSessionRecent$.next(that.participantSessionsRecent);
+            that.participantSessionPast$.next(
+                that.participantSessionsPast.sort((a, b) => {
+                    return b.session.lastActivityTime - a.session.lastActivityTime;
+                })
+            );
+        };
         let handler = {
             onLoaded: (profileSession) => {
                 if (profileSession.profile.isCurrentSessionProfile()) {
+                    notifyParticipants();
                     return;
                 }
                 let participantSession = {
@@ -236,10 +268,12 @@ export class EditorService {
                 } else {
                     that.participantSessionsPast.unshift(participantSession);
                 }
+                notifyParticipants();
             },
 
             onUpdated: (profile) => {
                 console.log('updated profile');
+                notifyParticipants();
             },
 
             onOffline: (profileSession) => {
@@ -256,7 +290,7 @@ export class EditorService {
                         profile: profileSession.profile
                     });
                 }
-
+                notifyParticipants();
             },
 
             onOnline: (profileSession) => {
@@ -274,6 +308,7 @@ export class EditorService {
                         profile: profileSession.profile
                     });
                 }
+                notifyParticipants();
             }
         };
         this.profilesManager = service.profilesManager;
@@ -326,15 +361,6 @@ export class EditorService {
         this.initSelectionHandler(this.editor);
         this.refreshHeadings();
         // this.refreshComments(); //TODO enable comments
-        this.participantSessionMe = {
-            session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
-                this.profilesManager.getCurrentParticipantId()),
-            profile: this.profilesManager.getCurrentProfile()
-        };
-        this.participantSessionsPast =
-            this.participantSessionsPast.sort((a, b) => {
-                return b.session.lastActivityTime - a.session.lastActivityTime;
-            });
     }
 
     private initSelectionHandler(swellEditor) {

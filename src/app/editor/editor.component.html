@@ -4,9 +4,9 @@
     [title]="title$ | async"
     [status]="status$ | async"
 
-    [me]="participantSessionMe"
-    [participants]="participantSessionsRecent"
-    [participantsPast]="participantSessionsPast"
+    [me]="participantSessionMe$ | async"
+    [participants]="participantSessionsRecent$ | async"
+    [participantsPast]="participantSessionsPast$ | async"
 
     [headers]="headers"
 
@@ -38,16 +38,16 @@
 
       <jp-editor-participants
           *ngIf="rightPanelContent == 'contributors'"
-          [me]="participantSessionMe"
-          [participantsRecent]="participantSessionsRecent"
-          [participantsPast]="participantSessionsPast"
+          [me]="participantSessionMe$ | async"
+          [participantsRecent]="participantSessionsRecent$ | async"
+          [participantsPast]="participantSessionsPast$ | async"
           (diffHighlightEvent)="onSwitchDiffHighlight($event)">
       </jp-editor-participants>
 
       <jp-editor-comments
           *ngIf="rightPanelContent == 'comments'"
           [action]="commentsAction"
-          [me]="participantSessionMe"
+          [me]="participantSessionMe | async"
           [comment]="selectedComment"
           [selection]="newCommentSelection"
           (commentEvent)="onCommentEvent($event)">

@@ -1,59 +1,57 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import * as Moment from "moment";
-
-declare let window: any;
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'jp-editor-participants',
-    templateUrl: './editor-participants.component.html'
+    templateUrl: './editor-participants.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class EditorParticipantsComponent {
 
-  @Input() participantsRecent: Array<any>;
-  @Input() participantsPast: Array<any>;
+    @Input() public participantsPast: any[];
+    @Input() public participantsRecent: any[];
 
-  @Input() me: any;
+    @Input() public me: any;
 
-  @Input() showInDialog: boolean = false;
+    @Input() public showInDialog: boolean = false;
 
-  private name: string;
-  private showEditNameForm: boolean = false;
-  private showParticipantsPastList: boolean = false;
+    @Output() public diffHighlightEvent: EventEmitter<any> = new EventEmitter();
 
-  private diffHighlight: boolean = false;
+    public name: string;
+    public showEditNameForm: boolean = false;
+    public showParticipantsPastList: boolean = false;
 
-  @Output() diffHighlightEvent: EventEmitter<any> = new EventEmitter();
+    private diffHighlight: boolean = false;
 
-  private saveEditNameForm() {
-    this.showEditNameForm = false;
+    public displayEditNameForm(display) {
+        if (display) {
+            this.name = this.me.profile.name;
+            this.showEditNameForm = display;
+        }
+    }
 
-    if (!this.name) {
-      if (!this.me.profile.name)
-        this.me.profile.setName("Anonymous");
+    public saveEditNameForm() {
+        this.showEditNameForm = false;
 
-    } else
-      this.me.profile.setName(this.name);
-  }
+        if (!this.name) {
+            if (!this.me.profile.name) {
+                this.me.profile.setName('Anonymous');
+            } else {
+                this.me.profile.setName(this.name);
+            }
+        }
+    }
 
-  private displayEditNameForm(display) {
-    if (display)
-      this.name = this.me.profile.name;
-    this.showEditNameForm = display;
-  }
+    private isNotRegistered(profile) {
+            return profile.anonymous && profile.name !== 'Anonymous';
+    }
 
-  private isNotRegistered(profile) {
-    return profile.anonymous && profile.name != "Anonymous";
-  }
-
-  private toggleParticipantPastList() {
+    private toggleParticipantPastList() {
     this.showParticipantsPastList = !this.showParticipantsPastList;
-  }
+    }
 
-  private switchDiffHighlight() {
-    this.diffHighlight = !this.diffHighlight;
-    this.diffHighlightEvent.emit(this.diffHighlight);
-  }
-
-
+    private switchDiffHighlight() {
+        this.diffHighlight = !this.diffHighlight;
+        this.diffHighlightEvent.emit(this.diffHighlight);
+    }
 }
