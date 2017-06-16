@@ -26,15 +26,17 @@ export class ObjectService {
                 next: () => {
                     that.swell.getClient().subscribe({
                         next: (service) => {
-                            service.open({id: objectid})
-                                .then( (obj) => {
-                                    observer.next(obj.controller);
-                                    observer.complete();
-                                })
-                                .catch( (err) => {
-                                    observer.error(err);
-                                    observer.complete();
-                                });
+                            if (service) {
+                                service.open({id: objectid})
+                                    .then( (obj) => {
+                                        observer.next(obj.controller);
+                                        observer.complete();
+                                    })
+                                    .catch( (err) => {
+                                        observer.error(err);
+                                        observer.complete();
+                                    });
+                            }
                         }
                     });
                 }

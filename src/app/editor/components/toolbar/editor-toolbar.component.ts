@@ -1,5 +1,5 @@
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, AfterViewInit
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
 declare let window: any;
@@ -10,7 +10,7 @@ declare let window: any;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class EditorToolbarComponent implements AfterViewInit {
+export class EditorToolbarComponent {
 
     @Input() public styles: any;
     @Output() public styleEvent: EventEmitter<any> = new EventEmitter();
@@ -79,9 +79,6 @@ export class EditorToolbarComponent implements AfterViewInit {
     public readonly listDecimal = 'decimal';
     public readonly listUnordered = 'unordered';
 
-    public ngAfterViewInit() {
-
-    }
 
   public setStyle(style: string, value: any) {
     this.styleEvent.emit({ name: style, value });
@@ -105,8 +102,6 @@ export class EditorToolbarComponent implements AfterViewInit {
   }
 
     public checkStyle(style, value) {
-        console.log('checking styles... ');
-        console.log(this.styles);
         return this.styles[style] && (this.styles[style].value === value);
     }
 

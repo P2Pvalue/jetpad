@@ -39,27 +39,29 @@ export class SessionService {
         return Observable.create((observer) => {
             that.swell.getClient().subscribe({
                 next: (service) => {
-                    service.resume({})
-                        .then( (s) => {
-                            that.setSession(s);
-                            observer.next(s);
-                            observer.complete();
-                        })
-                        .catch(() => {
-                            service.login({
-                                id: that.swell.getSdk().Service.ANONYMOUS_USER_ID,
-                                password: ''
-                            }).then( (s) => {
+                    if (service) {
+                        service.resume({})
+                            .then( (s) => {
                                 that.setSession(s);
                                 observer.next(s);
                                 observer.complete();
-                            }).catch( () => {
-                                that.setError();
-                                observer.error();
-                                observer.complete();
-                            });
+                            })
+                            .catch(() => {
+                                service.login({
+                                    id: that.swell.getSdk().Service.ANONYMOUS_USER_ID,
+                                    password: ''
+                                }).then( (s) => {
+                                    that.setSession(s);
+                                    observer.next(s);
+                                    observer.complete();
+                                }).catch( () => {
+                                    that.setError();
+                                    observer.error();
+                                    observer.complete();
+                                });
 
-                        });
+                            });
+                    }
                 }
             });
         });
@@ -76,16 +78,18 @@ export class SessionService {
         let that = this;
         return Observable.create((observer) => {
             that.swell.getClient().subscribe((service) => {
-                service.login({id: userid, password: pass})
-                    .then( (s) => {
-                        that.setSession(s);
-                        observer.next(s);
-                        observer.complete();
-                    }).catch( () => {
+                if (service) {
+                    service.login({id: userid, password: pass})
+                        .then( (s) => {
+                            that.setSession(s);
+                            observer.next(s);
+                            observer.complete();
+                        }).catch( () => {
                         that.setNotAllowed();
                         observer.error();
                         observer.complete();
                     });
+                }
             });
         });
     }
@@ -98,15 +102,17 @@ export class SessionService {
         let that = this;
         return Observable.create((observer) => {
             that.swell.getClient().subscribe((service) => {
-                service.logout({})
-                    .then( () => {
-                        that.clearSession();
-                        observer.complete();
-                    }).catch( () => {
+                if (service) {
+                    service.logout({})
+                        .then( () => {
+                            that.clearSession();
+                            observer.complete();
+                        }).catch( () => {
                         that.clearSession();
                         observer.error();
                         observer.complete();
                     });
+                }
             });
         });
     }

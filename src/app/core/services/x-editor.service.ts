@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { SwellService } from '.';
 import { AppState } from '../../app.service';
 import { ObjectService } from './x-object.service';
@@ -12,27 +12,6 @@ import { SessionService } from './x-session.service';
  */
 @Injectable()
 export class EditorService {
-
-    /**
-     * Handle changes in swellrt's editor caret position and selection.
-     *
-     * @param serviceRef
-     * @param range
-     * @param editorRef
-     * @param selection
-     */
-    /*public static selectionHandler(
-        serviceRef: EditorService, range: any,
-        editorRef: any, selection: any) {
-
-        if (selection.range) {
-            // TODO fix double next launched... find out where
-            console.log(editorRef.getAnnotation(['paragraph/', 'style/', 'link'], selection.range));
-            serviceRef.stylesSubject
-                .next(editorRef.getAnnotation(['paragraph/', 'style/', 'link'], selection.range));
-        }
-        serviceRef.selectionSubject.next(selection);
-    }*/
 
     public static getSelectionStyles(editor: any, range: any) {
         return editor.getAnnotation(['paragraph/', 'style/', 'link'], range);
@@ -58,7 +37,7 @@ export class EditorService {
     public visibleContextMenu$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     public caretPos$: BehaviorSubject<any> = new BehaviorSubject<any>({x: 0, y: 0});
-    /** Reference to the swellrt editor instance */
+
     private editor: any;
     private status: any;
     private profilesManager: any;
@@ -93,27 +72,32 @@ export class EditorService {
         return Observable.create((observer) => {
              that.sessionService.subject.subscribe(() => {
                  that.swell.getClient().subscribe((service) => {
-                     if (that.editor) {
-                         observer.next(that.editor);
-                         observer.complete();
-                     } else {
-                         that.initAnnotation();
-                         that.initConnectionHandler(service);
-                         that.initProfilesHandler(service);
-                         that.objectService.open(documentId).subscribe({
-                             next: (controller) => {
-                                 that.initInternalEditor(service, controller, divId, documentId);
-                                 that.title$.next(documentId); // TODO update when user change title
-                                 observer.next(that.editor);
-                                 observer.complete();
-                             },
-                             error: () => {
-                                 // TODO observable error
-                                 that.appState.set('error', 'Error opening document ' + documentId);
-                                 observer.error('Error opening document ' + documentId);
-                                 observer.complete();
-                             }
-                         });
+                     if (service) {
+                         if (that.editor) {
+                             observer.next(that.editor);
+                             observer.complete();
+                         } else {
+                             that.initAnnotation();
+                             that.initConnectionHandler(service);
+                             that.initProfilesHandler(service);
+                             that.objectService.open(documentId).subscribe({
+                                 next: (controller) => {
+                                     that.initInternalEditor(service, controller, divId,
+                                         documentId);
+                                     that.title$.next(documentId); // TODO update
+                                     // when user change title
+                                     observer.next(that.editor);
+                                     observer.complete();
+                                 },
+                                 error: () => {
+                                     // TODO observable error
+                                     that.appState.set('error', 'Error opening document ' +
+                                         documentId);
+                                     observer.error('Error opening document ' + documentId);
+                                     observer.complete();
+                                 }
+                             });
+                         }
                      }
                  });
              });
@@ -161,8 +145,8 @@ export class EditorService {
         } else {
             this.editor.clearAnnotation(event.name, range);
         }
-        console.log('notify from editStyle');
-        console.log(selection);
+        /*console.log('notify from editStyle');
+        console.log(selection);*/
         this.notifySelection(selection);
         this.refreshHeadings();
     }
@@ -341,7 +325,7 @@ export class EditorService {
         this.status = 'CONNECTED';
         this.initSelectionHandler(this.editor);
         this.refreshHeadings();
-        //this.refreshComments(); //TODO enable comments
+        // this.refreshComments(); //TODO enable comments
         this.participantSessionMe = {
             session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
                 this.profilesManager.getCurrentParticipantId()),
@@ -397,8 +381,8 @@ export class EditorService {
                 //     EditorService.getCommentAnnotation(this.editor, selection.range));
             }
             // EditorService.selectionHandler(that, range, editor, selection);
-            console.log('notify from selectionHandler');
-            console.log(selection);
+            /*console.log('notify from selectionHandler');
+            console.log(selection);*/
             this.notifySelection(selection);
             this.refreshHeadings();
         };

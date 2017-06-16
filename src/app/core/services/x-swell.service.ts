@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import {Subject, Observable, BehaviorSubject} from 'rxjs';
 import { ConnectionStatus } from '../model';
 
 // the global swellrt library
@@ -16,8 +16,20 @@ export class SwellService {
     /** Emits events when connection status changes */
     public connectionSubject: Subject<ConnectionStatus> = new Subject<ConnectionStatus>();
 
+    public clientSubject: BehaviorSubject<any> = new BehaviorSubject(null);
+
     /** Reference to SwellRT API client instance */
     private swellClientInstance: any = null;
+
+    private service: Promise<any> = new Promise((resolve, reject) => {{
+        swellrt.onReady((s) => {
+            console.log('swellrt client ready');
+            resolve(s);
+        });
+        setTimeout(() => {
+            reject(new Error('Timeout error loading swellrt client (15s)'));
+        }, 15000);
+    }});
 
     /**
      * Observable that its subscriptions ensures the existence of swell service
@@ -51,23 +63,21 @@ export class SwellService {
      * @returns void
      */
     public startUp(): void {
-        this.swellInstanceObservable$.subscribe({
-            next: (service) => {
-                service.addConnectionHandler(
-                    (s, e) => this.connectionSubject.next({state: s, error: e})
-                );
-            },
-            error: () => {
-                console.log('Timeout loading SwellRT');
+        Observable.fromPromise(this.service).subscribe(
+            (service) => {
+                this.swellClientInstance = service;
+                this.swellClientInstance.addConnectionHandler(
+                    (s, e) => this.connectionSubject.next({state: s, error: e}));
+                this.clientSubject.next(service);
             }
-        });
+        );
     };
 
     /**
      * @returns swellInstanceObservable$
      */
     public getClient(): any {
-        return this.swellInstanceObservable$;
+        return this.clientSubject;
     }
 
     /**

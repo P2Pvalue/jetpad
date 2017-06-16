@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, AfterContentInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppState, JetpadModalService } from '../core/services';
 import { ErrorModalComponent, AlertModalComponent } from '../share/components';
@@ -21,7 +21,7 @@ declare let document: any;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class EditorComponent implements AfterContentInit, OnDestroy {
+export class EditorComponent implements OnInit, OnDestroy {
     public title: 'Conectando...';
     public title$: Observable<any>;
 
@@ -140,7 +140,7 @@ export class EditorComponent implements AfterContentInit, OnDestroy {
      * TODO ensure editor DOM container is set after wiew is ready.
      * SwellRT should be fixed.
      */
-    public ngAfterContentInit() {
+    public ngOnInit() {
         this.appStateSubscription = this.appState.subject.subscribe((state) => {
             if (state.error) {
                 this.showModalError(state.error);
