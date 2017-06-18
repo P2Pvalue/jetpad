@@ -21,52 +21,12 @@ declare let swellrt: any;
 
 export class App implements OnInit {
 
-
-  //
-  // VERSION REFACTOR
-  //
-
   constructor(private sessionSrv: SessionService) {
   }
 
   public ngOnInit() {
-    //TODO: remove in production
     this.sessionSrv.startDefaultSession().subscribe(() => {
-      console.debug('session initialized')
+      console.debug('session initialized');
     });
   }
-
-
-  //
-  // VERSION EN PRODUCCION
-  //
-
-
-  /*
-  constructor(private backend: BackendService) {
-  }
-
-  public ngOnInit() {
-
-    
-
-    // bind swellrt backend
-    this.backend.bind(new Promise(
-      (resolve, reject) => {
-        swellrt.onReady( (s) => {
-          console.log('swellrt client ready');
-          resolve(s);
-        });
-
-        setTimeout( () => {
-            reject(new Error('Timeout error loading SwellRT client (15s)'));
-        }, 15000);
-      }
-    ));
-
-    // resume existing session or start anonymous one
-    this.backend.startDefaultSession();
-  }
-  */
-
 }

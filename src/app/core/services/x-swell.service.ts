@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import {Subject, Observable, BehaviorSubject} from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { ConnectionStatus } from '../model';
 
-// the global swellrt library
+// the global swellrt namespace
 declare let swellrt: any;
 
 /**
- * Wrap SwellRT client library, and provide start up
- * logic.
- *
+ * Wrap swellrt service client
  */
 @Injectable()
 export class SwellService {
@@ -16,12 +14,14 @@ export class SwellService {
     /** Emits events when connection status changes */
     public connectionSubject: Subject<ConnectionStatus> = new Subject<ConnectionStatus>();
 
-    public clientSubject: BehaviorSubject<any> = new BehaviorSubject(null);
+    /** Emits event when service instance is available */
+    public serviceSubject: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    /** Reference to SwellRT API client instance */
-    private swellClientInstance: any = null;
+    /** The swellrt's service instance */
+    private service: any = null;
 
-    private service: Promise<any> = new Promise((resolve, reject) => {{
+    /** The swellrt's service instance as promise */
+    private servicePromise: Promise<any> = new Promise((resolve, reject) => {{
         swellrt.onReady((s) => {
             console.log('swellrt client ready');
             resolve(s);
@@ -31,57 +31,34 @@ export class SwellService {
         }, 15000);
     }});
 
-    /**
-     * Observable that its subscriptions ensures the existence of swell service
-     * instance client creating a new one if nothing
-     * exists or returning the existed one.
-     * Wait for the SwellRT's client script to load, then
-     * populate the service's instance.
-     */
-    private swellInstanceObservable$ = Observable.create((observer) => {
-        if (!this.swellClientInstance) {
-            setTimeout(() => {
-                observer.error(new Error('Timeout error loading SwellRT client'));
-                observer.complete();
-            }, 15000);
-            swellrt.onReady((s) => {
-                this.swellClientInstance = s;
-                observer.next(s);
-                observer.complete();
-            });
-        } else {
-            observer.next(this.swellClientInstance);
-            observer.complete();
-        }
-    });
 
     /**
-     * Kickoff the instance of swell service subscripting to swellInstanceObservable$.
-     * Set up the connection handle
-     * mechanism that notifies its changes via connectionSubject.
+     * Kickoff the instance of swellrt service.
+     * Set up the connection handler.
+     * Notify to subjet that service instance is ready.
      *
      * @returns void
      */
     public startUp(): void {
-        Observable.fromPromise(this.service).subscribe(
+        Observable.fromPromise(this.servicePromise).subscribe(
             (service) => {
-                this.swellClientInstance = service;
-                this.swellClientInstance.addConnectionHandler(
+                this.service = service;
+                this.service.addConnectionHandler(
                     (s, e) => this.connectionSubject.next({state: s, error: e}));
-                this.clientSubject.next(service);
+                this.serviceSubject.next(service);
             }
         );
     };
 
     /**
-     * @returns swellInstanceObservable$
+     * @returns service$
      */
-    public getClient(): any {
-        return this.clientSubject;
+    public getService(): any {
+        return Observable.fromPromise(this.servicePromise);
     }
 
     /**
-     * @returns Swellrt sdk object
+     * @returns swellrt sdk object
      */
     public getSdk(): any {
         return swellrt;

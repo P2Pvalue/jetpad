@@ -4,17 +4,18 @@ import { SessionStatus, SessionState, Session } from '../model';
 import { SwellService } from '.';
 
 /**
- * Service to wrap SwellRT user sessions
+ * Wrap swellrt's current user session
  */
 @Injectable()
 export class SessionService {
 
     /**
      * Allow lazy subscription to the session subject.
-     * Emits events when a session is started or stopped
+     * Emits events when a session is started or stopped.
      */
     public subject: ReplaySubject<SessionStatus> = new ReplaySubject(1);
 
+    /** The active session. */
     private session: Session;
 
     constructor(private swell: SwellService) {
@@ -22,7 +23,7 @@ export class SessionService {
     }
 
     /**
-     * Return the session object if it exists. Undefined otherwise.
+     *  @return the session object if it exists. Undefined otherwise.
      */
     public getSession(): Session {
         return this.session;
@@ -37,7 +38,7 @@ export class SessionService {
     public startDefaultSession(): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.getClient().subscribe({
+            that.swell.getService().subscribe({
                 next: (service) => {
                     if (service) {
                         service.resume({})
@@ -77,7 +78,7 @@ export class SessionService {
     public startSession(userid: string, pass: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.getClient().subscribe((service) => {
+            that.swell.getService().subscribe((service) => {
                 if (service) {
                     service.login({id: userid, password: pass})
                         .then( (s) => {
@@ -101,7 +102,7 @@ export class SessionService {
     public stopSession(): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.getClient().subscribe((service) => {
+            that.swell.getService().subscribe((service) => {
                 if (service) {
                     service.logout({})
                         .then( () => {

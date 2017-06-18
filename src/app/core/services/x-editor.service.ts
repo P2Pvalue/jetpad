@@ -5,9 +5,11 @@ import { AppState } from '../../app.service';
 import { ObjectService } from './x-object.service';
 import { SessionService } from './x-session.service';
 
+declare let window: any;
+
 /**
- * Wrap an unique SwellRT editor instance associated with the
- * current client instance.
+ * Wrap a single swellrt editor instance associated with the
+ * current service instance.
  *
  */
 @Injectable()
@@ -89,7 +91,7 @@ export class EditorService {
         let that = this;
         return Observable.create((observer) => {
              that.sessionService.subject.subscribe(() => {
-                 that.swell.getClient().subscribe((service) => {
+                 that.swell.getService().subscribe((service) => {
                      if (service) {
                          if (that.editor) {
                              observer.next(that.editor);
@@ -99,11 +101,10 @@ export class EditorService {
                              that.initConnectionHandler(service);
                              that.initProfilesHandler(service);
                              that.objectService.open(documentId).subscribe({
-                                 next: (controller) => {
-                                     that.initInternalEditor(service, controller, divId,
+                                 next: (object) => {
+                                     window._object = object; // TODO remove
+                                     that.initInternalEditor(service, object, divId,
                                          documentId);
-                                     that.title$.next(documentId); // TODO update
-                                     // when user change title
                                      observer.next(that.editor);
                                      observer.complete();
                                  },
@@ -123,7 +124,7 @@ export class EditorService {
     }
 
     public destroyEditor() {
-        this.swell.getClient().subscribe((service) => {
+        this.swell.getService().subscribe((service) => {
             if (this.connectionHandler) {
                 service.removeConnectionHandler(this.connectionHandler);
             }
@@ -140,7 +141,6 @@ export class EditorService {
 
     public attachText(text: any): void {
         this.editor.set(text);
-        // this.startInteractive(); // TODO to remove?
         this.editor.edit(true);
     }
 
@@ -330,12 +330,12 @@ export class EditorService {
         }
     }
 
-    private initInternalEditor(service: any, controller: any, divId: string, docid: string) {
+    private initInternalEditor(service: any, object: any, divId: string, docid: string) {
         this.editor = this.swell.getSdk().Editor.createWithId(divId, service);
         let compatible = this.checkBrowserComptability(this.editor);
         // TODO observable error
         this.documentId = docid;
-        this.document = controller;
+        this.document = object;
         let title = this.document.get('title');
         let text = this.document.get('text');
         let isNew = !title || !text;
@@ -352,7 +352,14 @@ export class EditorService {
         if (!comments) {
             this.document.put('comments', this.swell.getSdk().Map.create());
         }
-        this.documentTitle = this.document.get('title');
+        // Note(Pablo): to change the title use this -> this.document.put('title','new title');
+        this.title$.next(this.document.get('title'));
+        this.document.listen((event) => {
+            if (event.key === 'title') {
+                this.title$.next(event.node.js());
+            }
+        });
+
         this.commentsData = this.document.get('comments');
         this.showCanvasCover = this.document.get('text').isEmpty();
         this.editor.set(this.document.get('text'));
@@ -406,9 +413,6 @@ export class EditorService {
                 // that.pickComment(
                 //     EditorService.getCommentAnnotation(this.editor, selection.range));
             }
-            // EditorService.selectionHandler(that, range, editor, selection);
-            /*console.log('notify from selectionHandler');
-            console.log(selection);*/
             this.notifySelection(selection);
             this.refreshHeadings();
         };
@@ -425,12 +429,6 @@ export class EditorService {
         this.comments = this.editor.seekTextAnnotations('comment',
             this.swell.getSdk().Editor.Range.ALL)['comment'];
     }
-
-    /*private startInteractive(): void {
-        this.editor.setSelectionHandler((range, editorRef, selection) => {
-            return EditorService.selectionHandler(this, range, editorRef, selection);
-        });
-    }*/
 
     private docIdToTitle(id: string) {
         let s = id.replace('-', ' ');

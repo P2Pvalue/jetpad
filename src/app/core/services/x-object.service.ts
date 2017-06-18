@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { SessionService } from './x-session.service';
 
 /**
- * Wraps SwellRT operations related with objects as open and close in an observable.
+ * Wraps swellrt operations related with objects.
  */
 @Injectable()
 export class ObjectService {
@@ -24,12 +24,12 @@ export class ObjectService {
         return Observable.create((observer) => {
             that.session.subject.subscribe({
                 next: () => {
-                    that.swell.getClient().subscribe({
+                    that.swell.getService().subscribe({
                         next: (service) => {
                             if (service) {
                                 service.open({id: objectid})
-                                    .then( (obj) => {
-                                        observer.next(obj.controller);
+                                    .then( (object) => {
+                                        observer.next(object);
                                         observer.complete();
                                     })
                                     .catch( (err) => {
@@ -51,7 +51,7 @@ export class ObjectService {
      * @returns void
      */
     public close(objectid: string): void {
-        return this.swell.getClient().subscribe((service) => {
+        return this.swell.getService().subscribe((service) => {
             service.close(objectid);
         });
     }
