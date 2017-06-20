@@ -3,6 +3,8 @@ import { ReplaySubject, Observable } from 'rxjs';
 import { SessionStatus, SessionState, Session } from '../model';
 import { SwellService } from '.';
 
+declare const swell: any;
+
 /**
  * Wrap swellrt's current user session
  */
@@ -49,7 +51,7 @@ export class SessionService {
                             })
                             .catch(() => {
                                 service.login({
-                                    id: that.swell.getSdk().Service.ANONYMOUS_USER_ID,
+                                    id: swell.Constants.ANONYMOUS_USER_ID,
                                     password: ''
                                 }).then( (s) => {
                                     that.setSession(s);

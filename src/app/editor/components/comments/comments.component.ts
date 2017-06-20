@@ -31,7 +31,7 @@ export class CommentsComponent {
     @Output() public commentEvent: EventEmitter<any> = new EventEmitter();
 
     public isEditComment() {
-        return (this.comment) ? true : false;
+        return (this.comment) && this.action !== 'new'  ? true : false;
     }
 
     public isNewComment() {

@@ -142,10 +142,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.participantSessionsRecent$ = this.editorService.participantSessionRecent$;
         this.participantSessionsPast$ = this.editorService.participantSessionPast$;
         this.selectedComment$ = this.editorService.selectedComment$;
-        /*this.editorService.stylesSubject.subscribe((v) => {
-            this.documentReady = true;
-            console.log(v);
-        });*/
     }
     /*
      * TODO ensure editor DOM container is set after wiew is ready.
@@ -166,6 +162,12 @@ export class EditorComponent implements OnInit, OnDestroy {
                 .subscribe( (editor) => {
                     this.editor = editor;
                 });
+        });
+
+        this.selectedComment$.subscribe((comment) => {
+            if (comment) {
+                this.rightPanelContent = 'comments';
+            }
         });
     }
 
