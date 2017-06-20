@@ -86,8 +86,9 @@ export class EditorMenuComponent {
       this.commentsModal = undefined;
     }
 
-    if (this.commentAction == "none" || (!this.comment && !this.commentSelection))
-      return;
+    if (this.commentAction == "none" || (!this.comment && !this.commentSelection)) {
+
+    }
 
     let modal$ = this.modalService.create(EditorModule, CommentsModalComponent, {
       action: this.commentAction,

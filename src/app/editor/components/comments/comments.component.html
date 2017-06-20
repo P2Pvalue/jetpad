@@ -24,31 +24,30 @@
 
   <div class="edit" *ngIf="isEditComment()">
 
-    <div *ngIf="!showInDialog" class="title">
+    <div class="title">
       <span>Comments</span>
-      <a href="javascript:void(0)" class="btn btn-primary" (click)="next()"><i class="material-icons">chevron_right</i></a>
-      <a href="javascript:void(0)" class="btn btn-primary" (click)="prev()"><i class="material-icons">chevron_left</i></a>
+      <a href="javascript:void(0)" class="btn btn-primary" (click)="prev()"><i class="material-icons">chevron_right</i></a>
+      <a href="javascript:void(0)" class="btn btn-primary" (click)="next()"><i class="material-icons">chevron_left</i></a>
     </div>
 
     <div class="navigator">
         <span class="text" (click)="focus()">
-          {{getText()}}
+          {{comment.selectedText}}
         </span>
     </div>
 
-    <div *ngIf="!comment.isResolved()" class="actions text-center">
-      <a href="javascript:void(0)" style="margin-right:1em;">Add reply</a>
+    <div *ngIf="!comment.isResolved" class="actions text-center">
       <a href="javascript:void(0)" (click)="resolve()">Mark as resolved</a>
     </div>
 
-    <div *ngIf="comment.isResolved()" class="actions alert alert-dismissible alert-info text-center">
+    <div *ngIf="comment.isResolved" class="actions alert alert-dismissible alert-info text-center">
       This comment has been <strong>resolved!</strong>
     </div>
 
 
     <div class="list-group">
 
-      <div *ngFor="let item of comment.getItems(); let i = index;" class="comment">
+      <div *ngFor="let item of comment.replies; let i = index;" class="comment">
         <div class="list-group-item">
           <!--
           <div class="row-picture">
@@ -56,10 +55,11 @@
           </div>
         -->
 
-          <div class="row-content" [style.border-left-color]="getParticipantColor(item.participantId)">
-            <div *ngIf="item.participantId == me.profile.participantId.address" (click)="comment.deleteItem(i)" class="least-content"><i class="material-icons">delete</i></div>
-            <p class="list-group-item-heading">{{getParticipantSession(item.participantId).profile.name}}</p>
-            <p class="list-group-item-text">{{item.time | moment}}</p>
+          <div class="row-content" [style.border-left-color]="getParticipantColor(item.author)">
+            <div *ngIf="item.author.profile.address == me.profile.address" (click)="deleteReply(item)" class="least-content"><i class="material-icons">delete</i></div>
+            <p class="list-group-item-heading">{{item.author.profile.name}}</p>
+            <!--<p class="list-group-item-text">{{item.time | moment}}</p>-->
+            <p class="list-group-item-text">{{item.time}}</p>
           </div>
 
         </div>
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div *ngIf="!comment.isResolved()" class="form-group reply">
+      <div *ngIf="!comment.isResolved" class="form-group reply">
         <label class="control-label" for="replyText">Reply:</label>
         <textarea #replyText id="replyText" class="form-control" rows="4"></textarea>
         <div style="text-align: center">

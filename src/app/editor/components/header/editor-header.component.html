@@ -22,9 +22,9 @@
           <span *ngIf="status == 'ERROR'"
             class="label label-default">Disconnected (Unable to reconnect)</span>
 
+          <input #newTitle type="text">
+          <button (click)="changeTitle.emit(newTitle.value)">Change title</button>
         </span>
-
-
 
       </div>
     </div>

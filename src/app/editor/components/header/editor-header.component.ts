@@ -23,4 +23,5 @@ export class EditorHeaderComponent {
   @Input() public commentSelection: any;
 
   @Output() public menuActionEvent: EventEmitter<any> = new EventEmitter();
+  @Output() public changeTitle: EventEmitter<any> = new EventEmitter();
 }
