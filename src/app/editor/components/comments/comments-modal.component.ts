@@ -91,15 +91,11 @@ export class CommentsModalComponent implements OnInit {
   }
 
   public onCommentEvent(event) {
-    if (event.type === 'close') {
+    if (event && event.type === 'close') {
       setTimeout(() => {
         this.closeModal();
       }, 150);
-    } /*else if (event.type === 'next') {
-        this.commentService.next();
-    } else if (event.type === 'prev') {
-        this.commentService.prev();
-    }*/
+    }
     this.ok(event);
 
   }
