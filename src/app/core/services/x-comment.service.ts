@@ -10,7 +10,6 @@ export class CommentService {
 
     private static readonly ANNOTATION_KEY = 'comment';
 
-
     /**
      * Gets the full text related with a comment
      *
@@ -58,6 +57,7 @@ export class CommentService {
         }
     }
 
+    public comments$: BehaviorSubject<any> = new BehaviorSubject(null);
 
     public selectedComment$: BehaviorSubject<any> = new BehaviorSubject(null);
 
@@ -86,9 +86,9 @@ export class CommentService {
 
     /** Call this method before Editor.createXXX()  */
     public initAnnotation() {
-        swell.Editor.AnnotationRegistry.define('@mark', 'mark', {});
-        swell.Editor.AnnotationRegistry.define('comment', 'comment', {});
-        swell.Editor.AnnotationRegistry.setHandler('comment',
+        SwellService.getSdk().Editor.AnnotationRegistry.define('@mark', 'mark', {});
+        SwellService.getSdk().Editor.AnnotationRegistry.define('comment', 'comment', {});
+        SwellService.getSdk().Editor.AnnotationRegistry.setHandler('comment',
             (type, annot, event) => {
                 if (swell.Annotation.EVENT_ADDED === type) {
                     // TODO(Pablo) nothing to do
@@ -99,7 +99,7 @@ export class CommentService {
             });
 
         // TODO(Pablo) this is not necessary, please remove
-        swell.Editor.AnnotationRegistry.setHandler('@mark',
+        SwellService.getSdk().Editor.AnnotationRegistry.setHandler('@mark',
             (type, annot, event) => {
                 if (swell.Annotation.EVENT_ADDED === type) {
                     console.log('highlight added');
@@ -173,7 +173,6 @@ export class CommentService {
         // create data slot before annotation <--- ????
         this.editor.setTextAnnotationOverlap(CommentService.ANNOTATION_KEY, id, range);
 
-
         let firstReplay: CommentReplay = {
             author: this.parseAuthor(user),
             date: timestamp,
@@ -223,14 +222,26 @@ export class CommentService {
     }
 
     public next() {
-
-       // TODO(Pablo) calcular el siguiente comentario recorriendo this.comments
-
+        let keys = this.comments.keys();
+        let currentComment = keys.indexOf(this.selectedCommentId);
+        if (currentComment < keys.length - 1) {
+            this.selectedCommentId = keys[currentComment + 1];
+            this.selectedComment = this.comments.get(this.selectedCommentId);
+            this.notifyCurrentCommentChange();
+            this.highlight(true);
+        }
     }
 
     public prev() {
 
-        // TODO(Pablo) calcular el anterior comentario recorriendo this.comments
+        let keys = this.comments.keys();
+        let currentComment = keys.indexOf(this.selectedCommentId);
+        if (currentComment > 0) {
+            this.selectedCommentId = keys[currentComment - 1];
+            this.selectedComment = this.comments.get(this.selectedCommentId);
+            this.notifyCurrentCommentChange();
+            this.highlight(true);
+        }
 
     }
 
@@ -257,7 +268,6 @@ export class CommentService {
         this.notifyCurrentCommentChange();
     }
 
-
     private parseAuthor(author: any) {
         return {
             profile: {
@@ -277,7 +287,7 @@ export class CommentService {
         }
 
         if (activate) {
-            // TODO(Pablo) not working!!!! sólo funciona si el comentario está recién creado! 
+            // TODO(Pablo) not working!!!! sólo funciona si el comentario está recién creado!
             // quizás necesita depurar swellrt, pero esto antes funcionaba
             let containerRange
                 = CommentService.getCommentContainerRange(

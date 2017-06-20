@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppState, JetpadModalService } from '../core/services';
 import { ErrorModalComponent, AlertModalComponent } from '../share/components';

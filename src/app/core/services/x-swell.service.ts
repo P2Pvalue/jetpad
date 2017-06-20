@@ -11,6 +11,10 @@ declare let swellrt: any;
 @Injectable()
 export class SwellService {
 
+    public static getSdk() {
+        return swellrt;
+    }
+
     /** Emits events when connection status changes */
     public connectionSubject: Subject<ConnectionStatus> = new Subject<ConnectionStatus>();
 
@@ -53,7 +57,7 @@ export class SwellService {
      * @returns service$
      */
     public getService(): any {
-        return Observable.fromPromise(this.servicePromise);
+        return this.serviceSubject;
     }
 
     /**

@@ -60,8 +60,6 @@ export class EditorService {
 
     public participantSessionPast$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
-    public coments$: BehaviorSubject<any>;
-
     public selectedComment$: BehaviorSubject<any>;
 
     private editor: any;
@@ -227,11 +225,12 @@ export class EditorService {
     }
     // Toolbar
     private initAnnotation() {
-        this.swell.getSdk().Editor.AnnotationRegistry.setHandler('header', (type, annot, event) => {
-            if (this.swell.getSdk().Annotation.EVENT_MOUSE !== type) {
-                this.refreshHeadings();
-            }
-        });
+        SwellService.getSdk().Editor.AnnotationRegistry.setHandler('header',
+            (type, annot, event) => {
+                if (SwellService.getSdk().Annotation.EVENT_MOUSE !== type) {
+                    this.refreshHeadings();
+                }
+            });
 
         this.commentService.initAnnotation();
     }
@@ -361,7 +360,7 @@ export class EditorService {
     }
 
     private initInternalEditor(service: any, object: any, divId: string, docid: string) {
-        this.editor = this.swell.getSdk().Editor.createWithId(divId, service);
+        this.editor = SwellService.getSdk().Editor.createWithId(divId, service);
         let compatible = this.checkBrowserComptability(this.editor);
         // TODO observable error
         this.documentId = docid;
@@ -373,7 +372,7 @@ export class EditorService {
             this.document.put('title', this.docIdToTitle(docid));
         }
         if (!text) {
-            this.document.put('text', this.swell.getSdk().Text.create(''));
+            this.document.put('text', SwellService.getSdk().Text.create(''));
         }
         if (isNew) {
             this.document.setPublic(true);
@@ -447,7 +446,7 @@ export class EditorService {
 
     private refreshHeadings() {
         this.headers = this.editor.getAnnotation(['header'],
-            this.swell.getSdk().Editor.Range.ALL, true)['header'];
+            SwellService.getSdk().Editor.Range.ALL, true)['header'];
         this.headers$.next(this.headers);
     }
 
