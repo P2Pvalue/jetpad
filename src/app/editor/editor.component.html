@@ -8,7 +8,7 @@
     [participants]="participantSessionsRecent$ | async"
     [participantsPast]="participantSessionsPast$ | async"
 
-    [headers]="headers"
+    [headers]="headers$ | async"
 
     [commentAction]="commentsAction"
     [comment]="selectedComment$ | async"
