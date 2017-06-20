@@ -58,8 +58,7 @@
           <div class="row-content" [style.border-left-color]="getParticipantColor(item.author)">
             <div *ngIf="item.author.profile.address == me.profile.address" (click)="deleteReply(item)" class="least-content"><i class="material-icons">delete</i></div>
             <p class="list-group-item-heading">{{item.author.profile.name}}</p>
-            <!--<p class="list-group-item-text">{{item.time | moment}}</p>-->
-            <p class="list-group-item-text">{{item.time}}</p>
+            <p class="list-group-item-text">{{item.date | moment}}</p>
           </div>
 
         </div>

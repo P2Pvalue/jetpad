@@ -193,9 +193,7 @@ export class EditorService {
     }
 
     public createComment(event) {
-        this.participantSessionMe$.subscribe((user) => {
-            this.commentService.createComment(event.selection.range, event.text, user);
-        });
+        this.commentService.createComment(event.selection.range, event.text, this.user);
     }
 
     public nextComment() {
@@ -207,21 +205,15 @@ export class EditorService {
     }
 
     public replyComment(text, commentId) {
-        this.participantSessionMe$.subscribe((user) => {
-            this.commentService.reply(commentId, text, user);
-        });
+        this.commentService.reply(commentId, text, this.user);
     }
 
     public resolveComment(commentId) {
-        this.participantSessionMe$.subscribe((user) => {
-            this.commentService.resolve(commentId, user);
-        });
+        this.commentService.resolve(commentId, this.user);
     }
 
     public deleteReplyComment(commentId, reply) {
-        this.participantSessionMe$.subscribe((user) => {
-            this.commentService.deleteReply(commentId, reply);
-        });
+        this.commentService.deleteReply(commentId, reply);
     }
     // Toolbar
     private initAnnotation() {
@@ -270,11 +262,12 @@ export class EditorService {
         // TODO participant profile observable
         // TODO decouple user form participants
         let notifyParticipants  = () => {
-            that.participantSessionMe$.next({
+            this.user = {
                 session: this.profilesManager.getSession(this.profilesManager.getCurrentSessionId(),
                     this.profilesManager.getCurrentParticipantId()),
                 profile: this.profilesManager.getCurrentProfile()
-            });
+            };
+            that.participantSessionMe$.next(this.user);
             that.participantSessionRecent$.next(that.participantSessionsRecent);
             that.participantSessionPast$.next(
                 that.participantSessionsPast.sort((a, b) => {
