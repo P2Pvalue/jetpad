@@ -1,14 +1,17 @@
 import { Modal } from '../../../core/services';
 import { Component, OnInit } from '@angular/core';
+import { CommentService, SessionService } from '../../../core/services';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: "comments-modal",
+  selector: 'comments-modal',
   template: `
     <div class="modal show">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCancel()">×</button>
+            <button type="button" class="close" 
+                data-dismiss="modal" aria-hidden="true" (click)="onCancel()">×</button>
             <h3 class="modal-title">
               Comments
             </h3>
@@ -20,7 +23,7 @@ import { Component, OnInit } from '@angular/core';
               [showInDialog]="true"
               [action]="action"
               [me]="me"
-              [comment]="comment"
+              [comment]="selectedComment$ | async"
               [selection]="selection"
               (commentEvent)="onCommentEvent($event)">
             </jp-editor-comments>
@@ -34,7 +37,7 @@ import { Component, OnInit } from '@angular/core';
       </div>
     </div>
     `,
-styles:[`
+styles: [`
 
     .modal-content {
       height: inherit;
@@ -53,38 +56,50 @@ styles:[`
 export class CommentsModalComponent implements OnInit {
 
   // data
-  action: string;
-  me: any;
-  comment: any;
-  selection: any;
+  public action: string;
+  public me: any;
+  public comment: any;
+  public selection: any;
 
-  ok: Function;
+  public ok: Function;
 
-  destroy: Function;
-  closeModal: Function;
+  public destroy: Function;
+  public closeModal: Function;
+  public selectedComment$: Observable<any>;
 
-  ngOnInit(): void {
+  private user: any;
 
+  constructor(private commentService: CommentService, private sessionService: SessionService) {
+      this.selectedComment$ = commentService.selectedComment$;
   }
 
-  onCancel(): void {
+  public ngOnInit(): void {
+      this.sessionService.subject.subscribe((user) => {
+          this.user = user;
+      });
+  }
+
+  public onCancel(): void {
     this.onOk();
   }
 
-  onOk(): void {
+  public onOk(): void {
     setTimeout(() => {
       this.closeModal();
     }, 150);
     this.ok();
   }
 
-  onCommentEvent(event) {
-
-    if (event.type == "close") {
+  public onCommentEvent(event) {
+    if (event.type === 'close') {
       setTimeout(() => {
         this.closeModal();
       }, 150);
-    }
+    } /*else if (event.type === 'next') {
+        this.commentService.next();
+    } else if (event.type === 'prev') {
+        this.commentService.prev();
+    }*/
     this.ok(event);
 
   }
