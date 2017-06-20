@@ -206,9 +206,9 @@ export class EditorService {
         this.commentService.prev();
     }
 
-    public replayComment(text, commentId) {
+    public replyComment(text, commentId) {
         this.participantSessionMe$.subscribe((user) => {
-            this.commentService.replay(commentId, text, user);
+            this.commentService.reply(commentId, text, user);
         });
     }
 

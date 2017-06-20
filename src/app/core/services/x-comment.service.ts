@@ -124,9 +124,11 @@ export class CommentService {
             this.document.put('comments', swell.Map.create());
         }
         this.document.listen((event) => {
-            // Here we should just list for isResolved changes
-            if (event.key === 'isResolved') {
-                // event.target == the comment object
+            // if selected comment is changed update it.
+            if (event.key.startsWith('comment-') > 0 && this.comments.get(event.key)
+                && this.selectedCommentId === event.key) {
+                this.selectedComment = this.comments.get(event.key);
+                this.notifyCurrentCommentChange();
             }
         });
         this.comments = this.document.get('comments');
@@ -198,7 +200,7 @@ export class CommentService {
         return comment;
     }
 
-    public replay(commentId: string, text: string, user: any): any {
+    public reply(commentId: string, text: string, user: any): any {
         let timestamp = (new Date()).getTime();
         let item: CommentReplay = {
             author: this.parseAuthor(user),

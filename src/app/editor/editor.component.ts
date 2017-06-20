@@ -312,9 +312,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
             this.commentsAction = 'none';
 
-        } else if (event.type === 'replay') {
+        } else if (event.type === 'reply') {
 
-            this.editorService.replayComment(event.replay, event.comment);
+            this.editorService.replyComment(event.reply, event.comment);
 
         } else if (event.type === 'resolve') {
 

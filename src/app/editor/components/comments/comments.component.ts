@@ -119,8 +119,8 @@ export class CommentsComponent {
     public reply(textarea: any) {
         if (textarea.value && textarea.value.length > 0) {
             this.commentEvent.emit({
-                type: 'replay',
-                replay: textarea.value,
+                type: 'reply',
+                reply: textarea.value,
                 comment: this.comment.commentId
             });
             textarea.value = '';
