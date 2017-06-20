@@ -359,7 +359,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     public contextAction(action: string) {
-
         this.visibleContextMenu = false;
 
         if ('link' === action) {

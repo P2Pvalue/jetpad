@@ -72,7 +72,8 @@ export class CommentService {
         this.refreshComments();
         if (this.commentsKey.length > 0) {
             let com = this.document.get('comments').get(this.commentsKey[0]);
-            let ants = this.editor.getAnnotation('@mark', this.swellService.getSdk().Editor.Range.ALL);
+            // TODO instruction below launche error saying java.lang.IllegalArgumentException: Attempt to use local annotation key '@mark' as a persistent key
+            // let ants = this.editor.getAnnotation('@mark', this.swellService.getSdk().Editor.Range.ALL);
             this.highlight(com, true, this.editor);
         }
     }
