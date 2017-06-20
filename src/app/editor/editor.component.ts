@@ -291,7 +291,6 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         if (event.type === 'create') {
             this.editorService.createComment(event);
-            //this.selectedComment.highlight(true);
             this.commentsAction = 'edit';
 
         } else if (event.type === 'next') {
@@ -304,7 +303,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         } else if (event.type === 'focus') {
             let element = document.querySelector(
-                '[data-comment="' + event.comment + '"]'
+                '[data-comment*="' + event.comment + '"]'
             );
             element.scrollIntoView(false);
         } else if (event.type === 'close') {
