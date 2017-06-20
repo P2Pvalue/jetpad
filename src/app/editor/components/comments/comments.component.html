@@ -36,7 +36,7 @@
         </span>
     </div>
 
-    <div *ngIf="!comment.isResolved" class="actions text-center">
+    <div *ngIf="!comment.isResolved && me.session.profile.address == comment.user.profile.address" class="actions text-center">
       <a href="javascript:void(0)" (click)="resolve()">Mark as resolved</a>
     </div>
 

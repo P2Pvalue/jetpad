@@ -213,12 +213,12 @@ export class CommentService {
         this.notifyCurrentCommentChange();
     }
 
-    public deleteReplay(commentId: string, reply: any) {
+    public deleteReply(commentId: string, reply: any) {
         let newObject = Object.assign({},
             this.comments.get(commentId),
             {replies: this.comments.get(commentId)
                 .replies.filter((r) =>
-                reply.author.profile.name !== r.author.profile.name || reply.date !== r.date)});
+                reply.author.profile.address !== r.author.profile.address || reply.date !== r.date)});
         this.comments.put(commentId, newObject);
         this.notifyCurrentCommentChange();
     }
@@ -252,6 +252,7 @@ export class CommentService {
             user.profile.name === this.comments
                 .get(commentId).user.profile.name) {
             this.setResolved(commentId);
+            this.deleteAnnotationsOfComment(commentId);
         }
     }
 
@@ -278,6 +279,21 @@ export class CommentService {
                 address: author.profile.address
             }
         };
+    }
+
+    private deleteAnnotationsOfComment(comment) {
+        let commentAnnotations = this.editor.seekTextAnnotations('comment',
+            this.swellService.getSdk().Editor.Range.ALL)['comment'];
+        commentAnnotations.forEach((item) => {
+            let keys = item.value.split(',');
+            let stop = false;
+            keys.forEach((key) => {
+                if (!stop && comment === key)  {
+                    item.clear();
+                    stop = true;
+                }
+            });
+        });
     }
 
     /** Turn Highglight annotation on/off for the current selected comment  */

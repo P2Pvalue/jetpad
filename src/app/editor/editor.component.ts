@@ -322,7 +322,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         } else if (event.type === 'delete') {
 
-            this.editorService.deleteReplayComment(event.comment, event.reply);
+            this.editorService.deleteReplyComment(event.comment, event.reply);
 
         }
     }

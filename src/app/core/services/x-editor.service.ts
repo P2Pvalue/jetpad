@@ -218,9 +218,9 @@ export class EditorService {
         });
     }
 
-    public deleteReplayComment(commentId, reply) {
+    public deleteReplyComment(commentId, reply) {
         this.participantSessionMe$.subscribe((user) => {
-            this.commentService.deleteReplay(commentId, reply);
+            this.commentService.deleteReply(commentId, reply);
         });
     }
     // Toolbar
