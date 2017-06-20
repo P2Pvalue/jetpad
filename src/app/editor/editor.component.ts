@@ -83,6 +83,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     public participantSessionsPast$: Observable<any>;
 
+    public selectedComment$: Observable<any>;
+
     private docid: string;
 
     private doc: any;      // document/object
@@ -139,6 +141,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.participantSessionMe$ = this.editorService.participantSessionMe$;
         this.participantSessionsRecent$ = this.editorService.participantSessionRecent$;
         this.participantSessionsPast$ = this.editorService.participantSessionPast$;
+        this.selectedComment$ = this.editorService.selectedComment$;
         /*this.editorService.stylesSubject.subscribe((v) => {
             this.documentReady = true;
             console.log(v);
@@ -287,52 +290,39 @@ export class EditorComponent implements OnInit, OnDestroy {
     public onCommentEvent(event) {
 
         if (event.type === 'create') {
-            this.selectedComment =
-                Comment.create(event.selection.range, event.text,
-                    this.participantSessionMe, this.editor, this.commentsData);
-            this.selectedComment.highlight(true);
+            this.editorService.createComment(event);
+            //this.selectedComment.highlight(true);
             this.commentsAction = 'edit';
 
         } else if (event.type === 'next') {
 
-            let halt = false;
-            let commentId = this.comments[this.selectedCommentIndex].value;
-            if (!commentId) {
-                return;
-            }
-            while (commentId === this.comments[this.selectedCommentIndex].value && !halt) {
-                this.selectedCommentIndex++;
-                if (this.selectedCommentIndex >= this.comments.length) {
-                    this.selectedCommentIndex = 0;
-                    halt = true;
-                }
-            }
-            this.pickComment(this.comments[this.selectedCommentIndex]);
+            this.editorService.nextComment();
 
         } else if (event.type === 'prev') {
-            let halt = false;
-            let commentId = this.comments[this.selectedCommentIndex].value;
-            if (!commentId) {
-                return;
-            }
-            // Avoid issues with spread annotations having same id
-            while (commentId === this.comments[this.selectedCommentIndex].value && !halt) {
-                this.selectedCommentIndex--;
-                if (this.selectedCommentIndex < 0) {
-                    this.selectedCommentIndex = this.comments.length - 1;
-                    halt = true;
-                }
-            }
-            this.pickComment(this.comments[this.selectedCommentIndex]);
+
+            this.editorService.prevComment();
 
         } else if (event.type === 'focus') {
             let element = document.querySelector(
-                '[data-comment="' + this.selectedComment.id + '"]'
+                '[data-comment="' + event.comment + '"]'
             );
             element.scrollIntoView(false);
         } else if (event.type === 'close') {
+
             this.commentsAction = 'none';
-            this.rightPanelContent = '';
+
+        } else if (event.type === 'replay') {
+
+            this.editorService.replayComment(event.replay, event.comment);
+
+        } else if (event.type === 'resolve') {
+
+            this.editorService.resolveComment(event.comment);
+
+        } else if (event.type === 'delete') {
+
+            this.editorService.deleteReplayComment(event.comment, event.reply);
+
         }
     }
 
@@ -345,17 +335,14 @@ export class EditorComponent implements OnInit, OnDestroy {
             this.showModalShare();
 
         } else if (actionEvent.event === 'comments') {
-            // TODO call editorService to update comments this.refreshComments();
-            if (this.comments && this.comments.length > 0) {
-                this.pickComment(this.comments[0]);
-                this.rightPanelContent = actionEvent.event;
-            }
+            this.rightPanelContent = 'comments';
 
         } else if (actionEvent.event === 'contributors') {
-            this.rightPanelContent = actionEvent.event;
+            this.rightPanelContent = 'contributors';
 
         } else if (actionEvent.event === 'comment-event') {
             this.onCommentEvent(actionEvent.data);
+            this.commentsAction = 'edit';
         }
     }
 
@@ -385,14 +372,16 @@ export class EditorComponent implements OnInit, OnDestroy {
         }
 
         if ('comment' === action) {
-            setTimeout(() => {
-                this.createComment();
-            });
+            this.createComment();
         }
     }
 
     public onCoverEvent(event) {
         console.log(event);
+    }
+
+    public onChangeTitle(event) {
+        this.editorService.changeTitle(event);
     }
 
     private showModalShare() {
@@ -469,32 +458,4 @@ export class EditorComponent implements OnInit, OnDestroy {
         }
     }
 
-    private pickComment(commentAnnotation) {
-        if (this.selectedComment) {
-            this.selectedComment.highlight(false);
-        }
-
-        if (!commentAnnotation) {
-            return;
-        }
-
-        let values = commentAnnotation.value.split(',');
-        // pick the last value of the annotation
-        let comment: Comment = commentAnnotation ?
-            Comment.get(values[values.length - 1],
-                commentAnnotation, this.participantSessionMe, this.editor, this.commentsData) :
-            undefined;
-
-        if (comment) {
-            this.selectedComment = comment;
-            this.resetCommentIndex(comment.id);
-            this.selectedComment.highlight(true);
-            this.commentsAction = 'edit';
-            this.rightPanelContent = 'comments';
-        } else {
-            this.selectedComment = undefined;
-            this.resetCommentIndex(null);
-            this.commentsAction = 'none';
-        }
-    }
 }

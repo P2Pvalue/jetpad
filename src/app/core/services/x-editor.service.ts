@@ -4,6 +4,7 @@ import { SwellService } from '.';
 import { AppState } from '../../app.service';
 import { ObjectService } from './x-object.service';
 import { SessionService } from './x-session.service';
+import { CommentService } from './x-comment.service';
 
 declare let window: any;
 
@@ -59,6 +60,10 @@ export class EditorService {
 
     public participantSessionPast$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
+    public coments$: BehaviorSubject<any>;
+
+    public selectedComment$: BehaviorSubject<any>;
+
     private editor: any;
     private status: any;
     private profilesManager: any;
@@ -78,19 +83,24 @@ export class EditorService {
     private headers: any;
     private connectionHandler: any;
     private selectionHandler: any;
+    private user: any;
 
     private readonly TOP_BAR_OFFSET: number = 114;
 
     private comments$: Observable<Comment>;
 
-    constructor(private swell: SwellService,
+    constructor(private swell: SwellService, private commentService: CommentService,
                 private appState: AppState, private objectService: ObjectService,
-                private sessionService: SessionService) {    }
+                private sessionService: SessionService) {
+        this.comments$ = commentService.comments$;
+        this.selectedComment$ = commentService.selectedComment$;
+    }
 
     public init(divId, documentId): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-             that.sessionService.subject.subscribe(() => {
+             that.sessionService.subject.subscribe((user) => {
+                 this.user = user;
                  that.swell.getService().subscribe((service) => {
                      if (service) {
                          if (that.editor) {
@@ -180,30 +190,50 @@ export class EditorService {
 
     }
 
+    public changeTitle(newTitle) {
+        this.document.put('title', this.docIdToTitle(newTitle));
+    }
+
+    public createComment(event) {
+        this.participantSessionMe$.subscribe((user) => {
+            this.commentService.createComment(event.selection.range, event.text, user);
+        });
+    }
+
+    public nextComment() {
+        this.commentService.next();
+    }
+
+    public prevComment() {
+        this.commentService.prev();
+    }
+
+    public replayComment(text, commentId) {
+        this.participantSessionMe$.subscribe((user) => {
+            this.commentService.replay(commentId, text, user);
+        });
+    }
+
+    public resolveComment(commentId) {
+        this.participantSessionMe$.subscribe((user) => {
+            this.commentService.resolve(commentId, user);
+        });
+    }
+
+    public deleteReplayComment(commentId, reply) {
+        this.participantSessionMe$.subscribe((user) => {
+            this.commentService.deleteReplay(commentId, reply);
+        });
+    }
     // Toolbar
     private initAnnotation() {
-        this.swell.getSdk().Editor.AnnotationRegistry.define('@mark', 'mark', {});
-        this.swell.getSdk().Editor.AnnotationRegistry.define('comment', 'comment', {});
-
         this.swell.getSdk().Editor.AnnotationRegistry.setHandler('header', (type, annot, event) => {
             if (this.swell.getSdk().Annotation.EVENT_MOUSE !== type) {
-                // TODO update via observable -> headings observable needed
                 this.refreshHeadings();
             }
         });
-        this.swell.getSdk().Editor.AnnotationRegistry.setHandler('comment',
-            (type, annot, event) => {
-                if (this.swell.getSdk().Annotation.EVENT_ADDED === type) {
-                    // set as open here
-                    // to ensure annotation is open again on undo.
-                    // Comment.setOpen(annot.value, this.commentsData);
-         // TODO update via observable -> comments observable needed
-                    // this.refreshComments();
-                }
-                if (this.swell.getSdk().Annotation.EVENT_REMOVED === type) {
-                    // this.refreshComments();
-                }
-            });
+
+        this.commentService.initAnnotation();
     }
 
     private initConnectionHandler(service) {
@@ -348,11 +378,6 @@ export class EditorService {
         if (isNew) {
             this.document.setPublic(true);
         }
-        let comments = this.document.get('comments');
-        if (!comments) {
-            this.document.put('comments', this.swell.getSdk().Map.create());
-        }
-        // Note(Pablo): to change the title use this -> this.document.put('title','new title');
         this.title$.next(this.document.get('title'));
         this.document.listen((event) => {
             if (event.key === 'title') {
@@ -367,7 +392,7 @@ export class EditorService {
         this.status = 'CONNECTED';
         this.initSelectionHandler(this.editor);
         this.refreshHeadings();
-        // this.refreshComments(); //TODO enable comments
+        this.commentService.initDocument(this.editor, this.document, this.user);
     }
 
     private initSelectionHandler(swellEditor) {
@@ -401,17 +426,18 @@ export class EditorService {
                 // show contextual menu
                 // TODO update visibleLinkMenu, visibleContextMenu, visibleLinkModal observable
                 if (this.selectionStyles.link) {
-                    this.visibleLinkContextMenu = true;
+                    this.visibleContextMenu = true;
+                    this.visibleContextMenu$.next(true);
 
                 } else if (!selection.range.isCollapsed()) {
                     this.visibleContextMenu = true;
                     this.visibleContextMenu$.next(true);
+                } else {
+                    this.visibleContextMenu = false;
+                    this.visibleContextMenu$.next(false);
                 }
 
-                // check if there is a comment in the cursor position
-                // TODO update comment view observable
-                // that.pickComment(
-                //     EditorService.getCommentAnnotation(this.editor, selection.range));
+                this.commentService.doSelectionHandler(range, editor, selection);
             }
             this.notifySelection(selection);
             this.refreshHeadings();
@@ -423,11 +449,6 @@ export class EditorService {
         this.headers = this.editor.getAnnotation(['header'],
             this.swell.getSdk().Editor.Range.ALL, true)['header'];
         this.headers$.next(this.headers);
-    }
-
-    private refreshComments() {
-        this.comments = this.editor.seekTextAnnotations('comment',
-            this.swell.getSdk().Editor.Range.ALL)['comment'];
     }
 
     private docIdToTitle(id: string) {

@@ -11,10 +11,11 @@
     [headers]="headers"
 
     [commentAction]="commentsAction"
-    [comment]="selectedComment"
+    [comment]="selectedComment$ | async"
     [commentSelection]="newCommentSelection"
 
-    (menuActionEvent)="onMenuAction($event)">
+    (menuActionEvent)="onMenuAction($event)"
+    (changeTitle)="onChangeTitle($event)">
     </jp-editor-header>
 
   <jp-editor-toolbar [styles]="selectionStyles$ | async" (styleEvent)="editStyle($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>
@@ -47,8 +48,8 @@
       <jp-editor-comments
           *ngIf="rightPanelContent == 'comments'"
           [action]="commentsAction"
-          [me]="participantSessionMe | async"
-          [comment]="selectedComment"
+          [me]="participantSessionMe$ | async"
+          [comment]="selectedComment$ | async"
           [selection]="newCommentSelection"
           (commentEvent)="onCommentEvent($event)">
         </jp-editor-comments>

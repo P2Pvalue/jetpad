@@ -31,7 +31,6 @@ export class SwellService {
         }, 15000);
     }});
 
-
     /**
      * Kickoff the instance of swellrt service.
      * Set up the connection handler.
