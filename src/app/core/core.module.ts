@@ -1,4 +1,4 @@
-import {NgModule, APP_INITIALIZER} from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import {
   BackendService,
@@ -10,15 +10,15 @@ import {
   ModalPlaceholderComponent,
   // New
   SwellService,
+  swellServiceInitializerFactory,
   SessionService,
   ObjectService,
-  EditorService
+  EditorService,
+  CommentService
 } from './services';
 
 import { LoggedUserGuard } from './guards';
 import { ShareModule } from '../share';
-import { swellServiceInitializerFactory } from "./services/x-swell.service";
-
 
 const CORE_PROVIDERS = [
   AppState,
@@ -32,6 +32,7 @@ const CORE_PROVIDERS = [
   SessionService,
   ObjectService,
   EditorService,
+  CommentService,
   {
     provide: APP_INITIALIZER,
     useFactory: swellServiceInitializerFactory,
