@@ -91,19 +91,17 @@ export class CommentService {
         SwellService.getSdk().Editor.AnnotationRegistry.define('comment', 'comment', {});
         SwellService.getSdk().Editor.AnnotationRegistry.setHandler('comment',
             (type, annot, event) => {
-
-                console.log('Comment event (' + type + ') '+ annot.name + ', ' + annot.value);
-                /*
+                // TODO(Pablo) Keep this log to look into annotation events mess!!!
+                console.log('Comment event (' + type + ') ' + annot.name + ', ' + annot.value);
                 if (swell.Annotation.EVENT_REMOVED === type) {
-                    if (annot.value.indexOf(this.selectedCommentId) >= 0) {
-                        if (!this.selectedComment.isResolved) {
-                            this.setResolved(this.selectedCommentId);
-                        }
-                        this.clearSelectedComment();
-                    }
 
+                    if (annot.value.indexOf(this.selectedCommentId) >= 0) {
+                        if (this.selectedComment.isResolved) {
+                            this.clearSelectedComment();
+                        }
+
+                    }
                 }
-                */
             });
     }
 
@@ -141,7 +139,7 @@ export class CommentService {
                     } else {
                         // Annotation exists but comment is resolved...
                         // mmmm this shouldn't happen
-                        this.deleteAnnotationsOfComment(comment);
+                        this.deleteAnnotationsOfComment(comment.commentId);
                     }
                 }
             }
@@ -261,20 +259,16 @@ export class CommentService {
     }
 
     public resolve(commentId: string, user: any) {
-        if (user && user.profile &&
-            user.profile.name === this.comments
-                .get(commentId).user.profile.name) {
-            this.setResolved(commentId);
-            this.deleteAnnotationsOfComment(commentId);
-            this.clearSelectedComment();
-        }
+        this.setResolved(commentId);
+        this.deleteAnnotationsOfComment(commentId);
+        this.clearSelectedComment();
     }
 
     private clearSelectedComment() {
+        this.highlight(false);
         this.selectedCommentId = undefined;
         this.selectedComment = undefined;
         this.notifyCurrentCommentChange();
-        this.highlight(false);
     }
 
     private setSelectedComment(selectedCommentId: string, selectedComment: any) {
@@ -309,10 +303,10 @@ export class CommentService {
         };
     }
 
-    private deleteAnnotationsOfComment(comment) {
+    private deleteAnnotationsOfComment(commentId) {
         this.editor.clearTextAnnotationOverlap(
             'comment',
-            comment.commentId,
+            commentId,
             swell.Editor.Range.ALL);
     }
 
@@ -325,8 +319,6 @@ export class CommentService {
         }
 
         if (activate) {
-            // TODO(Pablo) not working!!!! sólo funciona si el comentario está recién creado!
-            // quizás necesita depurar swellrt, pero esto antes funcionaba
             let containerRange
                 = CommentService.getCommentContainerRange(
                     this.editor, this.selectedCommentId, swell.Editor.Range.ALL);
