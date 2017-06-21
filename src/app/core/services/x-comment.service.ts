@@ -131,6 +131,7 @@ export class CommentService {
         if (selection && selection.range) {
             let ants = editor.getAnnotation([CommentService.ANNOTATION_KEY], range);
             if (ants && ants.comment) {
+                // TODO look up all the ants.comment.value to find out if remove needed
                 let commentKey = ants.comment.value.split(',').pop();
                 let comment = this.comments.get(commentKey);
                 if (comment) {
@@ -141,6 +142,10 @@ export class CommentService {
                         // mmmm this shouldn't happen
                         this.deleteAnnotationsOfComment(comment.commentId);
                     }
+                } else if (commentKey) {
+                    // Annotation exists but comment is not in document object...
+                    // mmmm this shouldn't happen
+                    this.deleteAnnotationsOfComment(commentKey);
                 }
             }
         }
