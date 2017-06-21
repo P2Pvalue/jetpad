@@ -14,7 +14,7 @@
 
   <!-- Paragraph type -->
   <div class="input-select simple-select">
-    <select class="form-control"
+    <select class="form-control" data-toggle="tooltip" data-placement="top" title="Font Type"
       [ngModel]="styles && styles.header ? styles.header.value : defaultHeading"
       (ngModelChange)="setStyle('header', $event)" >
       <option value="">Normal text</option>
@@ -30,7 +30,7 @@
 
   <!--Font Family -->
   <div class="input-select simple-select visible-xs visible-sm visible-md visible-lg">
-    <select
+    <select data-placement="top" title="Font Family"
         class="form-control"
         (focus)="loadFonts = true"
         [ngModel]="styles && styles.fontFamily ? styles.fontFamily.value : defaultFontFamily.css"
@@ -44,7 +44,7 @@
 
   <!-- Font size -->
   <div class="input-select simple-select">
-    <select
+    <select data-placement="top" title="Font Size"
       class="form-control"
       [ngModel]="styles && styles.fontSize ? styles.fontSize.value : defaultFontSize"
       (ngModelChange)="setStyle('fontSize', $event)">
@@ -58,25 +58,25 @@
   <!-- Font style -->
   <div class="btn-group" role="group">
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Bold"
       (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
       [class.active]="checkStyle(STYLE_FONT_WEIGHT, fontWeightBold)">
       <i class="material-icons">format_bold</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Italic"
       (click)="toggleStyle(STYLE_FONT_STYLE, fontStyleItalic)"
       [class.active]="checkStyle(STYLE_FONT_STYLE, fontStyleItalic)">
       <i class="material-icons">format_italic</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Underline"
       (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationUnderline)"
       [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationUnderline)">
       <i class="material-icons">format_underlined</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Strike"
       (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationStrike)"
       [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationStrike)">
       <i class="material-icons">strikethrough_s</i>
@@ -109,31 +109,32 @@
 -->
 
   <button class="btn dropdown-toggle visible-sm visible-xs" type="button"
+          data-placement="top" title="More"
           id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     <i class="material-icons">more_horiz</i>
   </button>
 
   <!-- text position -->
   <div class="btn-group visible-md visible-lg" role="group">
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Left"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignLeft)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignLeft)">
       <i class="material-icons">format_align_left</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Center"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignCenter)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignCenter)">
       <i class="material-icons">format_align_center</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Right"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignRight)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignRight)">
       <i class="material-icons">format_align_right</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Justify"
       (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignJustify)"
       [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignJustify)">
       <i class="material-icons">format_align_justify</i>
@@ -145,13 +146,13 @@
 
   <!-- lists -->
   <div class="btn-group visible-md visible-lg" role="group">
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="List"
       (click)="toggleStyleMultiple(STYLE_LIST, listUnordered)"
       [class.active]="checkStyle(STYLE_LIST, listUnordered)">
       <i class="material-icons">format_list_bulleted</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Numbers"
       (click)="toggleStyleMultiple(STYLE_LIST, listDecimal)"
       [class.active]="checkStyle(STYLE_LIST, listDecimal)">
       <i class="material-icons">format_list_numbered</i>
@@ -163,12 +164,12 @@
   <!-- indent -->
   <div class="btn-group visible-md visible-lg">
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Indent left"
       (click)="setStyle(STYLE_INDENT, 'outdent')">
       <i class="material-icons">format_indent_decrease</i>
     </button>
 
-    <button type="button" class="btn btn-default"
+    <button type="button" class="btn btn-default" data-placement="top" title="Indent right"
       (click)="setStyle(STYLE_INDENT, 'indent')">
       <i class="material-icons">format_indent_increase</i>
     </button>
@@ -178,7 +179,7 @@
 
   <!-- Add link -->
   <div class="btn-group visible-md visible-lg">
-    <button type="button" class="btn" (click)="editLink()">
+    <button type="button" class="btn" (click)="editLink()" data-placement="top" title="Link">
       <i class="material-icons">insert_link</i>
     </button>
   </div>
@@ -209,25 +210,25 @@
 
       <div class="btn-group visible-xs" role="group">
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Bold"
                 (click)="toggleStyle(STYLE_FONT_WEIGHT, fontWeightBold)"
                 [class.active]="checkStyle(STYLE_FONT_WEIGHT, fontWeightBold)">
           <i class="material-icons">format_bold</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Italic"
                 (click)="toggleStyle(STYLE_FONT_STYLE, fontStyleItalic)"
                 [class.active]="checkStyle(STYLE_FONT_STYLE, fontStyleItalic)">
           <i class="material-icons">format_italic</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Underline"
                 (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationUnderline)"
                 [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationUnderline)">
           <i class="material-icons">format_underlined</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Strike"
                 (click)="toggleStyleMultiple(STYLE_TEXT_DECORATION, textDecorationStrike)"
                 [class.active]="checkStyle(STYLE_TEXT_DECORATION, textDecorationStrike)">
           <i class="material-icons">strikethrough_s</i>
@@ -258,25 +259,25 @@
 
       <!-- text position -->
       <div class="btn-group visible-xs visible-sm" role="group">
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Left"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignLeft)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignLeft)">
           <i class="material-icons">format_align_left</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Center"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignCenter)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignCenter)">
           <i class="material-icons">format_align_center</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Right"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignRight)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignRight)">
           <i class="material-icons">format_align_right</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Justify"
                 (click)="toggleStyleMultiple(STYLE_TEXT_ALIGN ,textAlignJustify)"
                 [class.active]="checkStyle(STYLE_TEXT_ALIGN, textAlignJustify)">
           <i class="material-icons">format_align_justify</i>
@@ -288,13 +289,13 @@
 
       <!-- lists -->
       <div class="btn-group visible-xs visible-sm" role="group">
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="List"
                 (click)="toggleStyleMultiple(STYLE_LIST, listUnordered)"
                 [class.active]="checkStyle(STYLE_LIST, listUnordered)">
           <i class="material-icons">format_list_bulleted</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Numbers"
                 (click)="toggleStyleMultiple(STYLE_LIST, listDecimal)"
                 [class.active]="checkStyle(STYLE_LIST, listDecimal)">
           <i class="material-icons">format_list_numbered</i>
@@ -306,12 +307,12 @@
       <!-- indent -->
       <div class="btn-group visible-xs visible-sm">
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Indent left"
                 (click)="setStyle(STYLE_INDENT, 'outdent')">
           <i class="material-icons">format_indent_decrease</i>
         </button>
 
-        <button type="button" class="btn btn-default"
+        <button type="button" class="btn btn-default" data-placement="top" title="Indent right"
                 (click)="setStyle(STYLE_INDENT, 'indent')">
           <i class="material-icons">format_indent_increase</i>
         </button>
@@ -321,7 +322,7 @@
 
       <!-- Add link -->
       <div class="btn-group visible-xs visible-sm visible-md">
-        <button type="button" class="btn" (click)="editLink()">
+        <button type="button" class="btn" (click)="editLink()" data-placement="top" title="Link">
           <i class="material-icons">insert_link</i>
         </button>
       </div>
