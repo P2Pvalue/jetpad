@@ -226,26 +226,38 @@ export class CommentService {
 
     public next() {
         let keys = this.comments.keys();
-        let currentComment = keys.indexOf(this.selectedCommentId);
-        if (currentComment < keys.length - 1) {
-            this.selectedCommentId = keys[currentComment + 1];
-            this.selectedComment = this.comments.get(this.selectedCommentId);
-            this.notifyCurrentCommentChange();
-            this.highlight(true);
+        if (keys.length >  0) {
+            let currentComment = keys.indexOf(this.selectedCommentId);
+            if (currentComment < keys.length - 1) {
+                this.selectedCommentId = keys[currentComment + 1];
+                this.selectedComment = this.comments.get(this.selectedCommentId);
+                this.notifyCurrentCommentChange();
+                this.highlight(true);
+            } else {
+                this.selectedCommentId = keys[0];
+                this.selectedComment = this.comments.get(this.selectedCommentId);
+                this.notifyCurrentCommentChange();
+                this.highlight(true);
+            }
         }
     }
 
     public prev() {
-
         let keys = this.comments.keys();
-        let currentComment = keys.indexOf(this.selectedCommentId);
-        if (currentComment > 0) {
-            this.selectedCommentId = keys[currentComment - 1];
-            this.selectedComment = this.comments.get(this.selectedCommentId);
-            this.notifyCurrentCommentChange();
-            this.highlight(true);
+        if (keys.length > 0) {
+            let currentComment = keys.indexOf(this.selectedCommentId);
+            if (currentComment > 0) {
+                this.selectedCommentId = keys[currentComment - 1];
+                this.selectedComment = this.comments.get(this.selectedCommentId);
+                this.notifyCurrentCommentChange();
+                this.highlight(true);
+            } else {
+                this.selectedCommentId = keys[keys.length - 1];
+                this.selectedComment = this.comments.get(this.selectedCommentId);
+                this.notifyCurrentCommentChange();
+                this.highlight(true);
+            }
         }
-
     }
 
     public resolve(commentId: string, user: any) {
