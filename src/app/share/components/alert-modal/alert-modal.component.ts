@@ -4,13 +4,14 @@ import { Component, OnInit } from '@angular/core';
 declare let window: any;
 
 @Component({
-  selector: "alert-modal",
+  selector: 'alert-modal',
   template: `
     <div class="modal show">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCancel()">×</button>
+            <button type="button" class="close" data-dismiss="modal" 
+                aria-hidden="true" (click)="onCancel()">×</button>
             <h3 class="modal-title">
               Warning
             </h3>
@@ -25,34 +26,35 @@ declare let window: any;
       </div>
     </div>
     `,
-styles:[]
+styles: []
 })
 
 @Modal()
 export class AlertModalComponent implements OnInit {
 
-  private currentState: string = 'inactive';
-  message: string;
-  ok: Function;
+    public message: string;
+    public ok: Function;
 
-  // ?
-  destroy: Function;
-  closeModal: Function;
+    // ?
+    public destroy: Function;
+    public closeModal: Function;
 
-  ngOnInit(): void {
-    this.currentState = 'active';
-  }
+    private currentState: string = 'inactive';
 
-  onCancel(): void {
-    this.onOk();
-  }
+    public ngOnInit(): void {
+        this.currentState = 'active';
+    }
 
-  onOk(): void{
-    this.currentState = 'inactive';
-    setTimeout(() => {
-      this.closeModal();
-    }, 150);
-    this.ok();
-  }
+    public onCancel(): void {
+        this.onOk();
+    }
+
+    public onOk(): void {
+        this.currentState = 'inactive';
+        setTimeout(() => {
+            this.closeModal();
+        }, 150);
+        this.ok();
+    }
 
 }

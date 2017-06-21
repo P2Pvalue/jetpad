@@ -29,12 +29,11 @@ import { ShareModule } from './share';
 import { SiteModule } from './site';
 import { EditorModule } from './editor';
 
-import { App } from './app.component';
+import { AppComponent } from './app.component';
 import { AppState, InternalStateType } from './app.service';
 
 /** Playground component for refactoring process  */
 import  { CheckComponent } from './check.component';
-
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -49,9 +48,9 @@ type StoreType = {
 };
 
 @NgModule({
-  bootstrap: [ App ],
+  bootstrap: [ AppComponent ],
   declarations: [
-    App,
+    AppComponent,
     CheckComponent
   ],
   imports: [ // import Angular's modules

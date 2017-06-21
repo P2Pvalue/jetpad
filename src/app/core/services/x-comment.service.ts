@@ -218,7 +218,8 @@ export class CommentService {
             this.comments.get(commentId),
             {replies: this.comments.get(commentId)
                 .replies.filter((r) =>
-                reply.author.profile.address !== r.author.profile.address || reply.date !== r.date)});
+                    reply.author.profile.address !== r.author.profile.address
+                    || reply.date !== r.date)});
         this.comments.put(commentId, newObject);
         this.notifyCurrentCommentChange();
     }

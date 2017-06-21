@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { ReplaySubject, Observable } from 'rxjs';
 import { SessionStatus, SessionState, Session } from '../model';
 import { SwellService } from '.';
-
-declare const swell: any;
 
 /**
  * Wrap swellrt's current user session
@@ -15,7 +13,7 @@ export class SessionService {
      * Allow lazy subscription to the session subject.
      * Emits events when a session is started or stopped.
      */
-    public subject: ReplaySubject<SessionStatus> = new ReplaySubject(1);
+    public subject: ReplaySubject<any> = new ReplaySubject(null);
 
     /** The active session. */
     private session: Session;
@@ -51,7 +49,7 @@ export class SessionService {
                             })
                             .catch(() => {
                                 service.login({
-                                    id: swell.Constants.ANONYMOUS_USER_ID,
+                                    id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
                                     password: ''
                                 }).then( (s) => {
                                     that.setSession(s);

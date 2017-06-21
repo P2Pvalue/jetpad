@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'link-modal',
@@ -11,7 +11,8 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
               <div class="modal-body">
                 <div class="form-group">
                   <label for="name" class="control-label">Text</label>
-                  <input type="text" [(ngModel)]="link.text" class="form-control" id="text" required>
+                  <input type="text" [(ngModel)]="link.text" 
+                    class="form-control" id="text" required>
                 </div>
                 <div class="form-group">
                   <label for="linkurl" class="control-label">URL</label>
@@ -27,7 +28,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
           </div><!-- /.modal-dialog -->
 
   `,
-  styles:[`
+  styles: [`
     .link-modal {
       width: 330px;
       position: absolute;
@@ -37,27 +38,23 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   `]
 })
 
-export class LinkModalComponent implements OnInit {
+export class LinkModalComponent {
 
-  @Input() link: any;
-  @Input() visible: boolean;
+    @Input() public link: any;
+    @Input() public visible: boolean;
 
-  @Input() at: any;
+    @Input() public at: any;
 
-  @Output() modalEvent: EventEmitter<any> = new EventEmitter();
+    @Output() public modalEvent: EventEmitter<any> = new EventEmitter();
 
-  text: string;
-  url: string;
+    public text: string;
+    public url: string;
 
-  ngOnInit() {
-  }
+    public doOk() {
+        this.modalEvent.emit(this.link);
+    }
 
-  doOk() {
-    this.modalEvent.emit(this.link);
-  }
-
-  doCancel() {
-    this.modalEvent.emit();
-  }
-
+    public doCancel() {
+        this.modalEvent.emit();
+    }
 }

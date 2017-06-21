@@ -1,7 +1,6 @@
-
 import { Injectable, } from '@angular/core';
 import { SwellService } from '.';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { SessionService } from './x-session.service';
 
 /**
@@ -9,6 +8,8 @@ import { SessionService } from './x-session.service';
  */
 @Injectable()
 export class ObjectService {
+
+    public lastDocument: BehaviorSubject<any> = new BehaviorSubject(null);
 
     constructor(private swell: SwellService, private session: SessionService) {    }
 
@@ -29,6 +30,7 @@ export class ObjectService {
                             if (service) {
                                 service.open({id: objectid})
                                     .then( (object) => {
+                                        that.lastDocument.next(object);
                                         observer.next(object);
                                         observer.complete();
                                     })

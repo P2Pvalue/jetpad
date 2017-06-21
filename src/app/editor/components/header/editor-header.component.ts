@@ -36,7 +36,6 @@ export class EditorHeaderComponent {
   }
 
   public updateTitle(title) {
-      console.log(title)
       this.titleChange = title.value;
       title.style.width = ((title.value.length) * 8) + 'px';
   }

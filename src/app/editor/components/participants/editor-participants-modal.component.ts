@@ -1,14 +1,15 @@
 import { Modal } from '../../../core/services';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: "participants-modal",
+  selector: 'participants-modal',
   template: `
     <div class="modal show">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCancel()">×</button>
+            <button type="button" class="close" data-dismiss="modal" 
+                aria-hidden="true" (click)="onCancel()">×</button>
             <h3 class="modal-title">
               Contributors
             </h3>
@@ -26,14 +27,14 @@ import { Component, OnInit } from '@angular/core';
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary"  (click)="onOk()">Close</button>
+            <button type="button" class="btn btn-primary" 
+                (click)="onOk()">Close</button>
           </div>
         </div>
       </div>
     </div>
     `,
-styles:[`
-
+styles: [`
     .modal-content {
       height: inherit;
     }
@@ -48,31 +49,27 @@ styles:[`
 })
 
 @Modal()
-export class EditorParticipantsModalComponent implements OnInit {
+export class EditorParticipantsModalComponent {
 
-  // data
-  participantsRecent: Array<any>;
-  participantsPast: Array<any>;
-  me: any;
+    // data
+    public participantsRecent: any[];
+    public participantsPast: any[];
+    public me: any;
 
-  ok: Function;
+    public ok: Function;
 
-  destroy: Function;
-  closeModal: Function;
+    public destroy: Function;
+    public closeModal: Function;
 
-  ngOnInit(): void {
+    public onCancel(): void {
+        this.onOk();
+    }
 
-  }
-
-  onCancel(): void {
-    this.onOk();
-  }
-
-  onOk(): void{
-    setTimeout(() => {
-      this.closeModal();
-    }, 150);
-    this.ok();
-  }
+    public onOk(): void {
+        setTimeout(() => {
+            this.closeModal();
+        }, 150);
+        this.ok();
+    }
 
 }

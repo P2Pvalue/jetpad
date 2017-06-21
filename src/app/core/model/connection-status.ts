@@ -1,4 +1,3 @@
-
 import { SException } from '.';
 
 export interface ConnectionStatus {

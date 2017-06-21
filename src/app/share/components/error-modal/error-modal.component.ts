@@ -4,14 +4,15 @@ import { Component, OnInit } from '@angular/core';
 declare let window: any;
 
 @Component({
-  selector: "severe-error-modal",
+  selector: 'severe-error-modal',
   template: `
     <div class="modal show">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <!--
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCancel()">×</button>
+            <button type="button" class="close" data-dismiss="modal" 
+            aria-hidden="true" (click)="onCancel()">×</button>
             -->
             <h3 class="modal-title">Something is wrong here...</h3>
           </div>
@@ -20,42 +21,43 @@ declare let window: any;
             <p>The error prevents JetPad from working. Please reload the page!</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onCancel()">Cancel</button>
-            <button type="button" class="btn btn-primary"  (click)="onOk()">Reload</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" 
+                (click)="onCancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="onOk()">Reload</button>
           </div>
         </div>
       </div>
     </div>
     `,
-styles:[]
+styles: []
 })
 
 @Modal()
 export class ErrorModalComponent implements OnInit {
 
-  private currentState: string = 'inactive';
-  message: string;
-  ok: Function;
+    public message: string;
+    public ok: Function;
 
-  // ?
-  destroy: Function;
-  closeModal: Function;
+    // ?
+    public destroy: Function;
+    public closeModal: Function;
 
-  ngOnInit(): void {
-    this.currentState = 'active';
-  }
+    private currentState: string = 'inactive';
 
-  onCancel(): void {
-    this.currentState = 'inactive';
-    setTimeout(() => {
-      this.closeModal();
-    }, 150);
-    this.ok();
-  }
+    public ngOnInit(): void {
+        this.currentState = 'active';
+    }
 
-  onOk(): void{
-    this.currentState = 'inactive';
-    window.location.reload();
-  }
+    public onCancel(): void {
+        this.currentState = 'inactive';
+        setTimeout(() => {
+            this.closeModal();
+        }, 150);
+        this.ok();
+    }
 
+    public onOk(): void {
+        this.currentState = 'inactive';
+        window.location.reload();
+    }
 }
