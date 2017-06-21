@@ -298,7 +298,6 @@ export class EditorService {
             },
 
             onUpdated: (profile) => {
-                console.log('updated profile');
                 notifyParticipants();
             },
 

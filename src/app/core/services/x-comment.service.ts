@@ -97,22 +97,6 @@ export class CommentService {
                     // TODO(Pablo) check if the removed annotation is the current selected
                 }
             });
-
-        // TODO(Pablo) this is not necessary, please remove
-        SwellService.getSdk().Editor.AnnotationRegistry.setHandler('@mark',
-            (type, annot, event) => {
-                if (swell.Annotation.EVENT_ADDED === type) {
-                    console.log('highlight added');
-                }
-                if (swell.Annotation.EVENT_REMOVED === type) {
-                    console.log('highlight removed');
-                }
-                if (swell.Annotation.EVENT_MOUSE === type
-                    && event.type === 'mousedown') {
-                    console.log('highlight mouse click');
-                    console.log(event);
-                }
-            });
     }
 
     public initDocument(editor: any, document: any, user: any) {
