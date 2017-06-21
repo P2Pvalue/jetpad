@@ -86,16 +86,24 @@ export class CommentService {
 
     /** Call this method before Editor.createXXX()  */
     public initAnnotation() {
+        console.log('Init Comment Annotations');
         SwellService.getSdk().Editor.AnnotationRegistry.define('@mark', 'mark', {});
         SwellService.getSdk().Editor.AnnotationRegistry.define('comment', 'comment', {});
         SwellService.getSdk().Editor.AnnotationRegistry.setHandler('comment',
             (type, annot, event) => {
-                if (swell.Annotation.EVENT_ADDED === type) {
-                    // TODO(Pablo) nothing to do
-                }
+
+                console.log('Comment event (' + type + ') '+ annot.name + ', ' + annot.value);
+                /*
                 if (swell.Annotation.EVENT_REMOVED === type) {
-                    // TODO(Pablo) check if the removed annotation is the current selected
+                    if (annot.value.indexOf(this.selectedCommentId) >= 0) {
+                        if (!this.selectedComment.isResolved) {
+                            this.setResolved(this.selectedCommentId);
+                        }
+                        this.clearSelectedComment();
+                    }
+
                 }
+                */
             });
     }
 
@@ -127,11 +135,14 @@ export class CommentService {
             if (ants && ants.comment) {
                 let commentKey = ants.comment.value.split(',').pop();
                 let comment = this.comments.get(commentKey);
-                if (comment && !comment.isResolved) {
-                    this.selectedCommentId = commentKey;
-                    this.selectedComment = comment;
-                    this.notifyCurrentCommentChange();
-                    this.highlight(true);
+                if (comment) {
+                    if (!comment.isResolved) {
+                        this.setSelectedComment(commentKey, comment);
+                    } else {
+                        // Annotation exists but comment is resolved...
+                        // mmmm this shouldn't happen
+                        this.deleteAnnotationsOfComment(comment);
+                    }
                 }
             }
         }
@@ -147,9 +158,7 @@ export class CommentService {
     public createComment(range: any, commentText: string, user: any) {
 
         // clear comments panels
-        this.selectedComment = undefined;
-        this.selectedCommentId = undefined;
-        this.notifyCurrentCommentChange();
+        this.clearSelectedComment();
 
         // generate id
         let timestamp = (new Date()).getTime();
@@ -177,10 +186,7 @@ export class CommentService {
         };
 
         this.comments.put(id, comment);
-        this.selectedCommentId = id;
-        this.selectedComment =  this.comments.get(id);
-        this.notifyCurrentCommentChange();
-        this.highlight(true);
+        this.setSelectedComment(id, this.comments.get(id));
         return comment;
     }
 
@@ -209,37 +215,47 @@ export class CommentService {
     }
 
     public next() {
-        let keys = this.comments.keys();
+        let allkeys = this.comments.keys();
+        let keys = [];
+        // Filter out resolved comments
+        allkeys.forEach((k) => {
+            if (!this.comments.get(k).isResolved) {
+                keys.push(k);
+            }
+        });
         if (keys.length >  0) {
             let currentComment = keys.indexOf(this.selectedCommentId);
             if (currentComment < keys.length - 1) {
-                this.selectedCommentId = keys[currentComment + 1];
-                this.selectedComment = this.comments.get(this.selectedCommentId);
-                this.notifyCurrentCommentChange();
-                this.highlight(true);
+                this.setSelectedComment(
+                    keys[currentComment + 1],
+                    this.comments.get(this.selectedCommentId));
             } else {
-                this.selectedCommentId = keys[0];
-                this.selectedComment = this.comments.get(this.selectedCommentId);
-                this.notifyCurrentCommentChange();
-                this.highlight(true);
+                this.setSelectedComment(
+                    this.selectedCommentId = keys[0],
+                    this.comments.get(this.selectedCommentId));
             }
         }
     }
 
     public prev() {
-        let keys = this.comments.keys();
+        let allkeys = this.comments.keys();
+        let keys = [];
+        // Filter out resolved comments
+        allkeys.forEach((k) => {
+            if (!this.comments.get(k).isResolved) {
+                keys.push(k);
+            }
+        });
         if (keys.length > 0) {
             let currentComment = keys.indexOf(this.selectedCommentId);
             if (currentComment > 0) {
-                this.selectedCommentId = keys[currentComment - 1];
-                this.selectedComment = this.comments.get(this.selectedCommentId);
-                this.notifyCurrentCommentChange();
-                this.highlight(true);
+                this.setSelectedComment(
+                    keys[currentComment - 1],
+                    this.comments.get(this.selectedCommentId));
             } else {
-                this.selectedCommentId = keys[keys.length - 1];
-                this.selectedComment = this.comments.get(this.selectedCommentId);
-                this.notifyCurrentCommentChange();
-                this.highlight(true);
+                this.setSelectedComment(
+                 keys[keys.length - 1],
+                 this.comments.get(this.selectedCommentId));
             }
         }
     }
@@ -250,7 +266,22 @@ export class CommentService {
                 .get(commentId).user.profile.name) {
             this.setResolved(commentId);
             this.deleteAnnotationsOfComment(commentId);
+            this.clearSelectedComment();
         }
+    }
+
+    private clearSelectedComment() {
+        this.selectedCommentId = undefined;
+        this.selectedComment = undefined;
+        this.notifyCurrentCommentChange();
+        this.highlight(false);
+    }
+
+    private setSelectedComment(selectedCommentId: string, selectedComment: any) {
+        this.selectedCommentId = selectedCommentId;
+        this.selectedComment = selectedComment;
+        this.notifyCurrentCommentChange();
+        this.highlight(true);
     }
 
     /**
@@ -279,18 +310,10 @@ export class CommentService {
     }
 
     private deleteAnnotationsOfComment(comment) {
-        let commentAnnotations = this.editor.seekTextAnnotations('comment',
-            this.swellService.getSdk().Editor.Range.ALL)['comment'];
-        commentAnnotations.forEach((item) => {
-            let keys = item.value.split(',');
-            let stop = false;
-            keys.forEach((key) => {
-                if (!stop && comment === key)  {
-                    item.clear();
-                    stop = true;
-                }
-            });
-        });
+        this.editor.clearTextAnnotationOverlap(
+            'comment',
+            comment.commentId,
+            swell.Editor.Range.ALL);
     }
 
     /** Turn Highglight annotation on/off for the current selected comment  */
@@ -306,11 +329,11 @@ export class CommentService {
             // quizás necesita depurar swellrt, pero esto antes funcionaba
             let containerRange
                 = CommentService.getCommentContainerRange(
-                    this.editor, this.selectedCommentId, this.selectedComment.range);
+                    this.editor, this.selectedCommentId, swell.Editor.Range.ALL);
             this.selectedCommentHighlightAnnotation =
                this.editor.setAnnotation(
                    '@mark',
-                    this.selectedCommentId,
+                    '' + (new Date()).getTime(),
                     containerRange);
         }
     }
