@@ -226,11 +226,9 @@ export class CommentService {
             if (currentComment < keys.length - 1) {
                 this.setSelectedComment(
                     keys[currentComment + 1],
-                    this.comments.get(this.selectedCommentId));
+                    this.comments.get(keys[currentComment + 1]));
             } else {
-                this.setSelectedComment(
-                    this.selectedCommentId = keys[0],
-                    this.comments.get(this.selectedCommentId));
+                this.setSelectedComment(keys[0], this.comments.get(keys[0]));
             }
         }
     }
@@ -249,11 +247,11 @@ export class CommentService {
             if (currentComment > 0) {
                 this.setSelectedComment(
                     keys[currentComment - 1],
-                    this.comments.get(this.selectedCommentId));
+                    this.comments.get(keys[currentComment - 1]));
             } else {
                 this.setSelectedComment(
                  keys[keys.length - 1],
-                 this.comments.get(this.selectedCommentId));
+                 this.comments.get(keys[keys.length - 1]));
             }
         }
     }
