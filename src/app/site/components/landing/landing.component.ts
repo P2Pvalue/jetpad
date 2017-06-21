@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {Router} from "@angular/router";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jp-landing',
@@ -7,10 +7,12 @@ import {Router} from "@angular/router";
 })
 
 export class LandingComponent {
+    public documentId;
+
   constructor(private router: Router) {
   }
 
-  openDocument(_id: string) {
+  public openDocument(_id: string) {
     if (_id) {
       // [$&+,:;=?@#|'<>.-^*()%!]" -> regexp special chars
       // remove all special chars of URIs and regexp
@@ -21,9 +23,9 @@ export class LandingComponent {
         s.replace(pattern, s) == "ABCDEFGHIJKLMNOPQRSUVWXYZA"
       */
 
-      let pattern = /[\:/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\"\|\<\>\-\^\%\.]/g
-      _id = _id.replace(pattern, "");
-      _id = _id.split(" ").join("-").substr(0, 64).toLowerCase();
+      let pattern = /[\:/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\"\|\<\>\-\^\%\.]/g;
+      _id = _id.replace(pattern, '');
+      _id = _id.split(' ').join('-').substr(0, 64).toLowerCase();
       let link = ['edit', _id];
       this.router.navigate(link);
     }

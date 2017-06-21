@@ -1,22 +1,26 @@
-import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'selection-menu',
   template: `
 
-      <div class="selection-menu form-group" [style.top.px]="at.y - 40 - 10" [style.left.px]="at.x - 14">
+      <div class="selection-menu form-group" [style.top.px]="at.y - 40 - 10"
+        [style.left.px]="at.x - 14">
 
         <div class="input-group">
           <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini" (click)="actionEvent.emit('link')">
+            <button type="button" class="btn btn-fab btn-fab-mini"
+                (click)="actionEvent.emit('link')">
               <i class="material-icons">insert_link</i>
             </button>
 
-            <button type="button" class="btn btn-fab btn-fab-mini" (click)="actionEvent.emit('bookmark')">
+            <button type="button" class="btn btn-fab btn-fab-mini"
+                (click)="actionEvent.emit('bookmark')">
               <i class="material-icons">bookmark</i>
             </button>
 
-            <button type="button" class="btn btn-fab btn-fab-mini" (click)="actionEvent.emit('comment')">
+            <button type="button" class="btn btn-fab btn-fab-mini"
+                (click)="actionEvent.emit('comment')">
               <i class="material-icons">mode_comment</i>
             </button>
           </span>
@@ -24,7 +28,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 
       </div>
   `,
-  styles:[`
+  styles: [`
     .selection-menu {
       position: absolute;
       z-index: 400;
@@ -50,14 +54,10 @@ import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
   `]
 })
 
-export class SelectionMenuComponent implements OnInit {
+export class SelectionMenuComponent {
 
-  @Input() at: any;
+  @Input() public at: any;
 
-  @Output() actionEvent: EventEmitter<any> = new EventEmitter();
-
-  ngOnInit() {
-
-  }
+  @Output() public actionEvent: EventEmitter<any> = new EventEmitter();
 
 }

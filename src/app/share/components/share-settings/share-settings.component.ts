@@ -1,18 +1,20 @@
-import {Component, ElementRef, ViewChild, Renderer, Inject} from '@angular/core';
-import { UserService,DocumentService } from "../../../core/services";
-import {Router} from "@angular/router";
-
+import { Component, ElementRef, ViewChild, Renderer, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService, DocumentService } from '../../../core/services';
 
 @Component({
     selector: 'share-settings',
     template: `
-        <button #shareSettingsButton [disabled]="!documentUrl" class="btn btn-primary btn-with-icon" (click)="shareSettings.open()">
+        <button #shareSettingsButton [disabled]="!documentUrl" 
+            class="btn btn-primary btn-with-icon" (click)="shareSettings.open()">
           <i class="icon icon-lock icon-middle"></i>Share
         </button>
         <modal #shareSettings>
           <modal-header>
-            <h4 *ngIf="currentDocument && currentDocument.properties.created">New public document</h4>
-            <h4 *ngIf="currentDocument && !currentDocument.properties.created">Share settings</h4>
+            <h4 *ngIf="currentDocument && currentDocument.properties.created">
+                New public document</h4>
+            <h4 *ngIf="currentDocument && !currentDocument.properties.created">
+                Share settings</h4>
           </modal-header>
           <modal-content>
             <div *ngIf="currentDocument && currentDocument.properties.created">
@@ -34,18 +36,22 @@ import {Router} from "@angular/router";
             [google]="false"
             [stumbleUpOn]="false"></share-buttons>
             <br>
-            <div class="col-xs-12 no-padding" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
+            <div class="col-xs-12 no-padding" 
+                *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
               <div class="col-xs-4 no-padding">
                 <h5 class="muted">Public document: </h5>
               </div>
               <div class="col-xs-8 no-padding">
                 <div class="switch">
-                  <ui-switch size="small" [(ngModel)]="publicDocument" (change)="changeDocumentVisibility()"></ui-switch>
+                  <ui-switch size="small" [(ngModel)]="publicDocument" 
+                    (change)="changeDocumentVisibility()"></ui-switch>
                 </div>
               </div>
             </div>
-            <div class="participants-container col-xs-12" *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
-              <div *ngFor="let participant of participants; let first = first" class="col-xs-12 participant">
+            <div class="participants-container col-xs-12" 
+                *ngIf="currentUser && !currentUser.anonymous && !anonymousDocument">
+              <div *ngFor="let participant of participants; let first = first" 
+                class="col-xs-12 participant">
                  <div class="icon col-xs-1 no-padding">
                   <app-user-icon [participantSession]="participant"></app-user-icon>
                  </div>
@@ -56,7 +62,8 @@ import {Router} from "@angular/router";
                     Participant
                  </div>
                  <div *ngIf="!first" class="remove-participant-icon col-xs-1 no-padding">
-                  <i (click)="deleteParticipant(participant.id)" class="icon icon-close icon-middle cursor-pointer"></i>
+                  <i (click)="deleteParticipant(participant.id)" 
+                    class="icon icon-close icon-middle cursor-pointer"></i>
                  </div>
               </div>
               <div class="col-xs-12 no-padding mar-top-30">
@@ -69,112 +76,126 @@ import {Router} from "@angular/router";
           <!-- Not Logged In user -->
             <!-- TODO: Today, all documents created by an anonymous user are public forever
             <div  *ngIf="currentDocument && currentDocument.properties.created">
-              <h5 class="muted">If you want to make private this document you must <a (click)="goToAuthenticationScreen()">login</a> or <a (click)="goToAuthenticationScreen()">register</a>.</h5>
+              <h5 class="muted">If you want to make private this document you must
+               <a (click)="goToAuthenticationScreen()">login</a> or
+                <a (click)="goToAuthenticationScreen()">register</a>.</h5>
             </div>
             -->
-            <div *ngIf="currentUser && currentUser.anonymous && !anonymousDocument && publicDocument">
-              <h5 class="muted">If you want to make private this document you must login or register.</h5>
-              <button class="btn btn-primary btn-icon" (click)="goToAuthenticationScreen()"><i class="icon icon-lock"></i>login</button>
-              <button class="btn btn-primary btn-icon" (click)="goToAuthenticationScreen()"><i class="icon icon-user"></i>register</button>
+            <div *ngIf="currentUser && currentUser.anonymous && 
+                !anonymousDocument && publicDocument">
+              <h5 class="muted">
+                If you want to make private this document you must login or register.</h5>
+              <button class="btn btn-primary btn-icon" (click)="goToAuthenticationScreen()">
+                <i class="icon icon-lock"></i>login</button>
+              <button class="btn btn-primary btn-icon" (click)="goToAuthenticationScreen()">
+                <i class="icon icon-user"></i>register</button>
             </div>
-            <button *ngIf="(currentUser && !currentUser.anonymous) || anonymousDocument || !publicDocument" class="btn btn-primary" (click)="updateDocumentProperties(); shareSettings.close()">READY!</button>
+            <button 
+                *ngIf="(currentUser && !currentUser.anonymous) || 
+                        anonymousDocument || !publicDocument" 
+                class="btn btn-primary" 
+                (click)="updateDocumentProperties(); shareSettings.close()">
+                    READY!
+            </button>
           </modal-footer>
         </modal>
         `
-  })
+})
 
 export class ShareSettingsComponent {
 
-  // The logged in user
-  currentUser: any;
-  currentDocument: any;
-  documentId: any;
-  documentUrl: any;
-  documentName: any;
-  publicDocument: any;
-  anonymousDocument = true;
-  participants = [];
-  usersInvited: string;
-  updateParticipants = true;
+    // The logged in user
+    public currentUser: any;
+    public currentDocument: any;
+    public documentId: any;
+    public documentUrl: any;
+    public documentName: any;
+    public publicDocument: any;
+    public anonymousDocument = true;
+    public participants = [];
+    public usersInvited: string;
+    public updateParticipants = true;
 
-  @ViewChild('shareSettingsButton') shareSettingsButton: ElementRef;
+    @ViewChild('shareSettingsButton') public shareSettingsButton: ElementRef;
 
-  constructor(private documentService: DocumentService, private userService: UserService,
-              private renderer: Renderer, private router: Router,
-              @Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string) {
-    this.currentUser = userService.getUser();
-    documentService.currentDocument.subscribe(document => {
-      this.documentUrl = this.documentService.getDocumentUrl(document.id());
-      this.documentName = this.documentService.getEditorId(document.id());
-      this.currentDocument = document;
-      this.publicDocument = this.documentService.publicDocument();
-      this.anonymousDocument = this.documentService.anonymousDocument();
+    constructor(private userService: UserService,
+                private documentService: DocumentService,
+                private renderer: Renderer, private router: Router,
+                @Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string) {
+        this.currentUser = userService.getUser();
+        this.userService.getLastDocument().subscribe((document) => {
+            this.documentUrl = this.documentService.getDocumentUrl(document.id());
+            this.documentName = this.documentService.getEditorId(document.id());
+            this.currentDocument = document;
+            this.publicDocument = this.documentService.publicDocument();
+            this.anonymousDocument = this.documentService.anonymousDocument();
 
-      if(this.currentUser && !this.currentUser.anonymous) {
-        var participantEmails = this.currentDocument.getParticipants();
-        userService.getUserProfiles(participantEmails).then(users => {
-            this.setNames(users);
-            this.participants = users;
-        });
-        documentService.myDocuments.subscribe(myDocument => {
-            if(myDocument.editorId === this.documentName) {
-              if(this.updateParticipants) {
-                this.participants = myDocument.participants.slice();
-                this.participants.unshift(myDocument.author);
-                this.setNames(this.participants);
-              } else {
-                this.updateParticipants = true;
-              }
+            if (this.currentUser && !this.currentUser.anonymous) {
+                let participantEmails = this.currentDocument.getParticipants();
+                userService.getUserProfiles(participantEmails).then((users) => {
+                    this.setNames(users);
+                    this.participants = users;
+                });
+                documentService.myDocuments.subscribe((myDocument) => {
+                    if (myDocument.editorId === this.documentName) {
+                        if (this.updateParticipants) {
+                            this.participants = myDocument.participants.slice();
+                            this.participants.unshift(myDocument.author);
+                            this.setNames(this.participants);
+                        } else {
+                            this.updateParticipants = true;
+                        }
+                    }
+                });
+            }
+            if (this.currentDocument.properties.created) {
+                setTimeout(() => {
+                    this.renderer.invokeElementMethod(
+                        this.shareSettingsButton.nativeElement, 'click', []);
+                }, 0);
             }
         });
-      }
-      if(this.currentDocument.properties.created) {
-        setTimeout(() => {
-          this.renderer.invokeElementMethod(this.shareSettingsButton.nativeElement, 'click', []);
-        }, 0);
-      }
-    });
-  }
-
-  changeDocumentVisibility() {
-    if(this.publicDocument) {
-      this.documentService.makeDocumentPrivate();
-    } else {
-      this.documentService.makeDocumentPublic();
     }
-    this.publicDocument = this.publicDocument ? false : true;
-  }
 
-  goToAuthenticationScreen() {
-    this.router.navigate(['authentication']);
-  }
-
-  updateDocumentProperties() {
-    this.currentDocument.properties.created = false;
-    if(this.usersInvited) {
-      this.usersInvited.split(",").forEach(user => {
-        let userWithDomain = user.trim();
-        if(!userWithDomain.endsWith("@" + this.SWELLRT_DOMAIN)) {
-          userWithDomain = userWithDomain.concat("@" + this.SWELLRT_DOMAIN);
+    public changeDocumentVisibility() {
+        if (this.publicDocument) {
+            this.documentService.makeDocumentPrivate();
+        } else {
+            this.documentService.makeDocumentPublic();
         }
-        this.documentService.addParticipant(userWithDomain);
-      });
-      this.usersInvited = '';
+        this.publicDocument = this.publicDocument ? false : true;
     }
-  }
 
-  deleteParticipant(id) {
-    this.updateParticipants = false;
-    this.documentService.removeParticipant(id);
-    this.participants =  this.participants.filter(function(participant) {
-      return participant.id !== id;
-    });
-  }
+    public goToAuthenticationScreen() {
+        this.router.navigate(['authentication']);
+    }
 
-  setNames(users) {
-    users.forEach(function (user) {
-      user.name = user.name ? user.name : user.id.slice(0, user.id.indexOf('@'))
-    });
-  }
+    public updateDocumentProperties() {
+        this.currentDocument.properties.created = false;
+        if (this.usersInvited) {
+            this.usersInvited.split(',').forEach((user) => {
+                let userWithDomain = user.trim();
+                if (!userWithDomain.endsWith('@' + this.SWELLRT_DOMAIN)) {
+                    userWithDomain = userWithDomain.concat('@' + this.SWELLRT_DOMAIN);
+                }
+                this.documentService.addParticipant(userWithDomain);
+            });
+            this.usersInvited = '';
+        }
+    }
+
+    public deleteParticipant(id) {
+        this.updateParticipants = false;
+        this.documentService.removeParticipant(id);
+        this.participants = this.participants.filter((participant) => {
+            return participant.id !== id;
+        });
+    }
+
+    public setNames(users) {
+        users.forEach((user) => {
+            user.name = user.name ? user.name : user.id.slice(0, user.id.indexOf('@'))   ;
+        });
+    }
 
 }

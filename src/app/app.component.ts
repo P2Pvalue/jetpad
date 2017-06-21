@@ -1,8 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { SwellService, SessionService } from './core/services';
-
-
-declare let swellrt: any;
+import { SessionService } from './core/services';
 
 @Component({
   selector: 'app',
@@ -19,7 +16,7 @@ declare let swellrt: any;
   `
 })
 
-export class App implements OnInit {
+export class AppComponent implements OnInit {
 
   constructor(private sessionSrv: SessionService) {
   }

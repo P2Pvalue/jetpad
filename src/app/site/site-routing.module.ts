@@ -5,11 +5,10 @@ import { SiteComponent } from './site.component';
 import { LandingComponent } from './components/landing';
 import { LoginComponent } from './components/login';
 import { RegisterComponent } from './components/register';
-import { ProfileComponent } from './components/profile'
+import { ProfileComponent } from './components/profile';
 import { TermsComponent } from './components/terms';
-import { VisionComponent} from './components/vision';
+import { VisionComponent } from './components/vision';
 import { UnauthorizedComponent } from './components/unauthorized';
-import { NoContent } from './components/no-content';
 
 import { LoggedUserGuard } from '../core/guards';
 
@@ -52,7 +51,7 @@ const siteRoutes: Routes = [
 
       {
         path: '**',
-        component: NoContent
+        component: NoContentComponent
       }*/
     ]
 

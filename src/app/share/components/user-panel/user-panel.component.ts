@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { UserService } from "../../../core/services";
-import {Router} from "@angular/router";
+import { UserService } from '../../../core/services';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-user-panel',
@@ -49,15 +49,15 @@ import {Router} from "@angular/router";
 
 export class UserPanelComponent {
 
-  currentUser: any;
+  public currentUser: any;
 
   constructor(private userService: UserService, private router: Router) {
-    userService.currentUser.subscribe(user => {
+    userService.currentUser.subscribe((user) => {
       this.currentUser = user;
     });
   }
 
-  logout() {
+  public logout() {
     this.userService.logout();
     this.router.navigate(['./']);
   }

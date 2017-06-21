@@ -1,4 +1,4 @@
- import { Component, Input, Output, EventEmitter } from "@angular/core";
+ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'jp-editor-canvas',
@@ -6,11 +6,11 @@
 })
 
 export class EditorCanvasComponent  {
-  @Input() private showCover: boolean = false;
+  @Input() public showCover: boolean = false;
   @Output() private coverEvent: EventEmitter<any> = new EventEmitter();
 
-  private onClick(e) {
+  public onClick(e) {
     this.showCover = false;
-    this.coverEvent.emit("click");
+    this.coverEvent.emit('click');
   }
 }

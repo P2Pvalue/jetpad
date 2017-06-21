@@ -2,11 +2,9 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
-declare let window: any;
-
 @Component({
-  selector: 'jp-editor-toolbar',
-  templateUrl: 'editor-toolbar.component.html',
+    selector: 'jp-editor-toolbar',
+    templateUrl: 'editor-toolbar.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -34,34 +32,35 @@ export class EditorToolbarComponent {
         this.STYLE_FONT_WEIGHT, this.STYLE_FONT_STYLE, this.STYLE_TEXT_DECORATION,
         this.STYLE_VERTICAL_ALIGN, this.STYLE_COLOR, this.STYLE_BG_COLOR,
         this.STYLE_TEXT_ALIGN, this.STYLE_LIST
-      ];
+    ];
 
-  // Put here all constant and default values
-  // instead of hardcoding them in the template
+    public loadFonts: boolean = false;
+    // Put here all constant and default values
+    // instead of hardcoding them in the template
 
-  public readonly defaultHeading = '';
+    public readonly defaultHeading = '';
 
-  public readonly defaultFontFamily = {
+    public readonly defaultFontFamily = {
         name: 'Serif',
         css: 'Georgia, serif'
-      };
+    };
 
-  public readonly fontFamilies = [
-    {
-      name: 'Serif',
-      css: 'Georgia, serif'
-    },
-    {
-      name: 'Sans',
-      css: '"Open Sans", sans-serif'
-    },
-    {
-      name: 'Monospace',
-      css: '"Roboto Mono", monospace'
-    }
-  ];
+    public readonly fontFamilies = [
+        {
+            name: 'Serif',
+            css: 'Georgia, serif'
+        },
+        {
+            name: 'Sans',
+            css: '"Open Sans", sans-serif'
+        },
+        {
+            name: 'Monospace',
+            css: '"Roboto Mono", monospace'
+        }
+    ];
 
-  // TODO to consider screen size, density... to set this and default size
+    // TODO to consider screen size, density... to set this and default size
     public readonly defaultFontSize = '16px';
     public readonly fontSizes = [10, 12, 14, 16, 18, 20, 22, 24, 28, 30, 32, 34, 36];
 
@@ -79,40 +78,39 @@ export class EditorToolbarComponent {
     public readonly listDecimal = 'decimal';
     public readonly listUnordered = 'unordered';
 
-
-  public setStyle(style: string, value: any) {
-    this.styleEvent.emit({ name: style, value });
-  }
-
-  public toggleStyle(style, enableValue) {
-    if (!this.styles[style]) {
-      this.setStyle(style, enableValue);
-    } else {
-      this.setStyle(style, '');
+    public setStyle(style: string, value: any) {
+        this.styleEvent.emit({name: style, value});
     }
-  }
 
-  public toggleStyleMultiple(style, currentValue) {
-    if (this.styles[style] &&
-        this.styles[style].value === currentValue) {
-      this.setStyle(style, '');
-    } else {
-      this.setStyle(style, currentValue);
+    public toggleStyle(style, enableValue) {
+        if (!this.styles[style]) {
+            this.setStyle(style, enableValue);
+        } else {
+            this.setStyle(style, '');
+        }
     }
-  }
+
+    public toggleStyleMultiple(style, currentValue) {
+        if (this.styles[style] &&
+            this.styles[style].value === currentValue) {
+            this.setStyle(style, '');
+        } else {
+            this.setStyle(style, currentValue);
+        }
+    }
 
     public checkStyle(style, value) {
         return this.styles[style] && (this.styles[style].value === value);
     }
 
-  public editLink() {
-    this.linkEvent.emit();
-  }
-
-  public clearStyle() {
-    for (let i = 0; i < this.CLEARABLE_STYLES.length; i++) {
-      this.styleEvent.emit({ name: this.CLEARABLE_STYLES[i], value: null });
+    public editLink() {
+        this.linkEvent.emit();
     }
-  }
+
+    public clearStyle() {
+        this.CLEARABLE_STYLES.forEach((style) => {
+            this.styleEvent.emit({name: style, value: null});
+        });
+    }
 
 }

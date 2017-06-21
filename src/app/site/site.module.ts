@@ -12,7 +12,7 @@ import { ProfileComponent } from './components/profile';
 import { TermsComponent } from './components/terms';
 import { VisionComponent } from './components/vision';
 import { UnauthorizedComponent } from './components/unauthorized';
-import { NoContent } from './components/no-content';
+import { NoContentComponent } from './components/no-content';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { NoContent } from './components/no-content';
     TermsComponent,
     VisionComponent,
     UnauthorizedComponent,
-    NoContent
+    NoContentComponent
   ],
   imports: [
     SiteRoutingModule,

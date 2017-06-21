@@ -42,6 +42,7 @@
     "no-use-before-declare": true,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
+    "max-classes-per-file": [true, 5],
     "quotemark": [
       true,
       "single",

@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-import { UserService } from "../../../core/services/user.service";
-
+import { Component } from '@angular/core';
+import { UserService } from '../../../core/services';
 
 @Component({
     selector: 'jp-register',
@@ -8,17 +7,23 @@ import { UserService } from "../../../core/services/user.service";
       <form (ngSubmit)="register()">
         <div class="form-group">
           <label class="sr-only" for="registerMailInput">Mail</label>
-          <input class="form-control" id="registerMailInput" name="email" type="email" placeholder="Mail" [(ngModel)]="mailInput">
+          <input class="form-control" id="registerMailInput" 
+            name="email" type="email" placeholder="Mail" [(ngModel)]="mailInput">
         </div>
         <div class="form-group">
           <label class="sr-only" for="registerNameInput">Username</label>
-          <input class="form-control" id="registerNameInput" name="name" placeholder="Username" [(ngModel)]="nameInput">
+          <input class="form-control" id="registerNameInput" 
+            name="name" placeholder="Username" [(ngModel)]="nameInput">
         </div>
         <div class="form-group">
           <label class="sr-only" for="registerPasswordInput">Password</label>
-          <input class="form-control" id="registerPasswordInput" name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
+          <input class="form-control" id="registerPasswordInput" 
+            name="password" type="password" placeholder="Password" [(ngModel)]="passwordInput">
         </div> 
-        <button [disabled]="!acceptTermsInput" class="btn btn-primary btn-lg btn-block mar-top-20">Register</button>
+        <button [disabled]="!acceptTermsInput" 
+            class="btn btn-primary btn-lg btn-block mar-top-20">
+            Register
+        </button>
          
         <div class="checkbox text-center">
           <label>
@@ -35,13 +40,13 @@ import { UserService } from "../../../core/services/user.service";
 export class RegisterComponent {
 
   // Form fields
-  nameInput: string;
-  passwordInput: string;
-  mailInput: string;
-  acceptTermsInput: boolean = false;
+  public nameInput: string;
+    public passwordInput: string;
+    public mailInput: string;
+    public acceptTermsInput: boolean = false;
   constructor(private userService: UserService) {}
 
-  register() {
-    this.userService.create(this.nameInput, this.passwordInput, this.mailInput);
-  }
+    public register() {
+        this.userService.create(this.nameInput, this.passwordInput, this.mailInput);
+    }
 }

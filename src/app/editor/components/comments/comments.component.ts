@@ -1,9 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Comment } from '../../../core/model/comment';
 
-declare let window: any;
-declare let swellrt: any;
-
 @Component({
     selector: 'jp-editor-comments',
     templateUrl: './comments.component.html'

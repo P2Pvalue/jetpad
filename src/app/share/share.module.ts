@@ -15,6 +15,7 @@ import {
   UserPanelComponent,
   ErrorModalComponent,
   AlertModalComponent } from './components';
+import { AutofocusDirective } from './directives/autofocus.directive';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import {
     UserIconComponent,
     UserPanelComponent,
     ErrorModalComponent,
-    AlertModalComponent
+    AlertModalComponent,
+      AutofocusDirective
   ],
   exports: [
     OrderPipe,
@@ -47,7 +49,8 @@ import {
     BrowserModule,
     HttpModule,
     ModalModule,
-    ClipboardModule
+    ClipboardModule,
+      AutofocusDirective
   ]
 })
 

@@ -13,7 +13,7 @@
 
     <div class="form-group reply">
       <label class="control-label" for="commentText">Comment:</label>
-      <textarea #commentText id="commentText" class="form-control" rows="4"></textarea>
+      <textarea #commentText id="commentText" class="form-control" rows="4" myAutofocus></textarea>
       <div style="text-align: center" class="actions">
         <a href="javascript:void(0)" class="btn btn-default" (click)="cancel()">Cancel</a>
         <a href="javascript:void(0)" class="btn btn-primary" (click)="create(commentText)">Add</a>
@@ -36,7 +36,8 @@
         </span>
     </div>
 
-    <div *ngIf="!comment.isResolved && me.session.profile.address == comment.user.profile.address" class="actions text-center">
+    <div *ngIf="!comment.isResolved" class="actions text-center">
+      <a href="javascript:void(0)" style="margin-right:1em;">Reply</a>
       <a href="javascript:void(0)" (click)="resolve()">Mark as resolved</a>
     </div>
 
@@ -58,7 +59,7 @@
           <div class="row-content" [style.border-left-color]="getParticipantColor(item.author)">
             <div *ngIf="item.author.profile.address == me.profile.address" (click)="deleteReply(item)" class="least-content"><i class="material-icons">delete</i></div>
             <p class="list-group-item-heading">{{item.author.profile.name}}</p>
-            <p class="list-group-item-text">{{item.date | moment}}</p>
+            <p class="list-group-item-text">{{item.date | myMoment}}</p>
           </div>
 
         </div>

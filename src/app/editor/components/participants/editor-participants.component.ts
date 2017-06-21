@@ -21,7 +21,7 @@ export class EditorParticipantsComponent {
     public showEditNameForm: boolean = false;
     public showParticipantsPastList: boolean = false;
 
-    private diffHighlight: boolean = false;
+    public diffHighlight: boolean = false;
 
     public displayEditNameForm(display) {
         if (display) {
@@ -42,15 +42,15 @@ export class EditorParticipantsComponent {
         }
     }
 
-    private isNotRegistered(profile) {
+    public isNotRegistered(profile) {
             return profile.anonymous && profile.name !== 'Anonymous';
     }
 
-    private toggleParticipantPastList() {
-    this.showParticipantsPastList = !this.showParticipantsPastList;
+    public toggleParticipantPastList() {
+        this.showParticipantsPastList = !this.showParticipantsPastList;
     }
 
-    private switchDiffHighlight() {
+    public switchDiffHighlight() {
         this.diffHighlight = !this.diffHighlight;
         this.diffHighlightEvent.emit(this.diffHighlight);
     }

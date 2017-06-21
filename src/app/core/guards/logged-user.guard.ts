@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
-import {CanActivate, Router} from '@angular/router';
-import {UserService} from "../services";
+import { CanActivate, Router } from '@angular/router';
+import { SessionService } from '../services/x-session.service';
 
 @Injectable()
 export class LoggedUserGuard implements CanActivate {
 
-  constructor(private userService: UserService, private router: Router) {}
+    private user: any;
+  constructor(private sessionService: SessionService, private router: Router) {}
 
-  canActivate() {
-    if(this.userService.getUser() !== undefined) {
-      return new Promise<any>(resolve => resolve(this.checkLoggedUser(this.userService.getUser())));
-    } else {
-      return this.userService.getSession().then(user => this.checkLoggedUser(user));
-    }
+  public canActivate() {
+    let p = new Promise<any>((resolve) => resolve(this.checkLoggedUser(this.user)));
+    this.sessionService.subject.subscribe((user) => {
+        this.user = user;
+        return p;
+    });
+    return p;
   }
 
-  checkLoggedUser(user) {
+  public checkLoggedUser(user) {
     if (!user.anonymous) { return true; }
     this.router.navigate(['/authentication']);
     return false;
