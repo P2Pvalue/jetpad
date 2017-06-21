@@ -215,6 +215,10 @@ export class EditorService {
     public deleteReplyComment(commentId, reply) {
         this.commentService.deleteReply(commentId, reply);
     }
+
+    public setVisibleContextMenu(visible) {
+        this.visibleContextMenu$.next(visible);
+    }
     // Toolbar
     private initAnnotation() {
         SwellService.getSdk().Editor.AnnotationRegistry.setHandler('header',

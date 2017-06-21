@@ -365,10 +365,12 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         if ('link' === action) {
             this.showModalLink();
+            this.editorService.setVisibleContextMenu(false);
         }
 
         if ('bookmark' === action) {
             this.showModalAlert('Bookmarks will be available very soon.');
+            this.editorService.setVisibleContextMenu(false);
         }
 
         if ('comment' === action) {
@@ -455,6 +457,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             this.newCommentSelection.text = text;
             this.commentsAction = 'new';
             this.rightPanelContent = 'comments';
+            this.editorService.setVisibleContextMenu(false);
         }
     }
 

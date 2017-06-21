@@ -13,7 +13,7 @@
 
     <div class="form-group reply">
       <label class="control-label" for="commentText">Comment:</label>
-      <textarea #commentText id="commentText" class="form-control" rows="4" autofocus></textarea>
+      <textarea #commentText id="commentText" class="form-control" rows="4" myAutofocus></textarea>
       <div style="text-align: center" class="actions">
         <a href="javascript:void(0)" class="btn btn-default" (click)="cancel()">Cancel</a>
         <a href="javascript:void(0)" class="btn btn-primary" (click)="create(commentText)">Add</a>
@@ -69,7 +69,7 @@
 
       <div *ngIf="!comment.isResolved" class="form-group reply">
         <label class="control-label" for="replyText">Reply:</label>
-        <textarea #replyText id="replyText" class="form-control" rows="4" autofocus></textarea>
+        <textarea #replyText id="replyText" class="form-control" rows="4" myAutofocus></textarea>
         <div style="text-align: center">
           <a [href]="getAnchorHref('comments')"class="btn btn-default btn-sm" (click)="cancelReply(replyText)">Cancel</a>
           <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="reply(replyText)">Reply</a>
