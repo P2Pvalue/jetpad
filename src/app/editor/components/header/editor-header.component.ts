@@ -22,6 +22,29 @@ export class EditorHeaderComponent {
   @Input() public comment: any;
   @Input() public commentSelection: any;
 
+  @Input() public newTitle: any;
+
   @Output() public menuActionEvent: EventEmitter<any> = new EventEmitter();
   @Output() public changeTitle: EventEmitter<any> = new EventEmitter();
+
+  public editing = false;
+
+  private titleChange = '';
+
+  public toggleTitle() {
+    this.editing = !this.editing;
+  }
+
+  public updateTitle(title) {
+      console.log(title)
+      this.titleChange = title.value;
+      title.style.width = ((title.value.length) * 8) + 'px';
+  }
+
+  public changeTitleClick() {
+      if (this.titleChange && this.titleChange.length > 0) {
+          this.changeTitle.emit(this.titleChange);
+          this.toggleTitle();
+      }
+  }
 }

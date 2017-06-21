@@ -37,7 +37,7 @@
 
       .share {
         float: right;
-        width: 20%;
+        //width: 20%;
         color: white;
         font-size: 16px;
         font-weight: bold;
@@ -84,6 +84,7 @@
       text-overflow: ellipsis;
       display: inline-block;;
       max-width: 90%;
+      margin-top: 3px;
     }
 
     .online-status {
@@ -101,10 +102,34 @@
 
       .navbar-brand {
         width: 100%;
-        display: inline-block;
+        display: flex;
 
         padding-right: 0px;
-        padding-top: 16px;
+        padding-top: 10px;
+        .actions{
+          display: flex;
+          input{
+            float:left;
+            background: none;
+            border-top:none;
+            border-right: none;
+            border-left: none;
+            border-bottom: white dashed 1px;
+            color: white;
+            font-size: 20px;
+            min-width: 110%;
+          }
+          button.btn-xs{
+            &.edit{
+              color: white;
+            }
+            margin-top: -5px;
+            padding: 9px;
+            margin-bottom: -5px;
+            margin-left: 5px;
+            font-weight: bold;
+          }
+        }
       }
 
       .material-icons {

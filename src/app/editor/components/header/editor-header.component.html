@@ -8,28 +8,36 @@
 
     </div>
 
-    <div class="col-xs-6 col-sm-8 col-md-6 main-col">
+    <div class="col-xs-8 col-sm-8 col-md-8 main-col">
       <div class="navbar-header">
         <span class="navbar-brand">
 
-          <span class="title-text" *ngIf="status == 'CONNECTED'">
-            {{title}}
-          </span>
+              <span class="title-text" *ngIf="!editing">
+                {{title}}
+              </span>
 
-          <span *ngIf="status == 'DISCONNECTED' || status == 'CONNECTING' || status == 'TURBULENCE'"
-            class="label label-warning">Disconnected (trying to reconnect...)</span>
+              <span *ngIf="status == 'DISCONNECTED' || status == 'CONNECTING' || status == 'TURBULENCE'"
+                class="label label-warning">Disconnected (trying to reconnect...)</span>
 
-          <span *ngIf="status == 'ERROR'"
-            class="label label-default">Disconnected (Unable to reconnect)</span>
+              <span *ngIf="status == 'ERROR'"
+                class="label label-default">Disconnected (Unable to reconnect)</span>
 
-          <input #newTitle type="text">
-          <button (click)="changeTitle.emit(newTitle.value)">Change title</button>
+            <div [hidden]="status != 'CONNECTED'" class="actions visible-md-block visible-lg-block">
+                <button data-placement="top" title="Change the document title" *ngIf="!editing" class="btn btn-xs edit"
+                            (click)="toggleTitle()"><i class="material-icons">mode_edit</i></button>
+                <input #newTitle type="text" data-placement="top" *ngIf="editing" value="{{title}}" (keyup)="updateTitle(newTitle)"
+                     title="Change the document title">
+                <button data-placement="top" title="Change the document title" *ngIf="editing"
+                        (click)="changeTitleClick()" class="btn btn-success btn-xs"><i class="material-icons">done</i></button>
+                <button data-placement="top" title="Change the document title" *ngIf="editing"
+                        (click)="toggleTitle()" class="btn btn-default btn-xs"><i class="material-icons">clear</i></button>
+            </div>
         </span>
 
       </div>
     </div>
 
-    <div class="col-xs-6 col-sm-4 col-md-4 right-col">
+    <div class="col-xs-4 col-sm-4 col-md-2 right-col">
       <div class="navbar-col-right">
 
 
@@ -50,7 +58,8 @@
 
 
         <div class="share hidden-xs">
-          <a href="javascript:void(0)" class="" (click)="menuActionEvent.emit({  event: 'share'  });" >Share</a>
+          <a href="javascript:void(0)" class="" data-placement="top" title="Share the document with your partners"
+             (click)="menuActionEvent.emit({  event: 'share'  });" >Share</a>
         </div>
 
 
