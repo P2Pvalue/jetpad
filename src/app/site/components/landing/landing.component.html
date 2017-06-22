@@ -2,28 +2,39 @@
 
   <div class="row top-bar">
 
-    <div class="col-xs-offset-1 col-xs-2 col-md-offset-2 col-md-2 logo">
+    <div class="col-xs-2 col-md-offset-2 col-md-2 logo">
       <img alt="Jetpad" height=40 src="assets/img/jetpad-logo.png">
     </div>
 
-    <div class="col-xs-8 col-md-6 menu">
+    <div class="col-xs-3 col-md-4 menu">
 
 
       <div class="pull-right">
-        <button class="btn btn-link">
-          <a href="https://github.com/P2Pvalue/jetpad" target="_blank">
-            GitHub
-          </a>
-        </button>
-        <button class="btn btn-link">
-          <a href="https://twitter.com/getjetpad" target="_blank">
-          Twitter
-          </a>
-        </button>
+
       </div>
     </div>
 
-    <div class="col-xs-1 col-md-2 menu">
+    <div class="col-xs-7 col-md-4 menu">
+        <button class="btn btn-link" *ngIf="!user">
+            <a routerLink="/login">
+                Login
+            </a>
+        </button>
+        <button class="btn btn-link" *ngIf="!user">
+            <a routerLink="/register">
+                Register
+            </a>
+        </button>
+        <button class="btn btn-link" *ngIf="user">
+            <a routerLink="/profile">
+                Profile
+            </a>
+        </button>
+        <button class="btn btn-link" *ngIf="user">
+            <a routerLink="/logout">
+                Logout
+            </a>
+        </button>
     </div>
 
 
@@ -31,7 +42,7 @@
 
 
   <div class="row claim">
-    <div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8 text-center">
+    <div class="col-xs-12 col-md-offset-2 col-md-8 text-center">
       <div class="claim-text">
         <h1 class="hidden-xs">
           <span class="dark-bg">Online open source text editor</span>
@@ -49,31 +60,58 @@
   <div class="row claim-input">
     <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6 text-center">
 
-      <form class="panel panel-default claim-input" (ngSubmit)="openDocument(documentId);" #documentIdForm="ngForm">
+      <form [formGroup]="landingForm"
+            (ngSubmit)="openDocument(landingForm.get('documentId').value)"
+            class="panel panel-default claim-input">
         <div class="panel-body">
-
             <div class="form-group label-placeholder is-empty">
                 <div class="input-group">
                   <label for="documentIdInput" class="control-label">Document name</label>
-                  <input [(ngModel)]="documentId" name="documentId" required #documentIdInput  id="documentIdInput" class="form-control" type="text">
+                  <input formControlName="documentId" id="documentIdInput" class="form-control" type="text">
                   <span class="input-group-btn">
-                    <button class="btn btn-raised btn-danger hidden-xs" [disabled]="!documentIdForm.form.valid">Open/Create</button>
+                    <button type="submit" class="btn btn-raised btn-danger hidden-xs"
+                            [ngClass]="{'disabled': landingForm.status == 'INVALID'}">Open/Create</button>
                   </span>
+
                 </div>
             </div>
 
-            <button class="btn btn-raised btn-danger visible-xs-inline-block center-block" [disabled]="!documentIdForm.form.valid">Open/Create</button>
+            <button type="submit" class="btn btn-raised btn-danger visible-xs-inline-block center-block"
+                    [ngClass]="{'disabled': landingForm.invalid}">Open/Create</button>
+
         </div>
       </form>
 
     </div>
   </div>
 
+    <div class="row claim hidden-xs">
+        <div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8 text-center">
+            <div class="claim-text">
+                <h4>
+                    <span class="dark-bg">It is not necessary to be logged in. Save the link to retrieve the document</span>
+                </h4>
+            </div>
+        </div>
+    </div>
+
 
   <div class="row">
     <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8 footer">
       <p>Copyright Pablo Ojanguren, Alejandro Garrido, David Llop and University Complutense of Madrid.</p>
-      <p>Source code licensed under <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank">AGPL v3</a>. Documentation licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0.</a></p>
+      <p>Source code licensed under <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank">AGPL v3</a>.
+          Documentation licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0.</a></p>
+
+        <button class="btn btn-link">
+            <a href="https://github.com/P2Pvalue/jetpad" target="_blank">
+                GitHub
+            </a>
+        </button>
+        <button class="btn btn-link">
+            <a href="https://twitter.com/getjetpad" target="_blank">
+                Twitter
+            </a>
+        </button>
     </div>
   </div>
 

@@ -1,9 +1,10 @@
-import { Component, ElementRef, ViewChild, Renderer } from '@angular/core';
-import { UserService } from '../../../core/services';
+import { Component, ElementRef, ViewChild, Renderer, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { SessionService, UserService } from '../../../core/services';
 
 @Component({
-  selector: 'app-profile',
-  template: `
+    selector: 'app-profile',
+    template: `
     <section class="profile">
       <div class="container-fluid">
         <div class="row">
@@ -25,7 +26,7 @@ import { UserService } from '../../../core/services';
               User information
               <hr />
             </h3>
-            <form (ngSubmit)="updateUser()">
+            <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
               <div class="form-group">
                 <label for="image_src">Photo</label>
                 <div class="media">
@@ -34,8 +35,9 @@ import { UserService } from '../../../core/services';
                     <img height="130" id="img" src="{{avatar}}" />
                   </div>
                   <div class="media-body media-middle">
-                    <input #imageInput type="file" accept="image/*" name="image_src" 
-                        id="image_src" class="input-file" (change)="changeListener($event)"/>
+                    <input #imageInput type="file" accept="image/*" formControlName="avatar"
+                        name="image_src" id="image_src" class="input-file" 
+                       (change)="changeListener($event)"/>
                     <span class="input-btn" (click)="showImageBrowseDialog()">
                       <i class="icon icon-image icon-middle"></i>Upload a file
                     </span>
@@ -44,14 +46,15 @@ import { UserService } from '../../../core/services';
               </div>
               <div class="form-group">
                 <label class="control-label" for="nameInput">Name</label>
-                <input class="form-control" id="nameInput" name="name" [(ngModel)]="name">
+                <input class="form-control" formControlName="name" id="nameInput" name="name">
               </div>
               <div class="form-group">
                 <label class="control-label" for="emailInput">
                   Email
-                  <span>(optional, you could recieved notifications about your documents)</span>
+                  <span>(optional, you could recieved 
+                  notifications about your documents)</span>
                 </label>
-                <input class="form-control" id="emailInput" name="email" [(ngModel)]="email">
+                <input class="form-control" formControlName="email" id="emailInput" name="email">
               </div>
               <div class="form-group">
                 <button class="btn btn-primary mar-top-20">Save</button>
@@ -64,21 +67,22 @@ import { UserService } from '../../../core/services';
               Change your password
               <hr />
             </h3>
-            <form style="margin-top:4em" (ngSubmit)="changePassword()">
+            <form [formGroup]="changePasswordForm" style="margin-top:4em" 
+                (ngSubmit)="changePassword()">
               <div class="form-group label-floating">
                 <label class="control-label" for="nameInput">Old Password</label>
-                <input class="form-control" id="oldPasswordInput" type="password" 
-                    name="oldPassword" [(ngModel)]="oldPassword">
+                <input class="form-control" formControlName="password" id="oldPasswordInput" 
+                    type="password" name="oldPassword">
               </div>
               <div class="form-group label-floating">
                 <label class="control-label" for="emailInput">New password</label>
-                <input class="form-control" id="newPasswordInput" type="password" 
-                    name="newPassword" [(ngModel)]="newPassword">
+                <input class="form-control" formControlName="newPassword" id="newPasswordInput" 
+                    type="password" name="newPassword">
               </div>
               <div class="form-group label-floating">
                 <label class="control-label" for="emailInput">Repeat new password</label>
-                <input class="form-control" id="repeatNewPasswordInput" type="password" 
-                    name="repeatNewPassword" [(ngModel)]="repeatNewPassword">
+                <input class="form-control" formControlName="repeatPassword" 
+                    type="password" name="repeatNewPassword"  id="repeatNewPasswordInput">
               </div>
               <button class="btn btn-primary mar-top-20">Change password</button>
             </form>
@@ -89,54 +93,71 @@ import { UserService } from '../../../core/services';
     `
 })
 
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-  @ViewChild('imageInput') public imageInput: ElementRef;
+    @ViewChild('imageInput') public imageInput: ElementRef;
 
-  public name: string;
-  public email: string;
-  public avatar: string;
-  public avatarData: any;
+    public profileForm = new FormGroup({
+        name: new FormControl(),
+        email: new FormControl(),
+        avatar: new FormControl()
+    });
 
-  public oldPassword: string;
-  public newPassword: string;
-  public repeatNewPassword: string;
+    public changePasswordForm = new FormGroup({
+        newPassword: new FormControl(),
+        repeatPassword: new FormControl(),
+        password: new FormControl()
+    });
 
-  constructor(private userService: UserService, private renderer: Renderer) {
-    this.name = userService.getUser().name;
-    this.email = userService.getUser().email;
-    this.avatar = userService.getUser().avatarUrl;
-  }
+    public name: string;
+    public email: string;
+    public avatar: string;
+    public avatarData: any;
 
-  public updateUser() {
-    this.userService.update(this.email, this.name, this.avatarData);
-    if (this.avatarData) {
-      this.avatarData = undefined;
+    public oldPassword: string;
+    public newPassword: string;
+    public repeatNewPassword: string;
+
+    constructor(private userService: UserService, private sessionService: SessionService,
+                private renderer: Renderer) {  }
+
+    public updateUser() {
+        this.userService.update(this.email, this.name, this.avatarData);
+        if (this.avatarData) {
+            this.avatarData = undefined;
+        }
     }
-  }
 
-  public changePassword() {
-    if (this.newPassword === this.repeatNewPassword) {
-      this.userService.changePassword(this.oldPassword, this.newPassword);
+    public ngOnInit () {
+        this.sessionService.subject.subscribe((user) => {
+            this.name = user.profile.name;
+            this.email = user.profile.email;
+            this.avatar = user.profile.avatar;
+        });
     }
-  }
 
-  public showImageBrowseDialog() {
-    this.renderer.invokeElementMethod(this.imageInput.nativeElement, 'click', []);
-  }
+    public changePassword() {
+        if (this.newPassword === this.repeatNewPassword) {
+            this.userService.changePassword(this.oldPassword, this.newPassword);
+        }
+    }
 
-  public changeListener($event): void {
-    this.readThis($event.target);
-  }
+    public showImageBrowseDialog() {
+        this.renderer.invokeElementMethod(this.imageInput.nativeElement, 'click', []);
+    }
 
-  public readThis(inputValue: any): void {
-    let file: File = inputValue.files[0];
-    let fileReader: FileReader = new FileReader();
-    let that = this;
-    fileReader.readAsDataURL(file);
-    fileReader.onloadend = () => {
-      that.avatarData = fileReader.result;
-      that.avatar = fileReader.result;
-    };
-  }
+    public changeListener($event): void {
+        this.readThis($event.target);
+    }
+
+    public readThis(inputValue: any): void {
+        let file: File = inputValue.files[0];
+        let fileReader: FileReader = new FileReader();
+        let that = this;
+        fileReader.readAsDataURL(file);
+        fileReader.onloadend = () => {
+            that.avatarData = fileReader.result;
+            that.avatar = fileReader.result;
+        };
+    }
 }

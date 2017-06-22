@@ -18,8 +18,15 @@ export class SessionService {
     /** The active session. */
     private session: Session;
 
-    constructor(private swell: SwellService) {
+    private swell;
+
+    constructor(private swellService: SwellService) {
         this.session = undefined;
+        this.swellService.getService().subscribe((service) => {
+            if (service) {
+                this.swell = service;
+            }
+        });
     }
 
     /**
@@ -38,7 +45,7 @@ export class SessionService {
     public startDefaultSession(): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.getService().subscribe({
+            that.swellService.getService().subscribe({
                 next: (service) => {
                     if (service) {
                         service.resume({})
@@ -68,6 +75,21 @@ export class SessionService {
         });
     }
 
+    public resumeSession(userid: string): Observable<any> {
+        let that = this;
+        return Observable.create((observer) => {
+            that.swell.resume({id: userid})
+                .then( (user) => {
+                    that.setSession(user);
+                    observer.next(user);
+                })
+                .catch( (error) => {
+                    that.setError();
+                    observer.error(error);
+                });
+        });
+    }
+
     /**
      * Start a session for a particular user.
      * Async method, use {@link subject} to get the response.
@@ -78,16 +100,16 @@ export class SessionService {
     public startSession(userid: string, pass: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.getService().subscribe((service) => {
+            that.swellService.getService().subscribe((service) => {
                 if (service) {
                     service.login({id: userid, password: pass})
                         .then( (s) => {
                             that.setSession(s);
                             observer.next(s);
                             observer.complete();
-                        }).catch( () => {
+                        }).catch( (error) => {
                         that.setNotAllowed();
-                        observer.error();
+                        observer.error(error);
                         observer.complete();
                     });
                 }
@@ -102,7 +124,7 @@ export class SessionService {
     public stopSession(): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.getService().subscribe((service) => {
+            that.swellService.getService().subscribe((service) => {
                 if (service) {
                     service.logout({})
                         .then( () => {

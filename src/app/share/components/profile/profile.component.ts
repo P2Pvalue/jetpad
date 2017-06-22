@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, Renderer, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { SessionService, UserService } from '../../../core/services';
 
 @Component({
@@ -25,7 +26,7 @@ import { SessionService, UserService } from '../../../core/services';
               User information
               <hr />
             </h3>
-            <form (ngSubmit)="updateUser()">
+            <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
               <div class="form-group">
                 <label for="image_src">Photo</label>
                 <div class="media">
@@ -34,7 +35,7 @@ import { SessionService, UserService } from '../../../core/services';
                     <img height="130" id="img" src="{{avatar}}" />
                   </div>
                   <div class="media-body media-middle">
-                    <input #imageInput type="file" accept="image/*" 
+                    <input #imageInput type="file" accept="image/*" formControlName="avatar"
                         name="image_src" id="image_src" class="input-file" 
                        (change)="changeListener($event)"/>
                     <span class="input-btn" (click)="showImageBrowseDialog()">
@@ -45,7 +46,7 @@ import { SessionService, UserService } from '../../../core/services';
               </div>
               <div class="form-group">
                 <label class="control-label" for="nameInput">Name</label>
-                <input class="form-control" id="nameInput" name="name" [(ngModel)]="name">
+                <input class="form-control" formControlName="name" id="nameInput" name="name">
               </div>
               <div class="form-group">
                 <label class="control-label" for="emailInput">
@@ -53,7 +54,7 @@ import { SessionService, UserService } from '../../../core/services';
                   <span>(optional, you could recieved 
                   notifications about your documents)</span>
                 </label>
-                <input class="form-control" id="emailInput" name="email" [(ngModel)]="email">
+                <input class="form-control" formControlName="email" id="emailInput" name="email">
               </div>
               <div class="form-group">
                 <button class="btn btn-primary mar-top-20">Save</button>
@@ -66,21 +67,22 @@ import { SessionService, UserService } from '../../../core/services';
               Change your password
               <hr />
             </h3>
-            <form style="margin-top:4em" (ngSubmit)="changePassword()">
+            <form [formGroup]="changePasswordForm" style="margin-top:4em" 
+                (ngSubmit)="changePassword()">
               <div class="form-group label-floating">
                 <label class="control-label" for="nameInput">Old Password</label>
-                <input class="form-control" id="oldPasswordInput" 
-                    type="password" name="oldPassword" [(ngModel)]="oldPassword">
+                <input class="form-control" formControlName="password" id="oldPasswordInput" 
+                    type="password" name="oldPassword">
               </div>
               <div class="form-group label-floating">
                 <label class="control-label" for="emailInput">New password</label>
-                <input class="form-control" id="newPasswordInput" 
-                    type="password" name="newPassword" [(ngModel)]="newPassword">
+                <input class="form-control" formControlName="newPassword" id="newPasswordInput" 
+                    type="password" name="newPassword">
               </div>
               <div class="form-group label-floating">
                 <label class="control-label" for="emailInput">Repeat new password</label>
-                <input class="form-control" id="repeatNewPasswordInput" 
-                    type="password" name="repeatNewPassword" [(ngModel)]="repeatNewPassword">
+                <input class="form-control" formControlName="repeatPassword" 
+                    type="password" name="repeatNewPassword"  id="repeatNewPasswordInput">
               </div>
               <button class="btn btn-primary mar-top-20">Change password</button>
             </form>
@@ -94,6 +96,18 @@ import { SessionService, UserService } from '../../../core/services';
 export class ProfileComponent implements OnInit {
 
   @ViewChild('imageInput') public imageInput: ElementRef;
+
+  public profileForm = new FormGroup({
+      name: new FormControl(),
+      email: new FormControl(),
+      avatar: new FormControl()
+  });
+
+  public changePasswordForm = new FormGroup({
+        newPassword: new FormControl(),
+        repeatPassword: new FormControl(),
+        password: new FormControl()
+  });
 
   public name: string;
     public email: string;

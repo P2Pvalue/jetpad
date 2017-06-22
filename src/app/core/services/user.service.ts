@@ -15,12 +15,21 @@ export class UserService {
 
     private user: any;
 
+    private swell: any;
+
     constructor(private sessionService: SessionService,
+                private swellService: SwellService,
                 private objectService: ObjectService,
                 @Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string,
                 @Inject('DEFAULT_USERNAME') private DEFAULT_USERNAME: string,
                 @Inject('DEFAULT_PASSWORD') private DEFAULT_PASSWORD: string,
-                @Inject('RECOVER_PASSWORD_URL') private RECOVER_PASSWORD_URL: string) {    }
+                @Inject('RECOVER_PASSWORD_URL') private RECOVER_PASSWORD_URL: string) {
+        this.swellService.getService().subscribe((service) => {
+            if (service) {
+                this.swell = service;
+            }
+        });
+    }
 
     public generateDomainId(id: string) {
         return id + '@' + this.SWELLRT_DOMAIN;
@@ -36,6 +45,10 @@ export class UserService {
 
     public getSession() {
         return this.session;
+    }
+
+    public resumeSession(id: string) {
+        return this.sessionService.resumeSession(id);
     }
 
     public resume() {
@@ -95,18 +108,19 @@ export class UserService {
     public create(id: string, password: string, email: string) {
         let user = {
             id: this.generateDomainId(id),
+            name: id,
             password,
             email
         };
         return Observable.create((observer) => {
-            SwellService.getSdk().createUser(user, (result) => {
-                if (result.error) {
-                    observer.error(result.error);
-                    observer.complete();
-                } else if (result.data) {
-                    this.sessionService.startSession(id, password)
+            this.swell.createUser(user).then((result) => {
+                if (result) {
+                    this.sessionService.startSession(result.id, password)
                         .subscribe((createdUser) => observer.next(createdUser));
                 }
+            }).catch( (error) => {
+                observer.error(error);
+                observer.complete();
             });
         });
     };

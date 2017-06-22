@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule }        from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule }         from '@angular/forms';
 import { FormsModule }         from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -16,11 +17,13 @@ import {
   ErrorModalComponent,
   AlertModalComponent } from './components';
 import { AutofocusDirective } from './directives/autofocus.directive';
+import { EqualValidatorDirective } from './directives/equal-validator.directive';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+      ReactiveFormsModule,
+      FormsModule,
     RouterModule,
     TooltipModule.forRoot()
   ],
@@ -33,7 +36,8 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     UserPanelComponent,
     ErrorModalComponent,
     AlertModalComponent,
-      AutofocusDirective
+      AutofocusDirective,
+      EqualValidatorDirective
   ],
   exports: [
     OrderPipe,
@@ -45,12 +49,14 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     ErrorModalComponent,
     AlertModalComponent,
     CommonModule,
-    FormsModule,
+      ReactiveFormsModule,
+      FormsModule,
     BrowserModule,
     HttpModule,
     ModalModule,
     ClipboardModule,
-      AutofocusDirective
+      AutofocusDirective,
+      EqualValidatorDirective
   ]
 })
 
