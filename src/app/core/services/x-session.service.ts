@@ -122,18 +122,18 @@ export class SessionService {
      * Stop the session,
      * @return Observable
      */
-    public stopSession(): Observable<any> {
+    public stopSession(userid?: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
             that.swellService.getService().subscribe((service) => {
                 if (service) {
-                    service.logout({})
+                    service.logout({userid})
                         .then( () => {
                             that.clearSession();
                             observer.complete();
-                        }).catch( () => {
+                        }).catch( (error) => {
                         that.clearSession();
-                        observer.error();
+                        observer.error(error);
                         observer.complete();
                     });
                 }

@@ -130,6 +130,7 @@ export function Modal() {
     }
     @media only screen and (min-width: 250px) {
       .jetpad-modal{
+        margin-top: 4em;
         width: 100%;
         left: 0;
         top: 200%;
@@ -138,6 +139,7 @@ export function Modal() {
     }
     @media only screen and (min-width: 600px) {
       .jetpad-modal{
+      margin-top: 4em;
         width: 80%;
         left: 10%;
         top: 200%;
@@ -147,6 +149,7 @@ export function Modal() {
     }
     @media only screen and (min-width : 1200px) {
       .jetpad-modal{
+      margin-top: 4em;
         width: 70%;
         left: 15%;
         top: 200%;

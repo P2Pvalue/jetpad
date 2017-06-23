@@ -1,4 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { UserService } from '../../../core/services/user.service';
+import { Router } from '@angular/router';
+import { AlertModalComponent } from '../../../share/components/alert-modal/alert-modal.component';
+import { SiteModule } from '../../site.module';
+import { JetpadModalService } from '../../../core/services/jetpad-modal.service';
 
 @Component({
   selector: 'jp-site-header',
@@ -37,7 +42,7 @@ import { Component, Input } from '@angular/core';
                 </li>
                 <li>
                     <button class="btn btn-link" *ngIf="user">
-                        <a routerLink="/logout">Logout</a>
+                        <a (click)="logout()">Logout</a>
                     </button>
                 </li>
             </ul>
@@ -49,5 +54,43 @@ import { Component, Input } from '@angular/core';
 export class SiteHeaderComponent {
 
   @Input() public user: any;
+  public message: string = '';
+
+    private alertModal: any;
+
+  constructor(private userService: UserService,
+              private modalService: JetpadModalService,
+              private router: Router) { }
+
+  public logout() {
+      debugger
+      this.userService.logout(this.user.id).subscribe(
+          () => console.debug('User logged out'),
+          (error) => {
+              this.message = 'Error al hacer logout';
+              this.showAlertModal();
+          });
+      this.router.navigate(['/']);
+  }
+
+    public showAlertModal() {
+        if (this.alertModal) {
+            this.alertModal.destroy();
+            this.alertModal = undefined;
+        }
+        let modal$ = this.modalService.create(SiteModule, AlertModalComponent, {
+            message: this.message,
+            ok: (event) => {
+
+                if (!event || (event && event.type === 'close')) {
+                    this.alertModal.destroy();
+                    this.alertModal = undefined;
+                }
+            }
+        });
+        modal$.subscribe((modal) => {
+            this.alertModal = modal;
+        });
+    }
 
 }

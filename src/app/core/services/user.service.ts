@@ -131,8 +131,8 @@ export class UserService {
         });
     }
 
-    public logout() {
-        return this.sessionService.stopSession();
+    public logout(userid?: string) {
+        return this.sessionService.stopSession(userid);
     }
 
     public changePassword(oldPassword: string, newPassword: string) {
