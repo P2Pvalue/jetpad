@@ -14,7 +14,10 @@ export class LoggedUserGuard implements CanActivate {
     }
 
     public canActivate() {
-        if (this.user && !this.user.session.anonymous) {
+        if (!this.user || !this.user.session) {
+            this.router.navigate(['/login']);
+            return false;
+        } else if (this.user && !this.user.session.anonymous) {
             return true;
         }
         this.router.navigate(['/login']);

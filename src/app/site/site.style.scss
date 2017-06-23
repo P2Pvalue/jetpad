@@ -1,11 +1,11 @@
-@import "components/authentication/authentication.component";
-@import "components/landing/landing.component";
-@import "components/login/login.component";
-@import "components/register/register.component";
+@import "pages/landing/landing.component";
+@import "pages/login/login.component";
+@import "pages/register/register.component";
 @import "components/site-header/site-header.component";
 @import "components/site-footer/site-footer.component";
-@import "components/profile/profile.component.scss";
+@import "pages/profile/profile.component.scss";
 
+// styles for no content page
 .no-content-panel{
   margin-top: 6em;
 }

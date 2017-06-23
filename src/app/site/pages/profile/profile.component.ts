@@ -5,7 +5,9 @@ import { SessionService, UserService } from '../../../core/services';
     selector: 'jp-profile',
     template: `
     <div class="row profile-panel container-fluid">
-        <jp-site-header></jp-site-header>
+        <jp-site-header [user]="userService.currentUser | async">
+        
+        </jp-site-header>
         <div class="row">
         <div class="col-xs-12">
                 <h2 class="text-center">My profile</h2>
@@ -40,7 +42,7 @@ export class ProfileComponent implements OnInit {
 
     public changePasswordSuccess: boolean;
 
-    constructor(private userService: UserService, private sessionService: SessionService) {  }
+    constructor(public userService: UserService, private sessionService: SessionService) {  }
 
     public ngOnInit () {
         this.changePasswordSuccess = false;

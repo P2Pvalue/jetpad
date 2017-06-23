@@ -2,16 +2,16 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SiteComponent } from './site.component';
-import { LandingComponent } from './components/landing';
-import { LoginComponent } from './components/login';
-import { RegisterComponent } from './components/register';
-import { ProfileComponent } from './components/profile';
-import { TermsComponent } from './components/terms';
-import { VisionComponent } from './components/vision';
-import { UnauthorizedComponent } from './components/unauthorized';
+import { LandingComponent } from './pages/landing';
+import { LoginComponent } from './pages/login';
+import { RegisterComponent } from './pages/register';
+import { ProfileComponent } from './pages/profile';
+import { TermsComponent } from './pages/terms';
+import { VisionComponent } from './pages/vision';
+import { UnauthorizedComponent } from './pages/unauthorized';
 
 import { LoggedUserGuard } from '../core/guards';
-import { NoContentComponent } from './components/no-content/no-content';
+import { NoContentComponent } from './pages/no-content/no-content';
 
 const siteRoutes: Routes = [
   {
