@@ -26,22 +26,32 @@ import { JetpadModalService } from '../../../core/services/jetpad-modal.service'
         <div class="collapse navbar-collapse" id="jp-menu-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <button class="btn btn-link btn-warning" *ngIf="!user">
+                    <button class="btn btn-link btn-default">
+                        <a routerLink="/">Open document</a>
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-link btn-default" *ngIf="!user">
                         <a routerLink="/login">Login</a>
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-link" *ngIf="!user">
+                    <button class="btn btn-link  btn-default" *ngIf="!user">
                         <a routerLink="/register">Register</a>
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-link" *ngIf="user">
+                    <button class="btn btn-link  btn-default" *ngIf="user">
                         <a routerLink="/profile">Profile</a>
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-link" *ngIf="user">
+                    <button class="btn btn-link  btn-default" *ngIf="user">
+                        <a routerLink="/documents">My Documents</a>
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-link  btn-default" *ngIf="user">
                         <a (click)="logout()" data-toggle="collapse" 
                             href="#jp-menu-collapse">Logout</a>
                     </button>

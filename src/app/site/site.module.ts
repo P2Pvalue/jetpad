@@ -13,25 +13,28 @@ import { TermsComponent } from './pages/terms';
 import { VisionComponent } from './pages/vision';
 import { UnauthorizedComponent } from './pages/unauthorized';
 import { NoContentComponent } from './pages/no-content';
+import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
 
 @NgModule({
-  declarations: [
-    SiteComponent,
-    SiteHeaderComponent,
-    SiteFooterComponent,
-    LandingComponent,
-    LoginComponent,
-    RegisterComponent,
-    ProfileComponent,
-    TermsComponent,
-    VisionComponent,
-    UnauthorizedComponent,
-    NoContentComponent
-  ],
-  imports: [
-    SiteRoutingModule,
-    ShareModule
-  ]
+    declarations: [
+        SiteComponent,
+        SiteHeaderComponent,
+        SiteFooterComponent,
+        LandingComponent,
+        LoginComponent,
+        RegisterComponent,
+        ProfileComponent,
+        TermsComponent,
+        VisionComponent,
+        UnauthorizedComponent,
+        MyDocumentsComponent,
+        NoContentComponent
+    ],
+    imports: [
+        SiteRoutingModule,
+        ShareModule
+    ]
 })
 
-export class SiteModule { }
+export class SiteModule {
+}

@@ -9,7 +9,7 @@ import { SessionService, UserService } from '../../../core/services';
         
         </jp-site-header>
         <div class="row">
-        <div class="col-xs-12">
+            <div class="col-xs-12">
                 <h2 class="text-center">My profile</h2>
                 <hr/>
             </div>

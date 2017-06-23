@@ -12,60 +12,67 @@ import { UnauthorizedComponent } from './pages/unauthorized';
 
 import { LoggedUserGuard } from '../core/guards';
 import { NoContentComponent } from './pages/no-content/no-content';
+import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
 
 const siteRoutes: Routes = [
-  {
-    path: '',
-    component: SiteComponent,
-    children: [
-      {
+    {
         path: '',
-        component: LandingComponent
-      },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
-      {
-        path: 'register',
-        component: RegisterComponent
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
-        canActivate: [ LoggedUserGuard ]
-      },
-      {
-        path: 'terms',
-        component: TermsComponent
-      },
+        component: SiteComponent,
+        children: [
+            {
+                path: '',
+                component: LandingComponent
+            },
+            {
+                path: 'login',
+                component: LoginComponent
+            },
+            {
+                path: 'register',
+                component: RegisterComponent
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent,
+                canActivate: [LoggedUserGuard]
+            },
+            {
+                path: 'documents',
+                component: MyDocumentsComponent,
+                canActivate: [LoggedUserGuard]
+            },
+            {
+                path: 'terms',
+                component: TermsComponent
+            },
 
-      {
-        path: 'vision',
-        component: VisionComponent
-      },
+            {
+                path: 'vision',
+                component: VisionComponent
+            },
 
-      {
-        path: 'unauthorized',
-        component: UnauthorizedComponent
-      },
+            {
+                path: 'unauthorized',
+                component: UnauthorizedComponent
+            },
 
-      {
-        path: '**',
-        component: NoContentComponent
-      }
-    ]
+            {
+                path: '**',
+                component: NoContentComponent
+            }
+        ]
 
-  }
+    }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(siteRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+    imports: [
+        RouterModule.forChild(siteRoutes)
+    ],
+    exports: [
+        RouterModule
+    ]
 })
 
-export class SiteRoutingModule { }
+export class SiteRoutingModule {
+}
