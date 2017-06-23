@@ -11,13 +11,14 @@ import { CarouselModule } from 'ng2-bootstrap/carousel';
 import { TooltipModule } from 'ng2-bootstrap/tooltip';
 import { OrderPipe, SearchPipe, MomentPipe } from './pipes';
 import {
-  ProfileComponent,
   UserIconComponent,
   UserPanelComponent,
   ErrorModalComponent,
   AlertModalComponent } from './components';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { EqualValidatorDirective } from './directives/equal-validator.directive';
+import { ChangePasswordComponent } from './components/profile/change-password.component';
+import { UserFormComponent } from './components/profile/user-form.component';
 
 @NgModule({
   imports: [
@@ -31,19 +32,19 @@ import { EqualValidatorDirective } from './directives/equal-validator.directive'
     OrderPipe,
     SearchPipe,
     MomentPipe,
-    ProfileComponent,
     UserIconComponent,
     UserPanelComponent,
     ErrorModalComponent,
     AlertModalComponent,
+      ChangePasswordComponent,
       AutofocusDirective,
-      EqualValidatorDirective
+      EqualValidatorDirective,
+      UserFormComponent
   ],
   exports: [
     OrderPipe,
     SearchPipe,
     MomentPipe,
-    ProfileComponent,
     UserIconComponent,
     UserPanelComponent,
     ErrorModalComponent,
@@ -56,7 +57,9 @@ import { EqualValidatorDirective } from './directives/equal-validator.directive'
     ModalModule,
     ClipboardModule,
       AutofocusDirective,
-      EqualValidatorDirective
+      EqualValidatorDirective,
+      ChangePasswordComponent,
+      UserFormComponent
   ]
 })
 
