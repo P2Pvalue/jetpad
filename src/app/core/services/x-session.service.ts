@@ -16,7 +16,7 @@ export class SessionService {
     public subject: ReplaySubject<any> = new ReplaySubject(null);
 
     /** The active session. */
-    private session: Session;
+    private session: any;
 
     private swell;
 
@@ -59,8 +59,9 @@ export class SessionService {
                                     id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
                                     password: ''
                                 }).then( (s) => {
-                                    that.setSession(s);
-                                    observer.next(s);
+                                    let user = Object.assign({}, s, {anonymous: true});
+                                    that.setSession(user);
+                                    observer.next(user);
                                     observer.complete();
                                 }).catch( () => {
                                     that.setError();

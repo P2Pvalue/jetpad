@@ -1,17 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { SwellService, ObjectService } from './index';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { SessionService } from './x-session.service';
 
 @Injectable()
 export class UserService {
 
-    public currentUser = new Subject<any>();
-    public userLogged = new Subject<any>();
-    public userUpdated = new Subject<any>();
-
-    public session: Promise<any>;
+    public currentUser = new BehaviorSubject<any>(null);
 
     private user: any;
 
@@ -44,7 +40,7 @@ export class UserService {
     }
 
     public getSession() {
-        return this.session;
+        return this.sessionService.getSession();
     }
 
     public resumeSession(id: string) {
@@ -52,32 +48,17 @@ export class UserService {
     }
 
     public resume() {
-        return Observable.create((observer) => {
-            SwellService.getSdk().resume((result) => {
-                if (result.error) {
-                    let id = this.DEFAULT_USERNAME;
-                    let password = this.DEFAULT_PASSWORD;
-                    SwellService.getSdk().login({id, password}, (r) => {
-                        if (r.error) {
-                            observer.error(r.error);
-                        } else if (r.data) {
-                            let user = this.parseUserResponse(r.data);
-                            this.user = user;
-                            observer.next(user);
-                        }
-                    });
-                } else if (result.data) {
-                    let user = this.parseUserResponse(result.data);
-                    this.user = user;
-                    observer.next(user);
-                }
+        return this.sessionService.startDefaultSession()
+            .map((user) => {
+                this.user = this.parseUserResponse(user);
+                this.currentUser.next(this.user);
+                return this.user;
             });
-        });
     }
 
     public getUserProfiles(users) {
         return Observable.create((observer) => {
-            SwellService.getSdk().getUserProfile(users, (result) => {
+            this.swell.getUserProfile(users, (result) => {
                 if (result.error) {
                     observer.error(result.error);
                 } else if (result.data) {
@@ -88,7 +69,8 @@ export class UserService {
     }
 
     public anonymousLogin() {
-        return this.sessionService.startDefaultSession();
+        return this.sessionService.startDefaultSession()
+            .map((user) => this.parseUserResponse(user));
     }
 
     public getLastDocument() {
@@ -102,7 +84,12 @@ export class UserService {
     }
 
     public login(id: string, password: string) {
-        return this.sessionService.startSession(id, password);
+        return this.sessionService.startSession(id, password)
+            .map((user) => {
+                this.user = this.parseUserResponse(user);
+                this.currentUser.next(this.user);
+                return this.user;
+            });
     }
 
     public create(id: string, password: string, email: string) {
@@ -113,21 +100,27 @@ export class UserService {
             email
         };
         return Observable.create((observer) => {
-            this.swell.createUser(user).then((result) => {
-                if (result) {
-                    this.sessionService.startSession(result.id, password)
-                        .subscribe((createdUser) => observer.next(createdUser));
-                }
-            }).catch( (error) => {
-                observer.error(error);
-                observer.complete();
-            });
+            this.swell.createUser(user)
+                .then((result) => {
+                    if (result) {
+                        this.login(result.id, password).map((userLogged) => {
+                            this.user = this.parseUserResponse(userLogged);
+                            this.currentUser.next(this.user);
+                            observer.next(this.user);
+                        });
+                    }
+                    observer.complete();
+                }).catch( (error) => {
+                    observer.error(error);
+                    observer.complete();
+                });
         });
     };
 
     public update(email: string, name: string, avatarData: string) {
         return Observable.create((observer) => {
-            SwellService.getSdk().updateUserProfile({email, name, avatarData}, (result) => {
+            // TODO updateUserProfile does not exist!!!!
+            this.swell.updateUserProfile({email, name, avatarData}, (result) => {
                 if (result.error) {
                     // ERROR
                 } else if (result.data) {
@@ -144,18 +137,25 @@ export class UserService {
 
     public changePassword(oldPassword: string, newPassword: string) {
         return Observable.create((observer) => {
-            SwellService.getSdk().setPassword(this.user.id, oldPassword, newPassword,
-                () => observer.next(), (error) => observer.error(error));
+            this.currentUser.subscribe((user) => {
+                if (user && !user.anonymous) {
+                    // TODO setPassword does not exits!!!!
+                    this.swell.setPassword(user.id, oldPassword, newPassword)
+                        .then(() => observer.next())
+                        .catch((error) => observer.error(error));
+                }
+            });
         });
     }
 
     public recoverPassword(email: string) {
         return Observable.create((observer) => {
-            SwellService.getSdk().recoverPassword(email, this.RECOVER_PASSWORD_URL,
+            this.swell.recoverPassword(email, this.RECOVER_PASSWORD_URL,
                 () => observer.next(), (error) => observer.error(error));
         });
     }
 
+    // TODO ensure date retrived from server
     private parseUserResponse(user) {
         let name = user.name;
         if (/_anonymous_/.test(user.id)) {
@@ -166,7 +166,11 @@ export class UserService {
             email: user.email,
             name: name ? name : user.id.slice(0, user.id.indexOf('@')),
             anonymous: name === 'Anonymous',
-            avatarUrl: user.avatarUrl
+            avatarUrl: user.avatarUrl,
+            domain: user.domain,
+            locale: user.locale,
+            session: user.sessionId,
+            transientSessionId: user.transientSessionId
         };
     }
 }

@@ -117,7 +117,7 @@ export class CommentService {
             // if selected comment is changed update it.
             if (event.key.startsWith('comment-') > 0 && this.comments.get(event.key)
                 && this.selectedCommentId === event.key) {
-                this.selectedComment = this.comments.get(event.key);
+                this.selectedComment = Object.assign({}, this.comments.get(event.key));
                 this.notifyCurrentCommentChange();
             }
         });
@@ -276,7 +276,7 @@ export class CommentService {
 
     private setSelectedComment(selectedCommentId: string, selectedComment: any) {
         this.selectedCommentId = selectedCommentId;
-        this.selectedComment = selectedComment;
+        this.selectedComment = Object.assign({}, selectedComment);
         this.notifyCurrentCommentChange();
         this.highlight(true);
     }
