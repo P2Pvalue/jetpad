@@ -6,20 +6,18 @@ import { SessionService } from '../services/x-session.service';
 export class LoggedUserGuard implements CanActivate {
 
     private user: any;
-  constructor(private sessionService: SessionService, private router: Router) {}
 
-  public canActivate() {
-    let p = new Promise<any>((resolve) => resolve(this.checkLoggedUser(this.user)));
-    this.sessionService.subject.subscribe((user) => {
-        this.user = user;
-        return p;
-    });
-    return p;
-  }
+    constructor(private sessionService: SessionService, private router: Router) {
+        this.sessionService.subject.subscribe((user) => {
+            this.user = user;
+        });
+    }
 
-  public checkLoggedUser(user) {
-    if (!user.anonymous) { return true; }
-    this.router.navigate(['/authentication']);
-    return false;
-  }
+    public canActivate() {
+        if (this.user && !this.user.session.anonymous) {
+            return true;
+        }
+        this.router.navigate(['/login']);
+        return false;
+    }
 }
