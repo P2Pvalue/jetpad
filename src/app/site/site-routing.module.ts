@@ -11,6 +11,7 @@ import { VisionComponent } from './components/vision';
 import { UnauthorizedComponent } from './components/unauthorized';
 
 import { LoggedUserGuard } from '../core/guards';
+import { NoContentComponent } from './components/no-content/no-content';
 
 const siteRoutes: Routes = [
   {
@@ -47,12 +48,12 @@ const siteRoutes: Routes = [
       {
         path: 'unauthorized',
         component: UnauthorizedComponent
-      }/*,
+      },
 
       {
         path: '**',
         component: NoContentComponent
-      }*/
+      }
     ]
 
   }

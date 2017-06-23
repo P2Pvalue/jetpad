@@ -5,11 +5,12 @@
   .goToRegister{
     margin: 30px 10px;
   }
-}
-
-.form-group{
-  input {
-    color: white;
+  form{
+    .form-group{
+      input {
+        color: white;
+      }
+    }
   }
 }
 

@@ -2,47 +2,8 @@ jp-site-header {
   .navbar {
     min-height: 55px;
     background-color: $primary-color;
-    .container-fluid{
-      .navbar-header{
-        .navbar-toggle {
-          margin-right: 10px;
-        }
-        button {
-          border-width: 0;
-          padding: 12px 10px;
-        }
-      }
-      .navbar-collapse{
-        ul{
-          li{
-            a{
-              padding-top: 11px;
-              color: $white;
-              i {
-                font-size: 25px;
-              }
-              font-size: 18px;
-              &.active{
-                color: #8A8A8A;
-              }
-            }
-          }
-          .about {
-            a {
-              @media (min-width: 768px) {
-                padding-top: 13px;
-                padding-bottom: 15px;
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
-
-
-
 .navbar-nav{
   li{
     a {
@@ -50,7 +11,6 @@ jp-site-header {
     }
   }
 }
-
 .navbar-brand {
   vertical-align: middle;
   padding-left: 15px;

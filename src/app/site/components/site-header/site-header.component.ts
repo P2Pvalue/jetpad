@@ -13,7 +13,7 @@ import { Component, Input } from '@angular/core';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" routerLink="/">
                 <img alt="Jetpad" height="40" src="assets/img/jetpad-logo.png">
             </a>
         </div>
