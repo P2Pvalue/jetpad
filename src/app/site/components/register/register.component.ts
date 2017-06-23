@@ -218,7 +218,6 @@ export class RegisterComponent implements OnInit {
     private readThis(inputValue: any): void {
         let file: File = inputValue.files[0];
         this.avatar = file.name;
-        //this.registerForm.get('avatar').setValue(this.avatar);
         let fileReader: FileReader = new FileReader();
 
         fileReader.onloadend = () => {

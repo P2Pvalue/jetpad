@@ -86,7 +86,6 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     public onSubmit(event: Event) {
-        debugger
         event.preventDefault();
         if (this.changePasswordForm.valid) {
             this.newPassword.emit({

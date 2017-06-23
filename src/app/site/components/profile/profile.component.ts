@@ -44,7 +44,6 @@ export class ProfileComponent implements OnInit {
     }
 
     public onChangePassword(user) {
-        debugger
         this.userService.changePassword(user.pass, user.newPass)
             .subscribe(() => {
                 this.changePasswordSuccess = true;
