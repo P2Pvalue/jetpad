@@ -8,27 +8,8 @@ import { onValueChanged } from '../../../share/components/utils';
 @Component({
     selector: 'jp-register',
     template: `
-<div class="row landing-panel container-fluid">
-<div class="row top-bar">
-
-    <div class="col-md-offset-1 col-xs-2 col-md-offset-2 col-md-2 logo">
-      <img alt="Jetpad" height="40" src="assets/img/jetpad-logo.png">
-    </div>
-
-    <div class="col-xs-6 col-md-6 menu">
-        
-    </div>
-
-    <div class="col-xs-4 col-md-2 menu">
-        <button class="btn btn-link">
-          <a routerLink="/login">
-            Login
-          </a>
-        </button>
-    </div>
-
-
-  </div>
+<div class="row register-panel container-fluid">
+    <jp-site-header></jp-site-header>
   <div class="row">
   <div class="col-xs-1 col-md-3"></div>
   <div class="col-xs-10 col-md-6">

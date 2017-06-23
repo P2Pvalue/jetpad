@@ -6,28 +6,8 @@ import { UserService } from '../../../core/services/user.service';
 @Component({
     selector: 'jp-login',
     template: `
-<div class="row landing-panel container-fluid">
-<div class="row top-bar">
-
-    <div class="col-md-offset-1 col-xs-2 col-md-offset-2 col-md-2 logo">
-      <a href="/"><img alt="Jetpad" height=40 src="assets/img/jetpad-logo.png"></a>
-    </div>
-
-    <div class="col-xs-6 col-md-6 menu">
-
-
-      <div class="pull-right"></div>
-       
-    </div>
-
-    <div class="col-xs-4 col-md-2 menu">
-     <button class="btn btn-link">
-          <a routerLink="/register">
-            Register
-          </a>
-        </button>
-      </div>
-</div>    
+<div class="row login-panel container-fluid">
+    <jp-site-header></jp-site-header>    
 
 
   <div class="row">

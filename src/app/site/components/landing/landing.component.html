@@ -1,44 +1,5 @@
 <div class="row landing-panel container-fluid">
-
-  <div class="row top-bar">
-
-    <div class="col-xs-2 col-md-offset-2 col-md-2 logo">
-      <img alt="Jetpad" height=40 src="assets/img/jetpad-logo.png">
-    </div>
-
-    <div class="col-xs-3 col-md-4 menu">
-
-
-      <div class="pull-right">
-
-      </div>
-    </div>
-
-    <div class="col-xs-7 col-md-4 menu">
-        <button class="btn btn-link" *ngIf="!user">
-            <a routerLink="/login">
-                Login
-            </a>
-        </button>
-        <button class="btn btn-link" *ngIf="!user">
-            <a routerLink="/register">
-                Register
-            </a>
-        </button>
-        <button class="btn btn-link" *ngIf="user">
-            <a routerLink="/profile">
-                Profile
-            </a>
-        </button>
-        <button class="btn btn-link" *ngIf="user">
-            <a routerLink="/logout">
-                Logout
-            </a>
-        </button>
-    </div>
-
-
-  </div>
+    <jp-site-header [user]="user"></jp-site-header>
 
 
   <div class="row claim">
@@ -59,7 +20,6 @@
 
   <div class="row claim-input">
     <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6 text-center">
-
       <form [formGroup]="landingForm"
             (ngSubmit)="openDocument(landingForm.get('documentId').value)"
             class="panel panel-default claim-input">
@@ -75,13 +35,10 @@
 
                 </div>
             </div>
-
             <button type="submit" class="btn btn-raised btn-danger visible-xs-inline-block center-block"
                     [ngClass]="{'disabled': landingForm.invalid}">Open/Create</button>
-
         </div>
       </form>
-
     </div>
   </div>
 

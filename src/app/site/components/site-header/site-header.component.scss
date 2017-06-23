@@ -1,5 +1,6 @@
 jp-site-header {
   .navbar {
+    min-height: 55px;
     background-color: $primary-color;
     .container-fluid{
       .navbar-header{
@@ -8,7 +9,7 @@ jp-site-header {
         }
         button {
           border-width: 0;
-          padding: 6px 6px;
+          padding: 12px 10px;
         }
       }
       .navbar-collapse{

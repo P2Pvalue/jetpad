@@ -4,30 +4,33 @@ import { SessionService, UserService } from '../../../core/services';
 @Component({
     selector: 'jp-profile',
     template: `
-    <div class="row">
-        <div class="col-sm-12">
-            <h2 class="text-center">My profile</h2>
-            <hr/>
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-1">
-            <h3>
-                <i class="icon icon-user icon-middle"></i>
-                User information
+    <div class="row profile-panel container-fluid">
+        <jp-site-header></jp-site-header>
+        <div class="row">
+        <div class="col-xs-12">
+                <h2 class="text-center">My profile</h2>
                 <hr/>
-            </h3>
-            <jp-user-form (updateUser)="onUpdateUser($event)"></jp-user-form>
+            </div>
         </div>
-        <div class="col-sm-4 col-sm-offset-2">
-            <h3>
-                <i class="icon icon-lock icon-middle"></i>
-                Change your password
-                <hr/>
-            </h3>
-            <jp-change-password [success]="changePasswordSuccess"
-                (newPassword)="onChangePassword($event)"></jp-change-password>
+       
+        <div class="row">            
+            <div class="col-sm-4 col-sm-offset-1">
+                <h3>
+                    <i class="icon icon-user icon-middle"></i>
+                    User information
+                    <hr/>
+                </h3>
+                <jp-user-form (updateUser)="onUpdateUser($event)"></jp-user-form>
+            </div>
+            <div class="col-sm-4 col-sm-offset-2">
+                <h3>
+                    <i class="icon icon-lock icon-middle"></i>
+                    Change your password
+                    <hr/>
+                </h3>
+                <jp-change-password [success]="changePasswordSuccess"
+                    (newPassword)="onChangePassword($event)"></jp-change-password>
+            </div>
         </div>
     </div>
     `

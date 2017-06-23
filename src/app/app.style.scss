@@ -28,18 +28,19 @@ $comment-font-family: "Georgia, serif"; // see editor toolbar
 // Required by bootstrap
 $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 
-
-
-@import "~assets/scss/_colors";
-// TODO import roboto font with sass
-@import "~assets/scss/_fonts";
-@import "~assets/scss/_mixins";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap-sprockets.scss";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // the module below fails if following file is processed
 // ~bootstrap-material-design/sass/_import-bs-less.scss
 @import "~bootstrap-material-design/sass/bootstrap-material-design.scss";
 @import "~bootstrap-material-design/sass/ripples.scss";
+
+
+@import "~assets/scss/_colors";
+// TODO import roboto font with sass
+@import "~assets/scss/_fonts";
+@import "~assets/scss/_mixins";
+
 
 @import "editor/editor.style";
 @import "site/site.style";

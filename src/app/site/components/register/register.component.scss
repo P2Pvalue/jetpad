@@ -1,5 +1,10 @@
-.form-group{
-  input {
-    //color: white;
+.register-panel{
+  padding-top: 4em;
+  background-image: url('~/assets/img/clouds-bg.jpg');
+  @media screen and (max-width: $screen-xs){
+    min-height: 100%;
+  }
+  @media screen and (min-width: $screen-sm){
+    height: 100vh;
   }
 }
