@@ -63,7 +63,6 @@ export class SiteHeaderComponent {
               private router: Router) { }
 
   public logout() {
-      debugger
       this.userService.logout(this.user.id).subscribe(
           () => console.debug('User logged out'),
           (error) => {
