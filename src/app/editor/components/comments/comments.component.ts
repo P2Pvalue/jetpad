@@ -51,8 +51,6 @@ export class CommentsComponent {
     }
 
     public cancel() {
-        this.action = 'none';
-        this.comment = undefined;
         this.commentEvent.emit({
             type: 'close'
         });
