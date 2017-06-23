@@ -42,7 +42,8 @@ import { JetpadModalService } from '../../../core/services/jetpad-modal.service'
                 </li>
                 <li>
                     <button class="btn btn-link" *ngIf="user">
-                        <a (click)="logout()">Logout</a>
+                        <a (click)="logout()" data-toggle="collapse" 
+                            href="#jp-menu-collapse">Logout</a>
                     </button>
                 </li>
             </ul>
@@ -66,7 +67,7 @@ export class SiteHeaderComponent {
       this.userService.logout(this.user.id).subscribe(
           () => console.debug('User logged out'),
           (error) => {
-              this.message = 'Error al hacer logout';
+              this.message = 'Logout Error';
               this.showAlertModal();
           });
       this.router.navigate(['/']);

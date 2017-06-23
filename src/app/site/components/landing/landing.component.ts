@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SessionService } from '../../../core/services';
-import { SwellService } from '../../../core/services/x-swell.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
     selector: 'jp-landing',
@@ -17,9 +16,9 @@ export class LandingComponent {
     public user: any;
 
     constructor(private router: Router, private fb: FormBuilder,
-                private sessionService: SessionService, private swellService: SwellService) {
+                private userService: UserService) {
         this.createForm();
-        this.sessionService.subject.subscribe((user) => {
+        this.userService.currentUser.subscribe((user) => {
             // TODO check how to test if user is anonymous. swellrt.Constants.ANONO... does not work
             if (user && user.session && !user.session.anonymous) {
                 this.user = user.session;

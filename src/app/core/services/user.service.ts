@@ -132,6 +132,7 @@ export class UserService {
     }
 
     public logout(userid?: string) {
+        this.currentUser.next(null);
         return this.sessionService.stopSession(userid);
     }
 
