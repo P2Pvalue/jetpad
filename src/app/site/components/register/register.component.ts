@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../../../core/services';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { equalValidator } from '../../../share/directives/equal-validator.directive';
+import { onValueChanged } from '../../../share/components/utils';
 
 @Component({
     selector: 'jp-register',
@@ -40,6 +41,27 @@ import { equalValidator } from '../../../share/directives/equal-validator.direct
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$" required>
             <div *ngIf="formErrors.email" class="alert alert-danger">
               {{ formErrors.email }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="image_src">Photo</label>
+            <div class="media">
+                <div class="media-left">
+                    <img src="assets/img/user-mask.png" class="user-mask"/>
+                    <img height="130" #imageInput/>
+                </div>
+                <div class="media-body media-middle">
+                    <input type="file" accept="image/*" 
+                        formControlName="avatar"
+                       name="image_src" class="input-file"
+                       (change)="changeListener($event)"/>
+                    <span class="input-btn" (click)="showImageBrowseDialog()">
+                  <i class="icon icon-image icon-middle"></i>Upload a file
+                </span>
+                </div>
+                <div *ngIf="formErrors.avatar" class="alert alert-danger">
+                  {{ formErrors.avatar }}
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -93,13 +115,20 @@ export class RegisterComponent implements OnInit {
 
     public ACCOUNT_ALREADY_EXISTS = 403;
 
+    public avatarData: string = '';
+
+    @ViewChild('imageInput') public imageInput: ElementRef;
+
     public formErrors = {
         name: '',
         password: '',
         repeatPassword: '',
         email: '',
         acceptTerms: '',
+        avatar: ''
     };
+
+    public avatar: string;
 
     private validationMessages = {
         name: {
@@ -123,12 +152,16 @@ export class RegisterComponent implements OnInit {
         },
         acceptTerms: {
             required: 'Accept the terms is required.'
+        },
+        avatar: {
+            load: 'There is not file loaded'
         }
     };
 
     constructor(private userService: UserService,
                 private fb: FormBuilder,
-                private router: Router) {    }
+                private router: Router,
+                private renderer: Renderer) {    }
 
     public ngOnInit(): void {
         this.createForm();
@@ -152,8 +185,16 @@ export class RegisterComponent implements OnInit {
                     }
                 );
         } else {
-            this.onValueChanged();
+            onValueChanged(this.registerForm, this.formErrors, this.validationMessages);
         }
+    }
+
+    public showImageBrowseDialog() {
+        this.renderer.invokeElementMethod(this.imageInput.nativeElement, 'click', []);
+    }
+
+    public changeListener($event): void {
+        this.readThis($event.target);
     }
 
     private createForm() {
@@ -164,32 +205,25 @@ export class RegisterComponent implements OnInit {
             repeatPassword: ['', Validators.compose(
                 [Validators.required, equalValidator('password')])],
             email: ['', Validators.required],
-            acceptTerms: ['', Validators.required]
+            acceptTerms: ['', Validators.required],
+            avatar: ''
         });
 
         this.registerForm.valueChanges
-            .subscribe((data) => this.onValueChanged(data));
-        this.onValueChanged();
+            .subscribe(() =>
+                onValueChanged(this.registerForm, this.formErrors, this.validationMessages));
+        onValueChanged(this.registerForm, this.formErrors, this.validationMessages);
     }
 
-    private onValueChanged(data?: any) {
-        if (!this.registerForm) { return; }
-        const form = this.registerForm;
-        for (const field in this.formErrors) {
-            if (field) {
-                // clear previous error message (if any)
-                this.formErrors[field] = '';
-                const control = form.get(field);
+    private readThis(inputValue: any): void {
+        let file: File = inputValue.files[0];
+        this.avatar = file.name;
+        //this.registerForm.get('avatar').setValue(this.avatar);
+        let fileReader: FileReader = new FileReader();
 
-                if (control && control.dirty && !control.valid) {
-                    const messages = this.validationMessages[field];
-                    for (const key in control.errors) {
-                        if (key) {
-                            this.formErrors[field] += messages[key] + ' ';
-                        }
-                    }
-                }
-            }
-        }
+        fileReader.onloadend = () => {
+            this.imageInput.nativeElement.src = fileReader.result;
+        };
+        fileReader.readAsDataURL(file);
     }
 }

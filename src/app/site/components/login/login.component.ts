@@ -122,7 +122,8 @@ export class LoginComponent implements OnInit {
             this.userService.login(
                 this.loginForm.get('name').value,
                 this.loginForm.get('password').value)
-                .subscribe(() => {
+                .subscribe((user) => {
+                    console.log(user);
                     this.router.navigate(['/']);
                 }, (error) => {
                     if (error.statusCode === this.LOGIN_FAILED) {

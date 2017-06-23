@@ -21,8 +21,8 @@ export class LandingComponent {
         this.createForm();
         this.sessionService.subject.subscribe((user) => {
             // TODO check how to test if user is anonymous. swellrt.Constants.ANONO... does not work
-            if (user.session && user.session.email) {
-                this.user = user;
+            if (user && user.session && !user.session.anonymous) {
+                this.user = user.session;
                 console.log(this.user);
             }
         });
