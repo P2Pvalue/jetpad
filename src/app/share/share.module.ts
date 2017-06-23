@@ -17,8 +17,8 @@ import {
   AlertModalComponent } from './components';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { EqualValidatorDirective } from './directives/equal-validator.directive';
-import { ChangePasswordComponent } from './components/profile/change-password.component';
-import { UserFormComponent } from './components/profile/user-form.component';
+import { ChangePasswordComponent } from './components/change-password.component';
+import { UserFormComponent } from './components/user-form.component';
 
 @NgModule({
   imports: [

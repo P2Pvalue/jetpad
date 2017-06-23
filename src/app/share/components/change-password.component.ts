@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { equalValidator } from '../../directives/equal-validator.directive';
-import { onValueChanged } from './../utils';
+import { equalValidator } from '../directives/equal-validator.directive';
+import { onValueChanged } from './utils';
 
 @Component({
     selector: 'jp-change-password',

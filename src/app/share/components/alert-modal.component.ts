@@ -1,4 +1,4 @@
-import { Modal } from '../../../core/services';
+import { Modal } from '../../core/services';
 import { Component, OnInit } from '@angular/core';
 
 declare let window: any;

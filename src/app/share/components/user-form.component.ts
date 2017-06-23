@@ -3,7 +3,7 @@ import {
     OnChanges
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { onValueChanged } from '../utils';
+import { onValueChanged } from './utils';
 
 @Component({
     selector: 'jp-user-form',

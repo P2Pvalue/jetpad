@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, Renderer, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService, DocumentService } from '../../../core/services';
+import { UserService, DocumentService } from '../../core/services';
 
 @Component({
     selector: 'share-settings',

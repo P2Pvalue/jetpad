@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { Router } from '@angular/router';
-import { AlertModalComponent } from '../../../share/components/alert-modal/alert-modal.component';
+import { AlertModalComponent } from '../../../share/components/alert-modal.component';
 import { SiteModule } from '../../site.module';
 import { JetpadModalService } from '../../../core/services/jetpad-modal.service';
 
