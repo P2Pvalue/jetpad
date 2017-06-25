@@ -7,7 +7,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-modal';
 import { ClipboardModule }  from 'ngx-clipboard';
-import { CarouselModule } from 'ng2-bootstrap/carousel';
 import { TooltipModule } from 'ng2-bootstrap/tooltip';
 import { OrderPipe, SearchPipe, MomentPipe } from './pipes';
 import {
@@ -19,48 +18,51 @@ import { AutofocusDirective } from './directives/autofocus.directive';
 import { EqualValidatorDirective } from './directives/equal-validator.directive';
 import { ChangePasswordComponent } from './components/change-password.component';
 import { UserFormComponent } from './components/user-form.component';
+import { UserDocumentsViewComponent } from './components/user-documents-view.component';
 
-@NgModule({
-  imports: [
+const COMPONENTS = [
+    OrderPipe,
+    SearchPipe,
+    MomentPipe,
+    UserIconComponent,
+    UserPanelComponent,
+    ErrorModalComponent,
+    AlertModalComponent,
+    ChangePasswordComponent,
+    AutofocusDirective,
+    EqualValidatorDirective,
+    UserFormComponent,
+    UserDocumentsViewComponent
+];
+
+const PIPES = [
+    MomentPipe,
+    OrderPipe,
+    SearchPipe
+];
+
+const DIRECTIVES = [
+    AutofocusDirective,
+    EqualValidatorDirective
+];
+// TODO check used modules. HttpModule seems not to be used
+const MODULES = [
     CommonModule,
-      ReactiveFormsModule,
-      FormsModule,
+    ReactiveFormsModule,
+    FormsModule,
     RouterModule,
-    TooltipModule.forRoot()
-  ],
-  declarations: [
-    OrderPipe,
-    SearchPipe,
-    MomentPipe,
-    UserIconComponent,
-    UserPanelComponent,
-    ErrorModalComponent,
-    AlertModalComponent,
-      ChangePasswordComponent,
-      AutofocusDirective,
-      EqualValidatorDirective,
-      UserFormComponent
-  ],
-  exports: [
-    OrderPipe,
-    SearchPipe,
-    MomentPipe,
-    UserIconComponent,
-    UserPanelComponent,
-    ErrorModalComponent,
-    AlertModalComponent,
-    CommonModule,
-      ReactiveFormsModule,
-      FormsModule,
     BrowserModule,
-    HttpModule,
     ModalModule,
     ClipboardModule,
-      AutofocusDirective,
-      EqualValidatorDirective,
-      ChangePasswordComponent,
-      UserFormComponent
-  ]
+    HttpModule
+];
+
+@NgModule({
+    imports: [
+        TooltipModule.forRoot(), // TODO it is necessary??
+        ...MODULES],
+    declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
+    exports: [...COMPONENTS, ...PIPES, ...DIRECTIVES, ...MODULES]
 })
 
 export class ShareModule {
