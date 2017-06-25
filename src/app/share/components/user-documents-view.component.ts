@@ -223,7 +223,6 @@ export class UserDocumentsViewComponent implements OnInit, OnChanges {
             docs =  documents.slice(0, documents.length)
                 .map((doc) => Object.assign({}, doc, {editing: false}));
         }
-        console.log(docs);
         return docs;
     }
 
