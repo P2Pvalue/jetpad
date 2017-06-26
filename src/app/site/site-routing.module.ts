@@ -13,6 +13,7 @@ import { UnauthorizedComponent } from './pages/unauthorized';
 import { LoggedUserGuard } from '../core/guards';
 import { NoContentComponent } from './pages/no-content/no-content';
 import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
+import { MyGroupsComponent } from './pages/my-groups/my-groups.component';
 
 const siteRoutes: Routes = [
     {
@@ -40,6 +41,11 @@ const siteRoutes: Routes = [
                 path: 'documents',
                 component: MyDocumentsComponent/*,
                 canActivate: [LoggedUserGuard]*/
+            },
+            {
+                path: 'groups',
+                component: MyGroupsComponent/*,
+             canActivate: [LoggedUserGuard]*/
             },
             {
                 path: 'terms',

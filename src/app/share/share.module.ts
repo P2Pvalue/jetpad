@@ -19,6 +19,7 @@ import { EqualValidatorDirective } from './directives/equal-validator.directive'
 import { ChangePasswordComponent } from './components/change-password.component';
 import { UserFormComponent } from './components/user-form.component';
 import { UserDocumentsViewComponent } from './components/user-documents-view.component';
+import { GroupFormComponent } from './components/group-form.component';
 
 const COMPONENTS = [
     OrderPipe,
@@ -32,7 +33,8 @@ const COMPONENTS = [
     AutofocusDirective,
     EqualValidatorDirective,
     UserFormComponent,
-    UserDocumentsViewComponent
+    UserDocumentsViewComponent,
+    GroupFormComponent
 ];
 
 const PIPES = [

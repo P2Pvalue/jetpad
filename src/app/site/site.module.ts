@@ -14,6 +14,7 @@ import { VisionComponent } from './pages/vision';
 import { UnauthorizedComponent } from './pages/unauthorized';
 import { NoContentComponent } from './pages/no-content';
 import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
+import { MyGroupsComponent } from './pages/my-groups/my-groups.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { MyDocumentsComponent } from './pages/my-documents/my-documents.componen
         VisionComponent,
         UnauthorizedComponent,
         MyDocumentsComponent,
+        MyGroupsComponent,
         NoContentComponent
     ],
     imports: [

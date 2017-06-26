@@ -54,6 +54,12 @@ import { JetpadModalService } from '../../../core/services/jetpad-modal.service'
                         My documents
                     </button>
                 </li>
+                <li><!--*ngIf="user"-->
+                    <button class="btn btn-link  btn-default" 
+                        routerLink="/groups">
+                        My groups
+                    </button>
+                </li>
                 <li>
                     <button class="btn btn-link  btn-default" *ngIf="user" 
                         (click)="logout()" data-toggle="collapse">
