@@ -9,8 +9,15 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
             <jp-site-header [user]="userService.currentUser| async"></jp-site-header>
             
             <div class="panel-heading">
-                <h3>My documents</h3>
-                <form [formGroup]="createDocumentForm" class="form-group">
+                <div class="title">
+                    <h3>My documents</h3>
+                    <button class="btn btn-link btn-primary" (click)="showAddForm = !showAddForm">
+                        <i class="material-icons" *ngIf="!showAddForm">add</i>
+                        <i class="material-icons" *ngIf="showAddForm">remove</i>
+                    </button></div>
+                <div class="form">    
+                <form [formGroup]="createDocumentForm" *ngIf="showAddForm" 
+                    class="form-group">
                     <div class="input-group">
                         <label class="sr-only" for="nameDocumentInput">Create</label>
                         <input class="form-control" id="nameDocumentInput" 
@@ -21,7 +28,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
                                 Create</button>
                         </span>
                     </div>
-                </form>
+                </form></div>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -41,35 +48,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
                 </div>
             </div>
             </div>
-            
-            <!--<div class="row">
-                <div class="col-xs-12">
-                    <h2 class="text-center">My documents</h2>
-                </div>
-            </div>-->
-            <!--<div class="row">
-                <form [formGroup]="createDocumentForm">
-                    <div class="form-group">
-                        <label class="sr-only" for="nameDocumentInput">Search</label>
-                        <input class="form-control" id="nameDocumentInput" 
-                            name="nameDocumentInput" placeholder="Create a new document" 
-                            formControlName="name">
-                    </div>
-                </form>
-            </div>-->
-            <!--<div class="row">
-                <div class="col col-xs-12 col-md-2">
-                    <button type="button" class="btn btn-link">Link</button>
-                    <button type="button" class="btn btn-link">Link</button>
-                    <button type="button" class="btn btn-link">Link</button>
-                    <button type="button" class="btn btn-link">Link</button>
-                    <button type="button" class="btn btn-link">Link</button>
-                    <button type="button" class="btn btn-link">Link</button>
-                </div>
-                <div class="col col-xs-12 col-md-10">
-                    <jp-user-documents-view [documents]="documents"></jp-user-documents-view>
-                </div>
-            </div>-->
         </div>
     `
 })
@@ -77,6 +55,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 export class MyDocumentsComponent {
 
     public createDocumentForm: FormGroup;
+
+    public showAddForm = false;
 
     // TODO remove
     public documents = [

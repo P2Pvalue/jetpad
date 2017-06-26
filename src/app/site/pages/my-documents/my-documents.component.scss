@@ -1,9 +1,23 @@
 .my-documents-panel{
   padding-top: 4em;
   .panel-heading {
-    form {
-      .input-group {
+    .title {
+      display: flex;
+      justify-content: space-between;
+      button {
+        align-self: center;
+        margin: 0;
+        padding: 0;
+        i {
+          font-size: 3em;
+        }
+      }
+    }
+    .form {
+      form {
+        .input-group {
           //max-width: 1225px;
+        }
       }
     }
   }

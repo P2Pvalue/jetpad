@@ -63,7 +63,7 @@ export class UsersModalComponent {
     public accounts: any;
 
     public  onCancel(): void {
-        this.onOk();
+        this.closeModal();
     }
 
     public  onOk(): void {
