@@ -10,7 +10,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
             
             <div class="panel-heading">
                 <h3>My documents</h3>
-                <form [formGroup]="createDocumentForm">
+                <form [formGroup]="createDocumentForm" class="form-group">
                     <div class="input-group">
                         <label class="sr-only" for="nameDocumentInput">Create</label>
                         <input class="form-control" id="nameDocumentInput" 

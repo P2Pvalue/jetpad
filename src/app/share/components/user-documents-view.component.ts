@@ -5,20 +5,18 @@ import { FormGroup, FormBuilder } from '@angular/forms';
     template: `
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="panel-heading">
-                    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-                        <div class="input-group">
-                            <label class="sr-only" for="searchDocumentInput">Search</label>
-                            <input class="form-control" id="searchDocumentInput" 
-                                name="searchDocumentInput" placeholder="Find out a document" 
-                                formControlName="search">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary hidden-xs">
-                                    Search</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
+                <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-group">
+                    <div class="input-group">
+                        <label class="sr-only" for="searchDocumentInput">Search</label>
+                        <input class="form-control" id="searchDocumentInput" 
+                            name="searchDocumentInput" placeholder="Find out a document" 
+                            formControlName="search">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary hidden-xs">
+                                Search</button>
+                        </span>
+                    </div>
+                </form>
                 <div class="documents-table">
                     <div class="header">
                         <div class="cell">
@@ -103,9 +101,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
         
     `,
     styles: [`
-        .input-group {
-            max-width: 750px;
-        }
         .btn-fab-mini {
             width: 30px;
             padding: 0;
@@ -137,6 +132,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
         }
         .panel {
             max-width: 960px;
+        }
+        .form-group{
+            margin-top: 5px;
         }
     `]
 })
