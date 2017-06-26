@@ -20,6 +20,7 @@ import { ChangePasswordComponent } from './components/change-password.component'
 import { UserFormComponent } from './components/user-form.component';
 import { UserDocumentsViewComponent } from './components/user-documents-view.component';
 import { GroupFormComponent } from './components/group-form.component';
+import { UsersModalComponent } from './components/users-modal.component';
 
 const COMPONENTS = [
     OrderPipe,
@@ -34,7 +35,8 @@ const COMPONENTS = [
     EqualValidatorDirective,
     UserFormComponent,
     UserDocumentsViewComponent,
-    GroupFormComponent
+    GroupFormComponent,
+    UsersModalComponent
 ];
 
 const PIPES = [

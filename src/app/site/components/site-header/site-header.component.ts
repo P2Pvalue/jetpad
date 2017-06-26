@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertModalComponent } from '../../../share/components/alert-modal.component';
 import { SiteModule } from '../../site.module';
 import { JetpadModalService } from '../../../core/services/jetpad-modal.service';
+import { UsersModalComponent } from '../../../share/components/users-modal.component';
 
 @Component({
   selector: 'jp-site-header',
@@ -60,6 +61,12 @@ import { JetpadModalService } from '../../../core/services/jetpad-modal.service'
                         My groups
                     </button>
                 </li>
+                <li><!--*ngIf="user"-->
+                    <button class="btn btn-link  btn-default"
+                        (click)="accounts()" data-toggle="collapse">
+                        Accounts
+                    </button>
+                </li>
                 <li>
                     <button class="btn btn-link  btn-default" *ngIf="user" 
                         (click)="logout()" data-toggle="collapse">
@@ -78,6 +85,7 @@ export class SiteHeaderComponent {
   public message: string = '';
 
     private alertModal: any;
+    private accountModal: any;
 
   constructor(private userService: UserService,
               private modalService: JetpadModalService,
@@ -91,6 +99,44 @@ export class SiteHeaderComponent {
               this.showAlertModal();
           });
       this.router.navigate(['/']);
+  }
+
+  public accounts() {
+      let modal$ = this.modalService.create(SiteModule, UsersModalComponent, {
+          accounts: [
+              {
+                  profile: {
+                      name: 'perico',
+                      color: {
+                          cssColor: '#00FF00'
+                      }
+                  },
+                  session: {
+                      lastActivityTime: new Date()
+                  }
+              }, {
+                  profile: {
+                      name: 'pablito',
+                      color: {
+                          cssColor: '#0000FF'
+                      }
+                  },
+                  session: {
+                      lastActivityTime: new Date()
+                  }
+              }
+          ],
+          ok: (event) => {
+              if (!event || (event && event.type === 'close')) {
+                  this.accountModal.destroy();
+                  this.accountModal = undefined;
+              }
+              this.router.navigate(['/register']);
+          }
+      });
+      modal$.subscribe((modal) => {
+          this.accountModal = modal;
+      });
   }
 
     public showAlertModal() {
