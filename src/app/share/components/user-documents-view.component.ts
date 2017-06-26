@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
     selector: 'jp-user-documents-view',
@@ -6,12 +6,16 @@ import { FormGroup, FormBuilder } from '@angular/forms';
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="panel-heading">
-                    <form [formGroup]="searchForm">
-                        <div class="form-group">
+                    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+                        <div class="input-group">
                             <label class="sr-only" for="searchDocumentInput">Search</label>
                             <input class="form-control" id="searchDocumentInput" 
                                 name="searchDocumentInput" placeholder="Find out a document" 
                                 formControlName="search">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary hidden-xs">
+                                    Search</button>
+                            </span>
                         </div>
                     </form>
                 </div>
@@ -99,6 +103,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
         
     `,
     styles: [`
+        .input-group {
+            max-width: 750px;
+        }
         .btn-fab-mini {
             width: 30px;
             padding: 0;
@@ -123,6 +130,13 @@ import { FormGroup, FormBuilder } from '@angular/forms';
         .cell {
             align-self: center;
             flex-grow: 1;
+            max-width: 360px;
+        }
+        .actions {
+            max-width: 160px;
+        }
+        .panel {
+            max-width: 960px;
         }
     `]
 })
@@ -132,6 +146,8 @@ export class UserDocumentsViewComponent implements OnInit, OnChanges {
     public MAX_LINES = 10;
 
     @Input() public documents: any[];
+
+    @Output() public search = new EventEmitter();
 
     public pages: number;
     public pagesArray: any[];
@@ -205,6 +221,10 @@ export class UserDocumentsViewComponent implements OnInit, OnChanges {
         this.editing = !this.editing;
     }
 
+    public onSubmit() {
+        this.search.emit(this.searchForm.get('search').value);
+    }
+
     private createForm() {
         this.searchForm = this.fb.group({
             search: ''
@@ -223,6 +243,7 @@ export class UserDocumentsViewComponent implements OnInit, OnChanges {
             docs =  documents.slice(0, documents.length)
                 .map((doc) => Object.assign({}, doc, {editing: false}));
         }
+        console.log(docs);
         return docs;
     }
 

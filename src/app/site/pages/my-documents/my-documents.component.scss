@@ -1,3 +1,43 @@
 .my-documents-panel{
   padding-top: 4em;
+  .panel-heading {
+    form {
+      .input-group {
+          max-width: 1225px;
+      }
+    }
+  }
+}
+
+.filter-link{
+  button {
+    border: solid black 1px;
+    @media screen and (min-width: $screen-md) {
+      width: 90%;
+      text-align: left;
+    }
+   /* border-radius: 0;
+    .arrow-right {
+      position: absolute;
+      right: -33px;
+      top: -1px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 18.5px 0 18.5px 32.0px;
+      border-color: transparent transparent transparent #000000;
+
+      &::before {
+        content: "";
+        right: 2px;
+        top: -17px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 18.5px 0 18.5px 32.0px;
+        border-color: transparent transparent transparent #ffffff;
+        position: absolute;
+      }
+    }*/
+  }
 }

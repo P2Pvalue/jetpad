@@ -11,7 +11,7 @@ import { JetpadModalService } from '../../../core/services/jetpad-modal.service'
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" 
-                data-toggle="collapse" data-target="#jp-menu-collapse" 
+                data-toggle="collapse" data-target=".navbar-responsive-collapse" 
                 aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -23,37 +23,41 @@ import { JetpadModalService } from '../../../core/services/jetpad-modal.service'
             </a>
         </div>
 
-        <div class="collapse navbar-collapse" id="jp-menu-collapse">
+        <div class="collapse navbar-collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <button class="btn btn-link btn-default">
-                        <a routerLink="/">Open document</a>
+                    <button class="btn btn-link btn-default" routerLink="/">
+                        Open document
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-link btn-default" *ngIf="!user">
-                        <a routerLink="/login">Login</a>
+                    <button class="btn btn-link btn-default" *ngIf="!user"
+                        routerLink="/login">
+                        Login
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-link  btn-default" *ngIf="!user">
-                        <a routerLink="/register">Register</a>
+                    <button class="btn btn-link  btn-default" *ngIf="!user"
+                        routerLink="/register">
+                        Register
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-link  btn-default" *ngIf="user">
-                        <a routerLink="/profile">Profile</a>
+                    <button class="btn btn-link  btn-default" *ngIf="user"
+                        routerLink="/profile">
+                        Profile
+                    </button>
+                </li>
+                <li><!--*ngIf="user"-->
+                    <button class="btn btn-link  btn-default" 
+                        routerLink="/documents">
+                        My documents
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-link  btn-default" *ngIf="user">
-                        <a routerLink="/documents">My Documents</a>
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-link  btn-default" *ngIf="user">
-                        <a (click)="logout()" data-toggle="collapse" 
-                            href="#jp-menu-collapse">Logout</a>
+                    <button class="btn btn-link  btn-default" *ngIf="user" 
+                        (click)="logout()" data-toggle="collapse">
+                        Logout
                     </button>
                 </li>
             </ul>

@@ -38,8 +38,8 @@ const siteRoutes: Routes = [
             },
             {
                 path: 'documents',
-                component: MyDocumentsComponent,
-                canActivate: [LoggedUserGuard]
+                component: MyDocumentsComponent/*,
+                canActivate: [LoggedUserGuard]*/
             },
             {
                 path: 'terms',
