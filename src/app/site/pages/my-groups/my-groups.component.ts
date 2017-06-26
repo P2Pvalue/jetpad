@@ -6,8 +6,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
         <div class="my-groups-panel">
             <jp-site-header></jp-site-header>
             <div class="panel-heading">
-                <h3>My groups</h3>
-                <form [formGroup]="createGroupForm" class="form-group">
+                <div class="title">
+                    <h3>My groups</h3>
+                    <button class="btn btn-link btn-primary" (click)="showAddForm = !showAddForm">
+                        <i class="material-icons" *ngIf="!showAddForm">add</i>
+                        <i class="material-icons" *ngIf="showAddForm">remove</i>
+                    </button></div>
+                <form [formGroup]="createGroupForm" *ngIf="showAddForm"
+                    class="form-group">
                     <div class="input-group">
                         <label class="sr-only" for="nameGroupInput">Create</label>
                         <input class="form-control" id="nameGroupInput"
@@ -39,6 +45,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 
 export class MyGroupsComponent {
+
+    public showAddForm = false;
 
     public createGroupForm: FormGroup;
 
