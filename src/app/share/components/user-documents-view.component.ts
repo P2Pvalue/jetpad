@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import {
+    Component, OnInit, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+
 @Component({
     selector: 'jp-user-documents-view',
     template: `
@@ -88,7 +90,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
                         </li>
                         <li *ngFor="let numPage of pagesArray; let i = index"
                             [ngClass]="{'primary active': i == currentPage}">
-                            <a (click)="gotoPage(i, $event)">{{i}}</a></li>
+                            <a (click)="gotoPage(i, $event)">{{i + 1}}</a></li>
                         <li>
                             <a (click)="next($event)" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
@@ -145,6 +147,8 @@ export class UserDocumentsViewComponent implements OnInit, OnChanges {
 
     @Input() public documents: any[];
 
+    @Input() public query: '';
+
     @Output() public search = new EventEmitter();
 
     public pages: number;
@@ -158,21 +162,32 @@ export class UserDocumentsViewComponent implements OnInit, OnChanges {
 
     public searchForm: FormGroup;
 
-    constructor(private fb: FormBuilder) { }
+    private allDocuments = [];
+
+    constructor(private fb: FormBuilder) {
+        if (window.screen.width < 450) {
+            this.MAX_LINES = 100;
+        }
+    }
 
     public ngOnInit() {
         this.createForm();
     }
 
-    public ngOnChanges() {
-        let newPages = Math.floor(this.documents.length / this.MAX_LINES) + 1;
-        if (this.pages !== newPages) {
-            this.pages = newPages;
-            this.pagesArray = new Array(this.pages);
-            this.currentPage = 0;
-            this.currentDocuments =
-                this.calculateDocuments(this.documents, this.currentPage, this.MAX_LINES);
+    public ngOnChanges(changes: SimpleChanges) {
+        if (changes['documents']) {
+            this.allDocuments = [];
+            this.documents.forEach((x) => {
+                this.allDocuments.push(Object.assign({}, x));
+            });
         }
+        this.documents = this.selectQuery(this.query);
+        let newPages = Math.floor(this.documents.length / this.MAX_LINES) + 1;
+        this.pages = newPages;
+        this.pagesArray = new Array(this.pages);
+        this.currentPage = 0;
+        this.currentDocuments =
+            this.calculateDocuments(this.documents, this.currentPage, this.MAX_LINES);
     }
 
     public next(event: Event) {
@@ -257,6 +272,25 @@ export class UserDocumentsViewComponent implements OnInit, OnChanges {
                 return 0;
             }
         });
+    }
+
+    private selectQuery (query) {
+        let docs = this.documents;
+        if (query === 'all' || query === '') {
+            docs =  this.allDocuments;
+        } else if (query.indexOf('#') === 0 ) {
+            let username = query.substr(1, query.length - 1);
+            docs =  this.allDocuments.filter((doc) => doc.author === username);
+        } else if (query.indexOf('@') === 0) {
+            let group = query.substr(1, query.length - 1);
+            docs =  this.allDocuments.filter((doc) => doc.group === group);
+        }
+        if (this.searchForm) {
+            this.searchForm.setValue({
+                search: this.query
+            });
+        }
+        return docs;
     }
 
 }

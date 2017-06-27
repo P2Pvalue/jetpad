@@ -1,15 +1,30 @@
 .my-documents-panel{
   padding-top: 4em;
-  .panel-heading {
+  .my-documents-heading {
+    display: flex;
+    flex-direction: column;
     .title {
       display: flex;
       justify-content: space-between;
-      button {
-        align-self: center;
-        margin: 0;
-        padding: 0;
-        i {
-          font-size: 3em;
+      div {
+        display: flex;
+        button {
+          align-self: center;
+          margin: 0 5px;
+          padding: 0;
+          i {
+            font-size: 3em;
+          }
+        }
+        .btn-group{
+          .dropdown-menu {
+            min-width: 300px;
+            li {
+              a {
+                font-size: 20px;
+              }
+            }
+          }
         }
       }
     }
