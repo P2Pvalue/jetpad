@@ -31,10 +31,6 @@ export class UserService {
         return id + '@' + this.SWELLRT_DOMAIN;
     }
 
-    public getUser() {
-        return this.user;
-    }
-
     public loggedUser() {
         return this.user && !this.user.anonymous;
     }
@@ -68,6 +64,30 @@ export class UserService {
         });
     }
 
+    public getUsers() {
+        return Observable.create((observer) => {
+            this.swell.listLogin({})
+                .then((list) => {
+                    let userPromises = [];
+                    for (let i in list) {
+                        if (i) {
+                            userPromises.push(this.getUser(list[i].address));
+                        }
+                    }
+                    return Promise.all(userPromises);
+                })
+                .then((users) => {
+                    let finalUsers = [];
+                    users.forEach((u) => finalUsers.push(this.parseUserResponse(u)));
+                    observer.next(finalUsers);
+                });
+        });
+    }
+
+    public getUser(userid) {
+        return this.swell.getUser({ id: userid });
+    }
+
     public anonymousLogin() {
         return this.sessionService.startDefaultSession()
             .map((user) => this.parseUserResponse(user));
@@ -92,24 +112,19 @@ export class UserService {
             });
     }
 
-    public create(id: string, password: string, email: string) {
+    public create(id: string, password: string, email: string, avatarData?: string) {
         let user = {
             id: this.generateDomainId(id),
             name: id,
             password,
-            email
+            email,
+            avatarData
         };
         return Observable.create((observer) => {
             this.swell.createUser(user)
                 .then((result) => {
-                    if (result) {
-                        this.login(result.id, password).map((userLogged) => {
-                            this.user = this.parseUserResponse(userLogged);
-                            this.currentUser.next(this.user);
-                            observer.next(this.user);
-                        });
-                    }
-                    observer.complete();
+                    this.login(result.id, password)
+                        .subscribe((userLogged) => observer.next(userLogged));
                 }).catch( (error) => {
                     observer.error(error);
                     observer.complete();
@@ -117,23 +132,23 @@ export class UserService {
         });
     };
 
-    public update(email: string, name: string, avatarData: string) {
+    public update(id: string, user: any) {
         return Observable.create((observer) => {
-            // TODO updateUserProfile does not exist!!!!
-            this.swell.updateUserProfile({email, name, avatarData}, (result) => {
-                if (result.error) {
-                    // ERROR
-                } else if (result.data) {
-                    let user = this.parseUserResponse(result.data);
-                    observer.next(user);
-                }
-            });
+            this.swell.editUser(user)
+                .then((result) => {
+                    let u = this.parseUserResponse(Object.assign({}, user, result));
+                    observer.next(u);
+                })
+                .catch((e) => {
+                    observer.error(e);
+                });
         });
     }
 
     public logout(userid?: string) {
         this.currentUser.next(null);
-        return this.sessionService.stopSession(userid);
+        return this.sessionService.stopSession(userid)
+            .subscribe();
     }
 
     public changePassword(oldPassword: string, newPassword: string) {

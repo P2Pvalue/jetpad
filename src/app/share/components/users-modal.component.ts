@@ -17,19 +17,24 @@ import { Modal } from '../../core/services/jetpad-modal.service';
                 
                     <div class="modal-body">
                         <div class="list-group-item" *ngFor="let account of accounts">
-                            <div class="row-picture">
-                              <app-user-icon  [participantSession]="account"></app-user-icon>
+                            <div>
+                                <div class="row-picture">
+                                  {{account.name}}
+                                </div>
+                                <div class="row-content">
+                               
+                                    <p class="list-group-item-heading">
+                                        {{account.name}}</p>
+                                    <p class="list-group-item-text">
+                                        {{account.lastActivityTime | myMoment}}</p>
                             </div>
-                            <div class="row-content">
-                           
-                                <p class="list-group-item-heading">
-                                    {{account.profile.name}}</p>
-                                <p class="list-group-item-text">
-                                    {{account.session.lastActivityTime | myMoment}}</p>
                                 
                             </div>
-                            <button class="btn btn-link">open</button> , 
-                            <button class="btn btn-link">close session</button>
+                            <div>
+                                <button class="btn btn-link" (click)="onLogout(account)">
+                                    <i class="material-icons">exit_to_app</i>
+                                    </button>
+                            </div>
                             <!--
                             <div class="list-group-separator"></div>
                             -->
@@ -52,6 +57,9 @@ import { Modal } from '../../core/services/jetpad-modal.service';
             display: flex;
             justify-content: space-between;
         }
+        .list-group-item > div {
+            display: flex;
+        }
     `]
 })
 
@@ -59,11 +67,19 @@ import { Modal } from '../../core/services/jetpad-modal.service';
 export class UsersModalComponent {
 
     public ok: Function;
+    public logout: Function;
     public closeModal: Function;
     public accounts: any;
 
     public  onCancel(): void {
         this.closeModal();
+    }
+
+    public onLogout(account) {
+        setTimeout(() => {
+            this.closeModal();
+        }, 150);
+        this.logout(account);
     }
 
     public  onOk(): void {

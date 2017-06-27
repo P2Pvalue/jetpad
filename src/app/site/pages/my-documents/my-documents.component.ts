@@ -27,7 +27,7 @@ import { Router, ActivatedRoute } from '@angular/router';
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li><a (click)="select('')">All</a></li>
-                                <li><a (click)="select('#' + user.profile.name)">
+                                <li><a (click)="select('#' + user.name)">
                                     Mine</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li>
@@ -61,7 +61,7 @@ import { Router, ActivatedRoute } from '@angular/router';
                     <button type="button" class="btn btn-link"
                         (click)="select('')">All</button>
                     <button type="button" class="btn btn-link" 
-                        (click)="select('#' + user.profile.name)">Mine</button>
+                        (click)="select('#' + user.name)">Mine</button>
                     <button type="button" *ngFor="let group of userGroups;"
                         (click)="select('@' + group.id)"
                         class="btn btn-link">{{group.name}}

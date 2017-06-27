@@ -103,7 +103,6 @@ export class LoginComponent implements OnInit {
                 this.loginForm.get('name').value,
                 this.loginForm.get('password').value)
                 .subscribe((user) => {
-                    console.log(user);
                     this.router.navigate(['/']);
                 }, (error) => {
                     if (error.statusCode === this.LOGIN_FAILED) {

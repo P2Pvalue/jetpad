@@ -28,17 +28,15 @@ import { onValueChanged } from '../../../share/components/utils';
             <label for="image_src">Photo</label>
             <div class="media">
                 <div class="media-left">
-                    <img src="assets/img/user-mask.png" class="user-mask"/>
-                    <img height="130" #imageInput/>
+                    <!--<img src="assets/img/user-mask.png" class="user-mask"/>-->
+                    <img height="130" src="{{avatarData}}">
                 </div>
                 <div class="media-body media-middle">
                     <input type="file" accept="image/*" 
                         formControlName="avatar"
                        name="image_src" class="input-file"
                        (change)="changeListener($event)"/>
-                    <span class="input-btn" (click)="showImageBrowseDialog()">
-                  <i class="icon icon-image icon-middle"></i>Upload a file
-                </span>
+                  <i class="material-icons">photo</i>Upload a file
                 </div>
                 <div *ngIf="formErrors.avatar" class="alert alert-danger">
                   {{ formErrors.avatar }}
@@ -86,7 +84,12 @@ import { onValueChanged } from '../../../share/components/utils';
   </div>
 </div>
 </div>
-    `
+    `,
+    styles: [`
+        input {
+            color: white;
+        }
+    `]
 })
 
 export class RegisterComponent implements OnInit {
@@ -96,9 +99,7 @@ export class RegisterComponent implements OnInit {
 
     public ACCOUNT_ALREADY_EXISTS = 403;
 
-    public avatarData: string = '';
-
-    @ViewChild('imageInput') public imageInput: ElementRef;
+    public avatarData: string;
 
     public formErrors = {
         name: '',
@@ -153,9 +154,11 @@ export class RegisterComponent implements OnInit {
         if (this.registerForm.valid) {
             this.userService.create(this.registerForm.get('name').value,
                 this.registerForm.get('password').value,
-                this.registerForm.get('email').value)
+                this.registerForm.get('email').value,
+                this.avatarData)
                 .subscribe(
                     () => {
+
                         this.router.navigate(['/']);
                     },
                     (error) => {
@@ -168,10 +171,6 @@ export class RegisterComponent implements OnInit {
         } else {
             onValueChanged(this.registerForm, this.formErrors, this.validationMessages);
         }
-    }
-
-    public showImageBrowseDialog() {
-        this.renderer.invokeElementMethod(this.imageInput.nativeElement, 'click', []);
     }
 
     public changeListener($event): void {
@@ -202,7 +201,7 @@ export class RegisterComponent implements OnInit {
         let fileReader: FileReader = new FileReader();
 
         fileReader.onloadend = () => {
-            this.imageInput.nativeElement.src = fileReader.result;
+            this.avatarData = fileReader.result;
         };
         fileReader.readAsDataURL(file);
     }

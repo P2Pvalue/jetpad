@@ -8,14 +8,16 @@ import { onValueChanged } from './utils';
 @Component({
     selector: 'jp-user-form',
     template: `
-        <form [formGroup]="userForm" (ngSubmit)="onUpdateUser()">
+        <form [formGroup]="userForm" (ngSubmit)="onUpdateUser($event)">
             <div class="form-group">
                 <label for="image_src">Photo</label>
                 <div class="media">
                     <div class="media-left">
-                        <img src="assets/img/user-mask.png" class="user-mask"/>
-                        <img height="130" *ngIf="user && user.avatarData" 
-                        id="img" src="{{user.avatarData}}"/>
+                        <img *ngIf="!user || !user.avatarUrl" 
+                            src="assets/img/user-mask.png" class="user-mask"/>
+                        <img src="{{user.avatarUrl}}" *ngIf="user && user.avatarUrl"/>
+                        <img height="130" *ngIf="user && avatarData" 
+                            id="img" src="{{avatarData}}"/>
                     </div>
                     <div class="media-body media-middle">
                         <input #imageInput type="file" accept="image/*" formControlName="avatar"
@@ -123,12 +125,12 @@ export class UserFormComponent implements OnInit, OnChanges {
     public onUpdateUser(event) {
         event.preventDefault();
         if (this.userForm.valid) {
-            this.updateUser.emit({
+            let u = Object.assign({}, this.user, {
                 name: this.userForm.get('name').value,
                 email: this.userForm.get('email').value,
-                avatar: this.userForm.get('avatar').value,
                 avatarData: this.avatarData
             });
+            this.updateUser.emit(u);
         }
     }
 

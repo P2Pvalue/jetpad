@@ -9,6 +9,10 @@ jp-site-header {
     &.account {
       button {
         display: flex;
+        @media screen and (max-width: 450px) {
+          width: 94%;
+          justify-content: space-between;
+        }
         padding: 4px 10px;
         margin: 5px 10px;
         i {

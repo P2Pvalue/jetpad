@@ -61,13 +61,17 @@ export class ProfileComponent implements OnInit {
     }
 
     public onChangePassword(user) {
-        this.userService.changePassword(user.pass, user.newPass)
+        alert('Feature not available');
+        /*this.userService.changePassword(user.pass, user.newPass)
             .subscribe(() => {
                 this.changePasswordSuccess = true;
-            });
+            });*/
     }
 
     public onUpdateUser(user) {
-        this.userService.update(user.email, user.name, user.avatarData);
+        this.userService.update(user.id, user)
+            .subscribe((u) => {
+                this.user = u;
+            });
     }
 }

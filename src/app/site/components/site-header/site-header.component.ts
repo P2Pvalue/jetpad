@@ -5,11 +5,12 @@ import { AlertModalComponent } from '../../../share/components/alert-modal.compo
 import { SiteModule } from '../../site.module';
 import { JetpadModalService } from '../../../core/services/jetpad-modal.service';
 import { UsersModalComponent } from '../../../share/components/users-modal.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'jp-site-header',
   template: `
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" 
                 data-toggle="collapse" data-target=".navbar-responsive-collapse" 
@@ -57,25 +58,13 @@ import { UsersModalComponent } from '../../../share/components/users-modal.compo
                     </button>
                 </li>
                 <li class="account">
-                    <button class="btn btn-link  btn-default" *ngIf="user"
+                    <button class="btn btn-raised" *ngIf="user"
                         (click)="accounts()" data-toggle="collapse"
                         data-target=".navbar-collapse">
-                        <i class="material-icons">person</i>
                         <span class="visible-xs">Account</span>
+                        <i class="material-icons">person</i>
                     </button>
                 </li>
-                <!--<li>
-                    <button class="btn btn-link  btn-default" *ngIf="user"
-                        (click)="accounts()" data-toggle="collapse">
-                        Accounts
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-link  btn-default" *ngIf="user" 
-                        (click)="logout()" data-toggle="collapse">
-                        Logout
-                    </button>
-                </li>-->
             </ul>
         </div>
     </nav>
@@ -109,52 +98,29 @@ export class SiteHeaderComponent {
       });
   }
 
-  public logout() {
-      this.userService.logout(this.user.id).subscribe(
-          () => console.debug('User logged out'),
-          (error) => {
-              this.message = 'Logout Error';
-              this.showAlertModal();
-          });
-      this.router.navigate(['/']);
-  }
-
   public accounts() {
-      let modal$ = this.modalService.create(SiteModule, UsersModalComponent, {
-          accounts: [
-              {
-                  profile: {
-                      name: 'perico',
-                      color: {
-                          cssColor: '#00FF00'
-                      }
+      this.userService.getUsers()
+          .subscribe((result) => {
+              let modal$ = this.modalService.create(SiteModule, UsersModalComponent, {
+                  accounts: result,
+                  logout: (account) => {
+                      this.userService.logout(account.id);
+                      this.accountModal.destroy();
+                      this.accountModal = undefined;
+                      this.router.navigate(['/']);
                   },
-                  session: {
-                      lastActivityTime: new Date()
-                  }
-              }, {
-                  profile: {
-                      name: 'pablito',
-                      color: {
-                          cssColor: '#0000FF'
+                  ok: (event) => {
+                      if (!event || (event && event.type === 'close')) {
+                          this.accountModal.destroy();
+                          this.accountModal = undefined;
                       }
-                  },
-                  session: {
-                      lastActivityTime: new Date()
+                      this.router.navigate(['/register']);
                   }
-              }
-          ],
-          ok: (event) => {
-              if (!event || (event && event.type === 'close')) {
-                  this.accountModal.destroy();
-                  this.accountModal = undefined;
-              }
-              this.router.navigate(['/register']);
-          }
-      });
-      modal$.subscribe((modal) => {
-          this.accountModal = modal;
-      });
+              });
+              modal$.subscribe((modal) => {
+                  this.accountModal = modal;
+              });
+          });
   }
 
     public showAlertModal() {
