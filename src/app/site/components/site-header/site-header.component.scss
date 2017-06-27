@@ -6,8 +6,24 @@ jp-site-header {
 }
 .navbar-nav{
   li{
-    a {
-      color: $white;
+    &.account {
+      button {
+        display: flex;
+        padding: 4px 10px;
+        margin: 5px 10px;
+        i {
+          align-self: center;
+          font-size: 3em;
+        }
+        span {
+          align-self: center;
+        }
+      }
+    }
+    &.active{
+      button {
+        color: $white;
+      }
     }
   }
 }

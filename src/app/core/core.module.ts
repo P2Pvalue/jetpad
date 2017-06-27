@@ -17,6 +17,7 @@ import {
 
 import { LoggedUserGuard } from './guards';
 import { ShareModule } from '../share';
+import { UserResolve } from './resolver/user.resolver';
 
 const CORE_PROVIDERS = [
   AppState,
@@ -29,6 +30,7 @@ const CORE_PROVIDERS = [
   CommentService,
     UserService,
     DocumentService,
+    UserResolve,
   {
     provide: APP_INITIALIZER,
     useFactory: swellServiceInitializerFactory,

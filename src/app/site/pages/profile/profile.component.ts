@@ -1,37 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService, UserService } from '../../../core/services';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'jp-profile',
     template: `
     <div class="row profile-panel container-fluid">
-        <jp-site-header [user]="userService.currentUser | async">
+        <jp-site-header [user]="user">
         
         </jp-site-header>
         <div class="row">
-            <div class="col-xs-12">
-                <h2 class="text-center">My profile</h2>
-                <hr/>
+            <div class="col col-xs-12">
+                <h3 clss="text-center">My profile</h3>
             </div>
         </div>
+        
        
         <div class="row">            
-            <div class="col-sm-4 col-sm-offset-1">
-                <h3>
-                    <i class="icon icon-user icon-middle"></i>
-                    User information
+            <div class="col col-sm-4 col-sm-offset-1 ">
+                <div class="panel panel-default">
+                    <div class="profile-subtitle">
+                        <h4>
+                            User information
+                        </h4>
+                        <i class="material-icons">person</i></div>
                     <hr/>
-                </h3>
-                <jp-user-form (updateUser)="onUpdateUser($event)"></jp-user-form>
+                    <jp-user-form [user]="user" (updateUser)="onUpdateUser($event)"></jp-user-form>
+                </div>
             </div>
-            <div class="col-sm-4 col-sm-offset-2">
-                <h3>
-                    <i class="icon icon-lock icon-middle"></i>
-                    Change your password
+            <div class="col col-sm-4 col-sm-offset-2">
+                <div class="panel panel-default">
+                    <div class="profile-subtitle">
+                        <h4>
+                            Change your password
+                        </h4>
+                        <i class="material-icons">lock</i>
+                    </div>
                     <hr/>
-                </h3>
-                <jp-change-password [success]="changePasswordSuccess"
-                    (newPassword)="onChangePassword($event)"></jp-change-password>
+                    <jp-change-password [success]="changePasswordSuccess"
+                            (newPassword)="onChangePassword($event)"></jp-change-password>
+                </div>
+              
             </div>
         </div>
     </div>
@@ -40,11 +49,14 @@ import { SessionService, UserService } from '../../../core/services';
 
 export class ProfileComponent implements OnInit {
 
+    public user: any;
+
     public changePasswordSuccess: boolean;
 
-    constructor(public userService: UserService, private sessionService: SessionService) {  }
+    constructor(public userService: UserService, private route: ActivatedRoute) {  }
 
     public ngOnInit () {
+        this.user = this.route.snapshot.data['user'];
         this.changePasswordSuccess = false;
     }
 

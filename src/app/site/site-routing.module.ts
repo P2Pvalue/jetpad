@@ -14,6 +14,7 @@ import { LoggedUserGuard } from '../core/guards';
 import { NoContentComponent } from './pages/no-content/no-content';
 import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
 import { MyGroupsComponent } from './pages/my-groups/my-groups.component';
+import { UserResolve } from '../core/resolver/user.resolver';
 
 const siteRoutes: Routes = [
     {
@@ -35,17 +36,26 @@ const siteRoutes: Routes = [
             {
                 path: 'profile',
                 component: ProfileComponent,
-                canActivate: [LoggedUserGuard]
+                canActivate: [LoggedUserGuard],
+                resolve: {
+                    user: UserResolve
+                }
             },
             {
                 path: 'documents',
-                component: MyDocumentsComponent/*,
-                canActivate: [LoggedUserGuard]*/
+                component: MyDocumentsComponent,
+                canActivate: [LoggedUserGuard],
+                resolve: {
+                    user: UserResolve
+                }
             },
             {
                 path: 'groups',
-                component: MyGroupsComponent/*,
-             canActivate: [LoggedUserGuard]*/
+                component: MyGroupsComponent,
+                canActivate: [LoggedUserGuard],
+                resolve: {
+                    user: UserResolve
+                }
             },
             {
                 path: 'terms',

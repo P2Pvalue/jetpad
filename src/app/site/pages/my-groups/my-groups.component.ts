@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'jp-my-groups',
     template: `
         <div class="my-groups-panel">
-            <jp-site-header></jp-site-header>
+            <jp-site-header [user]="user"></jp-site-header>
             <div class="my-groups-panel-heading">
                 <div class="title">
                     <h3>My groups</h3>
@@ -63,13 +64,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     `
 })
 
-export class MyGroupsComponent {
+export class MyGroupsComponent implements OnInit {
 
     public showAddForm = false;
 
     public createGroupForm: FormGroup;
 
     public selectedGroup: any;
+
+    public user: any;
 
     public groups = [
         {
@@ -98,7 +101,11 @@ export class MyGroupsComponent {
         }
     ];
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder,
+                private route: ActivatedRoute) {    }
+
+    public ngOnInit() {
+        this.user = this.route.snapshot.data['user'];
         this.selectedGroup = Object.assign({}, this.groups[0]);
         this.createForm();
     }

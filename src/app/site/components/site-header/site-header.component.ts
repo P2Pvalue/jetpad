@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlertModalComponent } from '../../../share/components/alert-modal.component';
 import { SiteModule } from '../../site.module';
 import { JetpadModalService } from '../../../core/services/jetpad-modal.service';
@@ -26,43 +26,46 @@ import { UsersModalComponent } from '../../../share/components/users-modal.compo
 
         <div class="collapse navbar-collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <button class="btn btn-link btn-default" routerLink="/">
-                        Open document
-                    </button>
-                </li>
-                <li>
+                <li [ngClass]="{'active': page == 'login'}">
                     <button class="btn btn-link btn-default" *ngIf="!user"
                         routerLink="/login">
                         Login
                     </button>
                 </li>
-                <li>
+                <li [ngClass]="{'active': page == 'register'}">
                     <button class="btn btn-link  btn-default" *ngIf="!user"
                         routerLink="/register">
                         Register
                     </button>
                 </li>
-                <li>
+                <li [ngClass]="{'active': page == 'profile'}">
                     <button class="btn btn-link  btn-default" *ngIf="user"
                         routerLink="/profile">
                         Profile
                     </button>
                 </li>
-                <li><!--*ngIf="user"-->
-                    <button class="btn btn-link  btn-default" 
+                <li [ngClass]="{'active': page == 'documents'}">
+                    <button class="btn btn-link  btn-default" *ngIf="user"
                         routerLink="/documents">
                         My documents
                     </button>
                 </li>
-                <li><!--*ngIf="user"-->
-                    <button class="btn btn-link  btn-default" 
+                <li [ngClass]="{'active': page == 'groups'}">
+                    <button class="btn btn-link  btn-default" *ngIf="user"
                         routerLink="/groups">
                         My groups
                     </button>
                 </li>
-                <li><!--*ngIf="user"-->
-                    <button class="btn btn-link  btn-default"
+                <li class="account">
+                    <button class="btn btn-link  btn-default" *ngIf="user"
+                        (click)="accounts()" data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                        <i class="material-icons">person</i>
+                        <span class="visible-xs">Account</span>
+                    </button>
+                </li>
+                <!--<li>
+                    <button class="btn btn-link  btn-default" *ngIf="user"
                         (click)="accounts()" data-toggle="collapse">
                         Accounts
                     </button>
@@ -72,24 +75,39 @@ import { UsersModalComponent } from '../../../share/components/users-modal.compo
                         (click)="logout()" data-toggle="collapse">
                         Logout
                     </button>
-                </li>
+                </li>-->
             </ul>
         </div>
     </nav>
-    `
+    `,
+    styles: [`
+        .active > button {
+            color: white;
+        }
+    `]
 })
 
 export class SiteHeaderComponent {
 
   @Input() public user: any;
   public message: string = '';
+  public page: string;
 
     private alertModal: any;
     private accountModal: any;
 
   constructor(private userService: UserService,
               private modalService: JetpadModalService,
-              private router: Router) { }
+              public route: ActivatedRoute,
+              private router: Router) {
+      this.route.url.subscribe((paths) => {
+          if (paths && paths[0]) {
+              this.page = paths[0].path;
+          } else {
+              this.page = '';
+          }
+      });
+  }
 
   public logout() {
       this.userService.logout(this.user.id).subscribe(

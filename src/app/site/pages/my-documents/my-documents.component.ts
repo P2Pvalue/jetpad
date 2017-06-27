@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'jp-my-documents',
     template: `
         <div class="my-documents-panel">
-            <jp-site-header [user]="userService.currentUser| async"></jp-site-header>
+            <jp-site-header [user]="user"></jp-site-header>
             
             <div class="my-documents-heading">
                 <div class="title">
@@ -78,14 +78,10 @@ import { Router } from '@angular/router';
     `
 })
 
-export class MyDocumentsComponent {
+export class MyDocumentsComponent implements OnInit {
 
     // TODO session service to rescue
-    public user: any = {
-        profile: {
-            name: 'Pablo'
-        }
-    };
+    public user: any;
 
     public createDocumentForm: FormGroup;
 
@@ -187,7 +183,11 @@ export class MyDocumentsComponent {
 
     constructor(public userService: UserService,
                 private router: Router,
-                private fb: FormBuilder) {
+                private route: ActivatedRoute,
+                private fb: FormBuilder) {    }
+
+    public ngOnInit() {
+        this.user = this.route.snapshot.data['user'];
         this.createForm();
     }
 

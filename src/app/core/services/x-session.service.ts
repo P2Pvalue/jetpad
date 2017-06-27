@@ -63,9 +63,9 @@ export class SessionService {
                                     that.setSession(user);
                                     observer.next(user);
                                     observer.complete();
-                                }).catch( () => {
+                                }).catch( (error) => {
                                     that.setError();
-                                    observer.error();
+                                    observer.error(error);
                                     observer.complete();
                                 });
 
@@ -122,19 +122,19 @@ export class SessionService {
      * Stop the session,
      * @return Observable
      */
-    public stopSession(userid?: string): Observable<any> {
+    public  stopSession(userid?: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
             that.swellService.getService().subscribe((service) => {
                 if (service) {
-                    service.logout({userid})
+                    service.logout({id: userid})
                         .then( () => {
                             that.clearSession();
                             observer.complete();
                         }).catch( (error) => {
-                        that.clearSession();
-                        observer.error(error);
-                        observer.complete();
+                            that.clearSession();
+                            observer.error(error);
+                            observer.complete();
                     });
                 }
             });

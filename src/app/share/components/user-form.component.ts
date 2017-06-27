@@ -51,7 +51,7 @@ import { onValueChanged } from './utils';
                 </div>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary mar-top-20">Save</button>
+                <button class="btn btn-primary btn-block">Save</button>
             </div>
         </form>
     `,
@@ -97,10 +97,11 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     private avatar: string;
 
-    constructor(private fb: FormBuilder, private renderer: Renderer) {    }
+    constructor(private fb: FormBuilder, private renderer: Renderer) {
+        this.createForm();
+    }
 
     public ngOnInit() {
-        this.createForm();
         this.userForm.valueChanges
             .subscribe(() =>
                 onValueChanged(this.userForm, this.formErrors, this.validationMessages));
