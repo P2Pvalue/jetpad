@@ -1,15 +1,28 @@
 .my-groups-panel {
   padding-top: 4em;
-  .panel-heading {
+  .my-groups-panel-heading {
     .title {
       display: flex;
       justify-content: space-between;
-      button {
-        align-self: center;
-        margin: 0;
-        padding: 0;
-        i {
-          font-size: 3em;
+      div {
+        display: flex;
+        button {
+          align-self: center;
+          margin: 0;
+          padding: 0;
+          i {
+            font-size: 3em;
+          }
+        }
+        .btn-group{
+          .dropdown-menu {
+            min-width: 300px;
+            li {
+              a {
+                font-size: 20px;
+              }
+            }
+          }
         }
       }
     }

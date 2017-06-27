@@ -5,13 +5,32 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     template: `
         <div class="my-groups-panel">
             <jp-site-header></jp-site-header>
-            <div class="panel-heading">
+            <div class="my-groups-panel-heading">
                 <div class="title">
                     <h3>My groups</h3>
-                    <button class="btn btn-link btn-primary" (click)="showAddForm = !showAddForm">
-                        <i class="material-icons" *ngIf="!showAddForm">add</i>
-                        <i class="material-icons" *ngIf="showAddForm">remove</i>
-                    </button></div>
+                    <div>
+                        <button class="btn btn-link btn-primary" 
+                            (click)="showAddForm = !showAddForm">
+                            <i class="material-icons" *ngIf="!showAddForm">add</i>
+                            <i class="material-icons" *ngIf="showAddForm">remove</i>
+                        </button>
+                        <div class="btn-group visible-xs">
+                            <button type="button" 
+                                class="btn btn-link btn-primary dropdown-toggle" 
+                                data-toggle="dropdown" aria-haspopup="true" 
+                                aria-expanded="false">
+                                <i class="material-icons">find_replace</i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a *ngFor="let group of groups;"
+                                        (click)="selectGroup(group)">
+                                        {{group.name}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+            <div class="form">
                 <form [formGroup]="createGroupForm" *ngIf="showAddForm"
                     class="form-group">
                     <div class="input-group">
@@ -27,7 +46,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
                 </form>
             </div>
             <div class="row">
-                <div class="col col-xs-12 col-md-2 filter-link">
+                <div class="col hidden-xs col-md-2 filter-link">
                     <button *ngFor="let group of groups;" (click)="selectGroup(group)"
                         type="button" class="btn btn-link">
                         <span class="arrow-right"></span>{{group.name}}</button>
