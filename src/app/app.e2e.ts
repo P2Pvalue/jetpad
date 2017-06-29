@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element } from 'protractor/built';
 
 describe('App', () => {
 
@@ -8,7 +8,7 @@ describe('App', () => {
 
   it('should have a title', () => {
     let subject = browser.getTitle();
-    let result  = 'Angular2 Webpack Starter by @gdi2290 from @AngularClass';
+    let result  = 'JetPad';
     expect(subject).toEqual(result);
   });
 
@@ -18,15 +18,15 @@ describe('App', () => {
     expect(subject).toEqual(result);
   });
 
-  it('should have <home>', () => {
-    let subject = element(by.css('app home')).isPresent();
+  it('should have <jp-landing>', () => {
+    let subject = element(by.css('jp-landing')).isPresent();
     let result  = true;
     expect(subject).toEqual(result);
   });
 
   it('should have buttons', () => {
-    let subject = element(by.css('button')).getText();
-    let result  = 'Submit Value';
+    let subject = element(by.css('.btn-raised')).getText();
+    let result  = 'OPEN/CREATE';
     expect(subject).toEqual(result);
   });
 

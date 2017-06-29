@@ -394,6 +394,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         }
 
         let modal$ = this.modalService.create(EditorModule, ShareModalComponent, {
+            title: this.title,
             ok: () => {
                 this.shareModal.destroy();
                 this.shareModal = undefined;

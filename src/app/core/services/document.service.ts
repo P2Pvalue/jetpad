@@ -49,8 +49,8 @@ export class DocumentService {
     }
 
     public userHasPermission() {
-        return this.document.getParticipants().includes(this.PUBLIC_DOCUMENT_PARTICIPANT) ||
-            this.document.getParticipants().includes(this.userService.getUser().id);
+   /*     return this.document.getParticipants().includes(this.PUBLIC_DOCUMENT_PARTICIPANT) ||
+            this.document.getParticipants().includes(this.userService.getUser().id);*/
     }
 
     public publicDocument() {

@@ -13,15 +13,17 @@
     "strictNullChecks": false,
     "lib": [
       "dom",
-      "es6"
+      "es2015"
     ],
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "node_modules"
     ],
     "types": [
+      "node",
       "hammerjs",
       "jasmine",
-      "node",
+      "jasminewd2",
       "source-map",
       "uglify-js",
       "webpack"
@@ -29,7 +31,8 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "typings"
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,

@@ -53,11 +53,11 @@ export class CheckComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.swellSrv.getClient().subscribe( (service) => {
+        /*this.swellSrv.getClient().subscribe( (service) => {
             this.swellClient = service;
             this.changeState(State.Ready);
             this.init();
-        });
+        });*/
     }
 
     public login(): void {

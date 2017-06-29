@@ -23,6 +23,41 @@ declare let window: any;
               <input value="{{getShareLink()}}" class="form-control" 
                 type="text" readonly>
             </div>
+            
+            <div class="form-group">
+                <form>
+                <div class="togglebutton text-center">
+                  <label data-placement="top" title="Public document">
+                    Public document
+                    <input type="checkbox">
+                    <span class="toggle"></span>
+                  </label>
+                </div>
+                <div class="togglebutton text-center">
+                  <label data-placement="top" title="Public document">
+                    Public, only read
+                    <input type="checkbox">
+                    <span class="toggle"></span>
+                  </label>
+                </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"/> Open document
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"/> Open, only reads
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"/> 
+                            Private, only participants could write or read
+                        </label>
+                    </div>
+                </form>
+            </div>
           </div>
 
           <div class="modal-footer">
@@ -43,6 +78,7 @@ export class ShareModalComponent {
 
     // data
     public data: any;
+    public title: string;
 
     public ok: Function;
 

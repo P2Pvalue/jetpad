@@ -122,7 +122,7 @@ export class ShareSettingsComponent {
                 private documentService: DocumentService,
                 private renderer: Renderer, private router: Router,
                 @Inject('SWELLRT_DOMAIN') private SWELLRT_DOMAIN: string) {
-        this.currentUser = userService.getUser();
+        // this.currentUser = userService.getUser();
         this.userService.getLastDocument().subscribe((document) => {
             this.documentUrl = this.documentService.getDocumentUrl(document.id());
             this.documentName = this.documentService.getEditorId(document.id());

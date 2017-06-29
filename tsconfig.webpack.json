@@ -20,12 +20,16 @@
     ],
     "types": [
       "hammerjs",
-      "node"
+      "node",
+      "source-map",
+      "uglify-js",
+      "webpack"
     ]
   },
   "exclude": [
     "node_modules",
     "dist",
+    "typings",
     "src/**/*.spec.ts",
     "src/**/*.e2e.ts"
   ],
