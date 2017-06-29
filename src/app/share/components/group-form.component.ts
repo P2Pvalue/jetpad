@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import {
+    Component, OnInit, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { onValueChanged } from './utils';
 @Component({
@@ -86,13 +87,13 @@ export class GroupFormComponent implements OnInit, OnChanges {
 
     public groupForm: FormGroup;
 
-    public formErrors = {
+    public formErrors: any = {
         name: '',
         id: '',
         newParticipant: ''
     };
 
-    private validationMessages = {
+    private validationMessages: any = {
         name: {
             required: 'Name is required.',
             minlength: 'Name must be at leat 5 characters long.',
@@ -120,7 +121,7 @@ export class GroupFormComponent implements OnInit, OnChanges {
         onValueChanged(this.groupForm, this.formErrors, this.validationMessages);
     }
 
-    public ngOnChanges() {
+    public ngOnChanges(changes: SimpleChanges) {
         if (this.groupForm) {
             this.groupForm.setValue({
                 name: this.group.name,

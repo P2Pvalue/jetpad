@@ -7,7 +7,7 @@
 
 export class EditorCanvasComponent  {
   @Input() public showCover: boolean = false;
-  @Output() private coverEvent: EventEmitter<any> = new EventEmitter();
+  @Output() public coverEvent: EventEmitter<any> = new EventEmitter();
 
   public onClick(e) {
     this.showCover = false;

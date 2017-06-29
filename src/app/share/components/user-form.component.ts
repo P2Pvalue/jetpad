@@ -1,6 +1,6 @@
 import {
     Component, OnInit, Output, EventEmitter, Renderer, ViewChild, ElementRef, Input,
-    OnChanges
+    OnChanges, SimpleChanges
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { onValueChanged } from './utils';
@@ -70,7 +70,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     @Input() public user: any;
 
-    @Output() public updateUser = new EventEmitter<any>();
+    @Output() public updateUser: EventEmitter<any>;
 
     public avatarData: any;
 
@@ -109,7 +109,7 @@ export class UserFormComponent implements OnInit, OnChanges {
                 onValueChanged(this.userForm, this.formErrors, this.validationMessages));
     }
 
-    public ngOnChanges() {
+    public ngOnChanges(changes: SimpleChanges) {
         this.userForm.setValue({
             name:   this.user.name,
             email:  this.user.email,

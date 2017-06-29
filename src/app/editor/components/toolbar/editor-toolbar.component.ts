@@ -73,7 +73,7 @@ export class EditorToolbarComponent {
     public readonly textAlignLeft = 'left';
     public readonly textAlignCenter = 'center';
     public readonly textAlignRight = '';
-    public readonly textAlignJusity = 'justify';
+    public readonly textAlignJustify = 'justify';
 
     public readonly listDecimal = 'decimal';
     public readonly listUnordered = 'unordered';
