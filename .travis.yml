@@ -23,6 +23,7 @@ before_install:
 
 
 install:
+  - npm rebuild node-sass
   - npm i
 
 script:
