@@ -57,22 +57,25 @@ export class JetpadModalService {
                 this.parentElement.currentState = 'active';
                 this.parentElement.display = 'block';
                 document.body.className += ' jetpad-modal-open';
+                document.body.style.overflow = 'hidden';
                 componentRef.instance['componentIndex'] = this.activeInstances;
                 componentRef.instance['parentHeight'] =
                     this.parentElement.viewContainerRef._element.nativeElement.offsetTop;
                 // TODO check delete logic when more than one modal is available
                 componentRef.instance['destroy'] = () => {
                     this.activeInstances--;
-                    if (this.activeInstances <= 1) {
-                        document.body.className =
-                            document.body.className.replace(/jetpad-modal-open\b/, '');
-                    }
-                    this.parentElement.activated = false;
+
                     this.parentElement.currentState = 'inactive';
+                    this.parentElement.activated = false;
                     setTimeout(() => {
                         this.parentElement.display = 'none';
+                        if (this.activeInstances <= 1) {
+                            document.body.style.overflow = '';
+                            document.body.className =
+                                document.body.className.replace(/jetpad-modal-open\b/, '');
+                        }
                         componentRef.destroy();
-                    }, 200);
+                    }, 350);
                 };
                 componentRef$.next(componentRef);
                 componentRef$.complete();
@@ -123,10 +126,9 @@ export function Modal() {
     .jetpad-modal-open{
       overflow: hidden;
     }
-    .jetpad-modal-open{
-      overflow: hidden;
-    }
     .jetpad-modal{
+        position: absolute;
+        z-index: 1001;
     }
     @media only screen and (min-width: 250px) {
       .jetpad-modal{
@@ -157,21 +159,17 @@ export function Modal() {
         border-radius: 5px;
       }
     }
-    .jetpad-modal{
-      position: absolute;
-      z-index: 1001;
-    }
   `],
     animations: [
         trigger('modalState', [
             state('inactive', style({
-                transform: 'translateY(0)'
+                transform: 'translateY(-100%)'
             })),
             state('active', style({
                 transform: 'translateY(-200%)'
             })),
-            transition('inactive => active', animate('400ms ease-in')),
-            transition('active => inactive', animate('400ms ease-out'))
+            transition('inactive => active', animate('300ms ease-in')),
+            transition('active => inactive', animate('300ms ease-in'))
         ])]
 })
 export class ModalPlaceholderComponent implements OnInit {
