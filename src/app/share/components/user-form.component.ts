@@ -70,7 +70,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     @Input() public user: any;
 
-    @Output() public updateUser: EventEmitter<any>;
+    @Output() public updateUser = new EventEmitter<any>();
 
     public avatarData: any;
 
