@@ -11,21 +11,20 @@ import { onValueChanged } from './utils';
         <form [formGroup]="userForm" (ngSubmit)="onUpdateUser($event)">
             <div class="form-group">
                 <label for="image_src">Photo</label>
+                <i class="material-icons">insert-photo</i>
                 <div class="media">
                     <div class="media-left">
                         <img *ngIf="!user || !user.avatarUrl" 
                             src="assets/img/user-mask.png" class="user-mask"/>
-                        <img src="{{user.avatarUrl}}" *ngIf="user && user.avatarUrl"/>
+                        <img height="130" src="{{user.avatarUrl}}" *ngIf="user && user.avatarUrl
+                            && !avatarData"/>
                         <img height="130" *ngIf="user && avatarData" 
                             id="img" src="{{avatarData}}"/>
                     </div>
                     <div class="media-body media-middle">
                         <input #imageInput type="file" accept="image/*" formControlName="avatar"
                                name="image_src" id="image_src" class="input-file"
-                               (change)="changeListener($event)"/>
-                        <span class="input-btn" (click)="showImageBrowseDialog()">
-                      <i class="icon icon-image icon-middle"></i>Upload a file
-                    </span>
+                               (change)="changeListener($event)" />                    
                     </div>
                     <div *ngIf="formErrors.avatar" class="alert alert-danger">
                       {{ formErrors.avatar }}
@@ -54,6 +53,8 @@ import { onValueChanged } from './utils';
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block">Save</button>
+                <div *ngIf="success && !userForm.dirty"
+                     class="alert alert-success">User updated</div>
             </div>
         </form>
     `,
@@ -69,6 +70,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     @ViewChild('imageInput') public imageInput: ElementRef;
 
     @Input() public user: any;
+
+    @Input() public success: boolean;
 
     @Output() public updateUser = new EventEmitter<any>();
 
@@ -110,7 +113,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges) {
-        this.userForm.setValue({
+        this.userForm.reset({
             name:   this.user.name,
             email:  this.user.email,
             avatar: '',

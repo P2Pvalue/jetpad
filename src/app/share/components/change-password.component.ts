@@ -35,7 +35,8 @@ import { onValueChanged } from './utils';
             </div>
             <button type="submit" 
                 class="btn btn-primary btn-block mar-top-20">Change password</button>
-            <div *ngIf="success" class="alert alert-success">Password Changed</div>
+            <div *ngIf="success && changePasswordForm.pristine"
+                 class="alert alert-success">Password Changed</div>
         </form>
     `,
     styles: [`
@@ -92,6 +93,7 @@ export class ChangePasswordComponent implements OnInit {
                 pass: this.changePasswordForm.get('password').value,
                 newPass: this.changePasswordForm.get('newPassword').value
             });
+            this.changePasswordForm.reset();
         }
     }
 

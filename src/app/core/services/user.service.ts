@@ -114,7 +114,7 @@ export class UserService {
 
     public create(id: string, password: string, email: string, avatarData?: string) {
         let user = {
-            id: this.generateDomainId(id),
+            id,
             name: id,
             password,
             email,
@@ -153,14 +153,17 @@ export class UserService {
 
     public changePassword(oldPassword: string, newPassword: string) {
         return Observable.create((observer) => {
-            this.currentUser.subscribe((user) => {
-                if (user && !user.anonymous) {
-                    // TODO setPassword does not exits!!!!
-                    this.swell.setPassword(user.id, oldPassword, newPassword)
-                        .then(() => observer.next())
-                        .catch((error) => observer.error(error));
-                }
-            });
+            if (this.user && !this.user.anonymous) {
+                this.swell.password({
+                    id: this.user.id,
+                    oldPassword,
+                    newPassword
+                })
+                    .then(() => observer.next())
+                    .catch((error) => observer.error(error));
+            } else {
+                observer.error('User is not logged');
+            }
         });
     }
 

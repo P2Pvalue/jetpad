@@ -158,7 +158,6 @@ export class RegisterComponent implements OnInit {
                 this.avatarData)
                 .subscribe(
                     () => {
-
                         this.router.navigate(['/']);
                     },
                     (error) => {

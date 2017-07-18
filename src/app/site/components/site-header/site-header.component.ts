@@ -101,6 +101,7 @@ export class SiteHeaderComponent {
   public accounts() {
       this.userService.getUsers()
           .subscribe((result) => {
+              console.log('accounts', result);
               let modal$ = this.modalService.create(SiteModule, UsersModalComponent, {
                   accounts: result,
                   logout: (account) => {
@@ -108,6 +109,9 @@ export class SiteHeaderComponent {
                       this.accountModal.destroy();
                       this.accountModal = undefined;
                       this.router.navigate(['/']);
+                  },
+                  accountSelected: (account) => {
+                      this.router.navigate(['/profile']);
                   },
                   ok: (event) => {
                       if (!event || (event && event.type === 'close')) {

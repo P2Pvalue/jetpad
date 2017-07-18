@@ -11,27 +11,29 @@ import { Modal } from '../../core/services/jetpad-modal.service';
                         <button type="button" class="close" data-dismiss="modal" 
                             aria-hidden="true" (click)="onCancel()">×</button>
                         <h3 class="modal-title">
-                            Manages user accounts
+                            Accounts
                         </h3>
                     </div>
                 
                     <div class="modal-body">
                         <div class="list-group-item" *ngFor="let account of accounts">
                             <div>
-                                <div class="row-picture">
-                                  {{account.name}}
-                                </div>
-                                <div class="row-content">
-                               
-                                    <p class="list-group-item-heading">
-                                        {{account.name}}</p>
-                                    <p class="list-group-item-text">
-                                        {{account.lastActivityTime | myMoment}}</p>
-                            </div>
-                                
+                                <a (click)="onAccountSelected(account)">
+                                    <div class="row-picture">
+                                      <img height="50" src="{{account.avatarUrl}}" />
+                                    </div>
+                                    <div class="row-content">
+                                   
+                                        <p class="list-group-item-heading">
+                                            {{account.name}}</p>
+                                        <p class="list-group-item-text">
+                                            {{account.lastActivityTime | myMoment}}</p>
+                                    </div>
+                                </a>
                             </div>
                             <div>
-                                <button class="btn btn-link" (click)="onLogout(account)">
+                                <button type="button" title="logout"
+                                        class="btn btn-danger" (click)="onLogout(account)">
                                     <i class="material-icons">exit_to_app</i>
                                     </button>
                             </div>
@@ -60,6 +62,12 @@ import { Modal } from '../../core/services/jetpad-modal.service';
         .list-group-item > div {
             display: flex;
         }
+        .list-group-item > div > a {
+            display: flex;
+        }
+        .row-picture{
+            margin-right: 10px;
+        }
     `]
 })
 
@@ -68,6 +76,7 @@ export class UsersModalComponent {
 
     public ok: Function;
     public logout: Function;
+    public accountSelected: Function;
     public closeModal: Function;
     public accounts: any;
 
@@ -80,6 +89,13 @@ export class UsersModalComponent {
             this.closeModal();
         }, 150);
         this.logout(account);
+    }
+
+    public onAccountSelected(account) {
+        setTimeout(() => {
+            this.closeModal();
+        }, 150);
+        this.accountSelected(account);
     }
 
     public  onOk(): void {

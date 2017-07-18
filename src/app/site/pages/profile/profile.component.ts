@@ -25,7 +25,9 @@ import { ActivatedRoute } from '@angular/router';
                         </h4>
                         <i class="material-icons">person</i></div>
                     <hr/>
-                    <jp-user-form [user]="user" (updateUser)="onUpdateUser($event)"></jp-user-form>
+                    <jp-user-form [user]="user"
+                                  [success]="updateUserSuccess"
+                                  (updateUser)="onUpdateUser($event)"></jp-user-form>
                 </div>
             </div>
             <div class="col col-sm-4 col-sm-offset-2">
@@ -52,26 +54,28 @@ export class ProfileComponent implements OnInit {
     public user: any;
 
     public changePasswordSuccess: boolean;
+    public updateUserSuccess: boolean;
 
     constructor(public userService: UserService, private route: ActivatedRoute) {  }
 
     public ngOnInit () {
         this.user = this.route.snapshot.data['user'];
         this.changePasswordSuccess = false;
+        this.updateUserSuccess = false;
     }
 
     public onChangePassword(user) {
-        alert('Feature not available');
-        /*this.userService.changePassword(user.pass, user.newPass)
+        this.userService.changePassword(user.pass, user.newPass)
             .subscribe(() => {
                 this.changePasswordSuccess = true;
-            });*/
+            });
     }
 
     public onUpdateUser(user) {
         this.userService.update(user.id, user)
             .subscribe((u) => {
                 this.user = u;
+                this.updateUserSuccess = true;
             });
     }
 }
