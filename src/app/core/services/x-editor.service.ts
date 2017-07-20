@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SwellService } from '.';
-import { AppState } from '../../app.service';
+import { AppState } from '../services/app.service';
 import { ObjectService } from './x-object.service';
 import { SessionService } from './x-session.service';
 import { CommentService } from './x-comment.service';
