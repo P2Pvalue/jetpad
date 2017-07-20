@@ -2,10 +2,14 @@ import { Injectable } from '@angular/core';
 import { HmrState } from 'angular2-hmr';
 import { Subject } from 'rxjs';
 
+export type InternalStateType = {
+    [key: string]: any
+};
+
 @Injectable()
 export class AppState {
 
-  private _state = { };
+  public _state = { };
   private _stateSubject = new Subject<any>();
 
   // already return a clone of the current state

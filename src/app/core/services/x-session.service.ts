@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { ReplaySubject, Observable } from 'rxjs';
 import { SessionStatus, SessionState, Session } from '../model';
 import { SwellService } from '.';
+import { AppState } from './app.service';
 
 /**
  * Wrap swellrt's current user session
@@ -20,20 +21,34 @@ export class SessionService {
 
     private swell;
 
-    constructor(private swellService: SwellService) {
-        this.session = undefined;
-        this.swellService.getService().subscribe((service) => {
-            if (service) {
-                this.swell = service;
-            }
-        });
-    }
+    constructor(private swellService: SwellService,
+                private appState: AppState) { }
 
     /**
      *  @return the session object if it exists. Undefined otherwise.
      */
     public getSession(): Session {
         return this.session;
+    }
+
+    public getSessionList(): Observable<any> {
+        let that = this;
+        return Observable.create((observer) => {
+            this.swellService.getService().subscribe((service) => {
+                if (service) {
+                    let promiseAsObservable = Observable.fromPromise(service.lisLogin());
+                    promiseAsObservable.subscribe({
+                        next: (s) => {
+                            observer.next(s);
+                        },
+                        error: (error) => {
+                            observer.error(error);
+                            observer.complete();
+                        }
+                    });
+                }
+            });
+        });
     }
 
     /**
@@ -45,37 +60,52 @@ export class SessionService {
     public startDefaultSession(): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swellService.getService().subscribe({
-                next: (service) => {
-                    if (service) {
-                        service.resume({})
-                            .then( (s) => {
-                                that.setSession(s);
-                                observer.next(s);
-                                observer.complete();
-                            })
-                            .catch(() => {
-                                service.login({
-                                    id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
-                                    password: ''
-                                }).then( (s) => {
-                                    let user = Object.assign({}, s, {anonymous: true});
-                                    that.setSession(user);
-                                    observer.next(user);
-                                    observer.complete();
-                                }).catch( (error) => {
-                                    that.setError();
-                                    observer.error(error);
-                                    observer.complete();
-                                });
-
-                            });
-                    }
+            this.swellService.getService().subscribe((service) => {
+                if (service) {
+                    let promiseAsObservable = Observable.fromPromise(service.resume({}));
+                    promiseAsObservable.subscribe({
+                        next: (s) => {
+                            that.setSession(s);
+                            observer.next(s);
+                        },
+                        error: (error) => {
+                            observer.error(error);
+                            observer.complete();
+                        }
+                    });
                 }
             });
         });
     }
 
+    public startAnonymousSession (): Observable<any> {
+        let that = this;
+        return Observable.create((observer) => {
+            that.swellService.getService().subscribe({
+                next: (service) => {
+                    service.login({
+                        id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
+                        password: ''
+                    }).then( (s) => {
+                        let user = Object.assign({}, s, {anonymous: true});
+                        that.setSession(user);
+                        observer.next(user);
+                        observer.complete();
+                    }).catch( (error) => {
+                        that.setError();
+                        observer.error(error);
+                        observer.complete();
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Resume session with userid if userid is active in server.
+     * @param userid
+     * @returns {any}
+     */
     public resumeSession(userid: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
@@ -122,7 +152,7 @@ export class SessionService {
      * Stop the session,
      * @return Observable
      */
-    public  stopSession(userid?: string): Observable<any> {
+    public stopSession(userid?: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
             that.swellService.getService().subscribe((service) => {
@@ -141,23 +171,27 @@ export class SessionService {
         });
     }
 
-    private setSession(newSession: any) {
+    public setSession(newSession: any) {
         this.session = newSession;
+        this.appState.set('user', newSession);
         this.subject.next({ state: SessionState.login, session:  newSession });
     }
 
     private setError() {
         this.session = undefined;
+        this.appState.set('user', null);
         this.subject.next({ state: SessionState.error, session:  undefined });
     }
 
     private setNotAllowed() {
         this.session = undefined;
+        this.appState.set('user', null);
         this.subject.next({ state: SessionState.notallowed, session:  undefined });
     }
 
     private clearSession() {
         this.session = undefined;
+        this.appState.set('user', null);
         this.subject.next({ state: SessionState.logout, session:  undefined });
     }
 

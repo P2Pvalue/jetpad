@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { SessionService } from '../services/x-session.service';
+import { AppState } from '../services/app.service';
 
 @Injectable()
 export class LoggedUserGuard implements CanActivate {

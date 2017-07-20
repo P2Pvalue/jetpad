@@ -43,8 +43,8 @@ export class UserService {
         return this.sessionService.resumeSession(id);
     }
 
-    public resume() {
-        return this.sessionService.startDefaultSession()
+    public resume(id) {
+        return this.sessionService.resumeSession(id)
             .map((user) => {
                 this.user = this.parseUserResponse(user);
                 this.currentUser.next(this.user);
@@ -62,6 +62,12 @@ export class UserService {
                 }
             });
         });
+    }
+
+    public setUser (user) {
+        this.user = user;
+        this.currentUser.next(this.user);
+        this.sessionService.setSession(this.user);
     }
 
     public getUsers() {
