@@ -18,6 +18,7 @@ import {
 import { LoggedUserGuard } from './guards';
 import { ShareModule } from '../share';
 import { UserResolve } from './resolver/user.resolver';
+import { sessionServiceInitializerFactory } from './services/x-session.service';
 
 const CORE_PROVIDERS = [
   AppState,
@@ -35,6 +36,12 @@ const CORE_PROVIDERS = [
     provide: APP_INITIALIZER,
     useFactory: swellServiceInitializerFactory,
     deps: [SwellService],
+    multi: true
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: sessionServiceInitializerFactory,
+    deps: [SessionService],
     multi: true
   }
 ];

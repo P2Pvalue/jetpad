@@ -198,3 +198,16 @@ export class SessionService {
     }
 
 }
+
+export function sessionServiceInitializerFactory(sessionService: SessionService) {
+    return () => sessionService.startDefaultSession()
+        .subscribe(
+            () => {
+                console.debug('session initialized');
+            },
+            () => sessionService.startAnonymousSession()
+                .subscribe(() => {
+                    console.debug('session initialized anonymously');
+                })
+        );
+}

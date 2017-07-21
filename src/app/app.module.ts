@@ -88,7 +88,9 @@ export class AppModule {
             setTimeout(restoreInputValues);
         }
         this.userService.setUser(this.appState.get('user'));
-        this.router.navigate([this.appState.get('location')]);
+        if (window.location.pathname !== this.appState.get('location')) {
+            this.router.navigate([this.appState.get('location')]);
+        }
         this.appRef.tick();
         delete store.state;
         delete store.restoreInputValues;

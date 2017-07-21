@@ -1,5 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { SessionService } from './core/services';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app',
@@ -17,21 +16,6 @@ import { SessionService } from './core/services';
     `
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-    constructor(private sessionSrv: SessionService) {
-    }
-
-    public ngOnInit() {
-        this.sessionSrv.startDefaultSession()
-            .subscribe(
-                () => {
-                    console.debug('session initialized');
-                },
-                () => this.sessionSrv.startAnonymousSession()
-                    .subscribe(() => {
-                        console.debug('session initialized anonymously');
-                    })
-            );
-    }
 }

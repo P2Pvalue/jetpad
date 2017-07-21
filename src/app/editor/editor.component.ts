@@ -157,6 +157,8 @@ export class EditorComponent implements OnInit, OnDestroy {
         window.onscroll = () => {
             this.closeFloatingViews();
         };
+
+        // TODO move to resolve
         this.route.params.subscribe((params: any) => {
             this.editorService.init('canvas-container', params['id'])
                 .subscribe( (editor) => {
