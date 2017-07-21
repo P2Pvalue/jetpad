@@ -35,6 +35,7 @@ export class ObjectService {
                                         observer.complete();
                                     })
                                     .catch( (err) => {
+                                        // TODO errors are not propagated
                                         observer.error(err);
                                         observer.complete();
                                     });

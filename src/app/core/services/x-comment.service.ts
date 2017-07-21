@@ -113,7 +113,7 @@ export class CommentService {
         if (!this.document.get('comments')) {
             this.document.put('comments', swell.Map.create());
         }
-        this.document.listen((event) => {
+        this.document.addListener((event) => {
             // if selected comment is changed update it.
             if (event.key.startsWith('comment-') > 0 && this.comments.get(event.key)
                 && this.selectedCommentId === event.key) {
@@ -129,7 +129,7 @@ export class CommentService {
         // TODO Are there any option to subscribe multiples
         // selection handlers in editor object???????
         if (selection && selection.range) {
-            let ants = editor.getAnnotation([CommentService.ANNOTATION_KEY], range);
+            let ants = editor.getAnnotations([CommentService.ANNOTATION_KEY], range);
             if (ants && ants.comment) {
                 // TODO look up all the ants.comment.value to find out if remove needed
                 let commentKey = ants.comment.value.split(',').pop();

@@ -83,19 +83,21 @@ export class SessionService {
         return Observable.create((observer) => {
             that.swellService.getService().subscribe({
                 next: (service) => {
-                    service.login({
-                        id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
-                        password: ''
-                    }).then( (s) => {
-                        let user = Object.assign({}, s, {anonymous: true});
-                        that.setSession(user);
-                        observer.next(user);
-                        observer.complete();
-                    }).catch( (error) => {
-                        that.setError();
-                        observer.error(error);
-                        observer.complete();
-                    });
+                    if (service) {
+                        service.login({
+                            id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
+                            password: ''
+                        }).then( (s) => {
+                            let user = Object.assign({}, s, {anonymous: true});
+                            that.setSession(user);
+                            observer.next(user);
+                            observer.complete();
+                        }).catch( (error) => {
+                            that.setError();
+                            observer.error(error);
+                            observer.complete();
+                        });
+                    }
                 }
             });
         });
@@ -173,7 +175,7 @@ export class SessionService {
 
     public setSession(newSession: any) {
         this.session = newSession;
-        this.appState.set('user', newSession);
+        // this.appState.set('user', newSession);
         this.subject.next({ state: SessionState.login, session:  newSession });
     }
 

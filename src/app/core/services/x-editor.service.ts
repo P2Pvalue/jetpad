@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { SwellService } from '.';
-import { AppState } from '../services/app.service';
+import { SwellService } from './x-swell.service';
+import { AppState } from './app.service';
 import { ObjectService } from './x-object.service';
 import { SessionService } from './x-session.service';
 import { CommentService } from './x-comment.service';
@@ -17,11 +17,11 @@ declare let window: any;
 export class EditorService {
 
     public static getSelectionStyles(editor: any, range: any) {
-        return editor.getAnnotation(['paragraph/', 'style/', 'link'], range);
+        return editor.getAnnotations(['paragraph', 'style', 'link'], range);
     }
 
     private static getCommentAnnotation(editor: any, range: any) {
-        let ants = editor.getAnnotation(['comment'], range);
+        let ants = editor.getAnnotations(['comment'], range);
         return ants ? ants.comment : undefined;
     }
 
@@ -105,6 +105,7 @@ export class EditorService {
                              observer.next(that.editor);
                              observer.complete();
                          } else {
+                             let servicio = SwellService.getSdk();
                              that.initAnnotation();
                              that.initConnectionHandler(service);
                              that.initProfilesHandler(service);
@@ -138,7 +139,7 @@ export class EditorService {
             }
             if (this.document) {
                 console.log('Closing document ' + this.documentId);
-                service.close(this.documentId);
+                service.close({id: this.documentId});
             }
         });
 
@@ -153,6 +154,9 @@ export class EditorService {
     }
 
     public editStyle(event: any) {
+
+        let allStyles = EditorService.getSelectionStyles(this.editor,
+            SwellService.getSdk().Range.ALL);
         let selection = this.editor.getSelection();
         if (!selection || !selection.range) {
             return;
@@ -359,8 +363,12 @@ export class EditorService {
         this.editor = SwellService.getSdk().Editor.createWithId(divId, service);
         let compatible = this.checkBrowserComptability(this.editor);
         // TODO observable error
-        this.documentId = docid;
-        this.document = object;
+        this.documentId = object.id;
+        if (!object.node('document')) {
+            // Create a live map
+            object.put('document', SwellService.getSdk().Map.create());
+        }
+        this.document = object.node('document');
         let title = this.document.get('title');
         let text = this.document.get('text');
         let isNew = !title || !text;
@@ -371,10 +379,11 @@ export class EditorService {
             this.document.put('text', SwellService.getSdk().Text.create(''));
         }
         if (isNew) {
-            this.document.setPublic(true);
+            // Make public after initialization
+            object.setPublic(true);
         }
         this.title$.next(this.document.get('title'));
-        this.document.listen((event) => {
+        this.document.addListener((event) => {
             if (event.key === 'title') {
                 this.title$.next(event.node.js());
             }
@@ -382,6 +391,7 @@ export class EditorService {
 
         this.commentsData = this.document.get('comments');
         this.showCanvasCover = this.document.get('text').isEmpty();
+        let editorText = this.document.get('text');
         this.editor.set(this.document.get('text'));
         this.editor.edit(true);
         this.status = 'CONNECTED';
@@ -441,8 +451,8 @@ export class EditorService {
     }
 
     private refreshHeadings() {
-        this.headers = this.editor.getAnnotation(['header'],
-            SwellService.getSdk().Editor.Range.ALL, true)['header'];
+        this.headers = this.editor.getAnnotations(['header'],
+            SwellService.getSdk().Range.ALL, true)['header'];
         this.headers$.next(this.headers);
     }
 
@@ -455,7 +465,7 @@ export class EditorService {
         if (selection.range) {
             // TODO fix double next launched... find out where
             let currentSel =
-                this.editor.getAnnotation(['paragraph/', 'style/', 'link'], selection.range);
+                this.editor.getAnnotations(['paragraph/', 'style/', 'link'], selection.range);
             this.stylesSubject.next(currentSel);
         }
         this.selectionSubject.next(selection);

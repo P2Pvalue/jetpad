@@ -23,17 +23,15 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit() {
-        if (!module.hot) {
-            this.sessionSrv.startDefaultSession()
-                .subscribe(
-                    () => {
-                        console.debug('session initialized');
-                    },
-                    () => this.sessionSrv.startAnonymousSession()
-                        .subscribe(() => {
-                            console.debug('session initialized anonymously');
-                        })
-                );
-        }
+        this.sessionSrv.startDefaultSession()
+            .subscribe(
+                () => {
+                    console.debug('session initialized');
+                },
+                () => this.sessionSrv.startAnonymousSession()
+                    .subscribe(() => {
+                        console.debug('session initialized anonymously');
+                    })
+            );
     }
 }
