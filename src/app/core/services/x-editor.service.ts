@@ -56,8 +56,6 @@ export class EditorService {
 
     public headers$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
-    public visibleContextMenu$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
     public caretPos$: BehaviorSubject<any> = new BehaviorSubject<any>({x: 0, y: 0});
 
     public participantSessionMe$: BehaviorSubject<any> = new BehaviorSubject<any>({
@@ -89,8 +87,7 @@ export class EditorService {
     private currentSelection: any;
     private caretPos: any = {x: 0, y: 0};
     private selectionStyles: any = {};
-    private visibleLinkContextMenu: any;
-    private visibleContextMenu: any;
+
     private showCanvasCover: any;
     private document: any;
     private documentId: any;
@@ -173,9 +170,6 @@ export class EditorService {
     }
 
     public editStyle(event: any) {
-
-        let allStyles = EditorService.getSelectionStyles(this.editor,
-            SwellService.getSdk().Range.ALL);
         let selection = this.editor.getSelection();
         if (!selection || !selection.range) {
             return;
@@ -194,19 +188,13 @@ export class EditorService {
         } else {
             this.editor.clearAnnotation(event.name, range);
         }
-        /*console.log('notify from editStyle');
-        console.log(selection);*/
-        this.notifySelection(selection);
-        this.refreshHeadings();
-    }
+     }
 
     public onSwitchDiffHighlight(event) {
         if (event) {
             this.document.get('text').showDiffHighlight();
-            this.visibleContextMenu$.next(true);
         } else {
             this.document.get('text').hideDiffHighlight();
-            this.visibleContextMenu$.next(false);
         }
 
     }
@@ -239,10 +227,6 @@ export class EditorService {
         this.commentService.deleteReply(commentId, reply);
     }
 
-    public setVisibleContextMenu(visible) {
-        this.visibleContextMenu$.next(visible);
-    }
-
     public getSelectionStyles() {
         return this.selectionStyles;
     }
@@ -251,12 +235,22 @@ export class EditorService {
         return this.editor.replaceText(range, text);
     }
 
-    public replaceText(range, text) {
-        return this.editor.replaceText(range, text);
+    public getText(range) {
+        return this.editor.getText(range);
     }
 
     public setLinkAnnotation(range, url) {
         return this.editor.setAnnotation('link', url, range);
+    }
+
+    public removeLinkAnnotation(linkAnnotation) {
+        if (linkAnnotation) {
+            this.editor.clearAnnotation(linkAnnotation.key, linkAnnotation.range);
+        }
+    }
+
+    public getSelection() {
+        return this.currentSelection;
     }
 
     private initAnnotation() {
@@ -472,30 +466,22 @@ export class EditorService {
 
             if (selection && selection.range) {
 
-                // update toolbar state
+                // get styles at selection
                 this.selectionStyles
                     = EditorService.getSelectionStyles(this.editor, selection.range);
                 window._styles = this.selectionStyles; // DEBUG
                 this.stylesSubject.next(this.selectionStyles);
 
-                // show contextual menu
-                // TODO update visibleLinkMenu, visibleContextMenu, visibleLinkModal observable
-                if (this.selectionStyles.link) {
-                    this.visibleContextMenu = true;
-                    this.visibleContextMenu$.next(true);
-
-                } else if (!selection.range.isCollapsed()) {
-                    this.visibleContextMenu = true;
-                    this.visibleContextMenu$.next(true);
-                } else {
-                    this.visibleContextMenu = false;
-                    this.visibleContextMenu$.next(false);
-                }
-
+                // comment service should subscribe to selection subject
+                // in order to be decoupled from editor service?
                 this.commentService.doSelectionHandler(range, editor, selection);
+
             }
-            this.notifySelection(selection);
+            // ??? headers should be refreshed on annotation changes
             this.refreshHeadings();
+
+            // notify components that selection has changed
+            this.selectionSubject.next(selection);
         };
         swellEditor.setSelectionHandler(this.selectionHandler);
     }
@@ -511,7 +497,4 @@ export class EditorService {
         return s.charAt(0).toUpperCase() + s.slice(1);
     }
 
-    private notifySelection(selection) {
-        this.selectionSubject.next(selection);
-    }
 }

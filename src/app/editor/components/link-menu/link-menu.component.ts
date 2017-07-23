@@ -4,13 +4,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   selector: 'link-menu',
   template: `
 
-      <div class="selection-menu form-group" [style.top.px]="at.y - 40 - 10"
-        [style.left.px]="at.x - 14">
+      <div class="selection-menu form-group" [style.top.px]="at?.y - 40 - 10"
+        [style.left.px]="at?.x - 14">
 
         <div class="input-group">
           <span class="input-group-btn">
             <div class="btn btn-fab btn-fab-mini">
-              <a [href]="link.value" target="_blank"><i class="material-icons">
+              <a [href]="link?.value" target="_blank"><i class="material-icons">
                 launch</i></a>
             </div>
 

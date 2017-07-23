@@ -25,8 +25,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     public title: 'Conectando...';
     public title$: Observable<any>;
 
-    public inputLinkModal: any;
-
     public headers: any[] = new Array<any>(); // array of annotations
     public headers$: Observable<any>;
 
@@ -36,13 +34,14 @@ export class EditorComponent implements OnInit, OnDestroy {
     public rightPanelContent: string = 'contributors';
 
     public visibleContextMenu: boolean = false;
-    public visibleContextMenu$: Observable<boolean>;
-
     public visibleLinkModal: boolean = false;
-
     public visibleLinkContextMenu: boolean = false;
 
+    public readonly voidLink = { key : 'link', text: '', value : '', range : null };
+    public selectedLink = this.voidLink;
+
     public selectionStyles$: Observable<any>;
+    public selection$: Observable<any>;
 
     public newCommentSelection: any;
 
@@ -96,8 +95,6 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     private name: string;
 
-    private linkRange: any;
-
     private caretPosNode: any;
 
     // Network Connection status
@@ -133,8 +130,8 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.title$ = this.editorService.title$;
         this.status$ = this.editorService.status$;
         this.selectionStyles$ = this.editorService.stylesSubject;
+        this.selection$ = this.editorService.selectionSubject;
         this.headers$ = this.editorService.headers$.asObservable();
-        this.visibleContextMenu$ = this.editorService.visibleContextMenu$;
         this.caretPos$ = this.editorService.caretPos$;
         this.participantSessionMe$ = this.editorService.participantSessionMe$;
         this.participantSessionsRecent$ = this.editorService.participantSessionRecent$;
@@ -160,7 +157,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.route.params.subscribe((params: any) => {
             this.editorService.init('canvas-container', params['id'])
                 .subscribe( (editor) => {
-                    this.editor = editor;
+                    // not need to use editor object in the component
                 });
         });
 
@@ -169,6 +166,31 @@ export class EditorComponent implements OnInit, OnDestroy {
                 this.rightPanelContent = 'comments';
             }
         });
+
+        this.selection$.subscribe( (selection) => {
+
+                if (!selection) {
+                    return;
+                }
+
+                // close previously opened modals / context menus
+                this.closeFloatingViews();
+
+                // show contextual menu
+                this.selectedLink = this.voidLink;
+                let linkAtSelection
+                    = this.editorService.getSelectionStyles()[this.STYLE_LINK] != null;
+
+                if (linkAtSelection) {
+                    this.selectedLink = this.editorService.getSelectionStyles()[this.STYLE_LINK];
+                    this.visibleLinkContextMenu = true;
+                } else if (!selection.range.isCollapsed()) {
+                    this.visibleContextMenu = true;
+                } else {
+                    this.visibleContextMenu = false;
+                }
+        });
+
     }
 
     public ngOnDestroy() {
@@ -188,85 +210,75 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     public showModalLink() {
-        let selection = this.editor.getSelection();
-        if (selection) {
-            this.linkRange = selection.range;
-        } else {
-            return;
-        }
+
+        let selection = this.editorService.getSelection();
 
         // Hide contextual menus
         this.closeFloatingViews();
 
-        let selectionLink = this.editorService.getSelectionStyles()[this.STYLE_LINK];
-
         // There is a link annotation in current selection or caret..
-        if (selectionLink) {
-            this.linkRange = selectionLink.range;
+        if (this.selectedLink.range) {
+            this.visibleLinkModal = true;
 
-            this.inputLinkModal = {
-                text: this.selectionStyles[this.STYLE_LINK].text,
-                url: this.selectionStyles[this.STYLE_LINK].value
-            };
-        } else {
-            // to create a link, at least a non empty range must be selected
-            let isText = !this.linkRange.isCollapsed();
+        } else if (selection && selection.range) {
+
+            // to create a link a non empty range must be selected
+            let isText = !selection.range.isCollapsed();
 
             // No link annotation present => get text on current selection
-            let text = isText ? this.editor.getText(this.linkRange) : '';
-            let url = text.startsWith('http') ? text : 'http://' + text;
-            this.inputLinkModal = {text, url};
+            let ltext = isText ? this.editorService.getText(selection.range) : '';
+            let url = ltext.startsWith('http') ? ltext : 'http://' + ltext;
+            this.selectedLink = {
+                key: 'link',
+                value: url,
+                text: ltext,
+                range: null // new link
+            };
+            this.visibleLinkModal = true;
         }
 
-        this.visibleLinkModal = true;
     }
 
     /*
      *
      */
-    public editLink(link: any) {
+    public editLink() {
+
+        let selection = this.editorService.getSelection();
 
         // hide modal
         this.visibleLinkModal = false;
 
-        let selectionLink = this.editorService.getSelectionStyles()[this.STYLE_LINK];
-
-        if (!link) {
-            return;
-        }
-
         // if there is no text, use the url
-        if (link.url && !link.text) {
-            link.text = link.url;
+        if (this.selectedLink.value && !this.selectedLink.text) {
+            this.selectedLink.text = this.selectedLink.value;
         }
 
-        let toDelete: boolean = !link.url;
+        if (this.selectedLink.range) {
 
-        if (selectionLink) {
+            // Edit existing link annotation
 
-            if (toDelete) {
-                selectionLink.clear();
-                return;
+            if (!this.selectedLink.value) {
+                // remove link annotation if user removed the URL
+                this.editorService.removeLinkAnnotation(this.selectedLink);
+            } else {
+                // update the annotation
+                let range
+                    = this.editorService
+                        .replaceText(this.selectedLink.range, this.selectedLink.text);
+                this.editorService.setLinkAnnotation(range, this.selectedLink.value);
             }
 
-            if (selectionLink.value !== link.url) {
-                selectionLink.update(link.url);
-            }
-
-            if (selectionLink.text !== link.text) {
-                selectionLink.mutate(link.text);
-            }
-
-        } else if (this.linkRange) {
-            if (link.text.length > 0 && link.url) {
-                let newRange = this.editorService.replaceText(this.linkRange, link.text);
-                this.editorService.setLinkAnnotation(newRange, link.url);
+        } else if (selection && selection.range) {
+            if (this.selectedLink.text.length > 0 && this.selectedLink.value) {
+                let newRange
+                    = this.editorService
+                        .replaceText(selection.range, this.selectedLink.text);
+                this.editorService.setLinkAnnotation(newRange, this.selectedLink.value);
             }
         }
         // clean modal's parameters
-        this.linkRange = null;
-        this.inputLinkModal = null;
-
+        this.selectedLink = this.voidLink;
     }
 
     public resetCommentIndex(commentId) {
@@ -348,7 +360,8 @@ export class EditorComponent implements OnInit, OnDestroy {
         }
 
         if ('delete' === action) {
-            this.editLink({text: ''});
+            this.selectedLink.value = '';
+            this.editLink( );
         }
     }
 
@@ -357,12 +370,10 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         if ('link' === action) {
             this.showModalLink();
-            this.editorService.setVisibleContextMenu(false);
         }
 
         if ('bookmark' === action) {
             this.showModalAlert('Bookmarks will be available very soon.');
-            this.editorService.setVisibleContextMenu(false);
         }
 
         if ('comment' === action) {
@@ -442,15 +453,14 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     private createComment() {
         this.selectedComment = undefined;
-        let selection = this.editor.getSelection();
-        let text = this.editor.getText(selection.range);
+        let selection = this.editorService.getSelection();
+        let text = this.editorService.getText(selection.range);
         // check whether the selection is empty
         if (text.replace(' ', '').length > 0) {
             this.newCommentSelection = selection;
             this.newCommentSelection.text = text;
             this.commentsAction = 'new';
             this.rightPanelContent = 'comments';
-            this.editorService.setVisibleContextMenu(false);
         }
     }
 

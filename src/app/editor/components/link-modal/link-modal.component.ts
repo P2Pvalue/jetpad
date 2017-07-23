@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   template: `
 
 
-          <div class="link-modal modal-dialog modal-dialog-sm" [style.top.px]="at.y - 155">
+          <div class="link-modal modal-dialog modal-dialog-sm" [style.top.px]="at?.y - 155">
             <div class="modal-content">
 
               <div class="modal-body">
@@ -16,7 +16,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
                 </div>
                 <div class="form-group">
                   <label for="linkurl" class="control-label">URL</label>
-                  <input type="url" [(ngModel)]="link.url" class="form-control" id="linkurl">
+                  <input type="url" [(ngModel)]="link.value" class="form-control" id="linkurl">
                 </div>
               </div>
 
@@ -46,9 +46,6 @@ export class LinkModalComponent {
     @Input() public at: any;
 
     @Output() public modalEvent: EventEmitter<any> = new EventEmitter();
-
-    public text: string;
-    public url: string;
 
     public doOk() {
         this.modalEvent.emit(this.link);

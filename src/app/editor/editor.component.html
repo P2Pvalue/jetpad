@@ -29,9 +29,9 @@
     </div>
 
     <div class="col-md-offset-2 col-lg-offset-3 col-sm-offset-1 col-md-8 col-lg-6 col-sm-10 col-xs-10" id="editor-panel" class="editor-panel">
-        <link-modal *ngIf="visibleLinkModal" [at]="caretPos$ | async" [link]="inputLinkModal" (modalEvent)="editLink($event)"></link-modal>
-        <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos$ | async" [link]="selectionStyles.link" (actionEvent)="linkContextAction($event)"></link-menu>
-        <selection-menu *ngIf="visibleContextMenu$ | async" [at]="caretPos$ | async" (actionEvent)="contextAction($event)"></selection-menu>
+        <link-modal *ngIf="visibleLinkModal" [at]="caretPos$ | async" [link]="selectedLink" (modalEvent)="editLink($event)"></link-modal>
+        <link-menu *ngIf="visibleLinkContextMenu" [at]="caretPos$ | async" [link]="selectedLink" (actionEvent)="linkContextAction($event)"></link-menu>
+        <selection-menu *ngIf="visibleContextMenu" [at]="caretPos$ | async" (actionEvent)="contextAction($event)"></selection-menu>
         <jp-editor-canvas [showCover]="showCanvasCover" (coverEvent)="onCoverEvent($event)"></jp-editor-canvas>
     </div>
 
