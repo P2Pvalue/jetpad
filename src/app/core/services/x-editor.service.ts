@@ -17,7 +17,26 @@ declare let window: any;
 export class EditorService {
 
     public static getSelectionStyles(editor: any, range: any) {
-        return editor.getAnnotations(['paragraph', 'style', 'link'], range);
+        let rawAnnotations = editor.getAnnotations(['paragraph', 'style', 'link'], range);
+        // adapt return value of getAnntoations() for the toolbar
+        let styleAnnotations = {};
+        for (let key in rawAnnotations) {
+            if (!rawAnnotations.hasOwnProperty(key)) {
+                continue;
+            }
+            let valueArray = rawAnnotations[key];
+            // Only considerer annotations appearing just once 
+            // in the selection
+            if (valueArray.length === 1) {
+                let shortedKey: string = key;
+                if (key.indexOf('/') !== -1) {
+                    shortedKey = key.slice(key.indexOf('/') + 1);
+                }
+
+                styleAnnotations[shortedKey] = valueArray[0];
+            }
+        }
+        return styleAnnotations;
     }
 
     private static getCommentAnnotation(editor: any, range: any) {
@@ -361,6 +380,9 @@ export class EditorService {
 
     private initInternalEditor(service: any, object: any, divId: string, docid: string) {
         this.editor = SwellService.getSdk().Editor.createWithId(divId, service);
+        // for debug
+        window._editor = this.editor;
+        window._object = object;
         let compatible = this.checkBrowserComptability(this.editor);
         // TODO observable error
         this.documentId = object.id;
@@ -426,8 +448,13 @@ export class EditorService {
                 }
             }
             if (selection && selection.range) {
+                
                 // update toolbar state
-                that.selectionStyles = EditorService.getSelectionStyles(editor, selection.range);
+                this.selectionStyles
+                    = EditorService.getSelectionStyles(this.editor, selection.range);
+                window._styles = this.selectionStyles; // DEBUG
+                this.stylesSubject.next(this.selectionStyles);
+
                 // show contextual menu
                 // TODO update visibleLinkMenu, visibleContextMenu, visibleLinkModal observable
                 if (this.selectionStyles.link) {
@@ -462,12 +489,6 @@ export class EditorService {
     }
 
     private notifySelection(selection) {
-        if (selection.range) {
-            // TODO fix double next launched... find out where
-            let currentSel =
-                this.editor.getAnnotations(['paragraph/', 'style/', 'link'], selection.range);
-            this.stylesSubject.next(currentSel);
-        }
         this.selectionSubject.next(selection);
     }
 }
