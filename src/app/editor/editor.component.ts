@@ -42,7 +42,6 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     public visibleLinkContextMenu: boolean = false;
 
-    public selectionStyles: any = {}; // style annotations in current selection
     public selectionStyles$: Observable<any>;
 
     public newCommentSelection: any;
@@ -94,7 +93,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     private readonly STYLE_LINK: string = 'link';
 
     private readonly TOP_BAR_OFFSET: number = 114;
-    private editor: any;   // swellrt editor component
 
     private name: string;
 
@@ -197,16 +195,10 @@ export class EditorComponent implements OnInit, OnDestroy {
             return;
         }
 
-        // don't show modal if not selection nor carte positioned
-        if (!this.linkRange) {
-            return;
-        }
-
         // Hide contextual menus
         this.closeFloatingViews();
 
-        // sugar syntax
-        let selectionLink = this.selectionStyles[this.STYLE_LINK];
+        let selectionLink = this.editorService.getSelectionStyles()[this.STYLE_LINK];
 
         // There is a link annotation in current selection or caret..
         if (selectionLink) {
@@ -237,12 +229,12 @@ export class EditorComponent implements OnInit, OnDestroy {
         // hide modal
         this.visibleLinkModal = false;
 
-        // sugar syntax
-        let selectionLink = this.selectionStyles[this.STYLE_LINK];
+        let selectionLink = this.editorService.getSelectionStyles()[this.STYLE_LINK];
 
         if (!link) {
             return;
         }
+
         // if there is no text, use the url
         if (link.url && !link.text) {
             link.text = link.url;
@@ -267,10 +259,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         } else if (this.linkRange) {
             if (link.text.length > 0 && link.url) {
-                let newRange = this.doc.get('text').replace(this.linkRange, link.text);
-                if (newRange) {
-                    this.editor.setAnnotation(this.STYLE_LINK, link.url, newRange);
-                }
+                let newRange = this.editorService.replaceText(this.linkRange, link.text);
+                this.editorService.setLinkAnnotation(newRange, link.url);
             }
         }
         // clean modal's parameters

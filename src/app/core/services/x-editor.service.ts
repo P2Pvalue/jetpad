@@ -25,7 +25,7 @@ export class EditorService {
                 continue;
             }
             let valueArray = rawAnnotations[key];
-            // Only considerer annotations appearing just once 
+            // Only considerer annotations appearing just once
             // in the selection
             if (valueArray.length === 1) {
                 let shortedKey: string = key;
@@ -88,7 +88,7 @@ export class EditorService {
     private participantSessionsPast: any[] = [];
     private currentSelection: any;
     private caretPos: any = {x: 0, y: 0};
-    private selectionStyles: any;
+    private selectionStyles: any = {};
     private visibleLinkContextMenu: any;
     private visibleContextMenu: any;
     private showCanvasCover: any;
@@ -242,7 +242,23 @@ export class EditorService {
     public setVisibleContextMenu(visible) {
         this.visibleContextMenu$.next(visible);
     }
-    // Toolbar
+
+    public getSelectionStyles() {
+        return this.selectionStyles;
+    }
+
+    public replaceText(range, text) {
+        return this.editor.replaceText(range, text);
+    }
+
+    public replaceText(range, text) {
+        return this.editor.replaceText(range, text);
+    }
+
+    public setLinkAnnotation(range, url) {
+        return this.editor.setAnnotation('link', url, range);
+    }
+
     private initAnnotation() {
         SwellService.getSdk().Editor.AnnotationRegistry.setHandler('header',
             (type, annot, event) => {
@@ -425,18 +441,24 @@ export class EditorService {
     private initSelectionHandler(swellEditor) {
         let that = this;
         this.selectionHandler = (range, editor, selection) => {
+
+            // clear styles at selection
+            this.selectionStyles = {};
+
             // TODO observable with current selection
             if (selection) {
                 that.currentSelection = selection;
             } else {
                 that.currentSelection = null;
             }
+
             // calculate caret coords TODO observable with caretPos
             if (selection && selection.anchorPosition) {
                 that.caretPos.x = selection.anchorPosition.left;
                 that.caretPos.y = selection.anchorPosition.top;
                 that.caretPos$.next(that.caretPos);
             }
+
             // ensure cursor is visible
             if (selection && selection.focusNode) {
                 let focusParent = selection.focusNode.parentElement;
@@ -447,8 +469,9 @@ export class EditorService {
                     }
                 }
             }
+
             if (selection && selection.range) {
-                
+
                 // update toolbar state
                 this.selectionStyles
                     = EditorService.getSelectionStyles(this.editor, selection.range);
