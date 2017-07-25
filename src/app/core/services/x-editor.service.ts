@@ -94,7 +94,6 @@ export class EditorService {
     private documentTitle: any;
     private commentsData: any;
     private comments: any;
-    private headers: any;
     private connectionHandler: any;
     private selectionHandler: any;
     private user: any;
@@ -254,10 +253,11 @@ export class EditorService {
     }
 
     private initAnnotation() {
-        SwellService.getSdk().Editor.AnnotationRegistry.setHandler('header',
-            (type, annot, event) => {
-                if (SwellService.getSdk().Annotation.EVENT_MOUSE !== type) {
-                    this.refreshHeadings();
+
+        SwellService.getSdk().Editor.AnnotationRegistry.setHandler('paragraph/header',
+            (event) => {
+                if (event.type !== SwellService.getSdk().AnnotationEvent.EVENT_DOM_EVENT) {
+                    this.refreshOutline();
                 }
             });
 
@@ -428,8 +428,9 @@ export class EditorService {
         this.editor.edit(true);
         this.status = 'CONNECTED';
         this.initSelectionHandler(this.editor);
-        this.refreshHeadings();
         this.commentService.initDocument(this.editor, this.document, this.user);
+
+        this.refreshOutline();
     }
 
     private initSelectionHandler(swellEditor) {
@@ -469,7 +470,6 @@ export class EditorService {
                 // get styles at selection
                 this.selectionStyles
                     = EditorService.getSelectionStyles(this.editor, selection.range);
-                window._styles = this.selectionStyles; // DEBUG
                 this.stylesSubject.next(this.selectionStyles);
 
                 // comment service should subscribe to selection subject
@@ -477,8 +477,6 @@ export class EditorService {
                 this.commentService.doSelectionHandler(range, editor, selection);
 
             }
-            // ??? headers should be refreshed on annotation changes
-            this.refreshHeadings();
 
             // notify components that selection has changed
             this.selectionSubject.next(selection);
@@ -486,10 +484,13 @@ export class EditorService {
         swellEditor.setSelectionHandler(this.selectionHandler);
     }
 
-    private refreshHeadings() {
-        this.headers = this.editor.getAnnotations(['header'],
-            SwellService.getSdk().Range.ALL, true)['header'];
-        this.headers$.next(this.headers);
+    private refreshOutline() {
+
+        let headers = this.editor.getAnnotations(['paragraph/header'],
+            SwellService.getSdk().Range.ALL);
+        if (headers['paragraph/header']) {
+            this.headers$.next(headers['paragraph/header']);
+        }
     }
 
     private docIdToTitle(id: string) {

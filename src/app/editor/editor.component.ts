@@ -25,10 +25,8 @@ export class EditorComponent implements OnInit, OnDestroy {
     public title: 'Conectando...';
     public title$: Observable<any>;
 
-    public headers: any[] = new Array<any>(); // array of annotations
     public headers$: Observable<any>;
 
-    public caretPos: any = {x: 0, y: 0};
     public caretPos$: Observable<any>;
 
     public rightPanelContent: string = 'contributors';
@@ -131,7 +129,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.status$ = this.editorService.status$;
         this.selectionStyles$ = this.editorService.stylesSubject;
         this.selection$ = this.editorService.selectionSubject;
-        this.headers$ = this.editorService.headers$.asObservable();
+        this.headers$ = this.editorService.headers$;
         this.caretPos$ = this.editorService.caretPos$;
         this.participantSessionMe$ = this.editorService.participantSessionMe$;
         this.participantSessionsRecent$ = this.editorService.participantSessionRecent$;
@@ -242,12 +240,16 @@ export class EditorComponent implements OnInit, OnDestroy {
     /*
      *
      */
-    public editLink() {
-
-        let selection = this.editorService.getSelection();
+    public editLink(wasChanged) {
 
         // hide modal
         this.visibleLinkModal = false;
+
+        if (!wasChanged) {
+            return;
+        }
+
+        let selection = this.editorService.getSelection();
 
         // if there is no text, use the url
         if (this.selectedLink.value && !this.selectedLink.text) {
@@ -360,8 +362,8 @@ export class EditorComponent implements OnInit, OnDestroy {
         }
 
         if ('delete' === action) {
-            this.selectedLink.value = '';
-            this.editLink( );
+            this.selectedLink.value = undefined;
+            this.editLink(true);
         }
     }
 

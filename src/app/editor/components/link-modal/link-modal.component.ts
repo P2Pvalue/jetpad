@@ -48,10 +48,10 @@ export class LinkModalComponent {
     @Output() public modalEvent: EventEmitter<any> = new EventEmitter();
 
     public doOk() {
-        this.modalEvent.emit(this.link);
+      this.modalEvent.emit(true);
     }
 
     public doCancel() {
-        this.modalEvent.emit();
+      this.modalEvent.emit(false);
     }
 }
