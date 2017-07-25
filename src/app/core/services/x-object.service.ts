@@ -23,25 +23,21 @@ export class ObjectService {
     public open(objectid: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.session.subject.subscribe({
-                next: () => {
-                    that.swell.getService().subscribe({
-                        next: (service) => {
-                            if (service) {
-                                service.open({id: objectid})
-                                    .then( (object) => {
-                                        that.lastDocument.next(object);
-                                        observer.next(object);
-                                        observer.complete();
-                                    })
-                                    .catch( (err) => {
-                                        // TODO errors are not propagated
-                                        observer.error(err);
-                                        observer.complete();
-                                    });
-                            }
-                        }
-                    });
+            that.swell.getService().subscribe({
+                next: (service) => {
+                    if (service) {
+                        service.open({id: objectid})
+                            .then( (object) => {
+                                that.lastDocument.next(object);
+                                observer.next(object);
+                                observer.complete();
+                            })
+                            .catch( (err) => {
+                                // TODO errors are not propagated
+                                observer.error(err);
+                                observer.complete();
+                            });
+                    }
                 }
             });
         });

@@ -112,38 +112,35 @@ export class EditorService {
     public init(divId, documentId): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-             that.sessionService.subject.subscribe((user) => {
-                 this.user = user;
-                 that.swell.getService().subscribe((service) => {
-                     if (service) {
-                         if (that.editor) {
-                             observer.next(that.editor);
-                             observer.complete();
-                         } else {
-                             let servicio = SwellService.getSdk();
-                             that.initAnnotation();
-                             that.initConnectionHandler(service);
-                             that.initProfilesHandler(service);
-                             that.objectService.open(documentId).subscribe({
-                                 next: (object) => {
-                                     window._object = object; // TODO remove
-                                     that.initInternalEditor(service, object, divId,
-                                         documentId);
-                                     observer.next(that.editor);
-                                     observer.complete();
-                                 },
-                                 error: () => {
-                                     // TODO observable error
-                                     that.appState.set('error', 'Error opening document ' +
-                                         documentId);
-                                     observer.error('Error opening document ' + documentId);
-                                     observer.complete();
-                                 }
-                             });
-                         }
-                     }
-                 });
-             });
+            that.swell.getService().subscribe((service) => {
+                if (service) {
+                    if (that.editor) {
+                        observer.next(that.editor);
+                        observer.complete();
+                    } else {
+                        let servicio = SwellService.getSdk();
+                        that.initAnnotation();
+                        that.initConnectionHandler(service);
+                        that.initProfilesHandler(service);
+                        that.objectService.open(documentId).subscribe({
+                            next: (object) => {
+                                window._object = object; // TODO remove
+                                that.initInternalEditor(service, object, divId,
+                                    documentId);
+                                observer.next(that.editor);
+                                observer.complete();
+                            },
+                            error: () => {
+                                // TODO observable error
+                                that.appState.set('error', 'Error opening document ' +
+                                    documentId);
+                                observer.error('Error opening document ' + documentId);
+                                observer.complete();
+                            }
+                        });
+                    }
+                }
+            });
         });
     }
 

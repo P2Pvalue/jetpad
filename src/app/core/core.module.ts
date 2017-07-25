@@ -41,7 +41,7 @@ const CORE_PROVIDERS = [
   {
     provide: APP_INITIALIZER,
     useFactory: sessionServiceInitializerFactory,
-    deps: [SessionService],
+    deps: [SessionService, SwellService],
     multi: true
   }
 ];

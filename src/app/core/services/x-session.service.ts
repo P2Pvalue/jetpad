@@ -36,7 +36,7 @@ export class SessionService {
         return Observable.create((observer) => {
             this.swellService.getService().subscribe((service) => {
                 if (service) {
-                    let promiseAsObservable = Observable.fromPromise(service.lisLogin());
+                    let promiseAsObservable = Observable.fromPromise(service.listLogin());
                     promiseAsObservable.subscribe({
                         next: (s) => {
                             observer.next(s);
@@ -60,19 +60,16 @@ export class SessionService {
     public startDefaultSession(): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            this.swellService.getService().subscribe((service) => {
-                if (service) {
-                    let promiseAsObservable = Observable.fromPromise(service.resume({}));
-                    promiseAsObservable.subscribe({
-                        next: (s) => {
-                            that.setSession(s);
-                            observer.next(s);
-                        },
-                        error: (error) => {
-                            observer.error(error);
-                            observer.complete();
-                        }
-                    });
+            let promiseAsObservable =
+                Observable.fromPromise(this.swellService.getInstance().resume({}));
+            promiseAsObservable.subscribe({
+                next: (s) => {
+                    that.setSession(s);
+                    observer.next(s);
+                },
+                error: (error) => {
+                    observer.error(error);
+                    observer.complete();
                 }
             });
         });
@@ -81,24 +78,18 @@ export class SessionService {
     public startAnonymousSession (): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swellService.getService().subscribe({
-                next: (service) => {
-                    if (service) {
-                        service.login({
-                            id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
-                            password: ''
-                        }).then( (s) => {
-                            let user = Object.assign({}, s, {anonymous: true});
-                            that.setSession(user);
-                            observer.next(user);
-                            observer.complete();
-                        }).catch( (error) => {
-                            that.setError();
-                            observer.error(error);
-                            observer.complete();
-                        });
-                    }
-                }
+            that.swellService.getInstance().login({
+                id: SwellService.getSdk().Constants.ANONYMOUS_USER_ID,
+                password: ''
+            }).then( (s) => {
+                let user = Object.assign({}, s, {anonymous: true});
+                that.setSession(user);
+                observer.next(user);
+                observer.complete();
+            }).catch( (error) => {
+                that.setError();
+                observer.error(error);
+                observer.complete();
             });
         });
     }
@@ -111,7 +102,7 @@ export class SessionService {
     public resumeSession(userid: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.resume({id: userid})
+            that.swellService.getInstance().resume({id: userid})
                 .then( (user) => {
                     that.setSession(user);
                     observer.next(user);
@@ -133,19 +124,15 @@ export class SessionService {
     public startSession(userid: string, pass: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swellService.getService().subscribe((service) => {
-                if (service) {
-                    service.login({id: userid, password: pass})
-                        .then( (s) => {
-                            that.setSession(s);
-                            observer.next(s);
-                            observer.complete();
-                        }).catch( (error) => {
-                        that.setNotAllowed();
-                        observer.error(error);
-                        observer.complete();
-                    });
-                }
+            that.swellService.getInstance().login({id: userid, password: pass})
+                .then( (s) => {
+                    that.setSession(s);
+                    observer.next(s);
+                    observer.complete();
+                }).catch( (error) => {
+                that.setNotAllowed();
+                observer.error(error);
+                observer.complete();
             });
         });
     }
@@ -157,25 +144,21 @@ export class SessionService {
     public stopSession(userid?: string): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swellService.getService().subscribe((service) => {
-                if (service) {
-                    service.logout({id: userid})
-                        .then( () => {
-                            that.clearSession();
-                            observer.complete();
-                        }).catch( (error) => {
-                            that.clearSession();
-                            observer.error(error);
-                            observer.complete();
-                    });
-                }
+            that.swellService.getInstance().logout({id: userid})
+                .then( () => {
+                    that.clearSession();
+                    observer.complete();
+                }).catch( (error) => {
+                that.clearSession();
+                observer.error(error);
+                observer.complete();
             });
         });
     }
 
     public setSession(newSession: any) {
         this.session = newSession;
-        // this.appState.set('user', newSession);
+        this.appState.set('user', newSession);
         this.subject.next({ state: SessionState.login, session:  newSession });
     }
 
@@ -199,15 +182,22 @@ export class SessionService {
 
 }
 
-export function sessionServiceInitializerFactory(sessionService: SessionService) {
-    return () => sessionService.startDefaultSession()
-        .subscribe(
-            () => {
-                console.debug('session initialized');
-            },
-            () => sessionService.startAnonymousSession()
-                .subscribe(() => {
-                    console.debug('session initialized anonymously');
-                })
-        );
+export function sessionServiceInitializerFactory(
+    sessionService: SessionService, swellService: SwellService) {
+    // wait until swellService has loaded: Saw in
+    // https://stackoverflow.com/questions/42572028/
+    //  angular-2-app-initializer-execution-order-async-issue/45311565#45311565
+    return () => new Promise((resolve, reject) => swellService.getService()
+        .skipWhile((service) => !service)
+        .do(() => sessionService.startDefaultSession().toPromise()
+            .then(() => console.debug('session initialized'))
+            .catch(() => {
+                return sessionService.startAnonymousSession().toPromise()
+                    .then(() => console.debug('session initialized anonymously'))
+                    .catch(() => console.error('Session not initialized'));
+            }))
+        .switchMap(() => sessionService.subject)
+        .skipWhile((session) => !session)
+        .take(1)
+        .subscribe(resolve, reject));
 }

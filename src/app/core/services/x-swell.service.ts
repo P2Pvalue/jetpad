@@ -24,17 +24,6 @@ export class SwellService {
     /** The swellrt's service instance */
     private service: any = null;
 
-    /** The swellrt's service instance as promise */
-    private servicePromise: Promise<any> = new Promise((resolve, reject) => {{
-        swellrt.onReady((s) => {
-            console.log('swellrt client ready');
-            resolve(s);
-        });
-        setTimeout(() => {
-            reject(new Error('Timeout error loading swellrt client (15s)'));
-        }, 15000);
-    }});
-
     /**
      * Kickoff the instance of swellrt service.
      * Set up the connection handler.
@@ -42,15 +31,22 @@ export class SwellService {
      *
      * @returns void
      */
-    public startUp(): void {
-        Observable.fromPromise(this.servicePromise).subscribe(
-            (service) => {
+    public startUp(): Promise<any> {
+        return new Promise((resolve, reject) => {{
+            swellrt.onReady((s) => {
+                console.log('swellrt client ready');
+                resolve(s);
+            });
+            setTimeout(() => {
+                reject(new Error('Timeout error loading swellrt client (15s)'));
+            }, 15000);
+        }})
+            .then((service) => {
                 this.service = service;
                 this.service.addConnectionHandler(
                     (s, e) => this.connectionSubject.next({state: s, error: e}));
                 this.serviceSubject.next(service);
-            }
-        );
+            }).catch((error) => console.error('Error loading Swellrt'));
     };
 
     /**
@@ -58,6 +54,10 @@ export class SwellService {
      */
     public getService(): any {
         return this.serviceSubject;
+    }
+
+    public getInstance() {
+        return this.service;
     }
 
     /**
