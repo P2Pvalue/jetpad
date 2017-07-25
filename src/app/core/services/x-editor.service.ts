@@ -158,6 +158,7 @@ export class EditorService {
         if (this.editor) {
             this.editor.clean();
         }
+        this.editor = null;
     }
 
     public attachText(text: any): void {
