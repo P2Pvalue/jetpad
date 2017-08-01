@@ -430,6 +430,10 @@ export class EditorService {
         let that = this;
         this.selectionHandler = (range, editor, selection) => {
 
+            if (selection && selection.anchorNode
+                && selection.anchorNode.parentNode.className.indexOf('mark') > -1) {
+                return;
+            }
             // clear styles at selection
             this.selectionStyles = {};
 
@@ -439,16 +443,19 @@ export class EditorService {
             } else {
                 that.currentSelection = null;
             }
-
             // calculate caret coords TODO observable with caretPos
-            if (selection && selection.anchorPosition) {
+            if (selection && selection.anchorPosition
+                && selection.anchorNode.parentNode.className.indexOf('comment') < 0
+                && selection.anchorNode.parentNode.className.indexOf('mark') < 0) {
                 that.caretPos.x = selection.anchorPosition.left;
                 that.caretPos.y = selection.anchorPosition.top;
                 that.caretPos$.next(that.caretPos);
             }
 
             // ensure cursor is visible
-            if (selection && selection.focusNode) {
+            if (selection && selection.focusNode
+                && selection.anchorNode.parentNode.className.indexOf('comment') < 0
+                && selection.anchorNode.parentNode.className.indexOf('mark') < 0) {
                 let focusParent = selection.focusNode.parentElement;
                 if (focusParent.getBoundingClientRect) {
                     let rect = focusParent.getBoundingClientRect();

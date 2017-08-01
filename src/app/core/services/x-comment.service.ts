@@ -105,11 +105,24 @@ export class CommentService {
                 // search comment in editor
                 let newComment = newComments.filter(
                     (annotationComment) => annotationComment.value === oldComment.commentId)[0];
+                console.log('old:', oldComment);
+                console.log('new:', newComment);
                 if (!newComment) {
                     // There is not comment in editor text, delete it
                     this.comments.delete(event.annotation.value);
                     this.clearSelectedComment();
                     return;
+                }
+                if (oldComment.range.start_0 !== newComment.range.start
+                    || oldComment.range.end_0 !== newComment.range.end) {
+                    console.log('event', event);
+                    console.log('old range', oldComment.range);
+                    console.log('new range', newComment.range);
+                    let updatedComment = Object.assign({}, oldComment, {range: newComment.range});
+                    this.comments.put(oldComment.commentId, updatedComment);
+                    this.deleteAnnotationsOfComment(updatedComment.commentId, updatedComment);
+                    this.editor.setAnnotationOverlap('comment',
+                        updatedComment.commentId, updatedComment.range);
                 }
             });
     }
