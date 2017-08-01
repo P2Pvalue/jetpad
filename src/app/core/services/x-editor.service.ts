@@ -217,7 +217,7 @@ export class EditorService {
     }
 
     public resolveComment(commentId) {
-        this.commentService.resolve(commentId, this.user);
+        this.commentService.resolve(commentId);
     }
 
     public deleteReplyComment(commentId, reply) {
@@ -388,25 +388,22 @@ export class EditorService {
 
     private initInternalEditor(service: any, object: any, divId: string, docid: string) {
         this.editor = SwellService.getSdk().Editor.createWithId(divId, service);
-        // for debug
-        window._editor = this.editor;
-        window._object = object;
         let compatible = this.checkBrowserComptability(this.editor);
         // TODO observable error
         this.documentId = object.id;
         if (!object.node('document')) {
             // Create a live map
-            object.put('document', SwellService.getSdk().Map.create());
+            object.set('document', SwellService.getSdk().Map.create());
         }
         this.document = object.node('document');
         let title = this.document.get('title');
         let text = this.document.get('text');
         let isNew = !title || !text;
         if (!title) {
-            this.document.put('title', this.docIdToTitle(docid));
+            this.document.set('title', this.docIdToTitle(docid));
         }
         if (!text) {
-            this.document.put('text', SwellService.getSdk().Text.create(''));
+            this.document.set('text', SwellService.getSdk().Text.create(''));
         }
         if (isNew) {
             // Make public after initialization
@@ -418,16 +415,14 @@ export class EditorService {
                 this.title$.next(event.node.js());
             }
         });
-
-        this.commentsData = this.document.get('comments');
+        this.commentsData = this.document.node('comments');
         this.showCanvasCover = this.document.get('text').isEmpty();
         let editorText = this.document.get('text');
         this.editor.set(this.document.get('text'));
         this.editor.edit(true);
         this.status = 'CONNECTED';
         this.initSelectionHandler(this.editor);
-        this.commentService.initDocument(this.editor, this.document, this.user);
-
+        this.commentService.initDocument(this.editor, this.document);
         this.refreshOutline();
     }
 
