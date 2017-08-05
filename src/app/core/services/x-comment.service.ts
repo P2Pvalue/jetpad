@@ -97,10 +97,8 @@ export class CommentService {
                     return;
                 }
 
-                if (event.type ===  SwellService.getSdk().AnnotationEvent.EVENT_CREATED) {
-                    console.log('created comment annotation: ' + event.annotation.key );
-                } else if (event.type ===  SwellService.getSdk().AnnotationEvent.EVENT_REMOVED) {
-                    console.log('delete comment annotation: ' + event.annotation.key );
+                if (event.type ===  SwellService.getSdk().AnnotationEvent.EVENT_REMOVED) {
+                    // TODO remove annotation data
                 }
 
             });
@@ -115,10 +113,7 @@ export class CommentService {
         this.comments = this.document.node('comments');
         this.selectedCommentId = undefined;
 
-
-
         this.selectedCommentRemoteListener = (event) => {
-            console.log('Comment remote change ' + event.type + ' key= ' + event.key);
 
             if (event.type === SwellService.getSdk().Event.UPDATED_VALUE &&
                 event.key === this.selectedCommentId) {
