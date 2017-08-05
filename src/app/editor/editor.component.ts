@@ -310,17 +310,18 @@ export class EditorComponent implements OnInit, OnDestroy {
             this.editorService.prevComment();
 
         } else if (event.type === 'focus') {
-            let element = document.querySelector(
-                '[data-comment*="' + event.comment + '"]'
-            );
-            element.scrollIntoView(false);
+            let elements =
+                document.getElementsByClassName(event.comment.commentId.replace('/', '-'));
+            if (elements.length > 0) {
+                elements[0].scrollIntoView(false);
+            }
         } else if (event.type === 'close') {
 
             this.commentsAction = 'none';
 
         } else if (event.type === 'reply') {
 
-            this.editorService.replyComment(event.reply, event.comment);
+            this.editorService.replyComment(event.reply, event.comment.commentId);
 
         } else if (event.type === 'resolve') {
 
@@ -328,7 +329,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         } else if (event.type === 'delete') {
 
-            this.editorService.deleteReplyComment(event.comment, event.reply);
+            this.editorService.deleteReplyComment(event.comment.commentId, event.reply);
 
         }
     }
@@ -459,8 +460,10 @@ export class EditorComponent implements OnInit, OnDestroy {
         let text = this.editorService.getText(selection.range);
         // check whether the selection is empty
         if (text.replace(' ', '').length > 0) {
-            this.newCommentSelection = selection;
-            this.newCommentSelection.text = text;
+            this.newCommentSelection = {
+                range: selection.range,
+                text
+            };
             this.commentsAction = 'new';
             this.rightPanelContent = 'comments';
         }

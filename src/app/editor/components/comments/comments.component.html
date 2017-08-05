@@ -7,7 +7,7 @@
 
     <div class="navigator">
         <span class="text">
-          {{getText()}}
+          {{trimText(selection.text)}}
         </span>
     </div>
 
@@ -32,12 +32,12 @@
 
     <div class="navigator">
         <span class="text" (click)="focus()">
-          {{comment.selectedText}}
+          {{trimText(comment.selectedText)}}
         </span>
     </div>
 
     <div *ngIf="!comment.isResolved" class="actions text-center">
-      <a href="javascript:void(0)" style="margin-right:1em;">Reply</a>
+      <a href="javascript:void(0)" style="margin-right:1em;" (click)="focusReply()">Reply</a>
       <a href="javascript:void(0)" (click)="resolve()">Mark as resolved</a>
     </div>
 
@@ -72,7 +72,7 @@
         <label class="control-label" for="replyText">Reply:</label>
         <textarea #replyText id="replyText" class="form-control" rows="4"></textarea>
         <div style="text-align: center">
-          <a [href]="getAnchorHref('comments')"class="btn btn-default btn-sm" (click)="cancelReply(replyText)">Cancel</a>
+          <a [href]="getAnchorHref('comments')" class="btn btn-default btn-sm" (click)="cancelReply(replyText)">Cancel</a>
           <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="reply(replyText)">Reply</a>
         </div>
       </div>

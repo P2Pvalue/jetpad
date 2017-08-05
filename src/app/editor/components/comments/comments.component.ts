@@ -19,9 +19,6 @@ export class CommentsComponent {
     // for new comments
     @Input() public selection: any;
 
-    // array of comment annotations
-    @Input() public comments: any[];
-
     @Input() public showInDialog: boolean;
 
     // notify actions to editor: new/delete comment
@@ -54,6 +51,8 @@ export class CommentsComponent {
         this.commentEvent.emit({
             type: 'close'
         });
+        this.comment = undefined;
+        this.action = 'none';
     }
 
     public cancelReply(textarea) {
@@ -70,23 +69,23 @@ export class CommentsComponent {
         return link + '#' + elementId;
     }
 
-    public getText() {
-        let s = (this.action === 'edit' ? this.comment.selectedText : this.selection.text);
-        if (!s) {
+    public trimText(text) {
+
+        if (!text) {
             return '(Not avilable)';
         }
-        if (s.length > 120) {
-            s = s.slice(0, 120);
-            s += ' (...)';
+        if (text.length > 120) {
+            text = text.slice(0, 120);
+            text += ' (...)';
         }
-        return s;
+        return text;
     }
 
     public create(textarea: any) {
         this.action = 'none';
         this.commentEvent.emit({
             type: 'create',
-            selection: this.selection,
+            range: this.selection.range,
             text: textarea.value
         });
         textarea.value = '';
@@ -107,7 +106,7 @@ export class CommentsComponent {
     public focus() {
         this.commentEvent.emit({
             type: 'focus',
-            comment: this.comment.commentId
+            comment: this.comment
         });
     }
 
@@ -116,7 +115,7 @@ export class CommentsComponent {
             this.commentEvent.emit({
                 type: 'reply',
                 reply: textarea.value,
-                comment: this.comment.commentId
+                comment: this.comment
             });
             textarea.value = '';
         }
@@ -125,8 +124,16 @@ export class CommentsComponent {
     public deleteReply(reply: any) {
         this.commentEvent.emit({
             type: 'delete',
-            comment: this.comment.commentId,
+            comment: this.comment,
             reply
         });
+    }
+
+    public focusReply() {
+        let replyTextArea = document.getElementById('replyText');
+        if (replyTextArea) {
+            replyTextArea.scrollIntoView(false);
+            replyTextArea.focus();
+        }
     }
 }

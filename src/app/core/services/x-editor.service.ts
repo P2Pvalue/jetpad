@@ -201,7 +201,7 @@ export class EditorService {
     }
 
     public createComment(event) {
-        this.commentService.createComment(event.selection.range, event.text, this.user);
+        this.commentService.createComment(event.range, event.text, this.user);
     }
 
     public nextComment() {
@@ -388,6 +388,7 @@ export class EditorService {
 
     private initInternalEditor(service: any, object: any, divId: string, docid: string) {
         this.editor = SwellService.getSdk().Editor.createWithId(divId, service);
+        window._editor = this.editor; // TODO Remove
         let compatible = this.checkBrowserComptability(this.editor);
         // TODO observable error
         this.documentId = object.id;
