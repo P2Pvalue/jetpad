@@ -22,7 +22,7 @@ declare let document: any;
 })
 
 export class EditorComponent implements OnInit, OnDestroy {
-    public title: 'Conectando...';
+    public title: 'Loading...';
     public title$: Observable<any>;
 
     public headers$: Observable<any>;
@@ -283,18 +283,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.selectedLink = this.voidLink;
     }
 
-    public resetCommentIndex(commentId) {
-        this.selectedCommentIndex = 0;
-        if (commentId) {
-            for (let i = 0; i < this.comments.length; i++) {
-                if (this.comments[i].value === commentId) {
-                    this.selectedCommentIndex = i;
-                    return;
-                }
-            }
-        }
-    }
-
     public onCommentEvent(event) {
 
         if (event.type === 'create') {
@@ -312,9 +300,11 @@ export class EditorComponent implements OnInit, OnDestroy {
         } else if (event.type === 'focus') {
             let elements =
                 document.getElementsByClassName(event.comment.commentId.replace('/', '-'));
+
             if (elements.length > 0) {
                 elements[0].scrollIntoView(false);
             }
+
         } else if (event.type === 'close') {
 
             this.commentsAction = 'none';

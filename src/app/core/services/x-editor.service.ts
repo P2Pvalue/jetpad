@@ -430,11 +430,6 @@ export class EditorService {
     private initSelectionHandler(swellEditor) {
         let that = this;
         this.selectionHandler = (range, editor, selection) => {
-
-            if (selection && selection.anchorNode
-                && selection.anchorNode.parentNode.className.indexOf('mark') > -1) {
-                return;
-            }
             // clear styles at selection
             this.selectionStyles = {};
 
@@ -473,10 +468,7 @@ export class EditorService {
                     = EditorService.getSelectionStyles(this.editor, selection.range);
                 this.stylesSubject.next(this.selectionStyles);
 
-                // comment service should subscribe to selection subject
-                // in order to be decoupled from editor service?
                 this.commentService.doSelectionHandler(range, editor, selection);
-
             }
 
             // notify components that selection has changed

@@ -80,13 +80,12 @@ export class CommentService {
     private user: any;
 
     /** Listen to remote changes in the current comment's data  */
-    private selectedCommentRemoteListener: Function;
+    private commentsChangeListener: Function;
 
     constructor(private swellService: SwellService) {    }
 
     /** Call this method before Editor.createXXX()  */
     public initAnnotation() {
-
 
         SwellService.getSdk().Editor.AnnotationRegistry.define('@mark', 'mark', {});
         SwellService.getSdk().Editor.AnnotationRegistry.define('comment', 'comment', {});
@@ -97,8 +96,19 @@ export class CommentService {
                     return;
                 }
 
-                if (event.type ===  SwellService.getSdk().AnnotationEvent.EVENT_REMOVED) {
-                    // TODO remove annotation data
+                if (event.type ===  SwellService.getSdk().AnnotationEvent.EVENT_CREATED) {
+                    let comment = this.comments.get(event.annotation.key);
+                    if (comment && comment.isResolved) {
+                        comment.isResolved = false;
+                        this.comments.set(event.annotation.key, Object.assign({}, comment));
+                    }
+
+                } else if (event.type ===  SwellService.getSdk().AnnotationEvent.EVENT_REMOVED) {
+                    let comment = this.comments.get(event.annotation.key);
+                    if (comment && !comment.isResolved) {
+                        comment.isResolved = true;
+                        this.comments.set(event.annotation.key, Object.assign({}, comment));
+                    }
                 }
 
             });
@@ -113,21 +123,22 @@ export class CommentService {
         this.comments = this.document.node('comments');
         this.selectedCommentId = undefined;
 
-        this.selectedCommentRemoteListener = (event) => {
+        this.commentsChangeListener = (event) => {
 
             if (event.type === SwellService.getSdk().Event.UPDATED_VALUE &&
                 event.key === this.selectedCommentId) {
 
-                if (event.target.isResolved) {
-                    this.clearSelectedComment();
-                } else {
-                    this.selectedComment = Object.assign({}, this.comments.get(event.key));
-                    this.notifyCurrentCommentChange();
+                if (event.value) {
+                    if (event.value.isResolved) {
+                        this.clearSelectedComment();
+                    } else {
+                        this.setSelectedComment(event.key);
+                    }
                 }
             }
         };
 
-        this.comments.addListener(this.selectedCommentRemoteListener);
+        this.comments.addListener(this.commentsChangeListener);
 
     }
 
@@ -138,10 +149,10 @@ export class CommentService {
             let annotationKeys = Object.getOwnPropertyNames(anotations);
 
             if (annotationKeys && annotationKeys.length > 0) {
-                let annotationKey = annotationKeys[0];
+                let annotationKey = annotationKeys[annotationKeys.length - 1];
                 let commentAnnotation = anotations[annotationKey][0];
                 let comment = this.comments.get(annotationKey);
-                this.setSelectedComment(annotationKey, comment);
+                this.setSelectedComment(annotationKey);
             }
         }
     }
@@ -160,9 +171,9 @@ export class CommentService {
         // generate id
         let timestamp = (new Date()).getTime();
         let sessionId = user.session.id;
-        let id = 'comment/' + sessionId.slice(-5) + ('' + timestamp).slice(-5);
+        let commentId = 'comment/' + sessionId.slice(-5) + ('' + timestamp).slice(-5);
 
-        this.editor.setAnnotationOverlap(id, id, range);
+        this.editor.setAnnotationOverlap(commentId, commentId, range);
 
         let firstReplay: CommentReplay = {
             author: this.parseAuthor(user),
@@ -172,9 +183,9 @@ export class CommentService {
         let replies = [];
         replies.push(firstReplay);
         let comment: Comment = {
-            commentId: id,
+            commentId,
             user: this.parseAuthor(user),
-            selectedText: CommentService.getCommentedText(this.editor, id, range),
+            selectedText: CommentService.getCommentedText(this.editor, commentId, range),
             range: {
                 start: range.start,
                 end: range.end
@@ -182,8 +193,8 @@ export class CommentService {
             replies,
             isResolved: false
         };
-        this.comments.put(id, comment);
-        this.setSelectedComment(id, this.comments.get(id));
+        this.comments.put(commentId, comment);
+        this.setSelectedComment(commentId);
         return comment;
     }
 
@@ -197,7 +208,7 @@ export class CommentService {
         let commentData = Object.assign({}, this.comments.get(commentId));
         commentData.replies.push(item);
         this.comments.put(commentId, commentData);
-        this.notifyCurrentCommentChange();
+        // let the change handler for this.comments to update render
     }
 
     public deleteReply(commentId: string, reply: any) {
@@ -208,7 +219,7 @@ export class CommentService {
                     reply.author.profile.address !== r.author.profile.address
                     || reply.date !== r.date)});
         this.comments.put(commentId, newObject);
-        this.notifyCurrentCommentChange();
+        // let the change handler for this.comments to update render
     }
 
     public next() {
@@ -226,10 +237,9 @@ export class CommentService {
             let currentComment = keys.indexOf(this.selectedCommentId);
             if (currentComment < keys.length - 1) {
                 this.setSelectedComment(
-                    keys[currentComment + 1],
-                    this.comments.get(keys[currentComment + 1]));
+                    keys[currentComment + 1]);
             } else {
-                this.setSelectedComment(keys[0], this.comments.get(keys[0]));
+                this.setSelectedComment(keys[0]);
             }
         }
     }
@@ -249,12 +259,10 @@ export class CommentService {
             let currentComment = keys.indexOf(this.selectedCommentId);
             if (currentComment > 0) {
                 this.setSelectedComment(
-                    keys[currentComment - 1],
-                    this.comments.get(keys[currentComment - 1]));
+                    keys[currentComment - 1]);
             } else {
                 this.setSelectedComment(
-                 keys[keys.length - 1],
-                 this.comments.get(keys[keys.length - 1]));
+                 keys[keys.length - 1]);
             }
         }
     }
@@ -272,15 +280,15 @@ export class CommentService {
         this.notifyCurrentCommentChange();
     }
 
-    private setSelectedComment(selectedCommentId: string, selectedComment: any) {
+    private setSelectedComment(commentId: string) {
 
-        this.selectedCommentId = selectedCommentId;
-        this.selectedComment = Object.assign({}, selectedComment);
+        this.selectedCommentId = commentId;
+        this.selectedComment = Object.assign({}, this.comments.get(commentId));
 
         let range = SwellService.getSdk().Range.create(
                        this.selectedComment.range.start,
                        this.selectedComment.range.end);
-        this.selectedComment.selectedText 
+        this.selectedComment.selectedText
             = CommentService.getCommentedText(
                         this.editor,
                         this.selectedCommentId,
