@@ -44,9 +44,10 @@ export class CommentService {
 
             if (length > 0) {
                 let last = comments[comments.length - 1];
-                return SwellService.getSdk().Range.create(
-                    comments[0].range.start,
-                    comments[length - 1].range.end);
+                return {
+                    start: comments[0].range.start,
+                    end: comments[length - 1].range.end
+                };
             } else {
                 return range;
         }
@@ -186,10 +187,7 @@ export class CommentService {
             commentId,
             user: this.parseAuthor(user),
             selectedText: CommentService.getCommentedText(this.editor, commentId, range),
-            range: {
-                start: range.start,
-                end: range.end
-            },
+            range,
             replies,
             isResolved: false
         };
@@ -225,7 +223,7 @@ export class CommentService {
     public next() {
         // let allkeys = this.comments.keys();
         let allkeys = Object.getOwnPropertyNames(
-            this.editor.getAnnotations('comment',  SwellService.getSdk().Range.ALL));
+            this.editor.getAnnotations('comment',  SwellService.getSdk().Editor.RANGE_ALL));
         let keys = [];
         // Filter out resolved comments
         allkeys.forEach((k) => {
@@ -247,7 +245,7 @@ export class CommentService {
     public prev() {
         // let allkeys = this.comments.keys();
         let allkeys = Object.getOwnPropertyNames(
-            this.editor.getAnnotations('comment',  SwellService.getSdk().Range.ALL));
+            this.editor.getAnnotations('comment',  SwellService.getSdk().Editor.RANGE_ALL));
         let keys = [];
         // Filter out resolved comments
         allkeys.forEach((k) => {
@@ -285,14 +283,11 @@ export class CommentService {
         this.selectedCommentId = commentId;
         this.selectedComment = Object.assign({}, this.comments.get(commentId));
 
-        let range = SwellService.getSdk().Range.create(
-                       this.selectedComment.range.start,
-                       this.selectedComment.range.end);
         this.selectedComment.selectedText
             = CommentService.getCommentedText(
                         this.editor,
                         this.selectedCommentId,
-                        range);
+                        this.selectedComment.range);
 
         this.notifyCurrentCommentChange();
         this.highlight(true);
@@ -328,7 +323,7 @@ export class CommentService {
         this.editor.clearAnnotationOverlap(
             commentId,
             commentId,
-            SwellService.getSdk().Range.ALL);
+            SwellService.getSdk().Editor.RANGE_ALL);
     }
 
     /** Turn Highglight annotation on/off for the current selected comment  */
@@ -336,21 +331,19 @@ export class CommentService {
 
         if (this.selectedCommentHighlightAnnotation) {
             this.selectedCommentHighlightAnnotation = null;
-            this.editor.clearAnnotation('@mark', SwellService.getSdk().Range.ALL);
+            this.editor.clearAnnotation('@mark', SwellService.getSdk().Editor.RANGE_ALL);
         }
 
         if (activate) {
             let range = CommentService.getCommentContainerRange(
-                        this.editor, this.selectedCommentId, SwellService.getSdk().Range.ALL);
+                        this.editor,
+                        this.selectedCommentId,
+                        SwellService.getSdk().Editor.RANGE_ALL);
 
             this.selectedCommentHighlightAnnotation =
                this.editor.setAnnotation(
                    '@mark',
-                    '' + (new Date()).getTime(),
-                   SwellService.getSdk().Range.create(
-                       range.start,
-                       range.end
-                   ));
+                    '' + (new Date()).getTime(), range);
         }
     }
 }

@@ -174,7 +174,7 @@ export class EditorService {
         let range = selection.range;
         // if current selection is caret,
         // try to span operation range to the annotation
-        if (range.isCollapsed()) {
+        if (selection.isCollapsed) {
             if (this.selectionStyles[event.name]) {
                 range = this.selectionStyles[event.name].range;
             }
@@ -422,12 +422,12 @@ export class EditorService {
         this.editor.set(this.document.get('text'));
         this.editor.edit(true);
         this.status = 'CONNECTED';
-        this.initSelectionHandler(this.editor);
+        this.initSelectionHandler();
         this.commentService.initDocument(this.editor, this.document);
         this.refreshOutline();
     }
 
-    private initSelectionHandler(swellEditor) {
+    private initSelectionHandler() {
         let that = this;
         this.selectionHandler = (range, editor, selection) => {
             // clear styles at selection
@@ -440,11 +440,10 @@ export class EditorService {
                 that.currentSelection = null;
             }
             // calculate caret coords TODO observable with caretPos
-            if (selection && selection.anchorPosition
-                && selection.anchorNode.parentNode.className.indexOf('comment') < 0
-                && selection.anchorNode.parentNode.className.indexOf('mark') < 0) {
-                that.caretPos.x = selection.anchorPosition.left;
-                that.caretPos.y = selection.anchorPosition.top;
+            if (selection) {
+                let position = selection.getSelectionPosition();
+                that.caretPos.x = position.left;
+                that.caretPos.y = position.top;
                 that.caretPos$.next(that.caretPos);
             }
 
@@ -474,13 +473,13 @@ export class EditorService {
             // notify components that selection has changed
             this.selectionSubject.next(selection);
         };
-        swellEditor.setSelectionHandler(this.selectionHandler);
+        this.editor.setSelectionHandler(this.selectionHandler);
     }
 
     private refreshOutline() {
 
         let headers = this.editor.getAnnotations(['paragraph/header'],
-            SwellService.getSdk().Range.ALL);
+            SwellService.getSdk().Editor.RANGE_ALL);
         if (headers['paragraph/header']) {
             this.headers$.next(headers['paragraph/header']);
         }

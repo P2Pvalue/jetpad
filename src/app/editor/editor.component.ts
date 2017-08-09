@@ -182,7 +182,7 @@ export class EditorComponent implements OnInit, OnDestroy {
                 if (linkAtSelection) {
                     this.selectedLink = this.editorService.getSelectionStyles()[this.STYLE_LINK];
                     this.visibleLinkContextMenu = true;
-                } else if (!selection.range.isCollapsed()) {
+                } else if (!selection.isCollapsed) {
                     this.visibleContextMenu = true;
                 } else {
                     this.visibleContextMenu = false;
@@ -221,7 +221,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         } else if (selection && selection.range) {
 
             // to create a link a non empty range must be selected
-            let isText = !selection.range.isCollapsed();
+            let isText = !selection.isCollapsed;
 
             // No link annotation present => get text on current selection
             let ltext = isText ? this.editorService.getText(selection.range) : '';
