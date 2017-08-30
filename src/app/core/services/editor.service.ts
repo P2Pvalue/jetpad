@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { SwellService } from './x-swell.service';
+import { SwellService } from './swell.service';
 import { AppState } from './app.service';
-import { ObjectService } from './x-object.service';
-import { SessionService } from './x-session.service';
-import { CommentService } from './x-comment.service';
+import { ObjectService } from './object.service';
+import { SessionService } from './session.service';
+import { CommentsService } from './comments.service';
 
 declare let window: any;
 
@@ -108,7 +108,7 @@ export class EditorService {
 
     private readonly TOP_BAR_OFFSET: number = 114;
 
-    constructor(private swell: SwellService, private commentService: CommentService,
+    constructor(private swell: SwellService, private commentService: CommentsService,
                 private appState: AppState, private objectService: ObjectService,
                 private sessionService: SessionService) {
         this.selectedComment$ = commentService.selectedComment$;

@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { SwellService, ObjectService } from './index';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { SessionService } from './x-session.service';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class UserService {

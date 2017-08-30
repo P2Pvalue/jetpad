@@ -10,7 +10,7 @@ import {
   SessionService,
   ObjectService,
   EditorService,
-  CommentService,
+  CommentsService,
     UserService,
     DocumentService
 } from './services';
@@ -18,7 +18,7 @@ import {
 import { LoggedUserGuard } from './guards';
 import { ShareModule } from '../share';
 import { UserResolve } from './resolver/user.resolver';
-import { sessionServiceInitializerFactory } from './services/x-session.service';
+import { sessionServiceInitializerFactory } from './services/session.service';
 
 const CORE_PROVIDERS = [
   AppState,
@@ -28,7 +28,7 @@ const CORE_PROVIDERS = [
   SessionService,
   ObjectService,
   EditorService,
-  CommentService,
+  CommentsService,
     UserService,
     DocumentService,
     UserResolve,

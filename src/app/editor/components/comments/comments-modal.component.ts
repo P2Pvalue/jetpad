@@ -1,6 +1,6 @@
 import { Modal } from '../../../core/services';
 import { Component, OnInit } from '@angular/core';
-import { CommentService, SessionService } from '../../../core/services';
+import { CommentsService, SessionService } from '../../../core/services';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -69,7 +69,7 @@ export class CommentsModalComponent implements OnInit {
 
   private user: any;
 
-  constructor(private commentService: CommentService, private sessionService: SessionService) {
+  constructor(private commentService: CommentsService, private sessionService: SessionService) {
       this.selectedComment$ = commentService.selectedComment$;
   }
 

@@ -10,8 +10,8 @@ import {
  * Load the implementations that should be tested
  */
 import { AppComponent } from './app.component';
-import { SessionService } from './core/services/x-session.service';
-import { SwellService } from './core/services/x-swell.service';
+import { SessionService } from './core/services/session.service';
+import { SwellService } from './core/services/swell.service';
 import { Observable } from 'rxjs';
 
 describe(`App`, () => {

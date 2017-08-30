@@ -1,7 +1,7 @@
 import { Injectable, } from '@angular/core';
 import { SwellService } from '.';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { SessionService } from './x-session.service';
+import { SessionService } from './session.service';
 
 /**
  * Wraps swellrt operations related with objects.

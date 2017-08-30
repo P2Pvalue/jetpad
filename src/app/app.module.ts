@@ -31,7 +31,7 @@ import { AppState, InternalStateType } from './core/services/app.service';
 
 /** Playground component for refactoring process  */
 import  { CheckComponent } from './check.component';
-import { SessionService } from './core/services/x-session.service';
+import { SessionService } from './core/services/session.service';
 import { UserService } from './core/services/user.service';
 
 // Application wide providers

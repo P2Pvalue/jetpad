@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SwellService } from './x-swell.service';
+import { SwellService } from './swell.service';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Comment, CommentReplay } from '../model';
 
 @Injectable()
-export class CommentService {
+export class CommentsService {
 
     private static readonly ANNOTATION_KEY = 'comment';
 
@@ -146,7 +146,7 @@ export class CommentService {
     public doSelectionHandler(range, editor, selection) {
 
         if (selection && selection.range) {
-            let anotations = editor.getAnnotations([CommentService.ANNOTATION_KEY], range);
+            let anotations = editor.getAnnotations([CommentsService.ANNOTATION_KEY], range);
             let annotationKeys = Object.getOwnPropertyNames(anotations);
 
             if (annotationKeys && annotationKeys.length > 0) {
@@ -186,7 +186,7 @@ export class CommentService {
         let comment: Comment = {
             commentId,
             user: this.parseAuthor(user),
-            selectedText: CommentService.getCommentedText(this.editor, commentId, range),
+            selectedText: CommentsService.getCommentedText(this.editor, commentId, range),
             range,
             replies,
             isResolved: false
@@ -284,7 +284,7 @@ export class CommentService {
         this.selectedComment = Object.assign({}, this.comments.get(commentId));
 
         this.selectedComment.selectedText
-            = CommentService.getCommentedText(
+            = CommentsService.getCommentedText(
                         this.editor,
                         this.selectedCommentId,
                         this.selectedComment.range);
@@ -335,7 +335,7 @@ export class CommentService {
         }
 
         if (activate) {
-            let range = CommentService.getCommentContainerRange(
+            let range = CommentsService.getCommentContainerRange(
                         this.editor,
                         this.selectedCommentId,
                         SwellService.getSdk().Editor.RANGE_ALL);

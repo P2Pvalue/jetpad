@@ -5,10 +5,10 @@ import { ErrorModalComponent, AlertModalComponent } from '../share/components';
 import { EditorModule } from './index';
 import { ShareModalComponent } from './components/share-modal';
 import { Comment } from '../core/model/comment';
-import { EditorService } from '../core/services/x-editor.service';
-import { ObjectService } from '../core/services/x-object.service';
-import { SwellService } from '../core/services/x-swell.service';
-import { SessionService } from '../core/services/x-session.service';
+import { EditorService } from '../core/services/editor.service';
+import { ObjectService } from '../core/services/object.service';
+import { SwellService } from '../core/services/swell.service';
+import { SessionService } from '../core/services/session.service';
 import { Subject, Observable } from 'rxjs';
 
 declare let swellrt: any;
@@ -46,15 +46,11 @@ export class EditorComponent implements OnInit, OnDestroy {
     public status: string = 'DISCONNECTED';
     public status$: Observable<string>;
 
-    public selectedComment: Comment;
-
     public participantSessionsRecent: any[] = [];
 
     public participantSessionsPast: any[] = [];
 
     public commentsAction: string = 'none';
-
-    public showCanvasCover: boolean = false;
 
     public participantSessionMe: any = {
         session: {
@@ -445,7 +441,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     private createComment() {
-        this.selectedComment = undefined;
         let selection = this.editorService.getSelection();
         let text = this.editorService.getText(selection.range);
         // check whether the selection is empty
