@@ -77,9 +77,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     public selectedComment$: Observable<any>;
 
-    private docid: string;
-
-    private doc: any;      // document/object
+    /** show a canvas cover when doc is still empty */
+    public showCanvasCover: any;
 
     private appStateSubscription: any;
 
@@ -88,8 +87,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     private readonly TOP_BAR_OFFSET: number = 114;
 
     private name: string;
-
-    private caretPosNode: any;
 
     // Network Connection status
     private connectionHandler: Function;
@@ -148,10 +145,11 @@ export class EditorComponent implements OnInit, OnDestroy {
         };
 
         // TODO move to resolve
+        let that = this;
         this.route.params.subscribe((params: any) => {
             this.editorService.init('canvas-container', params['id'])
                 .subscribe( (editor) => {
-                    // not need to use editor object in the component
+                    that.showCanvasCover = that.editorService.isEmptyDocument();
                 });
         });
 

@@ -99,8 +99,6 @@ export class EditorService {
     /** id of the swell object for the document. */
     private document: any = undefined;
 
-    private showCanvasCover: any;
-
     private connectionHandler: any;
     private selectionHandler: any;
 
@@ -265,6 +263,10 @@ export class EditorService {
 
     public getText(range) {
         return this.editor.getText(range);
+    }
+
+    public isEmptyDocument() {
+        return (this.document && this.document.node('text').isEmpty());
     }
 
     public setLinkAnnotation(range, url) {
@@ -500,8 +502,6 @@ export class EditorService {
                 this.title$.next(event.node.value);
             }
         });
-
-        this.showCanvasCover = this.document.get('text').isEmpty();
 
         this.editor.set(this.document.node('text'));
         this.editor.edit(true);
