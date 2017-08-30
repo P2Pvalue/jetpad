@@ -85,8 +85,8 @@ export class CommentService {
 
     constructor(private swellService: SwellService) {    }
 
-    /** Call this method before Editor.createXXX()  */
-    public initAnnotation() {
+    /** Register custom annotations in swell. Call before creating editor instances. */
+    public registerAnnotations() {
 
         SwellService.getSdk().Editor.AnnotationRegistry.define('@mark', 'mark', {});
         SwellService.getSdk().Editor.AnnotationRegistry.define('comment', 'comment', {});
@@ -115,7 +115,7 @@ export class CommentService {
             });
     }
 
-    public initDocument(editor: any, document: any) {
+    public setDocument(editor: any, document: any) {
         this.editor = editor;
         this.document = document;
         if (!this.document.node('comments')) {

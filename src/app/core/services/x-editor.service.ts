@@ -44,19 +44,18 @@ export class EditorService {
         return ants ? ants.comment : undefined;
     }
 
-    /** Styles at the current caret position. */
-    public stylesSubject: BehaviorSubject<any> = new BehaviorSubject<any>({});
-
-    /** Selection has changed */
-    public selectionSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    /** subject for current selection */
+    public selection$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    /** subject for styles of current selection */
+    public selectionStyles$: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    /** subject for caret coordinates */
+    public caretPos$: BehaviorSubject<any> = new BehaviorSubject<any>({x: 0, y: 0});
 
     public title$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
     public status$: BehaviorSubject<string> = new BehaviorSubject<string>('DISCONNECTED');
 
     public headers$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-
-    public caretPos$: BehaviorSubject<any> = new BehaviorSubject<any>({x: 0, y: 0});
 
     public participantSessionMe$: BehaviorSubject<any> = new BehaviorSubject<any>({
         session: {
@@ -79,67 +78,99 @@ export class EditorService {
 
     public selectedComment$: BehaviorSubject<any>;
 
+    /** swell editor instance */
     private editor: any;
+    /** status got from swell connetion handler */
     private status: any;
+    /** swell profile manager */
     private profilesManager: any;
+    /** array of participants connected recently */
     private participantSessionsRecent: any[] = [];
+    /** array of participants connected in the past */
     private participantSessionsPast: any[] = [];
-    private currentSelection: any;
-    private caretPos: any = {x: 0, y: 0};
+
+    /** current selection got from editor's selection handler */
+    private selection: any;
+    /** styles of the current selection */
     private selectionStyles: any = {};
+    /** caret coordinates of current selection */
+    private caretPos: any = { x: 0, y: 0 };
+
+    /** id of the swell object for the document. */
+    private document: any = undefined;
 
     private showCanvasCover: any;
-    private document: any;
-    private documentId: any;
-    private documentTitle: any;
-    private commentsData: any;
-    private comments: any;
+
     private connectionHandler: any;
     private selectionHandler: any;
+
     private user: any;
 
     private readonly TOP_BAR_OFFSET: number = 114;
 
-    private comments$: Observable<Comment>;
-
     constructor(private swell: SwellService, private commentService: CommentService,
                 private appState: AppState, private objectService: ObjectService,
                 private sessionService: SessionService) {
-        this.comments$ = commentService.comments$;
         this.selectedComment$ = commentService.selectedComment$;
     }
 
     public init(divId, documentId): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
-            that.swell.getService().subscribe((service) => {
-                if (service) {
-                    if (that.editor) {
-                        observer.next(that.editor);
-                        observer.complete();
-                    } else {
-                        let servicio = SwellService.getSdk();
-                        that.initAnnotation();
-                        that.initConnectionHandler(service);
-                        that.initProfilesHandler(service);
-                        that.objectService.open(documentId).subscribe({
-                            next: (object) => {
-                                window._object = object; // TODO remove
-                                that.initInternalEditor(service, object, divId,
-                                    documentId);
-                                observer.next(that.editor);
-                                observer.complete();
-                            },
-                            error: () => {
-                                // TODO observable error
-                                that.appState.set('error', 'Error opening document ' +
-                                    documentId);
-                                observer.error('Error opening document ' + documentId);
-                                observer.complete();
-                            }
-                        });
-                    }
+
+            that.swell.getService().subscribe((swellService) => {
+
+                // This initialization block assumes the app will have just
+                // a single instance of editor.
+                if (!that.editor) {
+
+                    that.registerAnnotations();
+                    that.registerConnectionHandler(swellService);
+                    that.registerProfilesHandler(swellService);
+
+                    that.editor = SwellService.getSdk().Editor.createWithId(divId, swellService);
+                    that.registerSelectionHandler();
+
+                    // TODO remove
+                    window._editor = that.editor;
+                    // TODO manage browser compatibility properly
+                    let compatible = that.checkBrowserComptability(this.editor);
                 }
+
+                // Open a document and attach it to the editor
+                if (!that.editor.hasDocument() ||
+                    (that.editor.hasDocument() && that.document.id !== documentId)) {
+
+                    that.objectService.open(documentId).subscribe({
+
+                        next: (object) => {
+
+                            // object is the swell representation of
+                            // our document, containing document's text itself
+                            // and rest of metadata: title, comments..
+
+                            // TODO remove
+                            window._object = object;
+                            that.setDocument(swellService, object);
+
+                            observer.next(that.editor);
+                            observer.complete();
+                        },
+                        error: () => {
+                            // TODO observable error
+                            that.appState.set('error', 'Error opening document ' +
+                                documentId);
+                            observer.error('Error opening document ' + documentId);
+                            observer.complete();
+                        }
+
+                    });
+
+                } else {
+                    observer.next(that.editor);
+                    observer.complete();
+                }
+
             });
         });
     }
@@ -150,8 +181,8 @@ export class EditorService {
                 service.removeConnectionHandler(this.connectionHandler);
             }
             if (this.document) {
-                console.log('Closing document ' + this.documentId);
-                service.close({id: this.documentId});
+                console.log('Closing document ' + this.document.id);
+                service.close({ id: this.document.id });
             }
         });
 
@@ -247,10 +278,60 @@ export class EditorService {
     }
 
     public getSelection() {
-        return this.currentSelection;
+        return this.selection;
     }
 
-    private initAnnotation() {
+    private registerSelectionHandler() {
+        let that = this;
+        this.selectionHandler = (range, editor, selection) => {
+            // clear styles at selection
+            this.selectionStyles = {};
+
+            // TODO observable with current selection
+            if (selection) {
+                that.selection = selection;
+            } else {
+                that.selection = null;
+            }
+            // calculate caret coords TODO observable with caretPos
+            if (selection) {
+                let position = selection.getSelectionPosition();
+                that.caretPos.x = position.left;
+                that.caretPos.y = position.top;
+                that.caretPos$.next(that.caretPos);
+            }
+
+            // ensure cursor is visible
+            if (selection && selection.focusNode
+                && selection.anchorNode.parentNode.className.indexOf('comment') < 0
+                && selection.anchorNode.parentNode.className.indexOf('mark') < 0) {
+                let focusParent = selection.focusNode.parentElement;
+                if (focusParent.getBoundingClientRect) {
+                    let rect = focusParent.getBoundingClientRect();
+                    if (rect.top > (window.innerHeight - that.TOP_BAR_OFFSET)) {
+                        focusParent.scrollIntoView();
+                    }
+                }
+            }
+
+            if (selection && selection.range) {
+
+                // get styles at selection
+                this.selectionStyles
+                    = EditorService.getSelectionStyles(this.editor, selection.range);
+                this.selectionStyles$.next(this.selectionStyles);
+
+                this.commentService.doSelectionHandler(range, editor, selection);
+            }
+
+            // notify components that selection has changed
+            this.selection$.next(selection);
+        };
+        this.editor.setSelectionHandler(this.selectionHandler);
+    }
+
+    /** Register custom annotations in swell */
+    private registerAnnotations() {
 
         SwellService.getSdk().Editor.AnnotationRegistry.setHandler('paragraph/header',
             (event) => {
@@ -259,10 +340,10 @@ export class EditorService {
                 }
             });
 
-        this.commentService.initAnnotation();
+        this.commentService.registerAnnotations();
     }
 
-    private initConnectionHandler(service) {
+    private registerConnectionHandler(service) {
         let that = this;
         this.connectionHandler = (status, error) => {
             // TODO error observable
@@ -291,7 +372,7 @@ export class EditorService {
         service.addConnectionHandler(this.connectionHandler);
     }
 
-    private initProfilesHandler(service) {
+    private registerProfilesHandler(service) {
         let that = this;
         // TODO user profile observble
         // TODO participant profile observable
@@ -386,94 +467,48 @@ export class EditorService {
         }
     }
 
-    private initInternalEditor(service: any, object: any, divId: string, docid: string) {
-        this.editor = SwellService.getSdk().Editor.createWithId(divId, service);
-        window._editor = this.editor; // TODO Remove
-        let compatible = this.checkBrowserComptability(this.editor);
+    /** Configure the swell editor with the document's object */
+    private setDocument(service: any, object: any) {
+
         // TODO observable error
-        this.documentId = object.id;
-        if (!object.node('document')) {
-            // Create a live map
-            object.set('document', SwellService.getSdk().Map.create());
+        // Check whether the swell object has right data properties for jetpad
+
+        let isNew: boolean = false;
+
+        if (!object.node('text')) {
+            object.set('text', SwellService.getSdk().Text.create(''));
+            isNew = true;
         }
-        this.document = object.node('document');
-        let title = this.document.get('title');
-        let text = this.document.get('text');
-        let isNew = !title || !text;
-        if (!title) {
-            this.document.set('title', this.docIdToTitle(docid));
+
+        if (!object.node('title')) {
+            object.set('title', this.docIdToTitle(object.id));
+            isNew = true;
         }
-        if (!text) {
-            this.document.set('text', SwellService.getSdk().Text.create(''));
-        }
+
         if (isNew) {
             // Make public after initialization
             object.setPublic(true);
         }
+
+        // Continue editor configuration
+
+        this.document = object;
+
         this.title$.next(this.document.get('title'));
         this.document.addListener((event) => {
             if (event.key === 'title') {
-                this.title$.next(event.node.js());
+                this.title$.next(event.node.value);
             }
         });
-        this.commentsData = this.document.node('comments');
+
         this.showCanvasCover = this.document.get('text').isEmpty();
-        let editorText = this.document.get('text');
-        this.editor.set(this.document.get('text'));
+
+        this.editor.set(this.document.node('text'));
         this.editor.edit(true);
-        this.status = 'CONNECTED';
-        this.initSelectionHandler();
-        this.commentService.initDocument(this.editor, this.document);
+        // this.status = 'CONNECTED';
+
+        this.commentService.setDocument(this.editor, this.document);
         this.refreshOutline();
-    }
-
-    private initSelectionHandler() {
-        let that = this;
-        this.selectionHandler = (range, editor, selection) => {
-            // clear styles at selection
-            this.selectionStyles = {};
-
-            // TODO observable with current selection
-            if (selection) {
-                that.currentSelection = selection;
-            } else {
-                that.currentSelection = null;
-            }
-            // calculate caret coords TODO observable with caretPos
-            if (selection) {
-                let position = selection.getSelectionPosition();
-                that.caretPos.x = position.left;
-                that.caretPos.y = position.top;
-                that.caretPos$.next(that.caretPos);
-            }
-
-            // ensure cursor is visible
-            if (selection && selection.focusNode
-                && selection.anchorNode.parentNode.className.indexOf('comment') < 0
-                && selection.anchorNode.parentNode.className.indexOf('mark') < 0) {
-                let focusParent = selection.focusNode.parentElement;
-                if (focusParent.getBoundingClientRect) {
-                    let rect = focusParent.getBoundingClientRect();
-                    if (rect.top > (window.innerHeight - that.TOP_BAR_OFFSET)) {
-                        focusParent.scrollIntoView();
-                    }
-                }
-            }
-
-            if (selection && selection.range) {
-
-                // get styles at selection
-                this.selectionStyles
-                    = EditorService.getSelectionStyles(this.editor, selection.range);
-                this.stylesSubject.next(this.selectionStyles);
-
-                this.commentService.doSelectionHandler(range, editor, selection);
-            }
-
-            // notify components that selection has changed
-            this.selectionSubject.next(selection);
-        };
-        this.editor.setSelectionHandler(this.selectionHandler);
     }
 
     private refreshOutline() {

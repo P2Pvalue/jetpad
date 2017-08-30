@@ -127,8 +127,8 @@ export class EditorComponent implements OnInit, OnDestroy {
                 private swell: SwellService, private session: SessionService) {
         this.title$ = this.editorService.title$;
         this.status$ = this.editorService.status$;
-        this.selectionStyles$ = this.editorService.stylesSubject;
-        this.selection$ = this.editorService.selectionSubject;
+        this.selectionStyles$ = this.editorService.selectionStyles$;
+        this.selection$ = this.editorService.selection$;
         this.headers$ = this.editorService.headers$;
         this.caretPos$ = this.editorService.caretPos$;
         this.participantSessionMe$ = this.editorService.participantSessionMe$;
