@@ -97,7 +97,7 @@ export class CheckComponent implements OnInit {
             this.text = this.swellObject.get('text');
         }
 
-        this.editorSrv.attachText(this.text);
+        //this.editorSrv.attachText(this.text);
     }
 
     private init(): void {

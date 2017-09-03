@@ -32,18 +32,22 @@ export class CommentsComponent {
         return this.action === 'new' && this.selection;
     }
 
-    public getParticipantColor(user) {
-        if (!user.profile.anonymous) {
-            return user.profile.color;
+    public getParticipantColor(userId) {
+        return '#bdbdbd';
+        /*
+        if (userId.indexOf('_anonymous_') >= 0) {
+            return '#bdbdbd';
         } else {
             return '#bdbdbd';
+
         }
+        */
     }
 
     public resolve() {
         this.commentEvent.emit({
             type: 'resolve',
-            comment: this.comment.commentId
+            comment: this.comment.id
         });
     }
 

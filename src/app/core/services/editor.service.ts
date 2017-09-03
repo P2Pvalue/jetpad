@@ -16,7 +16,7 @@ declare let window: any;
 @Injectable()
 export class EditorService {
 
-    public static getSelectionStyles(editor: any, range: any) {
+    public static calculateSelectionStyles(editor: any, range: any) {
         let rawAnnotations = editor.getAnnotations(['paragraph', 'style', 'link'], range);
         // adapt return value of getAnntoations() for the toolbar
         let styleAnnotations = {};
@@ -112,6 +112,10 @@ export class EditorService {
         this.selectedComment$ = commentService.selectedComment$;
     }
 
+    //
+    // Service lifecycle methods
+    //
+
     public init(divId, documentId): Observable<any> {
         let that = this;
         return Observable.create((observer) => {
@@ -173,7 +177,7 @@ export class EditorService {
         });
     }
 
-    public destroyEditor() {
+    public destroy() {
         this.swell.getService().subscribe((service) => {
             if (this.connectionHandler) {
                 service.removeConnectionHandler(this.connectionHandler);
@@ -190,12 +194,15 @@ export class EditorService {
         this.editor = null;
     }
 
-    public attachText(text: any): void {
-        this.editor.set(text);
-        this.editor.edit(true);
+    //
+    // Operations
+    //
+
+    public getSelectionStyles() {
+        return this.selectionStyles;
     }
 
-    public editStyle(event: any) {
+    public onStyleEvent(event: any) {
         let selection = this.editor.getSelection();
         if (!selection || !selection.range) {
             return;
@@ -214,7 +221,7 @@ export class EditorService {
         } else {
             this.editor.clearAnnotation(event.name, range);
         }
-     }
+    }
 
     public onSwitchDiffHighlight(event) {
         if (event) {
@@ -228,6 +235,10 @@ export class EditorService {
     public changeTitle(newTitle) {
         this.document.put('title', this.docIdToTitle(newTitle));
     }
+
+    //
+    // Comments operations
+    //
 
     public createComment(event) {
         this.commentService.createComment(event.range, event.text, this.user);
@@ -253,9 +264,9 @@ export class EditorService {
         this.commentService.deleteReply(commentId, reply);
     }
 
-    public getSelectionStyles() {
-        return this.selectionStyles;
-    }
+    //
+    // Text operations
+    //
 
     public replaceText(range, text) {
         return this.editor.replaceText(range, text);
@@ -282,6 +293,84 @@ export class EditorService {
     public getSelection() {
         return this.selection;
     }
+
+    private refreshOutline() {
+
+        let headers = this.editor.getAnnotations(['paragraph/header'],
+            SwellService.getSdk().Editor.RANGE_ALL);
+        if (headers['paragraph/header']) {
+            this.headers$.next(headers['paragraph/header']);
+        }
+    }
+
+    private docIdToTitle(id: string) {
+        let s = id.replace('-', ' ');
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    //
+    //  Editor state
+    //
+
+   private checkBrowserComptability (editor) {
+        // TODO update error observable
+        if (editor.checkBrowserCompat() === 'readonly') {
+            // this.showModalAlert("Sorry, this browser is not fully compatible yet.
+            // You can keep using Jetpad in read only mode.");
+            return false;
+        }
+
+        if (this.editor.checkBrowserCompat() === 'none') {
+            // this.showModalAlert("Sorry, this browser is not compatible.");
+            return false;
+        }
+    }
+
+    /** Configure the swell editor with the document's object */
+    private setDocument(service: any, object: any) {
+
+        // TODO observable error
+        // Check whether the swell object has right data properties for jetpad
+
+        let isNew: boolean = false;
+
+        if (!object.node('text')) {
+            object.set('text', SwellService.getSdk().Text.create(''));
+            isNew = true;
+        }
+
+        if (!object.node('title')) {
+            object.set('title', this.docIdToTitle(object.id));
+            isNew = true;
+        }
+
+        if (isNew) {
+            // Make public after initialization
+            object.setPublic(true);
+        }
+
+        // Continue editor configuration
+
+        this.document = object;
+
+        this.title$.next(this.document.get('title'));
+        this.document.addListener((event) => {
+            if (event.key === 'title') {
+                this.title$.next(event.node.value);
+            }
+        });
+
+        this.editor.set(this.document.node('text'));
+        this.editor.edit(true);
+        // this.status = 'CONNECTED';
+
+        this.commentService.setDocument(this.editor, this.document);
+        this.refreshOutline();
+    }
+
+    //
+    // Editor handlers
+    //
 
     private registerSelectionHandler() {
         let that = this;
@@ -320,7 +409,7 @@ export class EditorService {
 
                 // get styles at selection
                 this.selectionStyles
-                    = EditorService.getSelectionStyles(this.editor, selection.range);
+                    = EditorService.calculateSelectionStyles(this.editor, selection.range);
                 this.selectionStyles$.next(this.selectionStyles);
 
                 this.commentService.doSelectionHandler(range, editor, selection);
@@ -454,75 +543,4 @@ export class EditorService {
         this.profilesManager.addStatusHandler(handler);
         this.profilesManager.enableStatusEvents(true);
     }
-
-    private checkBrowserComptability (editor) {
-        // TODO update error observable
-        if (editor.checkBrowserCompat() === 'readonly') {
-            // this.showModalAlert("Sorry, this browser is not fully compatible yet.
-            // You can keep using Jetpad in read only mode.");
-            return false;
-        }
-
-        if (this.editor.checkBrowserCompat() === 'none') {
-            // this.showModalAlert("Sorry, this browser is not compatible.");
-            return false;
-        }
-    }
-
-    /** Configure the swell editor with the document's object */
-    private setDocument(service: any, object: any) {
-
-        // TODO observable error
-        // Check whether the swell object has right data properties for jetpad
-
-        let isNew: boolean = false;
-
-        if (!object.node('text')) {
-            object.set('text', SwellService.getSdk().Text.create(''));
-            isNew = true;
-        }
-
-        if (!object.node('title')) {
-            object.set('title', this.docIdToTitle(object.id));
-            isNew = true;
-        }
-
-        if (isNew) {
-            // Make public after initialization
-            object.setPublic(true);
-        }
-
-        // Continue editor configuration
-
-        this.document = object;
-
-        this.title$.next(this.document.get('title'));
-        this.document.addListener((event) => {
-            if (event.key === 'title') {
-                this.title$.next(event.node.value);
-            }
-        });
-
-        this.editor.set(this.document.node('text'));
-        this.editor.edit(true);
-        // this.status = 'CONNECTED';
-
-        this.commentService.setDocument(this.editor, this.document);
-        this.refreshOutline();
-    }
-
-    private refreshOutline() {
-
-        let headers = this.editor.getAnnotations(['paragraph/header'],
-            SwellService.getSdk().Editor.RANGE_ALL);
-        if (headers['paragraph/header']) {
-            this.headers$.next(headers['paragraph/header']);
-        }
-    }
-
-    private docIdToTitle(id: string) {
-        let s = id.replace('-', ' ');
-        return s.charAt(0).toUpperCase() + s.slice(1);
-    }
-
 }

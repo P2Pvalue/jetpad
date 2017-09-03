@@ -9,50 +9,52 @@ export class CommentsService {
     private static readonly ANNOTATION_KEY = 'comment';
 
     /**
-     * Gets the full text related with a comment
+     * Get the minimun range of text spaning all comment's annotations for the
+     * provided comment id and its full text.
      *
      * @param editor editor's instance
      * @param commentId the comment id, value of a comment's annotations to find
      * @param range an initial range to look up comment's annotations
      */
-    private static getCommentedText(editor: any, commentId: string, range: any) {
-        let annotationParts = editor.getAnnotations(commentId, range);
+    private static getCommentRangeAndText(editor: any, commentId: string, range: any) {
 
-        let text: string = '';
+        let annotations = editor.getAnnotations(commentId, range);
 
-        for (let i in annotationParts[commentId]) {
-            if (annotationParts[commentId][i]) {
-                text += annotationParts[commentId][i].text;
+        let calculatedRange = range;
+        let calculatedText = '';
+
+        if (!annotations.hasOwnProperty(commentId)) {
+            return {
+                range: calculatedRange,
+                text: calculatedText
+            };
+        }
+
+        // calculate range
+
+        let comments = annotations[commentId];
+        let length = comments.length;
+
+        if (length > 0) {
+            let last = comments[comments.length - 1];
+            calculatedRange = {
+                start: comments[0].range.start,
+                end: comments[length - 1].range.end
+            };
+        }
+
+        // calculate text
+
+        for (let i in annotations[commentId]) {
+            if (annotations[commentId][i]) {
+                calculatedText += annotations[commentId][i].text;
             }
         }
-        return text;
-    }
 
-    /**
-     * Get the minimun range of text spaning all comment's annotation for the
-     * provided comment id.
-     *
-     * @param editor editor's instance
-     * @param commentId the comment id, value of a comment's annotations to find
-     * @param range an initial range to look up comment's annotations
-     */
-    private static getCommentContainerRange(editor: any, commentId: string, range: any) {
-        let annotations = editor.getAnnotations(commentId, range);
-        if (annotations.hasOwnProperty(commentId)) {
-            let comments = annotations[commentId];
-            let length = comments.length;
-
-            if (length > 0) {
-                let last = comments[comments.length - 1];
-                return {
-                    start: comments[0].range.start,
-                    end: comments[length - 1].range.end
-                };
-            } else {
-                return range;
-        }
-
-        }
+        return {
+            range: calculatedRange,
+            text: calculatedText
+        };
     }
 
     public comments$: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -115,12 +117,97 @@ export class CommentsService {
             });
     }
 
+    public getObjectKeys(o) {
+        let result = [];
+        // The array we will return
+        for (let prop in o) {
+            // For all enumerable properties
+            if (o.hasOwnProperty(prop)) { // If it is an own property
+                result.push(prop);
+                // add it to the array.
+            }
+        }
+        return result;
+    }
+
     public setDocument(editor: any, document: any) {
         this.editor = editor;
         this.document = document;
         if (!this.document.node('comments')) {
             this.document.set('comments', SwellService.getSdk().Map.create());
         }
+
+
+        //
+        // Migrate comments from first jetpad version
+        //
+
+        // check if it's old comments map: one key 'comment' for all comments inside an array
+        let oldAnnotationsArray: any[]
+            = this.editor.getAnnotations(
+                ['comment'],
+                SwellService.getSdk().Editor.RANGE_ALL)['comment'];
+
+        if (oldAnnotationsArray) {
+
+            let newCommentsMap = {};
+
+            // create new comments map
+            if (!this.document.node('comments-temp')) {
+                this.document.set('comments-temp', SwellService.getSdk().Map.create());
+            }
+
+            for (let k in oldAnnotationsArray) {
+                if (!oldAnnotationsArray.hasOwnProperty(k)) { continue; }
+
+                let _id = oldAnnotationsArray[k].value;
+                let _state = this.document.node('comments').get(_id + '-state');
+                let _replies: any[] = this.document.node('comments').get(_id);
+
+                // recreate a new annotation
+                let range = { start: oldAnnotationsArray[k].range.start,
+                              end: oldAnnotationsArray[k].range.end };
+
+                let replies = new Array();
+                for (let _r of _replies) {
+                    let r = {
+                        author: _r.participantId,
+                        date: _r.time,
+                        text: _r.text
+                    };
+                    replies.push(r);
+                }
+
+                let comment: Comment = {
+                    id: 'comment/' + _id,
+                    resolved: _state.state !== 'open',
+                    replies
+                };
+
+                if (!this.document.node('comments-temp').node(comment.id)) {
+                    this.document.node('comments-temp').put(comment.id, comment);
+                }
+
+                // replace annotations
+
+                this.editor.clearAnnotationOverlap(
+                    'comment',
+                    _id,
+                    oldAnnotationsArray[k].range);
+
+                this.editor.setAnnotationOverlap(comment.id, comment.id, range);
+
+            }
+
+            // replace map with comments data
+            this.document.put('comments', this.document.node('comments-temp'));
+            // keep comments-temp in case something went wrong
+        }
+
+        //
+        // Migrate comments from first jetpad version - End
+        //
+
         this.comments = this.document.node('comments');
         this.selectedCommentId = undefined;
 
@@ -177,19 +264,17 @@ export class CommentsService {
         this.editor.setAnnotationOverlap(commentId, commentId, range);
 
         let firstReplay: CommentReplay = {
-            author: this.parseAuthor(user),
+            author: this.getUserId(user),
             date: timestamp,
             text: commentText
         };
         let replies = [];
         replies.push(firstReplay);
+
         let comment: Comment = {
-            commentId,
-            user: this.parseAuthor(user),
-            selectedText: CommentsService.getCommentedText(this.editor, commentId, range),
-            range,
-            replies,
-            isResolved: false
+            id: commentId,
+            resolved: false,
+            replies
         };
         this.comments.put(commentId, comment);
         this.setSelectedComment(commentId);
@@ -199,7 +284,7 @@ export class CommentsService {
     public reply(commentId: string, text: string, user: any): any {
         let timestamp = (new Date()).getTime();
         let item: CommentReplay = {
-            author: this.parseAuthor(user),
+            author: this.getUserId(user),
             date: timestamp,
             text
         };
@@ -214,7 +299,7 @@ export class CommentsService {
             this.comments.get(commentId),
             {replies: this.comments.get(commentId)
                 .replies.filter((r) =>
-                    reply.author.profile.address !== r.author.profile.address
+                    reply.author !== r.author
                     || reply.date !== r.date)});
         this.comments.put(commentId, newObject);
         // let the change handler for this.comments to update render
@@ -283,11 +368,12 @@ export class CommentsService {
         this.selectedCommentId = commentId;
         this.selectedComment = Object.assign({}, this.comments.get(commentId));
 
-        this.selectedComment.selectedText
-            = CommentsService.getCommentedText(
+        let rangeAndText = CommentsService.getCommentRangeAndText(
                         this.editor,
-                        this.selectedCommentId,
-                        this.selectedComment.range);
+                        commentId,
+                        SwellService.getSdk().Editor.RANGE_ALL);
+
+        this.selectedComment.selectedText = rangeAndText.text;
 
         this.notifyCurrentCommentChange();
         this.highlight(true);
@@ -309,14 +395,8 @@ export class CommentsService {
         this.notifyCurrentCommentChange();
     }
 
-    private parseAuthor(author: any) {
-        return {
-            profile: {
-                name: author.profile.name,
-                color: author.profile.color.cssColor,
-                address: author.profile.address
-            }
-        };
+    private getUserId(user: any) {
+        return user.profile.address;
     }
 
     private deleteAnnotationsOfComment(commentId, comment = null) {
@@ -335,10 +415,10 @@ export class CommentsService {
         }
 
         if (activate) {
-            let range = CommentsService.getCommentContainerRange(
+            let range = CommentsService.getCommentRangeAndText(
                         this.editor,
                         this.selectedCommentId,
-                        SwellService.getSdk().Editor.RANGE_ALL);
+                        SwellService.getSdk().Editor.RANGE_ALL).range;
 
             this.selectedCommentHighlightAnnotation =
                this.editor.setAnnotation(

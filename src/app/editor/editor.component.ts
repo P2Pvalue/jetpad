@@ -188,7 +188,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     public ngOnDestroy() {
         this.appStateSubscription.unsubscribe();
 
-        this.editorService.destroyEditor();
+        this.editorService.destroy();
     }
 
     public closeFloatingViews() {
@@ -197,8 +197,8 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.visibleLinkContextMenu = false;
     }
 
-    public editStyle(event: any) {
-        this.editorService.editStyle(event);
+    public onStyleEvent(event: any) {
+        this.editorService.onStyleEvent(event);
     }
 
     public showModalLink() {
@@ -293,7 +293,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         } else if (event.type === 'focus') {
             let elements =
-                document.getElementsByClassName(event.comment.commentId.replace('/', '-'));
+                document.getElementsByClassName(event.comment.id.replace('/', '-'));
 
             if (elements.length > 0) {
                 elements[0].scrollIntoView(false);
@@ -305,15 +305,15 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         } else if (event.type === 'reply') {
 
-            this.editorService.replyComment(event.reply, event.comment.commentId);
+            this.editorService.replyComment(event.reply, event.comment.id);
 
         } else if (event.type === 'resolve') {
 
-            this.editorService.resolveComment(event.comment);
+            this.editorService.resolveComment(event.comment.id);
 
         } else if (event.type === 'delete') {
 
-            this.editorService.deleteReplyComment(event.comment.commentId, event.reply);
+            this.editorService.deleteReplyComment(event.comment.id, event.reply);
 
         }
     }
