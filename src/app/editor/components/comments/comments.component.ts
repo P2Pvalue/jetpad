@@ -47,7 +47,7 @@ export class CommentsComponent {
     public resolve() {
         this.commentEvent.emit({
             type: 'resolve',
-            comment: this.comment.id
+            comment: this.comment
         });
     }
 
