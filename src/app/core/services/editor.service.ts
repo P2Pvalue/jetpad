@@ -294,6 +294,16 @@ export class EditorService {
         return this.selection;
     }
 
+    public getProfile(participantAddress: string) {
+        return this.profilesManager
+            .getProfile(SwellService.getSdk().Participant.of(participantAddress));
+    }
+
+    //
+    // Private methods
+    //
+
+
     private refreshOutline() {
 
         let headers = this.editor.getAnnotations(['paragraph/header'],

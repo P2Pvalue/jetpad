@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Comment } from '../../../core/model/comment';
+import { EditorService } from '../../../core/services/editor.service';
 
 @Component({
     selector: 'jp-editor-comments',
@@ -24,6 +25,11 @@ export class CommentsComponent {
     // notify actions to editor: new/delete comment
     @Output() public commentEvent: EventEmitter<any> = new EventEmitter();
 
+
+    constructor(private editorService: EditorService) {
+
+    }
+
     public isEditComment() {
         return (this.comment) && this.action !== 'new'  ? true : false;
     }
@@ -32,16 +38,8 @@ export class CommentsComponent {
         return this.action === 'new' && this.selection;
     }
 
-    public getParticipantColor(userId) {
-        return '#bdbdbd';
-        /*
-        if (userId.indexOf('_anonymous_') >= 0) {
-            return '#bdbdbd';
-        } else {
-            return '#bdbdbd';
-
-        }
-        */
+    public getParticipantProfile(participantAddress) {
+        return this.editorService.getProfile(participantAddress);
     }
 
     public resolve() {
