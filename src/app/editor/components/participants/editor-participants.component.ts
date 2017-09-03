@@ -33,7 +33,7 @@ export class EditorParticipantsComponent {
     public saveEditNameForm() {
         this.showEditNameForm = false;
 
-        if (!this.name) {
+        if (this.name && this.name.length > 0) {
             if (!this.me.profile.name) {
                 this.me.profile.setName('Anonymous');
             } else {
