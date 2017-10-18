@@ -4,12 +4,13 @@ import { AppState, JetpadModalService } from '../core/services';
 import { ErrorModalComponent, AlertModalComponent } from '../share/components';
 import { EditorModule } from './index';
 import { ShareModalComponent } from './components/share-modal';
+import { TitleModalComponent } from './components/title-modal/title-modal.component';
 import { Comment } from '../core/model/comment';
 import { EditorService } from '../core/services/editor.service';
 import { ObjectService } from '../core/services/object.service';
 import { SwellService } from '../core/services/swell.service';
 import { SessionService } from '../core/services/session.service';
-import { Subject, Observable } from 'rxjs';
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
 
 declare let swellrt: any;
 declare let window: any;
@@ -22,8 +23,7 @@ declare let document: any;
 })
 
 export class EditorComponent implements OnInit, OnDestroy {
-    public title: 'Loading...';
-    public title$: Observable<any>;
+    public title$: BehaviorSubject<any>;
 
     public headers$: Observable<any>;
 
@@ -90,14 +90,12 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     // Network Connection status
     private connectionHandler: Function;
+
     // Manage profiles and their online status
     private profilesManager: any;
 
     private profilesHandler: any;
-    // reference to swellrt's to doc.comments,
-    // for each comment use two different keys:
-    // <comment-id> : array of replies
-    // <comment-id>-state : state of the comment
+
     private commentsData: any;
 
     private comments: any[] = new Array<any>(); // array of annotations
@@ -106,6 +104,8 @@ export class EditorComponent implements OnInit, OnDestroy {
     private errorModal: any = null;
     private shareModal: any = null;
     private alertModal: any = null;
+    private titleModal: any = null;
+
     // The current selection+range,
     // req for comments
     private currentSelection: any;
@@ -118,8 +118,6 @@ export class EditorComponent implements OnInit, OnDestroy {
                 private editorService: EditorService, private modalService: JetpadModalService,
                 private route: ActivatedRoute, private objectSrv: ObjectService,
                 private swell: SwellService, private session: SessionService) {
-        this.title$ = this.editorService.title$;
-        this.status$ = this.editorService.status$;
         this.selectionStyles$ = this.editorService.selectionStyles$;
         this.selection$ = this.editorService.selection$;
         this.headers$ = this.editorService.headers$;
@@ -128,12 +126,16 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.participantSessionsRecent$ = this.editorService.participantSessionRecent$;
         this.participantSessionsPast$ = this.editorService.participantSessionPast$;
         this.selectedComment$ = this.editorService.selectedComment$;
+
+        this.title$ = this.editorService.title$;
     }
+
     /*
      * TODO ensure editor DOM container is set after wiew is ready.
      * SwellRT should be fixed.
      */
     public ngOnInit() {
+
         this.appStateSubscription = this.appState.subject.subscribe((state) => {
             if (state.error) {
                 this.showModalError(state.error);
@@ -144,13 +146,22 @@ export class EditorComponent implements OnInit, OnDestroy {
             this.closeFloatingViews();
         };
 
-        // TODO move to resolve
+        // TODO move to resolve?
         let that = this;
         this.route.params.subscribe((params: any) => {
+
             this.editorService.init('canvas-container', params['id'])
-                .subscribe( (editor) => {
-                    that.showCanvasCover = that.editorService.isEmptyDocument();
-                });
+                .then( (editor) => {
+
+                let appState = this.appState.get();
+                if (appState.action && appState.action.name === 'setTitle') {
+                    this.editorService.setTitle(appState.action.value);
+                    this.appState.set('action', undefined);
+                }
+
+                that.showCanvasCover = that.editorService.isEmptyDocument();
+            });
+
         });
 
         this.selectedComment$.subscribe((comment) => {
@@ -372,8 +383,8 @@ export class EditorComponent implements OnInit, OnDestroy {
         console.log(event);
     }
 
-    public onChangeTitle(event) {
-        this.editorService.changeTitle(event);
+    public onTitleChange(event) {
+        this.editorService.setTitle(event);
     }
 
     private showModalShare() {
@@ -384,7 +395,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         }
 
         let modal$ = this.modalService.create(EditorModule, ShareModalComponent, {
-            title: this.title,
+            title: this.editorService.getTitle(),
             ok: () => {
                 /*this.shareModal.destroy();
                 this.shareModal = undefined;*/

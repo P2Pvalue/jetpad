@@ -5,6 +5,7 @@ import { AppState } from './app.service';
 import { ObjectService } from './object.service';
 import { SessionService } from './session.service';
 import { CommentsService } from './comments.service';
+import * as TitleUtils from '../../share/components/title-utils';
 
 declare let window: any;
 
@@ -104,6 +105,8 @@ export class EditorService {
 
     private user: any;
 
+    private service: any;
+
     private readonly TOP_BAR_OFFSET: number = 114;
 
     constructor(private swell: SwellService, private commentService: CommentsService,
@@ -116,21 +119,29 @@ export class EditorService {
     // Service lifecycle methods
     //
 
-    public init(divId, documentId): Observable<any> {
+    /**
+     * Init and return an editor instance with provided document.
+     *
+     * @param divId the DIV where editor will be rendered
+     * @param documentUrlName a document URL name to look up
+     */
+    public init(divId, documentUrlName): Promise<any> {
+        this.title$.next('(Loading...)');
         let that = this;
-        return Observable.create((observer) => {
+        let isOldDocument = false;
+        return this.swell.get().then( (service) => {
 
-            that.swell.getService().subscribe((swellService) => {
+                that.service = service;
 
                 // This initialization block assumes the app will have just
                 // a single instance of editor.
                 if (!that.editor) {
 
                     that.registerAnnotations();
-                    that.registerConnectionHandler(swellService);
-                    that.registerProfilesHandler(swellService);
+                    that.registerConnectionHandler(service);
+                    that.registerProfilesHandler(service);
 
-                    that.editor = SwellService.getSdk().Editor.createWithId(divId, swellService);
+                    that.editor = SwellService.getSdk().Editor.createWithId(divId, service);
                     that.registerSelectionHandler();
 
                     // TODO remove
@@ -139,46 +150,69 @@ export class EditorService {
                     let compatible = that.checkBrowserComptability(this.editor);
                 }
 
-                // Open a document and attach it to the editor
-                if (!that.editor.hasDocument() ||
-                    (that.editor.hasDocument() && that.document.id !== documentId)) {
+                return service.getObjectNames({ name: documentUrlName });
 
-                    that.objectService.open(documentId).subscribe({
+            }).then( (objectNames) => {
 
-                        next: (object) => {
-
-                            // object is the swell representation of
-                            // our document, containing document's text itself
-                            // and rest of metadata: title, comments..
-
-                            // TODO remove
-                            window._object = object;
-                            that.setDocument(swellService, object);
-
-                            observer.next(that.editor);
-                            observer.complete();
-                        },
-                        error: () => {
-                            // TODO observable error
-                            that.appState.set('error', 'Error opening document ' +
-                                documentId);
-                            observer.error('Error opening document ' + documentId);
-                            observer.complete();
+                if (!objectNames.waveId) {
+                    // If there is no name, check if it is an old document
+                    let oldId = that.service.getAppDomain() + '/' + documentUrlName;
+                    return that.service.getObjectNames({ id: oldId }).then( (naming) => {
+                        if (naming.waveId) {
+                            isOldDocument = true;
+                            return oldId;
+                        } else {
+                            return undefined;
                         }
-
                     });
-
                 } else {
-                    observer.next(that.editor);
-                    observer.complete();
+                    return objectNames.waveId.domain + '/' + objectNames.waveId.id;
                 }
 
+            }).then( (documentId) => {
+
+                // Open a document iff it is not already opened
+                if (!that.editor.hasDocument() ||
+                    (that.editor.hasDocument() && that.document.id !== documentId)) {
+                    return that.objectService.open(documentId);
+
+                } else {
+                    // mark object is already openened
+                    return null;
+                }
+
+            }).then( (object) => {
+
+                if (object) {
+                    // object is the swell representation of
+                    // our document, containing document's text itself
+                    // and its metadata: title, comments..
+
+                    // TODO remove
+                    window._object = object;
+                    that.setDocument(object, documentUrlName);
+                }
+
+                if (isOldDocument) {
+                    // set a by default name for old object
+                    that.service.setObjectName({
+                        id: that.service.getAppDomain() + '/' + documentUrlName,
+                        name: documentUrlName
+                    });
+                }
+
+                return that.editor;
+
+            }).catch( (ex) => {
+                that.appState.set('error', 'Error initilizating editor for document ' +
+                documentUrlName + ' Exception: ' + ex);
+                return ex;
             });
-        });
+
     }
 
     public destroy() {
-        this.swell.getService().subscribe((service) => {
+        this.swell.get().then ((service) => {
             if (this.connectionHandler) {
                 service.removeConnectionHandler(this.connectionHandler);
             }
@@ -232,8 +266,21 @@ export class EditorService {
 
     }
 
-    public changeTitle(newTitle) {
-        this.document.put('title', this.docIdToTitle(newTitle));
+    /**
+     * Set a new title, previously validated
+     *
+     * @param newTitle a validated title
+     */
+    public setTitle(newTitle) {
+        let that = this;
+        this.document.put('title', newTitle);
+        let titleUrl = TitleUtils.titleToUrl(newTitle);
+        this.service.setObjectName({
+            id: this.document.id,
+            name: titleUrl
+        }).catch( (ex) => {
+            // this.appState.set('error', 'Error initializing document: ' + ex);
+        });
     }
 
     //
@@ -313,11 +360,6 @@ export class EditorService {
         }
     }
 
-    private docIdToTitle(id: string) {
-        let s = id.replace('-', ' ');
-        return s.charAt(0).toUpperCase() + s.slice(1);
-    }
-
     //
     //  Editor state
     //
@@ -337,7 +379,7 @@ export class EditorService {
     }
 
     /** Configure the swell editor with the document's object */
-    private setDocument(service: any, object: any) {
+    private setDocument(object: any, title: string) {
 
         // TODO observable error
         // Check whether the swell object has right data properties for jetpad
@@ -350,7 +392,11 @@ export class EditorService {
         }
 
         if (!object.node('title')) {
-            object.set('title', this.docIdToTitle(object.id));
+            if (title) {
+                object.set('title', title);
+            } else {
+                object.set('title', object.id);
+            }
             isNew = true;
         }
 
@@ -372,7 +418,7 @@ export class EditorService {
 
         this.editor.set(this.document.node('text'));
         this.editor.edit(true);
-        // this.status = 'CONNECTED';
+        this.status = 'CONNECTED';
 
         this.commentService.setDocument(this.editor, this.document);
         this.refreshOutline();

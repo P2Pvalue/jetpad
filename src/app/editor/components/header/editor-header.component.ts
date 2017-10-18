@@ -1,4 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { FormControl, Validators }  from '@angular/forms';
+import * as TitleUtils from '../../../share/components/title-utils';
 
 @Component({
   selector: 'jp-editor-header',
@@ -22,28 +24,29 @@ export class EditorHeaderComponent {
   @Input() public comment: any;
   @Input() public commentSelection: any;
 
-  @Input() public newTitle: any;
-
   @Output() public menuActionEvent: EventEmitter<any> = new EventEmitter();
-  @Output() public changeTitle: EventEmitter<any> = new EventEmitter();
+  @Output() public titleChangedEvent: EventEmitter<any> = new EventEmitter();
 
-  public editing = false;
+  public titleFC: FormControl
+    = new FormControl('',
+    [Validators.required, Validators.minLength(4), TitleUtils.titleValidator]);
 
-  private titleChange = '';
+  public titleEdit: boolean = false;
 
-  public toggleTitle() {
-    this.editing = !this.editing;
+  public startTitleEdit() {
+    this.titleEdit = true;
+    this.titleFC.setValue(this.title);
   }
 
-  public updateTitle(title) {
-      this.titleChange = title.value;
-      title.style.width = ((title.value.length) * 8) + 'px';
+  public saveTitleEdit() {
+    if (!this.titleFC.invalid) {
+        this.titleEdit = false;
+        this.titleChangedEvent.emit(this.titleFC.value);
+    }
   }
 
-  public changeTitleClick() {
-      if (this.titleChange && this.titleChange.length > 0) {
-          this.changeTitle.emit(this.titleChange);
-          this.toggleTitle();
-      }
+  public cancelTitleEdit() {
+    this.titleEdit = false;
   }
+
 }

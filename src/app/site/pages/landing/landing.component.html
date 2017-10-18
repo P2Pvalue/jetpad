@@ -19,39 +19,29 @@
   </div>
 
   <div class="row claim-input">
-    <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6 text-center">
+    <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6">
       <form [formGroup]="landingForm"
-            (ngSubmit)="openDocument(landingForm.get('documentId').value)"
-            class="panel panel-default claim-input">
-        <div class="panel-body">
-            <div class="form-group label-placeholder is-empty">
-                <div class="input-group">
-                  <label for="documentIdInput" class="control-label label-floating">Document name</label>
-                  <input formControlName="documentId" id="documentIdInput" class="form-control" type="text">
-                  <span class="input-group-btn">
-                    <button type="submit" class="btn btn-raised btn-danger hidden-xs"
-                            [ngClass]="{'disabled': landingForm.status == 'INVALID'}">Open/Create</button>
-                  </span>
+            (ngSubmit)="goToDocument(landingForm.get('documentTitle').value)"
+            class="center-block">
 
-                </div>
-            </div>
-            <button type="submit" class="btn btn-raised btn-danger visible-xs-inline-block center-block"
-                    [ngClass]="{'disabled': landingForm.invalid}">Open/Create</button>
-        </div>
+
+          <div class="form-group label-placeholder is-empty">
+
+            <label for="documentTitleInput" class="control-label label-floating">Document name</label>
+            <input formControlName="documentTitle" id="documentTitleInput" class="form-control" type="text">
+            <span  id="documentTitleHelp" class="help-block"
+                  [ngClass]="{'hidden' : landingForm.status == 'VALID'}">Name can't contain special chars and must be minimun 4 chars long</span>
+          </div>
+
+          <button type="submit" class="btn btn-raised btn-primary pull-right hidden-xs" style="margin-top: 2.5em"
+          [ngClass]="{'disabled': landingForm.status == 'INVALID'}">Open / Create</button>
+          
+          <button type="submit" class="btn btn-raised btn-primary visible-xs center-block" style="margin-top: 3em; margin-left: auto; margin-right:auto"
+          [ngClass]="{'disabled': landingForm.status == 'INVALID'}">Open / Create</button>     
+          
       </form>
     </div>
   </div>
-
-    <div class="row claim hidden-xs">
-        <div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8 text-center">
-            <div class="claim-text">
-                <h4>
-                    <span class="dark-bg">It is not necessary to be logged in. Save the link to retrieve the document</span>
-                </h4>
-            </div>
-        </div>
-    </div>
-
 
   <div class="row">
     <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8 footer">

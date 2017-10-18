@@ -15,7 +15,7 @@
     [commentSelection]="newCommentSelection"
 
     (menuActionEvent)="onMenuAction($event)"
-    (changeTitle)="onChangeTitle($event)">
+    (titleChangedEvent)="onTitleChange($event)">
     </jp-editor-header>
 
   <jp-editor-toolbar [styles]="selectionStyles$ | async" (styleEvent)="onStyleEvent($event)" (linkEvent)="showModalLink()" ></jp-editor-toolbar>

@@ -14,32 +14,20 @@ export class ObjectService {
     constructor(private swell: SwellService, private session: SessionService) {    }
 
     /**
-     * Creates an observable that subcription executes the open method of
-     * swell service instance.
+     * Open or create an object.
      *
-     * @param objectid the object identifier.
-     * @return Observable of open execution.
+     * @param objectid the object identifier (optional)
+     * @return Promise resolved to the object if success
      */
-    public open(objectid: string): Observable<any> {
+    public open(objectid: string): Promise<any> {
         let that = this;
-        return Observable.create((observer) => {
-            that.swell.getService().subscribe({
-                next: (service) => {
-                    if (service) {
-                        service.open({id: objectid})
-                            .then( (object) => {
-                                that.lastDocument.next(object);
-                                observer.next(object);
-                                observer.complete();
-                            })
-                            .catch( (err) => {
-                                // TODO errors are not propagated
-                                observer.error(err);
-                                observer.complete();
-                            });
-                    }
-                }
-            });
+
+        return this.swell.get()
+        .then( (service) => {
+            return service.open(objectid ? { id: objectid } : {});
+        }).then( (object) => {
+            that.lastDocument.next(object);
+            return object;
         });
     }
 
@@ -50,7 +38,7 @@ export class ObjectService {
      * @returns void
      */
     public close(objectid: string): void {
-        return this.swell.getService().subscribe((service) => {
+        this.swell.get().then( (service) => {
             service.close(objectid);
         });
     }

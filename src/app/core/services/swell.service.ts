@@ -4,6 +4,7 @@ import { ConnectionStatus } from '../model';
 
 // the global swellrt namespace
 declare let swellrt: any;
+declare let window: any;
 
 /**
  * Wrap swellrt service client
@@ -42,6 +43,7 @@ export class SwellService {
             }, 15000);
         }})
             .then((service) => {
+                window._service = service;
                 this.service = service;
                 this.service.addConnectionHandler(
                     (s, e) => this.connectionSubject.next({state: s, error: e}));
@@ -54,6 +56,23 @@ export class SwellService {
      */
     public getService(): any {
         return this.serviceSubject;
+    }
+
+    /**
+     * Get service instance through a promise.
+     */
+    public get(): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            if (this.service) {
+                resolve(this.service);
+            } else {
+                return this.startUp();
+            }
+        });
+    }
+
+    public getDomain(): string {
+        return this.service.getAppDomain();
     }
 
     public getInstance() {
