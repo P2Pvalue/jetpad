@@ -93,7 +93,7 @@ The project's layout is based in [AngularClass starter](https://github.com/Angul
 
 ### Bootstrap
 
-The project uses *Bootstrap* as UI framework. The current version is 3.3.7. The project also uses the [bootstrap-material-design](http://fezvrasta.github.io/bootstrap-material-design/)
+The project uses *Bootstrap* as UI framework. The current version is 3.3.7. The project also uses the [bootstrap-material-design](https://mdbootstrap.com/)
 modules and [bootstrap-sass](https://github.com/twbs/bootstrap-sass) module.
 
 Bootstrap also requires *Jquery*. The version imported with the project is 1.9.1. The *Sass* styles are defined in ```src/assets``` folder and the main file is ```src/app/app.style.scss``` .
